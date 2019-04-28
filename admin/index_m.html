@@ -45,7 +45,6 @@
 
         // This will be called by the admin adapter when the user presses the save button
         function save(callback) {
-            // example: select elements with class=value and build settings object
             var obj = {};
             $('.value').each(function () {
                 var $this = $(this);
@@ -55,8 +54,107 @@
                     obj[$this.attr('id')] = $this.val();
                 }
             });
-            callback(obj);
+            var newValues = table2values();
+            var tasks = [];
+            var names = [];
+            for (var v = 0; v < newValues.length; v++) {
+                if (!newValues[v].name) {
+                    showMessage(_('Please enter a name'), _('Error'), 'alert');
+                    return;
+                }
+                if (names.indexOf(newValues[v].name) !== -1) {
+                    showError(_('Duplicate names are not allowed'));
+                    return;
+                }
+                names.push(newValues[v].name);
+                var found = false;
+                var t;
+                for (t = 0; t < values.length; t++) {
+                    if (values[t].name === newValues[v].name) {
+                        found = true;
+                        break;
+                    }
+                }
+
+
+                newValues[v].offset = parseFloat(newValues[v].offset) || 0;
+                newValues[v].factor = parseFloat(newValues[v].factor) || 1;
+                newValues[v].item   = parseInt(newValues[v].item, 10) || 0;
+
+                if (found) {
+                    var _obj = values[t].obj;
+                    var changed = false;
+                    if (_obj.common.write !== !!newValues[v].write) {
+                        _obj.common.write = !!newValues[v].write;
+                        changed = true;
+                    }
+                    if (_obj.common.read !== true) {
+                        _obj.common.read = true;
+                        changed = true;
+                    }
+                    if (_obj.common.minute !== newValues[v].minute) {
+                        _obj.common.minute = newValues[v].minute;
+                        changed = true;
+                    }
+                    if (_obj.common.hour !== newValues[v].hour) {
+                        _obj.common.hour = newValues[v].hour;
+                        changed = true;
+                    }                   
+                     if (_obj.common.day !== newValues[v].day) {
+                        _obj.common.day = newValues[v].day;
+                        changed = true;
+                    }
+                    if (_obj.common.month !== newValues[v].month) {
+                        _obj.common.month = newValues[v].month;
+                        changed = true;
+                    }
+                    if (_obj.common.year !== newValues[v].year) {
+                        _obj.common.year = newValues[v].year;
+                        changed = true;
+                    }
+
+                    if (changed) tasks.push(_obj);
+                } else {
+                    tasks.push({
+                        _id:            adapter + '.' + instance + '.' + newValues[v].name.replace(/[()\[\]\\\/*?\s]/g, '_'),
+                        common: {
+                            name:           newValues[v].name,
+                            write:          !!newValues[v].write,
+                            read:           true,
+                            unit:           newValues[v].unit,
+                            type:           newValues[v].type,
+                            role:           newValues[v].role
+                        },
+                        native: {
+                            minute:         newValues[v].minute,
+                            hour:           newValues[v].hour,
+                            day:            newValues[v].day,
+                            month:          newValues[v].month,
+                            year:           newValues[v].year,
+                        },
+                        type: 'state'
+                    });
+                }
+            }
+            for (var w = 0; w < values.length; w++) {
+                var found = false;
+                for (var k = 0; k < newValues.length; k++) {
+                    if (values[w].name === newValues[k].name) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    tasks.push(values[w].obj._id);
+                }
+            }
+
+            processTasks(tasks, function () {
+                values = newValues;
+                callback(obj);
+            });
         }
+    
     </script>
 
 </head>
