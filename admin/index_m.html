@@ -18,6 +18,13 @@
     <script type="text/javascript" src="words.js"></script>
 
     <script type="text/javascript">
+
+        var timeout;
+        function showResult() {
+            if (timeout) clearTimeout(timeout);
+            timeout = setTimeout(_showResult, 400);
+        }
+
         // This will be called by the admin adapter when the settings page loads
         function load(settings, onChange) {
             if (!settings) return;
@@ -265,7 +272,7 @@
         </div>
         <div class="row">
             <div class="col s12" id="values">
-                <span style="font-size: larger;" class="translate">Add countdown: </span><a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                <span style="font-size: larger;" class="translate">Add rule: </span><a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
                 <div class="table-values-div">
                     <table class="table-values">
                         <thead>
@@ -277,6 +284,7 @@
                             <th data-name="Day"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Day</th>
                             <th data-name="Month"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Month</th>
                             <th data-name="Year"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Year</th>
+                            <th data-buttons="delete" style="width: 40px"></th>
                         </tr>
                         </thead>
                     </table>
