@@ -5,15 +5,7 @@
         "news": {
             "0.1": {
                 "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
+                "de": "Erstveröffentlichung"
             }
         },
         "title": "Countdown",
@@ -30,11 +22,10 @@
         ],
         "keywords": [
             "ioBroker",
-            "countdown",
-            "Smart Home",
-            "home automation"
+            "countdown"
         ],
         "license": "MIT",
+        "mode": "daemon",
         "platform": "Javascript/Node.js",
         "main": "main.js",
         "icon": "countdown.png",
@@ -74,8 +65,7 @@
         ]
     },
     "native": {
-        "option1": true,
-        "option2": "42"
+        "Update Interval": "6000"
     },
     "objects": [],
     "instanceObjects": []
