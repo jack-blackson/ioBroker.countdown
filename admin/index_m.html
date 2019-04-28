@@ -20,27 +20,111 @@
     <script type="text/javascript">
         // This will be called by the admin adapter when the settings page loads
         function load(settings, onChange) {
-            // example: select elements with id=key and class=value and insert value
             if (!settings) return;
-            $('.value').each(function () {
-                var $key = $(this);
-                var id = $key.attr('id');
+
+            $('.config-form .value').each(function () {
+                var key = $(this).attr('id');
+                var $key = $('#' + key + '.value');
                 if ($key.attr('type') === 'checkbox') {
-                    // do not call onChange direct, because onChange could expect some arguments
-                    $key.prop('checked', settings[id])
-                        .on('change', () => onChange())
-                        ;
+                    $key.prop('checked', settings[key]).on('change', function () {
+                        onChange();
+                    });
                 } else {
-                    // do not call onChange direct, because onChange could expect some arguments
-                    $key.val(settings[id])
-                        .on('change', () => onChange())
-                        .on('keyup', () => onChange())
-                        ;
+                    $key.val(settings[key]).on('change', function () {
+                        onChange();
+                    }).on('keyup', function () {
+                        onChange();
+                    });
                 }
             });
+
             onChange(false);
-            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-            if (M) M.updateTextFields();
+
+            $('.config-form .table-values').find('th[data-name="substituteOld"]').attr('title',  _('Use last value if cannot read'));
+
+            var namespace = adapter + '.' + instance + '.';
+
+            socket.emit('getObjectView', 'system', 'state', {startkey: namespace, endkey: namespace + '\u9999'}, function (err, res) {
+                if (!err && res) {
+                    for (var i = 0; i < res.rows.length; i++) {
+                        var obj = res.rows[i].value;
+                        var line = {
+                            name:          obj._id.substring(namespace.length),
+                            minute:        obj.native.minute,
+                            hour:          obj.common.hour,
+                            day:           obj.common.day,
+                            month:         obj.native.month,
+                            year:          obj.native.year
+                        };
+                        if (line.type === 'number' && obj.native.comma) {
+                            line.type = 'commaNumber';
+                        }
+                        values.push(line);
+                    }
+                }
+
+                var newValues = JSON.parse(JSON.stringify(values));
+
+                values2table('values', newValues, onChange, function () {
+                    if (!newValues.length) {
+                        $('.config-form .table-button-add').trigger('click');
+                    }
+
+                    $('.config-form .values-input[data-name="name"]').on('change', function () {
+                        var val = $(this).val();
+                        var error = '';
+                        if (!val) {
+                            error = 'Empty names are not allowed';
+                        } else if (val.indexOf(' ') !== -1) {
+                            error = 'Spaces are not allowed';
+                        }
+                        if (error) {
+                            $(this).addClass(error).attr('title', _(error));
+                        } else {
+                            $(this).removeClass('error').attr('title', '');
+                        }
+                    });
+                    $('.values-input[data-name="type"]').on('change', function () {
+                        var id = $(this).data('index');
+                        var val = $(this).val();
+                        if (val === 'number') {
+                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').show();
+                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').show();
+                        } else {
+                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').hide();
+                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').hide();
+                        }
+                        if (val === 'boolean' || val === 'json') {
+                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').hide();
+                        } else {
+                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').show();
+                        }
+                    }).each(function () {
+                        var id = $(this).data('index');
+                        var val = $(this).val();
+                        if (val === 'number') {
+                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').show();
+                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').show();
+                        } else {
+                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').hide();
+                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').hide();
+                        }
+                        if (val === 'boolean' || val === 'json') {
+                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').hide();
+                        } else {
+                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').show();
+                        }
+
+                    });
+                    $('.values-input[data-name="substituteOld"]').on('change', function () {
+                        $(this).parent().parent().find('.values-input[data-name="substitute"]').prop('disabled', $(this).prop('checked'));
+                    }).each(function () {
+                        $(this).parent().parent().find('.values-input[data-name="substitute"]').prop('disabled', $(this).prop('checked'));
+                    });
+                    M.updateTextFields();  // function Materialize.updateTextFields(); to reinitialize all the Materialize labels on the page if you are dynamically adding inputs.
+                });
+            });
+
         }
 
         // This will be called by the admin adapter when the user presses the save button
