@@ -1,9 +1,9 @@
 {
     "common": {
-        "name": "template",
-        "version": "0.0.1",
+        "name": "countdown",
+        "version": "0.1",
         "news": {
-            "0.0.1": {
+            "0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
                 "ru": "Начальная версия",
@@ -16,49 +16,32 @@
                 "zh-cn": "首次出版"
             }
         },
-        "title": "Template (JavaScript)",
+        "title": "Countdown",
         "titleLang": {
-            "en": "Template (JavaScript)",
-            "de": "Vorlage (JavaScript)",
-            "ru": "Шаблон (JavaScript)",
-            "pt": "Template (JavaScript)",
-            "nl": "Sjabloon (JavaScript)",
-            "fr": "Modèle (JavaScript)",
-            "it": "Template (JavaScript)",
-            "es": "Plantilla (JavaScript)",
-            "pl": "Szablon (JavaScript)",
-            "zh-cn": "模板（JavaScript）"
+            "en": "Creates countdown datapoints",
+            "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
         },
         "desc": {
-            "en": "Template for adapter development",
-            "de": "Vorlage für die Adapterentwicklung",
-            "ru": "Шаблон для разработки адаптера",
-            "pt": "Modelo para desenvolvimento de adaptador",
-            "nl": "Sjabloon voor ontwikkeling van adapters",
-            "fr": "Modèle pour le développement de l'adaptateur",
-            "it": "Modello per lo sviluppo dell'adattatore",
-            "es": "Plantilla para desarrollo de adaptadores.",
-            "pl": "Szablon do rozwoju adaptera",
-            "zh-cn": "适配器开发模板"
+            "en": "Creates countdown datapoints",
+            "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
         },
         "authors": [
-            "Author <author@mail.com>"
+            "Alexander Kolb <blacksonj7@gmail.com>"
         ],
         "keywords": [
             "ioBroker",
-            "template",
+            "countdown",
             "Smart Home",
             "home automation"
         ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "main.js",
-        "icon": "template.png",
+        "icon": "countdown.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/Author/ioBroker.template/master/admin/template.png",
-        "readme": "https://github.com/Author/ioBroker.template/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdwon.png",
+        "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
         "loglevel": "info",
-        "mode": "daemon",
         "type": "general",
         "compact": true,
         "materialize": true,
