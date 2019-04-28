@@ -30,7 +30,7 @@
         "main": "main.js",
         "icon": "countdown.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdwon.png",
+        "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
         "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
         "loglevel": "info",
         "type": "general",
