@@ -19,233 +19,48 @@
 
     <script type="text/javascript">
 
-        var timeout;
-        function showResult() {
-            if (timeout) clearTimeout(timeout);
-            timeout = setTimeout(_showResult, 400);
-        }
+        var countdown = [];
 
-        // This will be called by the admin adapter when the settings page loads
         function load(settings, onChange) {
-            if (!settings) return;
-
-            $('.config-form .value').each(function () {
-                var key = $(this).attr('id');
-                var $key = $('#' + key + '.value');
-                if ($key.attr('type') === 'checkbox') {
-                    $key.prop('checked', settings[key]).on('change', function () {
-                        onChange();
-                    });
-                } else {
-                    $key.val(settings[key]).on('change', function () {
-                        onChange();
-                    }).on('keyup', function () {
-                        onChange();
-                    });
-                }
-            });
-
-            onChange(false);
-
-            $('.config-form .table-values').find('th[data-name="substituteOld"]').attr('title',  _('Use last value if cannot read'));
-
-            var namespace = adapter + '.' + instance + '.';
-
-            socket.emit('getObjectView', 'system', 'state', {startkey: namespace, endkey: namespace + '\u9999'}, function (err, res) {
-                if (!err && res) {
-                    for (var i = 0; i < res.rows.length; i++) {
-                        var obj = res.rows[i].value;
-                        var line = {
-                            name:          obj._id.substring(namespace.length),
-                            minute:        obj.native.minute,
-                            hour:          obj.common.hour,
-                            day:           obj.common.day,
-                            month:         obj.native.month,
-                            year:          obj.native.year
-                        };
-                        if (line.type === 'number' && obj.native.comma) {
-                            line.type = 'commaNumber';
-                        }
-                        values.push(line);
+        if (!settings) return;
+        for (var key in settings) {
+            if (!settings.hasOwnProperty(key)) continue;
+            var $value = $('#' + key + '.value');
+            if ($value.attr('type') === 'checkbox') {
+                $value.prop('checked', settings[key]).on('change', function() {
+                    if ($('#auth').prop('checked')) {
+                        $('#secure').prop('checked', true);
                     }
-                }
-
-                var newValues = JSON.parse(JSON.stringify(values));
-
-                values2table('values', newValues, onChange, function () {
-                    if (!newValues.length) {
-                        $('.config-form .table-button-add').trigger('click');
-                    }
-
-                    $('.config-form .values-input[data-name="name"]').on('change', function () {
-                        var val = $(this).val();
-                        var error = '';
-                        if (!val) {
-                            error = 'Empty names are not allowed';
-                        } else if (val.indexOf(' ') !== -1) {
-                            error = 'Spaces are not allowed';
-                        }
-                        if (error) {
-                            $(this).addClass(error).attr('title', _(error));
-                        } else {
-                            $(this).removeClass('error').attr('title', '');
-                        }
-                    });
-                    $('.values-input[data-name="type"]').on('change', function () {
-                        var id = $(this).data('index');
-                        var val = $(this).val();
-                        if (val === 'number') {
-                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').show();
-                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').show();
-                        } else {
-                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').hide();
-                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').hide();
-                        }
-                        if (val === 'boolean' || val === 'json') {
-                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').hide();
-                        } else {
-                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').show();
-                        }
-                    }).each(function () {
-                        var id = $(this).data('index');
-                        var val = $(this).val();
-                        if (val === 'number') {
-                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').show();
-                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').show();
-                        } else {
-                            $('.config-form .values-input[data-name="factor"][data-index="' + id + '"]').hide();
-                            $('.config-form .values-input[data-name="offset"][data-index="' + id + '"]').hide();
-                        }
-                        if (val === 'boolean' || val === 'json') {
-                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').hide();
-                        } else {
-                            $('.config-form .values-input[data-name="unit"][data-index="' + id + '"]').show();
-                        }
-
-                    });
-                    $('.values-input[data-name="substituteOld"]').on('change', function () {
-                        $(this).parent().parent().find('.values-input[data-name="substitute"]').prop('disabled', $(this).prop('checked'));
-                    }).each(function () {
-                        $(this).parent().parent().find('.values-input[data-name="substitute"]').prop('disabled', $(this).prop('checked'));
-                    });
-                    M.updateTextFields();  // function Materialize.updateTextFields(); to reinitialize all the Materialize labels on the page if you are dynamically adding inputs.
+                    onChange();
+                    showHideSettings();
                 });
-            });
-
-        }
-
-        // This will be called by the admin adapter when the user presses the save button
-        function save(callback) {
-            var obj = {};
-            $('.value').each(function () {
-                var $this = $(this);
-                if ($this.attr('type') === 'checkbox') {
-                    obj[$this.attr('id')] = $this.prop('checked');
-                } else {
-                    obj[$this.attr('id')] = $this.val();
-                }
-            });
-            var newValues = table2values();
-            var tasks = [];
-            var names = [];
-            for (var v = 0; v < newValues.length; v++) {
-                if (!newValues[v].name) {
-                    showMessage(_('Please enter a name'), _('Error'), 'alert');
-                    return;
-                }
-                if (names.indexOf(newValues[v].name) !== -1) {
-                    showError(_('Duplicate names are not allowed'));
-                    return;
-                }
-                names.push(newValues[v].name);
-                var found = false;
-                var t;
-                for (t = 0; t < values.length; t++) {
-                    if (values[t].name === newValues[v].name) {
-                        found = true;
-                        break;
-                    }
-                }
-
-
-                newValues[v].offset = parseFloat(newValues[v].offset) || 0;
-                newValues[v].factor = parseFloat(newValues[v].factor) || 1;
-                newValues[v].item   = parseInt(newValues[v].item, 10) || 0;
-
-                if (found) {
-                    var _obj = values[t].obj;
-                    var changed = false;
-                    if (_obj.common.write !== !!newValues[v].write) {
-                        _obj.common.write = !!newValues[v].write;
-                        changed = true;
-                    }
-                    if (_obj.common.read !== true) {
-                        _obj.common.read = true;
-                        changed = true;
-                    }
-                    if (_obj.common.minute !== newValues[v].minute) {
-                        _obj.common.minute = newValues[v].minute;
-                        changed = true;
-                    }
-                    if (_obj.common.hour !== newValues[v].hour) {
-                        _obj.common.hour = newValues[v].hour;
-                        changed = true;
-                    }                   
-                     if (_obj.common.day !== newValues[v].day) {
-                        _obj.common.day = newValues[v].day;
-                        changed = true;
-                    }
-                    if (_obj.common.month !== newValues[v].month) {
-                        _obj.common.month = newValues[v].month;
-                        changed = true;
-                    }
-                    if (_obj.common.year !== newValues[v].year) {
-                        _obj.common.year = newValues[v].year;
-                        changed = true;
-                    }
-
-                    if (changed) tasks.push(_obj);
-                } else {
-                    tasks.push({
-                        _id:            adapter + '.' + instance + '.' + newValues[v].name.replace(/[()\[\]\\\/*?\s]/g, '_'),
-                        common: {
-                            name:           newValues[v].name,
-                            write:          !!newValues[v].write,
-                            read:           true,
-                            unit:           newValues[v].unit,
-                            type:           newValues[v].type,
-                            role:           newValues[v].role
-                        },
-                        native: {
-                            minute:         newValues[v].minute,
-                            hour:           newValues[v].hour,
-                            day:            newValues[v].day,
-                            month:          newValues[v].month,
-                            year:           newValues[v].year,
-                        },
-                        type: 'state'
-                    });
-                }
+            } else {
+                $value.val(settings[key]).on('change', function() {
+                    onChange();
+                }).keyup(function() {
+                    onChange();
+                });
             }
-            for (var w = 0; w < values.length; w++) {
-                var found = false;
-                for (var k = 0; k < newValues.length; k++) {
-                    if (values[w].name === newValues[k].name) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    tasks.push(values[w].obj._id);
-                }
-            }
-
-            processTasks(tasks, function () {
-                values = newValues;
-                callback(obj);
-            });
         }
-    
+        countdown    = settings.countdown    || [];
+        onChange(false);
+        values2table('countdown', countdown, onChange);
+    }
+    // ... and the function save has to exist.
+    // you have to make sure the callback is called with the settings object as first param!
+    function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+        obj.countdown = table2values('countdown');
+        callback(obj);
+    }
     </script>
 
 </head>
@@ -259,20 +74,16 @@
                 <img src="countdown.png" class="logo">
             </div>
         </div>
-
-        <!-- Put your content here -->
-
-        <!-- For example columns with settings: -->
         <div class="row">
             <div class="input-field col s12 m6 l5">
                 <input class="value" type="number" min="100" id="updateInterval"/>
                 <label for="updateInterval" class="translate">Update interval: </label>
-                <span class="translate">ms</span>
+                <span class="translate">Seconds</span>
             </div>
         </div>
         <div class="row">
             <div class="col s12" id="values">
-                <span style="font-size: larger;" class="translate">Add rule: </span><a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                <span style="font-size: larger;" class="translate">Add countdown: </span><a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
                 <div class="table-values-div">
                     <table class="table-values">
                         <thead>
