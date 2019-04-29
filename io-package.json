@@ -27,7 +27,7 @@
         "license": "MIT",
         "mode": "daemon",
         "platform": "Javascript/Node.js",
-        "main": "main.js",
+        "main": ".../iobroker.countdown/main.js",
         "icon": "countdown.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
