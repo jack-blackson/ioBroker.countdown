@@ -1,11 +1,14 @@
-'use strict';
-
-/*
- * Created with @iobroker/create-adapter v1.11.0
+/**
+ *
+ *      ioBroker COUNTDOWN Adapter
+ *
+ *      (c) 2019 Alexander K <blacksonj7@gmail.com>
+ *
+ *      MIT License
+ *
  */
 
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
+'use strict';
 const utils = require('@iobroker/adapter-core');
 const adapter = new utils.Adapter('countdown');
 
@@ -125,22 +128,6 @@ class Template extends utils.Adapter {
         }
     }
 
-    // /**
-    //  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-    //  * Using this method requires "common.message" property to be set to true in io-package.json
-    //  * @param {ioBroker.Message} obj
-    //  */
-    // onMessage(obj) {
-    // 	if (typeof obj === "object" && obj.message) {
-    // 		if (obj.command === "send") {
-    // 			// e.g. send email or pushover or whatever
-    // 			this.log.info("send command");
-
-    // 			// Send response in callback if required
-    // 			if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-    // 		}
-    // 	}
-    // }
 
 }
 
@@ -153,4 +140,24 @@ if (module.parent) {
 } else {
     // otherwise start the instance directly
     new Template();
+}
+
+function main() {
+    host = adapter.host;
+    adapter.log.debug('Host = ' + host);
+
+    if (!adapter.config.countdown.length) {
+        adapter.log.info('No one IP configured');
+        stop();
+        return;
+    }
+
+    adapter.config.interval = parseInt(adapter.config.interval, 10);
+
+// polling min 5 sec.
+    if (adapter.config.interval < 5000) {
+        adapter.config.interval = 5000;
+    }
+
+    adapter.subscribeStates('*');
 }
