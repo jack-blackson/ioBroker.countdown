@@ -1,27 +1,31 @@
 <html>
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
-<head>
+<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 
-    <!-- Load ioBroker scripts and styles-->
-    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
-    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
 
-    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 
-    <script type="text/javascript" src="../../js/translate.js"></script>
-    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
-    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
-
-    <!-- Load our own files -->
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script type="text/javascript" src="words.js"></script>
-
-    <script type="text/javascript">
-
-        var countdown = [];
-
-        function load(settings, onChange) {
+<style>
+    .table_header {
+        background-color: blue;
+        color: white;
+    }
+    .ip {
+        width: 150px;
+        text-align: right;
+    }
+</style>
+<!-- you have to define 2 functions in the global scope: -->
+<script type="text/javascript">
+    var devices = [];
+    // the function loadSettings has to exist ...
+    function load(settings, onChange) {
         if (!settings) return;
         for (var key in settings) {
             if (!settings.hasOwnProperty(key)) continue;
@@ -42,9 +46,9 @@
                 });
             }
         }
-        countdown    = settings.countdown    || [];
+        devices    = settings.devices    || [];
         onChange(false);
-        values2table('countdown', countdown, onChange);
+        values2table('devices', devices, onChange);
     }
     // ... and the function save has to exist.
     // you have to make sure the callback is called with the settings object as first param!
@@ -58,44 +62,52 @@
                 obj[$this.attr('id')] = $this.val();
             }
         });
-        obj.countdown = table2values('countdown');
+        obj.devices = table2values('devices');
         callback(obj);
     }
-    </script>
-
+</script>
+<style>
+    .m .select-wrapper+label {
+        top: 100%;
+    }
+</style>
 </head>
-
 <body>
+<!-- you have to put your config page in a div with id adapter-container -->
+<div class="m adapter-container">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s2"><a href="#tab-main"    class="translate active">Main settings</a></li>
+                <li class="tab col s2"><a href="#tab-devices" class="translate">addresses</a></li>
+            </ul>
+        </div>
 
-    <div class="m adapter-container">
+        <div id="tab-main"      class="col s12 page">
+            <div class="row">
+                <div class="col s12 m4 l2">
+                    <img src="hs100.png" class="logo">
+                </div>
+            </div>
 
-        <div class="row">
-            <div class="col s12 m4 l2">
-                <img src="countdown.png" class="logo">
+            <div class="col s12 m4 l1">
+                <input class="value number" id="interval" size="5" maxlength="6" type="number"/>
+                <label class="translate" for="interval">interval</label>
             </div>
         </div>
-        <div class="row">
-            <div class="input-field col s12 m6 l5">
-                <input class="value" type="number" min="100" id="updateInterval"/>
-                <label for="updateInterval" class="translate">Update interval: </label>
-                <span class="translate">Seconds</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12" id="values">
-                <span style="font-size: larger;" class="translate">Add countdown: </span><a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+
+
+        <div id="tab-devices"    class="col s12 page">
+            <div class="col s12" id="devices">
+                <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
                 <div class="table-values-div">
                     <table class="table-values">
                         <thead>
                         <tr>
-                            <th data-name="_index"     style="width: 30px"></th>
-                            <th data-name="Name"       style="width: 200px" data-style="width: 110px" class="translate">Name</th>
-                            <th data-name="Minute"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Minute</th>
-                            <th data-name="Hour"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Hour</th>
-                            <th data-name="Day"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Day</th>
-                            <th data-name="Month"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Month</th>
-                            <th data-name="Year"       style="width: 150px"  data-style="width: 40px" data-type="number" class="translate">Year</th>
-                            <th data-buttons="delete" style="width: 40px"></th>
+                            <th data-name="name"     style="width: 50%" class="translate">name</th>
+                            <th data-name="ip"     style="width: 30%" class="translate">ipaddress</th>
+                            <th data-name="active"  style="width: 70px" data-style="width: 70px" data-type="checkbox" class="translate">enabled</th>
+                            <th data-buttons="delete up down" style="width: 120px"></th>
                         </tr>
                         </thead>
                     </table>
@@ -103,7 +115,6 @@
             </div>
         </div>
     </div>
-
+</div>
 </body>
-
 </html>
