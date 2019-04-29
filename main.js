@@ -144,7 +144,9 @@ if (module.parent) {
 
 function main() {
     host = adapter.host;
-    adapter.log.debug('Host = ' + host);
+    adapter.log.info('No one IP configured');
+
+    //adapter.log.debug('Host = ' + host);
 
     if (!adapter.config.countdown.length) {
         adapter.log.info('No one IP configured');

@@ -2,57 +2,43 @@
   "name": "iobroker.countdown",
   "version": "0.0.1",
   "description": "Countdown",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jack-blackson/ioBroker.countdown.git"
+  },
   "author": {
     "name": "Alexander Kolb",
     "email": "blacksonj7@gmail.com"
   },
-  "homepage": "https://github.com/jack-blackson/ioBroker.countdown",
+  "keywords": ["Countdown","countdown"],
   "license": "MIT",
-  "keywords": [
-    "ioBroker",
-    "countdown",
-    "Smart Home",
-    "home automation"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/package.json"
-  },
-  "dependencies": {
-    "@iobroker/adapter-core": "^1.0.3"
-  },
-  "devDependencies": {
-    "@iobroker/testing": "^1.1.16",
-    "@types/chai": "^4.1.7",
-    "@types/chai-as-promised": "^7.1.0",
-    "@types/gulp": "^4.0.6",
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^10.14.1",
-    "@types/proxyquire": "^1.3.28",
-    "@types/sinon": "^7.0.9",
-    "@types/sinon-chai": "^3.2.2",
-    "axios": "^0.18.0",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "eslint": "^5.15.1",
-    "gulp": "^4.0.0",
-    "mocha": "^6.0.2",
-    "proxyquire": "^2.1.0",
-    "sinon": "^7.2.7",
-    "sinon-chai": "^3.3.0"
-  },
-  "main": "main.js",
-  "scripts": {
-    "test:js": "mocha --opts test/mocha.custom.opts",
-    "test:package": "mocha test/package --exit",
-    "test:unit": "mocha test/unit --exit",
-    "test:integration": "mocha test/integration --exit",
-    "test": "npm run test:js && npm run test:package",
-    "lint": "npm run lint:js",
-    "lint:js": "eslint"
-  },
+  "homepage": "https://github.com/jack-blackson/ioBroker.countdown",
   "bugs": {
     "url": "https://github.com/jack-blackson/ioBroker.countdown/issues"
   },
+
+  "news": {"0.0.1": {
+    "en": "initial version ",
+    "de": "Initiale Version "
+    }
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "commander": "^2.11.0",
+    "lodash.defaultto": "^4.14.0",
+    "lodash.groupby": "^4.6.0",
+    "lodash.isequal": "^4.5.0",
+    "loglevel": "^1.5.1",
+    "tplink-smarthome-crypto": "^1.0.0",
+    "tplink-smarthome-api": "^0.23.1",
+    "@iobroker/adapter-core": "^1.0.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "mocha": "^4.1.0",
+    "chai": "^4.1.2"
+  },
+
   "readmeFilename": "README.md"
 }
