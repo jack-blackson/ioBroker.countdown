@@ -2,7 +2,7 @@
   "name": "iobroker.countdown",
   "version": "0.0.1",
   "description": "Countdown",
-  "main": "main.js",
+  "main": ".../iobroker.countdown/main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jack-blackson/ioBroker.countdown.git"

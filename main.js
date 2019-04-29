@@ -116,7 +116,7 @@ class Template extends utils.Adapter {
     /**
      * Is called if a subscribed state changes
      * @param {string} id
-     * @param {ioBroker.State | null | undefined} state
+     //* @param {ioBroker.State | null | undefined} state
      */
     onStateChange(id, state) {
         if (state) {
@@ -143,7 +143,7 @@ if (module.parent) {
 }
 
 function main() {
-    host = adapter.host;
+    //host = adapter.host;
     adapter.log.info('No one IP configured');
 
     //adapter.log.debug('Host = ' + host);
