@@ -30,6 +30,23 @@
         "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
         "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
         "loglevel": "info",
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "Template (JavaScript)",
+                "de": "Vorlage (JavaScript)",
+                "ru": "Шаблон (JavaScript)",
+                "pt": "Template (JavaScript)",
+                "nl": "Sjabloon (JavaScript)",
+                "fr": "Modèle (JavaScript)",
+                "it": "Template (JavaScript)",
+                "es": "Plantilla (JavaScript)",
+                "pl": "Szablon (JavaScript)",
+                "zh-cn": "模板（JavaScript）"
+            },
+            "link": "",
+            "fa-icon": "info"
+        },
         "type": "general"
     },
     "native": {
