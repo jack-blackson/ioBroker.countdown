@@ -1,80 +1,45 @@
 {
     "common": {
-        "name": "countdown",
-        "version": "0.0.1",
-        "news": {
-            "0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung"
-            }
-        },
-        "title": "Countdown",
-        "titleLang": {
-            "en": "Creates countdown datapoints",
-            "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
-        },
-        "desc": {
-            "en": "Creates countdown datapoints",
-            "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
-        },
-        "authors": [
-            "Alexander Kolb <blacksonj7@gmail.com>"
-        ],
-        "keywords": [
-            "ioBroker",
-            "countdown"
-        ],
-        "compact": true,
-        "supportCustoms": true,
-        "license": "MIT",
-        "mode": "daemon",
-        "platform": "Javascript/Node.js",
-        "icon": "countdown.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
-        "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
-        "loglevel": "info",
-<<<<<<< HEAD
-=======
-        "type": "general",
-        "compact": true,
-        "materialize": true,
-        "materializeTab": true,
->>>>>>> parent of b4b3900... div
-        "adminTab": {
-            "singleton": true,
-            "name": {
-                "en": "Template (JavaScript)",
-                "de": "Vorlage (JavaScript)",
-                "ru": "Шаблон (JavaScript)",
-                "pt": "Template (JavaScript)",
-                "nl": "Sjabloon (JavaScript)",
-                "fr": "Modèle (JavaScript)",
-                "it": "Template (JavaScript)",
-                "es": "Plantilla (JavaScript)",
-                "pl": "Szablon (JavaScript)",
-                "zh-cn": "模板（JavaScript）"
-            },
-            "link": "",
-            "fa-icon": "info"
-        },
-<<<<<<< HEAD
-        "type": "general"
-=======
-        "supportCustoms": true,
-        "dependencies": [
-            {
-                "admin": ">=3.0.0"
-            },
-            {
-                "js-controller": ">=1.4.2"
-            }
-        ]
->>>>>>> parent of b4b3900... div
-    },
-    "native": {
-        "Update Interval": "6000"
-    },
-    "objects": [],
-    "instanceObjects": []
-}
+      "name": "countdown",
+      "version": "0.0.1",
+      "materialize": true,
+      "news": {
+        "0.0.1": {
+          "en": "Initial version",
+          "de": "Initiale Version "
+        }
+      },
+      "title": "countdown",
+          "titleLang": {
+            "en": "Countdown",
+            "de": "Countdown"
+          },
+          "desc": {
+            "en": "Countdown Adapter",
+            "de": "Countdown Adapter"
+          },
+          "authors": [
+              "Jack <blacksonj7@gmail.com>"
+          ],
+          "license":                  "MIT",
+          "platform":                 "Javascript/Node.js",
+          "mode":                     "daemon",
+          "messagebox":               true,
+      "enabled":                  false,
+          "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
+          "loglevel":                 "info",
+          "restartAdapters":          [
+            "hs100"
+          ],        
+          "keywords":                 ["countdown"],
+          "icon":                     "countdown.png",
+          "materialize":              true,
+          "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
+          "type":                     "info",
+      "singletonHost":            true
+      },
+       "native": {
+          "interval": 120000
+      },
+      "objects": []
+  }
