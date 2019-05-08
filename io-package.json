@@ -1,6 +1,6 @@
 {
     "common": {
-      "name": "countdown",
+      "name": "Countdown",
       "version": "0.0.1",
       "materialize": true,
       "news": {
