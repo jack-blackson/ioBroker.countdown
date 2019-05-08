@@ -12,6 +12,7 @@
 const utils = require('@iobroker/adapter-core');
 const adapter = new utils.Adapter('countdown');
 
+startAdapter();
 
 function startAdapter(options) {
     adapter.log.info('start adapter');
