@@ -9,10 +9,6 @@
             }
         },
         "title": "Countdown",
-        "titleLang": {
-            "en": "Creates countdown datapoints",
-            "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
-        },
         "desc": {
             "en": "Creates countdown datapoints",
             "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
@@ -32,36 +28,7 @@
         "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
         "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
         "loglevel": "info",
-        "type": "general",
-        "compact": true,
-        "materialize": true,
-        "materializeTab": true,
-        "adminTab": {
-            "singleton": true,
-            "name": {
-                "en": "Template (JavaScript)",
-                "de": "Vorlage (JavaScript)",
-                "ru": "Шаблон (JavaScript)",
-                "pt": "Template (JavaScript)",
-                "nl": "Sjabloon (JavaScript)",
-                "fr": "Modèle (JavaScript)",
-                "it": "Template (JavaScript)",
-                "es": "Plantilla (JavaScript)",
-                "pl": "Szablon (JavaScript)",
-                "zh-cn": "模板（JavaScript）"
-            },
-            "link": "",
-            "fa-icon": "info"
-        },
-        "supportCustoms": true,
-        "dependencies": [
-            {
-                "admin": ">=3.0.0"
-            },
-            {
-                "js-controller": ">=1.4.2"
-            }
-        ]
+        "type": "general"
     },
     "native": {
         "Update Interval": "6000"
