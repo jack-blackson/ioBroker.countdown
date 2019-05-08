@@ -20,6 +20,8 @@
             "ioBroker",
             "countdown"
         ],
+        "compact": true,
+        "supportCustoms": true,
         "license": "MIT",
         "mode": "daemon",
         "platform": "Javascript/Node.js",
