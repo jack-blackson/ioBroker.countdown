@@ -9,6 +9,10 @@
             }
         },
         "title": "Countdown",
+        "titleLang": {
+            "en": "Creates countdown datapoints",
+            "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
+        },
         "desc": {
             "en": "Creates countdown datapoints",
             "de": "Erstellt und aktualisiert Countdown-Datenpunkte"
@@ -30,6 +34,13 @@
         "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
         "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
         "loglevel": "info",
+<<<<<<< HEAD
+=======
+        "type": "general",
+        "compact": true,
+        "materialize": true,
+        "materializeTab": true,
+>>>>>>> parent of b4b3900... div
         "adminTab": {
             "singleton": true,
             "name": {
@@ -47,7 +58,19 @@
             "link": "",
             "fa-icon": "info"
         },
+<<<<<<< HEAD
         "type": "general"
+=======
+        "supportCustoms": true,
+        "dependencies": [
+            {
+                "admin": ">=3.0.0"
+            },
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+>>>>>>> parent of b4b3900... div
     },
     "native": {
         "Update Interval": "6000"
