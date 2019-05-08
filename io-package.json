@@ -1,15 +1,14 @@
 {
     "common": {
-      "name": "Countdown",
+      "name": "countdown",
       "version": "0.0.1",
-      "materialize": true,
       "news": {
         "0.0.1": {
           "en": "Initial version",
           "de": "Initiale Version "
         }
       },
-      "title": "countdown",
+      "title": "Countdown",
           "titleLang": {
             "en": "Countdown",
             "de": "Countdown"
