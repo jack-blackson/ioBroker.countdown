@@ -13,7 +13,6 @@ const utils = require('@iobroker/adapter-core');
 //const adapter = new utils.Adapter('countdown');
 let adapter;
 
-startAdapter();
 
 process.on('uncaughtException', function (err) {
     if (adapter && adapter.log) {
@@ -36,7 +35,7 @@ function startAdapter(options) {
 
     adapter = new utils.Adapter(options);
     adapter.log.info('start adapter');
-
+    return adapter;
 };
 
 function stop() {

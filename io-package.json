@@ -54,7 +54,7 @@
             "_id": "results",
             "type": "channel",
             "common": {
-                "name": "Ergebnisse"
+                "name": "Results"
             },
             "native": {}
         }
