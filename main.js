@@ -31,6 +31,9 @@ function onClose(callback) {
 
 
 function startAdapter(options) {
+    options = options || {};
+    options = {...options, ...{name: `countdown`}};
+
     adapter = new utils.Adapter(options);
     adapter.log.info('start adapter');
 
@@ -40,20 +43,10 @@ function stop() {
     adapter.log.info('stop adapter');
 }
 
-// Load your modules here, e.g.:
-// const fs = require("fs");
 
 function main() {
-    //host = adapter.host;
     adapter.log.info('No one IP configured');
 
-    //adapter.log.debug('Host = ' + host);
-
-    if (!adapter.config.countdown.length) {
-        adapter.log.info('No one IP configured');
-        stop();
-        return;
-    }
 
     adapter.config.interval = parseInt(adapter.config.interval, 10);
 
