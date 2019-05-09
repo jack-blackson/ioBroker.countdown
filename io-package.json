@@ -40,5 +40,23 @@
        "native": {
           "interval": 120000
       },
-      "objects": []
+      "objects": [],
+      "instanceObjects": [
+        {
+            "_id": "masterdata",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "results",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        }
+    ]
   }

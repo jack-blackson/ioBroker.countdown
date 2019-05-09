@@ -10,7 +10,8 @@
 
 'use strict';
 const utils = require('@iobroker/adapter-core');
-const adapter = new utils.Adapter('countdown');
+//const adapter = new utils.Adapter('countdown');
+let adapter;
 
 startAdapter();
 
@@ -30,6 +31,7 @@ function onClose(callback) {
 
 
 function startAdapter(options) {
+    adapter = new utils.Adapter(options);
     adapter.log.info('start adapter');
 
 };
