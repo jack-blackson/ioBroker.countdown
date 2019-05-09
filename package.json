@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "0.0.1",
+  "version": "0.1",
   "description": "Countdown",
   "main": "main.js",
   "repository": {
@@ -18,7 +18,7 @@
     "url": "https://github.com/jack-blackson/ioBroker.countdown/issues"
   },
 
-  "news": {"0.0.1": {
+  "news": {"0.1": {
     "en": "initial version ",
     "de": "Initiale Version "
     }

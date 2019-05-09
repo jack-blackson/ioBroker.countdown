@@ -1,9 +1,9 @@
 {
     "common": {
       "name": "countdown",
-      "version": "0.0.1",
+      "version": "0.1",
       "news": {
-        "0.0.1": {
+        "0.1": {
           "en": "Initial version",
           "de": "Initiale Version "
         }
