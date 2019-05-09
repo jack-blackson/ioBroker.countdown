@@ -26,7 +26,7 @@ function startAdapter(options) {
     options = {...options, ...{name: `countdown`}};
 
     adapter = new utils.Adapter(options);
-    adapter.log.info('start adapter');
+    //adapter.log.info('start adapter');
     return adapter;
 };
 
