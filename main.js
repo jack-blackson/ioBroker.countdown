@@ -14,6 +14,21 @@ const adapter = new utils.Adapter('countdown');
 
 startAdapter();
 
+process.on('uncaughtException', function (err) {
+    if (adapter && adapter.log) {
+        adapter.log.warn('Exception: ' + err);
+    }
+    onClose();
+});
+
+function onClose(callback) {
+
+    if (callback) {
+        callback();
+    }
+}
+
+
 function startAdapter(options) {
     adapter.log.info('start adapter');
 
