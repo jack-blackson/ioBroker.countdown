@@ -10,23 +10,15 @@
 
 'use strict';
 const utils = require('@iobroker/adapter-core');
-//const adapter = new utils.Adapter('countdown');
 let adapter;
 
+startAdapter();
 
 process.on('uncaughtException', function (err) {
     if (adapter && adapter.log) {
         adapter.log.warn('Exception: ' + err);
     }
-    onClose();
 });
-
-function onClose(callback) {
-
-    if (callback) {
-        callback();
-    }
-}
 
 
 function startAdapter(options) {
@@ -45,14 +37,6 @@ function stop() {
 
 function main() {
     adapter.log.info('No one IP configured');
-
-
     adapter.config.interval = parseInt(adapter.config.interval, 10);
-
-// polling min 5 sec.
-    if (adapter.config.interval < 5000) {
-        adapter.config.interval = 5000;
-    }
-
     adapter.subscribeStates('*');
 }
