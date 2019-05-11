@@ -27,8 +27,6 @@ function startAdapter(options) {
 
 
 function main() {
-    adapter.log.info('Main!');
-
     countdownenabled()
 
     adapter.config.interval = 60000;
@@ -39,10 +37,14 @@ function main() {
 function countdownenabled(){
     // Check if there are active countdowns
     if (adapter.config.setup) {
-        adapter.log.info('setup found!');
-        adapter.log.info(adapter.config.setup); 
-        for (const active of adapter.config.setup){
-            adapter.log.info(adapter.config.setup.active);
+        const setup = adapter.config.setup;
+        adapter.log.info('setup found');
+        adapter.log.info(setup); 
+        for (const active of setup){
+            adapter.log.info(setup);
+            adapter.log.info(active);
+            adapter.log.info(setup.active);
+            adapter.log.info(active.active);
 
         }
     }
