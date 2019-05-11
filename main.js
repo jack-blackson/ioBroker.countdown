@@ -51,9 +51,9 @@ function updateobjects(){
             adapter.log.info('Name:' + item.name);
 
             adapter.setObjectAsync('masterdata.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name.active, {type: `boolean`,common: {name: item.active},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name.active, {type: `string`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name.active, {type: `number`,common: {name: item.year},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name + '.year', {type: `number`,common: {name: item.year},native: {}});
 
             /*
             createState('countdown.masterdata.', '9/4/2016', { name: 'Termin Datum', desc: 'Datum des Termins (als Objekt)', type: 'string' }); 
