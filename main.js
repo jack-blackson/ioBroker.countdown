@@ -27,7 +27,10 @@ function startAdapter(options) {
 
 
 function main() {
+
     countdownenabled()
+    adapter.log.info('Alarm Active:');
+    adapter.log.info(countdownenabled());
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
@@ -35,22 +38,22 @@ function main() {
 
 
 function countdownenabled(){
+    var alarmactive = false;
     // Check if there are active countdowns
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
         adapter.log.info('setup found');
-        adapter.log.info(setup); 
-        for (const active of setup){
-            adapter.log.info(setup);
-            adapter.log.info(active);
-            adapter.log.info(setup.active);
-            adapter.log.info(active.active);
-
+        for (const item of setup){
+            if (item.active == true){
+                alarmactive = true;
+            }
         }
     }
     else{
         adapter.log.info('No countdown setup found!'); 
     }
+    return alarmactive
+
 } 
 
 /*
