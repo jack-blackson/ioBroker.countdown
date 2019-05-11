@@ -21,7 +21,7 @@ function startAdapter(options) {
     });
     
     adapter = new utils.Adapter(options);
-    adapter.log.info('Start!');
+    //adapter.log.info('Start!');
 
     return adapter;
 }
