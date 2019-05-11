@@ -28,7 +28,7 @@ function startAdapter(options) {
 
 function main() {
 
-    adapter.log.info('Alarm Active:',countdownenabled());
+    adapter.log.info('Alarm Active:' + countdownenabled());
     updateobjects()
     if (countdownenabled()) {
 
@@ -47,8 +47,8 @@ function updateobjects(){
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
         for (const item of setup){
-            adapter.log.info('ID:',item.id);
-            adapter.log.info('Name:',item.name);
+            adapter.log.info('ID:' + item.id);
+            adapter.log.info('Name:' + item.name);
 
             adapter.setObjectAsync('masterdata.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
             /*
