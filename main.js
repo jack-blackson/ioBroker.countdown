@@ -45,6 +45,7 @@ function countdownenabled(){
     
     if (adapter.config.setup) {
         adapter.log.info('setup found!');
+        adapter.log.info(adapter.config.setup); 
 
     }
     else{
