@@ -29,12 +29,13 @@ function startAdapter(options) {
 function main() {
     adapter.log.info('Main!');
 
-    countdownenabled()
+    //countdownenabled()
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
 }
 
+/*
 function countdownenabled(){
     // Check if there are active countdowns
     adapter.log.info('countdownenabled!');
@@ -50,7 +51,7 @@ function countdownenabled(){
         adapter.log.info('no setup found!'); 
     }
 } 
-
+*/
 
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
