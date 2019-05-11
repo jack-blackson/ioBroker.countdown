@@ -48,8 +48,6 @@ function countdownenabled(){
     else{
         adapter.log.info('no setup found!'); 
     }
-    
-  
 } 
 
 
