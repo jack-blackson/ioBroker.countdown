@@ -38,7 +38,8 @@ function main() {
 function countdownenabled(){
     // Check if there are active countdowns
     adapter.log.info('countdownenabled!');
-    adapter.log.info(adapter.config.setup); 
+    
+    //adapter.log.info(adapter.config.setup); 
 
     
     if (adapter.config.setup) {
@@ -49,9 +50,6 @@ function countdownenabled(){
         adapter.log.info('no setup found!'); 
     }
 } 
-
-
-
 
 
 // If started as allInOne/compact mode => return function to create instance
