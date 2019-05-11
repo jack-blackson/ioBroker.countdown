@@ -12,7 +12,6 @@
 const utils = require('@iobroker/adapter-core');
 
 let adapter;
-startAdapter();
 
 
 function startAdapter(options) {
@@ -50,17 +49,16 @@ function countdownenabled(){
         adapter.log.info('no setup found!'); 
     }
     
-  }
+  
 } 
 
 
 
 
-/*
+
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
     module.exports = startAdapter;
 } else {
     // or start the instance directly
 } 
-*/
