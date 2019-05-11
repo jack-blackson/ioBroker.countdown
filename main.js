@@ -47,7 +47,7 @@ function updateobjects(){
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
         for (const item of setup){
-            adapter.setObjectAsync('countdown.masterdata'+item.name, {type: `channel`,common: {name: item.name},native: {}});
+            adapter.setObjectAsync('countdown.masterdata'+item.index, {type: `channel`,common: {name: item.name},native: {}});
             /*
             createState('countdown.masterdata.', '9/4/2016', { name: 'Termin Datum', desc: 'Datum des Termins (als Objekt)', type: 'string' }); 
             createState('Countdown.Termin.Datum.String', '3.12.2016', { name: 'Termin Datum (als String)', desc: 'Datum des Termins als Zeichenkette', type: 'string' }); 
