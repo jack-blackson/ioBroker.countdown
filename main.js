@@ -38,18 +38,16 @@ function main() {
 
 function countdownenabled(){
     // Check if there are active countdowns
-    adapter.log.info('countdownenabled!');
-    
-    //adapter.log.info(adapter.config.setup); 
-
-    
     if (adapter.config.setup) {
         adapter.log.info('setup found!');
         adapter.log.info(adapter.config.setup); 
+        for (const active of adapter.config.setup){
+            adapter.log.info(adapter.config.setup.active);
 
+        }
     }
     else{
-        adapter.log.info('no setup found!'); 
+        adapter.log.info('No countdown setup found!'); 
     }
 } 
 
