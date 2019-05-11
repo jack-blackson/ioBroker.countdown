@@ -19,17 +19,22 @@ function startAdapter(options) {
         name: 'countdown',
         ready: () => main()
     });
-    
-    adapter = new utils.Adapter(options);
-    //adapter.log.info('Start!');
 
+    adapter = new utils.Adapter(options);
     return adapter;
 }
 
 
 function main() {
     adapter.log.info('Main!');
+    adapter.config.interval = 500;
+    adapter.subscribeStates('*')
 }
+
+//function 
+
+
+
 
 
 // If started as allInOne/compact mode => return function to create instance
