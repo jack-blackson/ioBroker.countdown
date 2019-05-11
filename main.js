@@ -51,6 +51,10 @@ function updateobjects(){
             adapter.log.info('Name:' + item.name);
 
             adapter.setObjectAsync('masterdata.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name.active, {type: `boolean`,common: {name: item.active},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name.active, {type: `string`,common: {name: item.name},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name.active, {type: `number`,common: {name: item.year},native: {}});
+
             /*
             createState('countdown.masterdata.', '9/4/2016', { name: 'Termin Datum', desc: 'Datum des Termins (als Objekt)', type: 'string' }); 
             createState('Countdown.Termin.Datum.String', '3.12.2016', { name: 'Termin Datum (als String)', desc: 'Datum des Termins als Zeichenkette', type: 'string' }); 
