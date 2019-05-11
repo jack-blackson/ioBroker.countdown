@@ -30,13 +30,17 @@ function main() {
 
     countdownenabled()
 
-    adapter.config.interval = 500;
+    adapter.config.interval = 60000;
     adapter.subscribeStates('*')
 }
 
 function countdownenabled(){
     adapter.log.info('countdownenabled!');
+    if (adapter.config.setup) {
+             adapter.log.info('setup found!');
 
+        }
+  }
 } 
 
 

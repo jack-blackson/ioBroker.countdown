@@ -46,9 +46,9 @@
                 });
             }
         }
-        countdown    = settings.countdown    || [];
+        setup    = settings.setup    || [];
         onChange(false);
-        values2table('countdown', countdown, onChange);
+        values2table('setup', setup, onChange);
     }
     // ... and the function save has to exist.
     // you have to make sure the callback is called with the settings object as first param!
@@ -62,7 +62,7 @@
                 obj[$this.attr('id')] = $this.val();
             }
         });
-        obj.countdown = table2values('countdown');
+        obj.setup = table2values('setup');
         callback(obj);
     }
 </script>
