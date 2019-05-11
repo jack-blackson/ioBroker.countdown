@@ -28,12 +28,41 @@ function startAdapter(options) {
 
 function main() {
 
-    countdownenabled()
-    adapter.log.info('Alarm Active:');
-    adapter.log.info(countdownenabled());
+    adapter.log.info('Alarm Active:',countdownenabled());
+    updateobjects()
+    if (countdownenabled()) {
+
+    }
+    else{
+        adapter.log.info('No active countdown');
+    }
+
+
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
+}
+
+function updateobjects(){
+    if (adapter.config.setup) {
+        const setup = adapter.config.setup;
+        for (const item of setup){
+            
+            createState('countdown.masterdata', item.name, { name: item.name, desc: 'Name', type: 'channel' }); 
+            /*
+            createState('countdown.masterdata.', '9/4/2016', { name: 'Termin Datum', desc: 'Datum des Termins (als Objekt)', type: 'string' }); 
+            createState('Countdown.Termin.Datum.String', '3.12.2016', { name: 'Termin Datum (als String)', desc: 'Datum des Termins als Zeichenkette', type: 'string' }); 
+            createState('Countdown.Termin.Name', 'Name des Termins', { name: 'Termin Name', desc: 'Bezeichnung des Termins', type: 'string' }); 
+            createState('Countdown.Termin.Rest.Total', { name: 'Millisekunden bis zum Termin', desc: 'Restliche Millisekunden bis zum Datum des Termins', type: 'number', unit: 'ms' }); 
+            createState('Countdown.Termin.Rest.Tage', { name: 'Tage bis zum Termin', desc: 'Restliche Tage bis zum Datum des Termins', type: 'number', unit: 'Tage' }); 
+            createState('Countdown.Termin.Rest.Wochen', { name: 'Wochen bis zum Termin', desc: 'Restliche Wochen bis zum Datum des Termins', type: 'number', unit: 'Wochen' });  
+            */
+
+        }
+    }
+    else{
+        // no countdown available
+    }
 }
 
 
@@ -42,7 +71,6 @@ function countdownenabled(){
     // Check if there are active countdowns
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
-        adapter.log.info('setup found');
         for (const item of setup){
             if (item.active == true){
                 alarmactive = true;
@@ -50,7 +78,7 @@ function countdownenabled(){
         }
     }
     else{
-        adapter.log.info('No countdown setup found!'); 
+        // no setup available
     }
     return alarmactive
 
