@@ -21,7 +21,7 @@ function startAdapter(options) {
     });
     
     adapter = new utils.Adapter(options);
-    //adapter.log.info('Start!');
+    adapter.log.info('Start!');
 
     return adapter;
 }
@@ -30,3 +30,12 @@ function startAdapter(options) {
 function main() {
     adapter.log.info('Main!');
 }
+
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
+} 
