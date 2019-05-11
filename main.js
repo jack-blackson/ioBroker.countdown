@@ -27,11 +27,17 @@ function startAdapter(options) {
 
 function main() {
     adapter.log.info('Main!');
+
+    countdownenabled()
+
     adapter.config.interval = 500;
     adapter.subscribeStates('*')
 }
 
-//function 
+function countdownenabled(){
+    adapter.log.info('countdownenabled!');
+
+} 
 
 
 
