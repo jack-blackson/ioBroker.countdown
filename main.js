@@ -10,7 +10,6 @@
 
 'use strict';
 const utils = require('@iobroker/adapter-core');
-
 let adapter;
 startAdapter()
 
@@ -29,7 +28,7 @@ function startAdapter(options) {
 function main() {
 
     adapter.log.info('Alarm Active:' + countdownenabled());
-    updateobjects()
+    updatemasterdataobjects()
     if (countdownenabled()) {
 
     }
@@ -43,27 +42,27 @@ function main() {
     adapter.subscribeStates('*')
 }
 
-function updateobjects(){
+function updatemasterdataobjects(){
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
         for (const item of setup){
-            adapter.log.info('ID:' + item.id);
-            adapter.log.info('Name:' + item.name);
+            let newdate = Date
+            let datestring = "";
+            datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
+            adapter.log.info('Datestring' + datestring);
+
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm");
+            DateTime newdate = formatter.parseDateTime(datestring);
+            adapter.log.info('NewDate:' + newdate);
 
             adapter.setObjectAsync('masterdata.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
             adapter.setObjectAsync('masterdata.'+item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
             adapter.setObjectAsync('masterdata.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
             adapter.setObjectAsync('masterdata.'+item.name + '.year', {type: `number`,common: {name: item.year},native: {}});
-
-            /*
-            createState('countdown.masterdata.', '9/4/2016', { name: 'Termin Datum', desc: 'Datum des Termins (als Objekt)', type: 'string' }); 
-            createState('Countdown.Termin.Datum.String', '3.12.2016', { name: 'Termin Datum (als String)', desc: 'Datum des Termins als Zeichenkette', type: 'string' }); 
-            createState('Countdown.Termin.Name', 'Name des Termins', { name: 'Termin Name', desc: 'Bezeichnung des Termins', type: 'string' }); 
-            createState('Countdown.Termin.Rest.Total', { name: 'Millisekunden bis zum Termin', desc: 'Restliche Millisekunden bis zum Datum des Termins', type: 'number', unit: 'ms' }); 
-            createState('Countdown.Termin.Rest.Tage', { name: 'Tage bis zum Termin', desc: 'Restliche Tage bis zum Datum des Termins', type: 'number', unit: 'Tage' }); 
-            createState('Countdown.Termin.Rest.Wochen', { name: 'Wochen bis zum Termin', desc: 'Restliche Wochen bis zum Datum des Termins', type: 'number', unit: 'Wochen' });  
-            */
-
+            adapter.setObjectAsync('masterdata.'+item.name + '.month', {type: `number`,common: {name: item.month},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name + '.day', {type: `number`,common: {name: item.day},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name + '.hour', {type: `number`,common: {name: item.hour},native: {}});
+            adapter.setObjectAsync('masterdata.'+item.name + '.minute', {type: `number`,common: {name: item.minute},native: {}});
         }
     }
     else{
