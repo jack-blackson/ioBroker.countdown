@@ -54,6 +54,7 @@
     // you have to make sure the callback is called with the settings object as first param!
     function save(callback) {
         var obj = {};
+        //var newValues = table2values();
         $('.value').each(function () {
             var $this = $(this);
             if ($this.attr('type') === 'checkbox') {
@@ -62,6 +63,32 @@
                 obj[$this.attr('id')] = $this.val();
             }
         });
+        var newValues = table2values();
+        for (var v = 0; v < newValues.length; v++) {
+            if (!newValues[v].name) {
+                showMessage(_('Empty names are not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (names.indexOf(newValues[v].name) !== -1) {
+                showError(_('Duplicate names are not allowed'));
+                return;
+            }
+            if (!newValues[v].year) {
+                showMessage(_('Empty year is not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (!newValues[v].month) {
+                showMessage(_('Empty month is not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (!newValues[v].day) {
+                showMessage(_('Empty day is not allowed'), _('Error'), 'alert');
+                return;
+            }
+        }
+
+
+
         obj.setup = table2values('setup');
         callback(obj);
     }
