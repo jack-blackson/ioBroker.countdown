@@ -50,11 +50,11 @@ function updateresults(){
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
             var now = moment(new Date()); //todays date
             var duration = moment.duration(now.diff(newdate));
-            var years = duration.hours();
-            var months = duration.hours();
-            var days = duration.hours();
+            var years = duration.years();
+            var months = duration.months();
+            var days = duration.days();
             var hours = duration.hours();
-            var minutes = duration.hours();
+            var minutes = duration.minutes();
 
             adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
             adapter.setObjectAsync('results.'+item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
