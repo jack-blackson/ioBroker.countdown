@@ -56,14 +56,27 @@ function updateresults(){
             var hours = duration.hours();
             var minutes = duration.minutes();
 
+            if (now.diff(newdate) > 0){
+                // Countdown reached today -> disable countdown
+                adapter.setObjectAsync('results.'+item.name + '.reached', {type: `boolean`,common: {name: true},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.year', {type: `number`,common: {name: ''},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.month', {type: `number`,common: {name: ''},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.day', {type: `number`,common: {name: ''},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.hour', {type: `number`,common: {name: ''},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.minute', {type: `number`,common: {name: ''},native: {}});
+            }
+            else{
+                // Countdown not reached -> update values
+                adapter.setObjectAsync('results.'+item.name + '.reached', {type: `boolean`,common: {name: false},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.year', {type: `number`,common: {name: years},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.month', {type: `number`,common: {name: months},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.day', {type: `number`,common: {name: days},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
+            }
             adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync('results.'+item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
             adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync('results.'+item.name + '.year', {type: `number`,common: {name: years},native: {}});
-            adapter.setObjectAsync('results.'+item.name + '.month', {type: `number`,common: {name: months},native: {}});
-            adapter.setObjectAsync('results.'+item.name + '.day', {type: `number`,common: {name: days},native: {}});
-            adapter.setObjectAsync('results.'+item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
-            adapter.setObjectAsync('results.'+item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
+
         }
 }
 
