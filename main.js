@@ -50,11 +50,11 @@ function updateresults(){
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
             var now = moment(new Date()); //todays date
             var duration = moment.duration(now.diff(newdate));
-            var years = duration.years();
-            var months = duration.months();
-            var days = duration.days();
-            var hours = duration.hours();
-            var minutes = duration.minutes();
+            var years = duration.years() * -1;
+            var months = duration.months() * -1;
+            var days = duration.days() * -1;
+            var hours = duration.hours() * -1;
+            var minutes = duration.minutes() * -1;
 
             if (now.diff(newdate) > 0){
                 // Countdown reached today -> disable countdown
