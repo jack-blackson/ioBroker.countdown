@@ -61,7 +61,7 @@ function updateresults(){
             var hours = duration.hours() * -1;
             var minutes = duration.minutes() * -1;
 
-            if (now.diff(newdate) > 0){
+            if (now.diff(newdate) >= 0){
                 // Countdown reached today -> disable countdown
                 adapter.setObjectAsync('results.'+item.name + '.reached', {type: `boolean`,common: {name: true},native: {}});
                 adapter.setObjectAsync('results.'+item.name + '.year', {type: `number`,common: {name: ''},native: {}});

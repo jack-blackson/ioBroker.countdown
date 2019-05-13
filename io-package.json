@@ -46,7 +46,7 @@
             "_id": "masterdata",
             "type": "channel",
             "common": {
-                "name": "Countdown Setup"
+                "name": "Countdown Info"
             },
             "native": {}
         },
