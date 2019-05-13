@@ -30,7 +30,8 @@
     "lodash.groupby": "^4.6.0",
     "lodash.isequal": "^4.5.0",
     "loglevel": "^1.5.1",
-    "@iobroker/adapter-core": "^1.0.3"
+    "@iobroker/adapter-core": "^1.0.3",
+    "moment":"2.24.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

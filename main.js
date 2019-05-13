@@ -10,6 +10,7 @@
 
 'use strict';
 const utils = require('@iobroker/adapter-core');
+const moment = require('moment');
 let adapter;
 startAdapter()
 
@@ -46,13 +47,14 @@ function updatemasterdataobjects(){
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
         for (const item of setup){
-            let newdate = Date
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
             adapter.log.info('Datestring' + datestring);
 
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm");
-            DateTime newdate = formatter.parseDateTime(datestring);
+            var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
+
+            //DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm");
+            //DateTime newdate = formatter.parseDateTime(datestring);
             adapter.log.info('NewDate:' + newdate);
 
             adapter.setObjectAsync('masterdata.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
