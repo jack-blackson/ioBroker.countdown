@@ -14,6 +14,11 @@ const moment = require('moment');
 let adapter;
 startAdapter()
 
+setInterval(function() { 
+    // alle 1 Minute ausführen 
+    main(); 
+}, 60000);
+
 function startAdapter(options) {
     options = options || {};
     Object.assign(options, {
