@@ -33,6 +33,9 @@
     "@iobroker/adapter-core": "^1.0.3",
     "moment":"2.24.0"
   },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "mocha": "^4.1.0",
