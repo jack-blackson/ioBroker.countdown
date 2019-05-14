@@ -78,6 +78,12 @@ function updateresults(){
                 adapter.setObjectAsync('results.'+item.name + '.day', {type: `number`,common: {name: days},native: {}});
                 adapter.setObjectAsync('results.'+item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
                 adapter.setObjectAsync('results.'+item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
+
+
+                
+
+
+
             }
             adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
             adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});

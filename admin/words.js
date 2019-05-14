@@ -2,7 +2,7 @@
 'use strict';
 
 systemDictionary = {
-    'Add Countdown:': {
+    'AddCtn': {
         'en': 'Add Countdown:',
         'de': 'Countdown hinzufügen:'
     }, 
