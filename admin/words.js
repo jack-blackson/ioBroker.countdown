@@ -6,6 +6,10 @@ systemDictionary = {
         'en': 'Add Countdown:',
         'de': 'Countdown hinzufügen:'
     }, 
+    'mandatory': {
+        'en': '* Fields are mandatory!',
+        'de': '* Pflichtfelder!'
+    }, 
     'year': {
         'en': 'Year*',
         'de': 'Jahr*'
