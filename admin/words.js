@@ -10,6 +10,18 @@ systemDictionary = {
         'en': '* Fields are mandatory!',
         'de': '* Pflichtfelder!'
     }, 
+    'off': {
+        'en': 'Off',
+        'de': 'Aus'
+    }, 
+    'short': {
+        'en': 'Short',
+        'de': 'Kurz'
+    }, 
+    'long': {
+        'en': 'Long',
+        'de': 'Lang'
+    }, 
     'year': {
         'en': 'Year*',
         'de': 'Jahr*'
