@@ -2,17 +2,21 @@
 'use strict';
 
 systemDictionary = {
+    'Add Countdown:': {
+        'en': 'Add Countdown:',
+        'de': 'Countdown hinzufügen:'
+    }, 
     'year': {
-        'en': 'Year',
-        'de': 'Jahr'
+        'en': 'Year*',
+        'de': 'Jahr*'
     }, 
    'month': {
-        'en': 'Month',
-        'de': 'Monat'
+        'en': 'Month*',
+        'de': 'Monat*'
     },
     'day': {
-        'en': 'Day',
-        'de': 'Tag'
+        'en': 'Day*',
+        'de': 'Tag*'
     },
     'hour': {
         'en': 'Hour',

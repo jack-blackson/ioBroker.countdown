@@ -55,6 +55,7 @@
     function save(callback) {
         var obj = {};
         //var newValues = table2values();
+        /*
         $('.value').each(function () {
             var $this = $(this);
             if ($this.attr('type') === 'checkbox') {
@@ -85,8 +86,8 @@
                 showMessage(_('Empty day is not allowed'), _('Error'), 'alert');
                 return;
             }
-        }
-
+        }*/
+        
 
 
         obj.setup = table2values('setup');
@@ -112,6 +113,8 @@
             <div class="col s12" id="setup">
                 <span style="font-size: larger;" class="translate">Add countdown:
                 <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                <select class="value" id="bind"></select>
+                <label class="translate" for="bind">IP:</label>
                 <div class="table-values-div">
                     <table class="table-values">
                         <thead>
