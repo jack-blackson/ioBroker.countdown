@@ -52,7 +52,7 @@ function cleanresults(){
         if (err) {
             adapter.log.error('Cannot delete results' + ' Error: ' + err);
         }
-    }
+    });
 }
 
 function updateresults(){
