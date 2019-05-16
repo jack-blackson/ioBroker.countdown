@@ -48,15 +48,11 @@ function main() {
 }
 
 function cleanresults(){
-    adapter.results.getChannels(function (err, channels) {
-
-        for(var d = 0; d < channels.length, d++) {
-   
-             adapter.deleteChannel(channels[d]._id);
-   
+    adapter.delObject(adapter.results, function (err) {
+        if (err) {
+            adapter.log.error('Cannot delete results' + ' Error: ' + err);
         }
-   
-   });
+    }
 }
 
 function updateresults(){
