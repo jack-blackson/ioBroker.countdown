@@ -48,11 +48,15 @@ function main() {
 }
 
 function cleanresults(){
-    adapter.delObject(adapter.results.Days, function (err) {
+    // delete data for countdowns who don't exist any more in the setup
+    /*
+    adapter.delchannel(adapter.results.Days, function (err) {
         if (err) {
             adapter.log.error('Cannot delete results' + ' Error: ' + err);
         }
     });
+    */
+   adapter.deleteChannel(adapter.results.Days);
 }
 
 function updateresults(){
