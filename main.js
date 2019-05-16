@@ -93,21 +93,23 @@ function updateresults(){
                     CountDowninWordsShort += ' ' + hours+'H';
                 }
                 CountDowninWordsShort += minutes+'M';
+                adapter.setObjectAsync('results.'+item.name + '.countdowninwordsshort', {type: `string`,common: {name: CountDowninWordsShort},native: {}});
 
                 var CountDowninWordsLong = '';
                 if (years != 0){
-                    CountDowninWordsShort = years+'Years ';
+                    CountDowninWordsLong = years+'Years ';
                 }
                 if (months != 0){
-                    CountDowninWordsShort += months+'Months ';
+                    CountDowninWordsLong += months+'Months ';
                 }
                 if (days != 0){
-                    CountDowninWordsShort += days+'Days ';
+                    CountDowninWordsLong += days+'Days ';
                 }
                 if (hours != 0){
-                    CountDowninWordsShort += ' ' + hours+'Hours ';
+                    CountDowninWordsLong += ' ' + hours+'Hours ';
                 }
-                CountDowninWordsShort += minutes+'Minutes';
+                CountDowninWordsLong += minutes+'Minutes';
+                adapter.setObjectAsync('results.'+item.name + '.countdowninwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
 
 
             }
