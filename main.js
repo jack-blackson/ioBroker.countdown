@@ -56,11 +56,14 @@ function cleanresults(){
         }
     });
     */
+   /*
    adapter.getChannels(function (err, channels) {
         for(var d = 0; d < channels.length, d++) {
             adapter.deleteChannel(channels[d]._id);
 
         }});
+    */
+   adapter.deleteChannel('Days', adapter.results);
 }
 
 function updateresults(){
