@@ -56,7 +56,11 @@ function cleanresults(){
         }
     });
     */
-   adapter.deleteChannel(adapter.results.Days);
+   adapter.getChannels(function (err, channels) {
+        for(var d = 0; d < channels.length, d++) {
+            adapter.deleteChannel(channels[d]._id);
+
+        }});
 }
 
 function updateresults(){
