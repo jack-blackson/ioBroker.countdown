@@ -63,7 +63,7 @@ function cleanresults(){
 
         }});
     */
-   adapter.deleteChannel('results', 'Days');
+   adapter.deleteChannel(adapter, 'results');
 }
 
 function updateresults(){
