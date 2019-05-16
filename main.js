@@ -79,9 +79,35 @@ function updateresults(){
                 adapter.setObjectAsync('results.'+item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
                 adapter.setObjectAsync('results.'+item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
 
-                //var 
+                var CountDowninWordsShort = '';
+                if (years != 0){
+                    CountDowninWordsShort = years+'Y';
+                }
+                if (months != 0){
+                    CountDowninWordsShort += months+'M';
+                }
+                if (days != 0){
+                    CountDowninWordsShort += days+'D';
+                }
+                if (hours != 0){
+                    CountDowninWordsShort += ' ' + hours+'H';
+                }
+                CountDowninWordsShort += minutes+'M';
 
-
+                var CountDowninWordsLong = '';
+                if (years != 0){
+                    CountDowninWordsShort = years+'Years ';
+                }
+                if (months != 0){
+                    CountDowninWordsShort += months+'Months ';
+                }
+                if (days != 0){
+                    CountDowninWordsShort += days+'Days ';
+                }
+                if (hours != 0){
+                    CountDowninWordsShort += ' ' + hours+'Hours ';
+                }
+                CountDowninWordsShort += minutes+'Minutes';
 
 
             }
