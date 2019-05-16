@@ -79,8 +79,8 @@ function updateresults(){
                 adapter.setObjectAsync('results.'+item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
                 adapter.setObjectAsync('results.'+item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
 
+                //var 
 
-                
 
 
 
