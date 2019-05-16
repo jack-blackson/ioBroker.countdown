@@ -35,6 +35,7 @@ function main() {
 
     adapter.log.info('Alarm Active:' + countdownenabled());
     updatemasterdataobjects()
+    cleanresults()
     if (countdownenabled()) {
         updateresults()
     }
@@ -44,6 +45,18 @@ function main() {
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
+}
+
+function cleanresults(){
+    adapter.results.getChannels(function (err, channels) {
+
+        for(var d = 0; d < channels.length, d++) {
+   
+             adapter.deleteChannel(channels[d]._id);
+   
+        }
+   
+   });
 }
 
 function updateresults(){
@@ -93,25 +106,48 @@ function updateresults(){
                     CountDowninWordsShort += ' ' + hours+'H';
                 }
                 CountDowninWordsShort += minutes+'M';
-                adapter.setObjectAsync('results.'+item.name + '.countdowninwordsshort', {type: `string`,common: {name: CountDowninWordsShort},native: {}});
+                adapter.setObjectAsync('results.'+item.name + '.inwordsshort', {type: `string`,common: {name: CountDowninWordsShort},native: {}});
 
                 var CountDowninWordsLong = '';
                 if (years != 0){
-                    CountDowninWordsLong = years+'Years ';
+                    if (years > 1){
+                        CountDowninWordsLong = years+'Year ';
+                    }
+                    else{
+                        CountDowninWordsLong = years+'Years ';
+                    }
                 }
                 if (months != 0){
-                    CountDowninWordsLong += months+'Months ';
+                    if (months > 1){
+                        CountDowninWordsLong = months+'Months ';
+                    }
+                    else{
+                        CountDowninWordsLong = months+'Month ';
+                    }
                 }
                 if (days != 0){
-                    CountDowninWordsLong += days+'Days ';
+                    if (days > 1){
+                        CountDowninWordsLong = days+'Days ';
+                    }
+                    else{
+                        CountDowninWordsLong = days+'Day ';
+                    }
                 }
                 if (hours != 0){
-                    CountDowninWordsLong += ' ' + hours+'Hours ';
+                    if (hours > 1){
+                        CountDowninWordsLong = hours+'Hours ';
+                    }
+                    else{
+                        CountDowninWordsLong = hours+'Hour ';
+                    } 
                 }
-                CountDowninWordsLong += minutes+'Minutes';
-                adapter.setObjectAsync('results.'+item.name + '.countdowninwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
-
-
+                if (minutes > 1){
+                    CountDowninWordsLong = minutes+'Minutes ';
+                }
+                else{
+                    CountDowninWordsLong = minutes+'Minute ';
+                } 
+                adapter.setObjectAsync('results.'+item.name + '.inwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
             }
             adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
             adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
