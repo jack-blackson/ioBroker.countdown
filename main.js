@@ -63,7 +63,7 @@ function cleanresults(){
 
         }});
     */
-   adapter.deleteChannel(adapter, 'results');
+   adapter.deleteChannel('root', 'results');
 }
 
 function updateresults(){
