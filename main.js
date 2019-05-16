@@ -48,7 +48,7 @@ function main() {
 }
 
 function cleanresults(){
-    adapter.delObject(adapter.results, function (err) {
+    adapter.delObject(adapter.results.Days, function (err) {
         if (err) {
             adapter.log.error('Cannot delete results' + ' Error: ' + err);
         }
