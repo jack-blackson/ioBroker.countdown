@@ -67,11 +67,70 @@ function createObjects(){
             def: false,
             role: 'value'
           });
-          adapter.setState(item + ".name", item.name);  
-        
-        //adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
-        //adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
-
+          adapter.createState('', item.name, 'reached', {
+            read: true, 
+            write: false, 
+            name: "Reached", 
+            type: "boolean", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'years', {
+            read: true, 
+            write: false, 
+            name: "Years", 
+            type: "number", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'months', {
+            read: true, 
+            write: false, 
+            name: "Months", 
+            type: "number", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'days', {
+            read: true, 
+            write: false, 
+            name: "Days", 
+            type: "number", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'hours', {
+            read: true, 
+            write: false, 
+            name: "Hours", 
+            type: "number", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'minutes', {
+            read: true, 
+            write: false, 
+            name: "Minutes", 
+            type: "number", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'inWordsLong', {
+            read: true, 
+            write: false, 
+            name: "Result in Words Long", 
+            type: "string", 
+            def: false,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'inWordsShort', {
+            read: true, 
+            write: false, 
+            name: "Result in Words Short", 
+            type: "string", 
+            def: false,
+            role: 'value'
+          });
     }
 }
 
@@ -79,14 +138,18 @@ function updateresults(){
     const setup = adapter.config.setup;
         for (const item of setup){
 
-            adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
-            adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
+           
+
+
+
+            //adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
+            //adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
 
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
 
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
-            adapter.setObjectAsync(item.name + '.enddate', {type: `string`,common: {name: newdate},native: {}});
+            //adapter.setObjectAsync(item.name + '.enddate', {type: `string`,common: {name: newdate},native: {}});
 
             var now = moment(new Date()); //todays date
             var duration = moment.duration(now.diff(newdate));
@@ -96,23 +159,38 @@ function updateresults(){
             var hours = duration.hours() * -1;
             var minutes = duration.minutes() * -1;
 
+
+            adapter.setState(item + ".name", item.name);  
+            adapter.setState(item + ".active", item.active);  
+            
+
+
             if (now.diff(newdate) >= 0){
                 // Countdown reached today -> disable countdown
-                adapter.setObjectAsync(item.name + '.reached', {type: `boolean`,common: {name: true},native: {}});
-                adapter.setObjectAsync(item.name + '.year', {type: `number`,common: {name: ''},native: {}});
-                adapter.setObjectAsync(item.name + '.month', {type: `number`,common: {name: ''},native: {}});
-                adapter.setObjectAsync(item.name + '.day', {type: `number`,common: {name: ''},native: {}});
-                adapter.setObjectAsync(item.name + '.hour', {type: `number`,common: {name: ''},native: {}});
-                adapter.setObjectAsync(item.name + '.minute', {type: `number`,common: {name: ''},native: {}});
+                //adapter.setObjectAsync(item.name + '.reached', {type: `boolean`,common: {name: true},native: {}});
+                //adapter.setObjectAsync(item.name + '.year', {type: `number`,common: {name: ''},native: {}});
+                //adapter.setObjectAsync(item.name + '.month', {type: `number`,common: {name: ''},native: {}});
+                //adapter.setObjectAsync(item.name + '.day', {type: `number`,common: {name: ''},native: {}});
+                //adapter.setObjectAsync(item.name + '.hour', {type: `number`,common: {name: ''},native: {}});
+                //adapter.setObjectAsync(item.name + '.minute', {type: `number`,common: {name: ''},native: {}});
+                adapter.setState(item + ".years", 0);  
+                adapter.setState(item + ".months", 0);  
+                adapter.setState(item + ".days", 0);  
+                adapter.setState(item + ".hours", 0);  
+                adapter.setState(item + ".minutes", 0);  
+                adapter.setState(item + ".InWordsShort", '');  
+                adapter.setState(item + ".InWordsLong", '');  
+                adapter.setState(item + ".reached", true);  
+
             }
             else{
                 // Countdown not reached -> update values
-                adapter.setObjectAsync(item.name + '.reached', {type: `boolean`,common: {name: false},native: {}});
-                adapter.setObjectAsync(item.name + '.year', {type: `number`,common: {name: years},native: {}});
-                adapter.setObjectAsync(item.name + '.month', {type: `number`,common: {name: months},native: {}});
-                adapter.setObjectAsync(item.name + '.day', {type: `number`,common: {name: days},native: {}});
-                adapter.setObjectAsync(item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
-                adapter.setObjectAsync(item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
+                //adapter.setObjectAsync(item.name + '.reached', {type: `boolean`,common: {name: false},native: {}});
+                //adapter.setObjectAsync(item.name + '.year', {type: `number`,common: {name: years},native: {}});
+                //adapter.setObjectAsync(item.name + '.month', {type: `number`,common: {name: months},native: {}});
+                //adapter.setObjectAsync(item.name + '.day', {type: `number`,common: {name: days},native: {}});
+                //adapter.setObjectAsync(item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
+                //adapter.setObjectAsync(item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
 
                 var CountDowninWordsShort = '';
                 if (years != 0){
@@ -128,7 +206,7 @@ function updateresults(){
                     CountDowninWordsShort += ' ' + hours+'H';
                 }
                 CountDowninWordsShort += minutes+'M';
-                adapter.setObjectAsync(item.name + '.inwordsshort', {type: `string`,common: {name: CountDowninWordsShort},native: {}});
+                //adapter.setObjectAsync(item.name + '.inwordsshort', {type: `string`,common: {name: CountDowninWordsShort},native: {}});
 
                 var CountDowninWordsLong = '';
                 if (years != 0){
@@ -169,8 +247,21 @@ function updateresults(){
                 else{
                     CountDowninWordsLong = minutes+'Minute ';
                 } 
-                adapter.setObjectAsync(item.name + '.inwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
+                //adapter.setObjectAsync(item.name + '.inwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
+
+                adapter.setState(item + ".years", years);  
+                adapter.setState(item + ".months", months);  
+                adapter.setState(item + ".days", days);  
+                adapter.setState(item + ".hours", hours);  
+                adapter.setState(item + ".minutes", minutes);  
+                adapter.setState(item + ".inWordsShort", CountDowninWordsLong);  
+                adapter.setState(item + ".inWordsLong", CountDowninWordsShort);  
+                adapter.setState(item + ".reached", false);  
+
             }
+
+            
+
             //adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
             //adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
 
