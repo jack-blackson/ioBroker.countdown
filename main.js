@@ -27,9 +27,9 @@ function startAdapter(options) {
     });
 
     adapter = new utils.Adapter(options);
-    createObjects()
 
     return adapter;
+    createObjects()
 }
 
 
