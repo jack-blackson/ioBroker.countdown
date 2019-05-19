@@ -92,18 +92,15 @@
 
         obj.setup = table2values('setup');
 
-
-
-
         var newValues = table2values();
         var tasks = [];
         var names = [];
 
 
         // delete all channels
-        getStates(function (err, states) {
+        getDevices(function (err, devices) {
         for(var d = 0; d < devices.length; d++) {
-            deleteState(states[d]._id);
+            deleteDevice(devices[d]._id);
             }
         });
 
@@ -228,8 +225,8 @@
                         role:           newValues[v].role
                     },
                     native: {
-                        name:           newValues[v].name
-                        //regex:          newValues[v].regex,
+                        name:           newValues[v].name,
+                        active:          newValues[v].active
                         //interval:       newValues[v].interval,
                         //factor:         newValues[v].factor,
                         //item:           newValues[v].item,
@@ -237,7 +234,7 @@
                         //substitute:     newValues[v].substitute,
                         //substituteOld:  newValues[v].substituteOld
                     },
-                    type: 'state'
+                    type: 'device'
                 });
             //}
 
