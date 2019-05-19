@@ -11,6 +11,8 @@
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const moment = require('moment');
+var AdapterStarted;
+
 let adapter;
 startAdapter()
 
@@ -29,16 +31,18 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     return adapter;
-    createObjects()
 }
 
 
 function main() {
-
     adapter.log.info('Alarm Active:' + countdownenabled());
     //updatemasterdataobjects()
     //cleanresults()
     //createObjects()
+    if (AdapterStarted == false){
+        createObjects()
+        AdapterStarted = true
+    }
     if (countdownenabled()) {
         updateresults()
     }
