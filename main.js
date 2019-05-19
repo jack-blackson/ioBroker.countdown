@@ -35,13 +35,13 @@ function main() {
 
     adapter.log.info('Alarm Active:' + countdownenabled());
     updatemasterdataobjects()
-    cleanresults()
-    if (countdownenabled()) {
-        updateresults()
-    }
-    else{
-        adapter.log.info('No active countdown');
-    }
+    //cleanresults()
+    //if (countdownenabled()) {
+        //updateresults()
+    //}
+    //else{
+    //    adapter.log.info('No active countdown');
+    //}
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
@@ -63,7 +63,7 @@ function cleanresults(){
 
         }});
     */
-   adapter.deleteChannel('results', 'Days');
+   //adapter.deleteChannel('results', 'Days');
 }
 
 function updateresults(){
@@ -171,15 +171,17 @@ function updatemasterdataobjects(){
 
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
 
-            adapter.setObjectAsync('masterdata.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.year', {type: `number`,common: {name: item.year},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.month', {type: `number`,common: {name: item.month},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.day', {type: `number`,common: {name: item.day},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.hour', {type: `number`,common: {name: item.hour},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.minute', {type: `number`,common: {name: item.minute},native: {}});
-            adapter.setObjectAsync('masterdata.'+item.name + '.datetime', {type: `string`,common: {name: newdate},native: {}});
+            adapter.setObjectAsync(item.name, {type: `device`,common: {name: item.name},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" , {type: `channel`,common: {name: 'masterdata'},native: {}});
+
+            adapter.setObjectAsync(item.name + ".masterdata" + '.active', {type: `boolean`,common: {name: item.active},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.name', {type: `string`,common: {name: item.name},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.year', {type: `number`,common: {name: item.year},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.month', {type: `number`,common: {name: item.month},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.day', {type: `number`,common: {name: item.day},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.hour', {type: `number`,common: {name: item.hour},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.minute', {type: `number`,common: {name: item.minute},native: {}});
+            adapter.setObjectAsync(item.name + ".masterdata" + '.datetime', {type: `string`,common: {name: newdate},native: {}});
 
         }
     }

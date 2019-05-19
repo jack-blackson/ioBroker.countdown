@@ -41,22 +41,5 @@
           "interval": 120000
       },
       "objects": [],
-      "instanceObjects": [
-        {
-            "_id": "masterdata",
-            "type": "channel",
-            "common": {
-                "name": "Countdown Info"
-            },
-            "native": {}
-        },
-        {
-            "_id": "results",
-            "type": "channel",
-            "common": {
-                "name": "Results"
-            },
-            "native": {}
-        }
-    ]
+      "instanceObjects": []
   }
