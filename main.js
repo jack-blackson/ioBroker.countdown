@@ -146,6 +146,7 @@ function updateresults(){
 
     const setup = adapter.config.setup;
         for (const item of setup){
+            adapter.log.info('Update für:' + item.name);
 
             //adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
             //adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
