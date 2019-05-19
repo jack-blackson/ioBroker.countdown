@@ -224,9 +224,40 @@
 
 
         //updatemasterdataobjects();
-        callback(obj);
+        processTasks(tasks, function () {
+            values = newValues;
+            callback(obj);
+        });
+        //callback(obj);
     }
 
+    function processTasks(tasks, cb) {
+        if (!tasks || !tasks.length) {
+            cb && cb();
+            return;
+        }
+        var task = tasks.pop();
+        if (typeof task === 'object') {
+            socket.emit('setObject', task._id, task, function (err) {
+                if (err) console.error(err);
+                setTimeout(function () {
+                    processTasks(tasks, cb);
+                }, 0);
+            });
+        } else {
+            socket.emit('delState', task, function (err) {
+                if (err) console.error(err);
+                socket.emit('delObject', task, function (err) {
+                    if (err) console.error(err);
+                    setTimeout(function () {
+                        processTasks(tasks, cb);
+                    }, 0);
+                });
+            });
+        }
+    }
+
+    /*
     function updatemasterdataobjects(){
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
@@ -250,10 +281,10 @@
 
         }
     }
-    else{
+    else
         // no countdown available
     }
-    }
+    }*/
 
 </script>
 <style>
