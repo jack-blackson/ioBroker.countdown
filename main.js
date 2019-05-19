@@ -56,14 +56,16 @@ function createObjects(){
             write: false, 
             name: "Name", 
             type: "string", 
-            def: false
+            def: false,
+            role: 'state'
           });
         adapter.createState(item + ".active", false, {
             read: true, 
             write: false, 
             name: "Active", 
             type: "boolean", 
-            def: false
+            def: false,
+            role: 'state'
           });
           adapter.setState(item + ".name", item.name);  
         
