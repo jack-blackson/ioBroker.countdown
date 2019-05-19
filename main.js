@@ -34,7 +34,7 @@ function startAdapter(options) {
 function main() {
 
     adapter.log.info('Alarm Active:' + countdownenabled());
-    updatemasterdataobjects()
+    //updatemasterdataobjects()
     //cleanresults()
     //if (countdownenabled()) {
         //updateresults()
