@@ -101,9 +101,9 @@
 
 
         // delete all channels
-        adapter.getStates(function (err, states) {
+        getStates(function (err, states) {
         for(var d = 0; d < devices.length; d++) {
-            adapter.deleteState(states[d]._id);
+            deleteState(states[d]._id);
             }
         });
 
@@ -117,6 +117,19 @@
                 showError(_('Duplicate names are not allowed'));
                 return;
             }
+            if (!newValues[v].year) {
+                showMessage(_('Empty year are not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (!newValues[v].month) {
+                showMessage(_('Empty month are not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (!newValues[v].day) {
+                showMessage(_('Empty day are not allowed'), _('Error'), 'alert');
+                return;
+            }
+
             names.push(newValues[v].name);
             var found = false;
             var t;
