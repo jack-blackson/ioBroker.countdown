@@ -28,6 +28,8 @@ function startAdapter(options) {
         ready: () => main()
     });
 
+    AdapterStarted = false;
+
     adapter = new utils.Adapter(options);
 
     return adapter;
@@ -143,10 +145,6 @@ function createObjects(){
 function updateresults(){
     const setup = adapter.config.setup;
         for (const item of setup){
-
-           
-
-
 
             //adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
             //adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
