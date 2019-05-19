@@ -61,7 +61,7 @@ function createObjects(){
     for (const item of setup){
         adapter.createState('', item.name, 'name', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Name", 
             type: "string", 
             def: item.name,
@@ -69,7 +69,7 @@ function createObjects(){
           });
         adapter.createState('', item.name, 'active', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Active", 
             type: "boolean", 
             def: item.active,
@@ -77,7 +77,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'reached', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Reached", 
             type: "boolean", 
             def: false,
@@ -85,7 +85,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'years', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Years", 
             type: "number", 
             def: 0,
@@ -93,7 +93,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'months', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Months", 
             type: "number", 
             def: 0,
@@ -101,7 +101,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'days', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Days", 
             type: "number", 
             def: 0,
@@ -109,7 +109,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'hours', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Hours", 
             type: "number", 
             def: 0,
@@ -117,7 +117,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'minutes', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Minutes", 
             type: "number", 
             def: 0,
@@ -125,7 +125,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'inWordsLong', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Result in Words Long", 
             type: "string", 
             def: '',
@@ -133,7 +133,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'inWordsShort', {
             read: true, 
-            write: false, 
+            write: true, 
             name: "Result in Words Short", 
             type: "string", 
             def: '',
