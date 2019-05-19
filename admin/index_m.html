@@ -94,7 +94,136 @@
 
 
 
-        updatemasterdataobjects();
+
+        var newValues = table2values();
+        var tasks = [];
+        var names = [];
+        for (var v = 0; v < newValues.length; v++) {
+            if (!newValues[v].name) {
+                showMessage(_('Empty names are not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (names.indexOf(newValues[v].name) !== -1) {
+                showError(_('Duplicate names are not allowed'));
+                return;
+            }
+            names.push(newValues[v].name);
+            var found = false;
+            var t;
+            // find same name in old values
+            /*
+            for (t = 0; t < values.length; t++) {
+                if (values[t].name === newValues[v].name) {
+                    found = true;
+                    break;
+                }
+            }
+            if (typeof newValues[v].factor === 'string') {
+                newValues[v].factor = newValues[v].factor.replace(',', '.');
+            }
+            if (typeof newValues[v].offset === 'string') {
+                newValues[v].offset = newValues[v].offset.replace(',', '.');
+            }
+            newValues[v].offset = parseFloat(newValues[v].offset) || 0;
+            newValues[v].factor = parseFloat(newValues[v].factor) || 1;
+            newValues[v].item   = parseInt(newValues[v].item, 10) || 0;
+            if (found) {
+                var _obj = values[t].obj;
+                var changed = false;
+                if (_obj.common.write !== !!newValues[v].write) {
+                    _obj.common.write = !!newValues[v].write;
+                    changed = true;
+                }
+                if (_obj.common.read !== true) {
+                    _obj.common.read = true;
+                    changed = true;
+                }
+                if (_obj.common.unit !== newValues[v].unit) {
+                    _obj.common.unit = newValues[v].unit;
+                    changed = true;
+                }
+                var type = newValues[v].type;
+                if (newValues[v].type === 'commaNumber') type = 'number';
+                var comma = (newValues[v].type === 'commaNumber');
+                if (_obj.common.type !== type) {
+                    _obj.common.type = type;
+                    changed = true;
+                }
+                _obj.native.comma = !!_obj.native.comma;
+                if (_obj.native.comma !== comma) {
+                    _obj.native.comma = comma;
+                    changed = true;
+                }
+                if (_obj.common.role !== newValues[v].role) {
+                    _obj.common.role = newValues[v].role;
+                    changed = true;
+                }
+                if (_obj.native.link !== newValues[v].link) {
+                    _obj.native.link = newValues[v].link;
+                    changed = true;
+                }
+                if (_obj.native.regex !== newValues[v].regex) {
+                    _obj.native.regex = newValues[v].regex;
+                     changed = true;
+                }
+                if (_obj.native.interval !== newValues[v].interval) {
+                    _obj.native.interval = newValues[v].interval;
+                    changed = true;
+                }
+                if (_obj.native.item !== newValues[v].item) {
+                    _obj.native.item = newValues[v].item;
+                    changed = true;
+                }
+                if (_obj.native.substitute !== newValues[v].substitute) {
+                    _obj.native.substitute = newValues[v].substitute;
+                    changed = true;
+                }
+                if (_obj.native.substituteOld !== newValues[v].substituteOld) {
+                    _obj.native.substituteOld = newValues[v].substituteOld;
+                    changed = true;
+                }
+                if (_obj.native.factor !== newValues[v].factor) {
+                    _obj.native.factor = newValues[v].factor;
+                    changed = true;
+                }
+                if (_obj.native.offset !== newValues[v].offset) {
+                    _obj.native.offset = newValues[v].offset;
+                    changed = true;
+                }
+                
+                if (changed) tasks.push(_obj);
+            } else {
+            */
+                tasks.push({
+                    _id:            adapter + '.' + instance + '.' + newValues[v].name.replace(/[()\[\]\\\/*?\s]/g, '_'),
+                    common: {
+                        name:           newValues[v].name,
+                        write:          !!newValues[v].write,
+                        read:           true,
+                        unit:           newValues[v].unit,
+                        type:           newValues[v].type,
+                        role:           newValues[v].role
+                    },
+                    native: {
+                        name:           newValues[v].name
+                        //regex:          newValues[v].regex,
+                        //interval:       newValues[v].interval,
+                        //factor:         newValues[v].factor,
+                        //item:           newValues[v].item,
+                        //offset:         newValues[v].offset,
+                        //substitute:     newValues[v].substitute,
+                        //substituteOld:  newValues[v].substituteOld
+                    },
+                    type: 'state'
+                });
+            //}
+
+
+        }    
+
+
+
+        //updatemasterdataobjects();
         callback(obj);
     }
 
