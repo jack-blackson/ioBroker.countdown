@@ -38,7 +38,7 @@ function main() {
     //cleanresults()
     createObjects()
     if (countdownenabled()) {
-        //updateresults()
+        updateresults()
     }
     else{
         adapter.log.info('No active countdown');
