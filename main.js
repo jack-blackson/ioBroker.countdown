@@ -85,7 +85,7 @@ function createObjects(){
           });
           adapter.createState('', item.name, 'years', {
             read: true, 
-            write: true, 
+            write: false, 
             name: "Years", 
             type: "number", 
             def: 0,
@@ -165,8 +165,8 @@ function updateresults(){
             var hours = duration.hours() * -1;
             var minutes = duration.minutes() * -1;
 
-
-            adapter.setState(item + ".name", item.name);  
+            //adapter.setState(item + ".name", item.name);  
+            adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
             adapter.setState(item + ".active", item.active);  
             
 
