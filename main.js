@@ -36,8 +36,9 @@ function main() {
     adapter.log.info('Alarm Active:' + countdownenabled());
     //updatemasterdataobjects()
     //cleanresults()
+    createObjects()
     if (countdownenabled()) {
-        updateresults()
+        //updateresults()
     }
     else{
         adapter.log.info('No active countdown');
@@ -47,15 +48,44 @@ function main() {
     adapter.subscribeStates('*')
 }
 
+function createObjects(){
+    const setup = adapter.config.setup;
+    for (const item of setup){
+        adapter.createState(item + ".name", false, {
+            read: true, 
+            write: false, 
+            name: "Name", 
+            type: "string", 
+            def: false
+          });
+        adapter.createState(item + ".active", false, {
+            read: true, 
+            write: false, 
+            name: "Active", 
+            type: "boolean", 
+            def: false
+          });
+          adapter.setState(item + ".name", item.name);  
+        
+        //adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
+        //adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
 
+    }
+}
 
 function updateresults(){
     const setup = adapter.config.setup;
         for (const item of setup){
+
+            adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
+            adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
+
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
 
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
+            adapter.setObjectAsync(item.name + '.enddate', {type: `string`,common: {name: newdate},native: {}});
+
             var now = moment(new Date()); //todays date
             var duration = moment.duration(now.diff(newdate));
             var years = duration.years() * -1;
@@ -145,6 +175,7 @@ function updateresults(){
         }
 }
 
+/*
 function updatemasterdataobjects(){
     if (adapter.config.setup) {
         const setup = adapter.config.setup;
@@ -157,8 +188,8 @@ function updatemasterdataobjects(){
             adapter.setObjectAsync(item.name, {type: `device`,common: {name: item.name},native: {}});
             adapter.setObjectAsync(item.name + ".masterdata" , {type: `channel`,common: {name: 'masterdata'},native: {}});
 
-            adapter.setObjectAsync(item.name + ".masterdata" + '.active', {type: `boolean`,common: {name: item.active},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" + '.name', {type: `string`,common: {name: item.name},native: {}});
+           
+            
             adapter.setObjectAsync(item.name + ".masterdata" + '.year', {type: `number`,common: {name: item.year},native: {}});
             adapter.setObjectAsync(item.name + ".masterdata" + '.month', {type: `number`,common: {name: item.month},native: {}});
             adapter.setObjectAsync(item.name + ".masterdata" + '.day', {type: `number`,common: {name: item.day},native: {}});
@@ -172,6 +203,97 @@ function updatemasterdataobjects(){
         // no countdown available
     }
 }
+*/
+
+/*
+const tasks = [];
+
+function insertIntoList(key, value, unit) {
+
+    try {
+
+        adapter.log.debug('insert ' + key + ' with ' + value  );
+
+        let obj;
+        let d = key.match(/Day_(\d)\./);
+        if (d) {
+            d = parseInt(d[1], 10) - 1;
+            if (key.match(/\.Location$/)) {
+                obj = {
+                    type: 'state',
+                    common: {
+                        name: 'Active',
+                        type: 'string',
+                        role: 'active',
+                        read: true,
+                        write: false
+                    }
+                };
+            
+            } else if (key.match(/\.Tag_value/)) {
+                obj = {
+                    type: 'state',
+                    common: {
+                        name: 'Day name',
+                        type: 'string',
+                        role: 'dayofweek.forecast.' + d,
+                        read: true,
+                        write: false
+                    }
+                };
+            } else if (key.match(/\.Wetter_Symbol_id/) || key.match(/\.Wetter_Symbol_id2/)) {
+                obj = {
+                    type: 'state',
+                    common: {
+                        name: 'Weather icon name',
+                        type: 'number',
+                        role: 'weather.icon.name.forecast.' + d,
+
+                        read: true,
+                        write: false
+                    }
+                };
+
+            } else if (key.match(/\.sun_out/)) {
+                obj = {
+                    type: 'state',
+                    common: {
+                        name: 'sun set',
+                        type: 'string',
+                        role: 'weather.sun.out.forecast.' + d,
+
+                        read: true,
+                        write: false
+                    }
+                };
+            }
+        }
+
+        obj = obj || {
+            type: 'state',
+            common: {
+                name: 'data',
+                type: 'string',
+                role: 'state',
+                unit: '',
+                read: true,
+                write: false
+            }
+        };
+
+        tasks.push({
+            name: 'add',
+            key: key,
+            obj: obj,
+            value: value
+        });
+
+    } catch (e) {
+        adapter.log.error('exception in insertIntoList [' + e + ']');
+    }
+}
+*/
+
 
 
 function countdownenabled(){
