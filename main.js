@@ -143,8 +143,10 @@ function createObjects(){
 }
 
 function updateresults(){
+
     const setup = adapter.config.setup;
         for (const item of setup){
+            adapter.log.info('Werte aktualisiert');
 
             //adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
             //adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
@@ -271,126 +273,6 @@ function updateresults(){
 
         }
 }
-
-/*
-function updatemasterdataobjects(){
-    if (adapter.config.setup) {
-        const setup = adapter.config.setup;
-        for (const item of setup){
-            let datestring = "";
-            datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
-
-            var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
-
-            adapter.setObjectAsync(item.name, {type: `device`,common: {name: item.name},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" , {type: `channel`,common: {name: 'masterdata'},native: {}});
-
-           
-            
-            adapter.setObjectAsync(item.name + ".masterdata" + '.year', {type: `number`,common: {name: item.year},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" + '.month', {type: `number`,common: {name: item.month},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" + '.day', {type: `number`,common: {name: item.day},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" + '.hour', {type: `number`,common: {name: item.hour},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" + '.minute', {type: `number`,common: {name: item.minute},native: {}});
-            adapter.setObjectAsync(item.name + ".masterdata" + '.datetime', {type: `string`,common: {name: newdate},native: {}});
-
-        }
-    }
-    else{
-        // no countdown available
-    }
-}
-*/
-
-/*
-const tasks = [];
-
-function insertIntoList(key, value, unit) {
-
-    try {
-
-        adapter.log.debug('insert ' + key + ' with ' + value  );
-
-        let obj;
-        let d = key.match(/Day_(\d)\./);
-        if (d) {
-            d = parseInt(d[1], 10) - 1;
-            if (key.match(/\.Location$/)) {
-                obj = {
-                    type: 'state',
-                    common: {
-                        name: 'Active',
-                        type: 'string',
-                        role: 'active',
-                        read: true,
-                        write: false
-                    }
-                };
-            
-            } else if (key.match(/\.Tag_value/)) {
-                obj = {
-                    type: 'state',
-                    common: {
-                        name: 'Day name',
-                        type: 'string',
-                        role: 'dayofweek.forecast.' + d,
-                        read: true,
-                        write: false
-                    }
-                };
-            } else if (key.match(/\.Wetter_Symbol_id/) || key.match(/\.Wetter_Symbol_id2/)) {
-                obj = {
-                    type: 'state',
-                    common: {
-                        name: 'Weather icon name',
-                        type: 'number',
-                        role: 'weather.icon.name.forecast.' + d,
-
-                        read: true,
-                        write: false
-                    }
-                };
-
-            } else if (key.match(/\.sun_out/)) {
-                obj = {
-                    type: 'state',
-                    common: {
-                        name: 'sun set',
-                        type: 'string',
-                        role: 'weather.sun.out.forecast.' + d,
-
-                        read: true,
-                        write: false
-                    }
-                };
-            }
-        }
-
-        obj = obj || {
-            type: 'state',
-            common: {
-                name: 'data',
-                type: 'string',
-                role: 'state',
-                unit: '',
-                read: true,
-                write: false
-            }
-        };
-
-        tasks.push({
-            name: 'add',
-            key: key,
-            obj: obj,
-            value: value
-        });
-
-    } catch (e) {
-        adapter.log.error('exception in insertIntoList [' + e + ']');
-    }
-}
-*/
-
 
 
 function countdownenabled(){
