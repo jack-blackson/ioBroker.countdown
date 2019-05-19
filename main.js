@@ -146,7 +146,6 @@ function updateresults(){
 
     const setup = adapter.config.setup;
         for (const item of setup){
-            adapter.log.info('Werte aktualisiert');
 
             //adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
             //adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
@@ -166,7 +165,8 @@ function updateresults(){
             var minutes = duration.minutes() * -1;
 
             //adapter.setState(item + ".name", item.name);  
-            adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
+            adapter.setState(item.name + '.name', item.name, true/*ack*/); 
+            //adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
             adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
 
 
