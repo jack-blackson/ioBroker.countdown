@@ -51,7 +51,7 @@ function main() {
 function createObjects(){
     const setup = adapter.config.setup;
     for (const item of setup){
-        adapter.createState(item + ".name", false, {
+        adapter.createState(item.name + ".name", item.name, {
             read: true, 
             write: false, 
             name: "Name", 
@@ -59,7 +59,7 @@ function createObjects(){
             def: false,
             role: 'state'
           });
-        adapter.createState(item + ".active", false, {
+        adapter.createState(item.name + ".active", item.active, {
             read: true, 
             write: false, 
             name: "Active", 
