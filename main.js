@@ -36,7 +36,7 @@ function main() {
     adapter.log.info('Alarm Active:' + countdownenabled());
     //updatemasterdataobjects()
     //cleanresults()
-    createObjects()
+    //createObjects()
     if (countdownenabled()) {
         updateresults()
     }
@@ -56,7 +56,7 @@ function createObjects(){
             write: false, 
             name: "Name", 
             type: "string", 
-            def: false,
+            def: item.name,
             role: 'value'
           });
         adapter.createState('', item.name, 'active', {
@@ -64,7 +64,7 @@ function createObjects(){
             write: false, 
             name: "Active", 
             type: "boolean", 
-            def: false,
+            def: item.active,
             role: 'value'
           });
           adapter.createState('', item.name, 'reached', {
@@ -80,7 +80,7 @@ function createObjects(){
             write: false, 
             name: "Years", 
             type: "number", 
-            def: false,
+            def: 0,
             role: 'value'
           });
           adapter.createState('', item.name, 'months', {
@@ -88,7 +88,7 @@ function createObjects(){
             write: false, 
             name: "Months", 
             type: "number", 
-            def: false,
+            def: 0,
             role: 'value'
           });
           adapter.createState('', item.name, 'days', {
@@ -96,7 +96,7 @@ function createObjects(){
             write: false, 
             name: "Days", 
             type: "number", 
-            def: false,
+            def: 0,
             role: 'value'
           });
           adapter.createState('', item.name, 'hours', {
@@ -104,7 +104,7 @@ function createObjects(){
             write: false, 
             name: "Hours", 
             type: "number", 
-            def: false,
+            def: 0,
             role: 'value'
           });
           adapter.createState('', item.name, 'minutes', {
@@ -112,7 +112,7 @@ function createObjects(){
             write: false, 
             name: "Minutes", 
             type: "number", 
-            def: false,
+            def: 0,
             role: 'value'
           });
           adapter.createState('', item.name, 'inWordsLong', {
@@ -120,7 +120,7 @@ function createObjects(){
             write: false, 
             name: "Result in Words Long", 
             type: "string", 
-            def: false,
+            def: '',
             role: 'value'
           });
           adapter.createState('', item.name, 'inWordsShort', {
@@ -128,7 +128,7 @@ function createObjects(){
             write: false, 
             name: "Result in Words Short", 
             type: "string", 
-            def: false,
+            def: '',
             role: 'value'
           });
     }
