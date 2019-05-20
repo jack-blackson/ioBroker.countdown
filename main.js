@@ -139,6 +139,14 @@ function createObjects(){
             def: '',
             role: 'value'
           });
+          adapter.createState('', item.name, 'endDate', {
+            read: true, 
+            write: false, 
+            name: "Enddate", 
+            type: "string", 
+            def: '',
+            role: 'value'
+          });
     }
 }
 
@@ -165,47 +173,26 @@ function updateresults(){
             var hours = duration.hours() * -1;
             var minutes = duration.minutes() * -1;
 
-            //adapter.setState(item + ".name", item.name);  
-            adapter.setState(item.name + '.name', item.name, true/*ack*/); 
-            //adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
-            adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
+            adapter.setState({state: 'name'}, {val: item.name, ack: true});
+            //adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
+            //adapter.setState({device: item.name , state: 'endDate'}, {val: newdate, ack: true});
 
 
 
             if (now.diff(newdate) >= 0){
-                // Countdown reached today -> disable countdown
-                //adapter.setObjectAsync(item.name + '.reached', {type: `boolean`,common: {name: true},native: {}});
-                //adapter.setObjectAsync(item.name + '.year', {type: `number`,common: {name: ''},native: {}});
-                //adapter.setObjectAsync(item.name + '.month', {type: `number`,common: {name: ''},native: {}});
-                //adapter.setObjectAsync(item.name + '.day', {type: `number`,common: {name: ''},native: {}});
-                //adapter.setObjectAsync(item.name + '.hour', {type: `number`,common: {name: ''},native: {}});
-                //adapter.setObjectAsync(item.name + '.minute', {type: `number`,common: {name: ''},native: {}});
-                adapter.setState(item + ".years", 0);  
-                adapter.setState(item + ".months", 0);  
-                adapter.setState(item + ".days", 0);  
-                adapter.setState(item + ".hours", 0);  
-                adapter.setState(item + ".minutes", 0);  
-                adapter.setState(item + ".InWordsShort", '');  
-                adapter.setState(item + ".InWordsLong", '');  
-                adapter.setState(item + ".reached", true);  
-                adapter.setState({device: item.name , state: 'years'}, {val: 0, ack: true});
-                adapter.setState({device: item.name , state: 'months'}, {val: 0, ack: true});
-                adapter.setState({device: item.name , state: 'days'}, {val: 0, ack: true});
-                adapter.setState({device: item.name , state: 'hours'}, {val: 0, ack: true});
-                adapter.setState({device: item.name , state: 'minutes'}, {val: 0, ack: true});
-                adapter.setState({device: item.name , state: 'inWordsShort'}, {val: '', ack: true});
-                adapter.setState({device: item.name , state: 'inWordsLong'}, {val: '', ack: true});
-                adapter.setState({device: item.name , state: 'reached'}, {val: true, ack: true});
+                // Countdown reached today -> disable countdown 
+                //adapter.setState({device: item.name , state: 'years'}, {val: 0, ack: true});
+                //adapter.setState({device: item.name , state: 'months'}, {val: 0, ack: true});
+                //adapter.setState({device: item.name , state: 'days'}, {val: 0, ack: true});
+                //adapter.setState({device: item.name , state: 'hours'}, {val: 0, ack: true});
+                //adapter.setState({device: item.name , state: 'minutes'}, {val: 0, ack: true});
+                //adapter.setState({device: item.name , state: 'inWordsShort'}, {val: '', ack: true});
+                //adapter.setState({device: item.name , state: 'inWordsLong'}, {val: '', ack: true});
+                //adapter.setState({device: item.name , state: 'reached'}, {val: true, ack: true});
 
             }
             else{
                 // Countdown not reached -> update values
-                //adapter.setObjectAsync(item.name + '.reached', {type: `boolean`,common: {name: false},native: {}});
-                //adapter.setObjectAsync(item.name + '.year', {type: `number`,common: {name: years},native: {}});
-                //adapter.setObjectAsync(item.name + '.month', {type: `number`,common: {name: months},native: {}});
-                //adapter.setObjectAsync(item.name + '.day', {type: `number`,common: {name: days},native: {}});
-                //adapter.setObjectAsync(item.name + '.hour', {type: `number`,common: {name: hours},native: {}});
-                //adapter.setObjectAsync(item.name + '.minute', {type: `number`,common: {name: minutes},native: {}});
 
                 var CountDowninWordsShort = '';
                 if (years != 0){
@@ -221,7 +208,6 @@ function updateresults(){
                     CountDowninWordsShort += ' ' + hours+'H';
                 }
                 CountDowninWordsShort += minutes+'M';
-                //adapter.setObjectAsync(item.name + '.inwordsshort', {type: `string`,common: {name: CountDowninWordsShort},native: {}});
 
                 var CountDowninWordsLong = '';
                 if (years != 0){
@@ -264,21 +250,16 @@ function updateresults(){
                 } 
                 //adapter.setObjectAsync(item.name + '.inwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
 
-                adapter.setState({device: item.name , state: 'years'}, {val: years, ack: true});
-                adapter.setState({device: item.name , state: 'months'}, {val: months, ack: true});
-                adapter.setState({device: item.name , state: 'days'}, {val: days, ack: true});
-                adapter.setState({device: item.name , state: 'hours'}, {val: hours, ack: true});
-                adapter.setState({device: item.name , state: 'minutes'}, {val: minutes, ack: true});
-                adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
-                adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsShort, ack: true});
-                adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
+               // adapter.setState({device: item.name , state: 'years'}, {val: years, ack: true});
+                //adapter.setState({device: item.name , state: 'months'}, {val: months, ack: true});
+               // adapter.setState({device: item.name , state: 'days'}, {val: days, ack: true});
+               // adapter.setState({device: item.name , state: 'hours'}, {val: hours, ack: true});
+               // adapter.setState({device: item.name , state: 'minutes'}, {val: minutes, ack: true});
+               // adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
+               // adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
+               // adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
 
             }
-
-            
-
-            //adapter.setObjectAsync('results.'+item.name, {type: `channel`,common: {name: item.name},native: {}});
-            //adapter.setObjectAsync('results.'+item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
 
         }
 }
@@ -301,12 +282,3 @@ function countdownenabled(){
     return alarmactive
 
 } 
-
-/*
-// If started as allInOne/compact mode => return function to create instance
-if (module && module.parent) {
-    module.exports = startAdapter;
-} else {
-    // or start the instance directly
-} 
-*/
