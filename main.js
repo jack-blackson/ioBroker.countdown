@@ -43,6 +43,7 @@ function main() {
     //createObjects()
     if (AdapterStarted == false){
         createObjects()
+        clearOldChannels()
         AdapterStarted = true
     }
     if (countdownenabled()) {
@@ -54,6 +55,17 @@ function main() {
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
+}
+
+function clearOldChannels(){
+    const objects = adapter;
+    const setup = adapter.config.setup
+    for (const object of objects){
+        adapter.log.info('Check object '+ object.name);
+        var arraycontainsturtles = (setup.name.indexOf(object.name) > -1);
+        adapter.log.info('array check '+ arraycontainsturtles);
+
+    }
 }
 
 function createObjects(){
