@@ -59,11 +59,11 @@ function main() {
 
 function clearOldChannels(){
     const objectsState = adapter.getAdapterObjects('states');
-    adapter.log.info('ObjectsState'+ objectsState.name);
+    adapter.log.info('ObjectsState'+ objectsState);
     const setup = adapter.config.setup
     for (const objectState of objectsState){
-        adapter.log.info('Check object '+ objectState.name);
-        var arraycontainsturtles = (setup.name.indexOf(objectState.name) > -1);
+        adapter.log.info('Check object '+ objectState);
+        var arraycontainsturtles = (setup.name.indexOf(objectState) > -1);
         adapter.log.info('array check '+ arraycontainsturtles);
 
     }
