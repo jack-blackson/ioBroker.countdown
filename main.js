@@ -58,7 +58,7 @@ function main() {
 }
 
 function clearOldChannels(){
-    const objects = adapter.objects;
+    const objects = adapter.getAdapterObjects('states');
     const setup = adapter.config.setup
     for (const object of objects){
         adapter.log.info('Check object '+ object.name);
