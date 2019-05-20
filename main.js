@@ -58,7 +58,7 @@ function main() {
 }
 
 function clearOldChannels(){
-    const objects = adapter;
+    const objects = adapter.objects;
     const setup = adapter.config.setup
     for (const object of objects){
         adapter.log.info('Check object '+ object.name);
@@ -168,14 +168,11 @@ function updateresults(){
         for (const item of setup){
             adapter.log.info('Update für:' + item.name);
 
-            //adapter.setObjectAsync(item.name + '.active', {type: `boolean`,common: {name: item.active},native: {}});
-            //adapter.setObjectAsync(item.name + '.name', {type: `string`,common: {name: item.name},native: {}});
 
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
 
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
-            //adapter.setObjectAsync(item.name + '.enddate', {type: `string`,common: {name: newdate},native: {}});
 
             var now = moment(new Date()); //todays date
             var duration = moment.duration(now.diff(newdate));
@@ -185,22 +182,22 @@ function updateresults(){
             var hours = duration.hours() * -1;
             var minutes = duration.minutes() * -1;
 
-            adapter.setState({state: 'name'}, {val: item.name, ack: true});
-            //adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
-            //adapter.setState({device: item.name , state: 'endDate'}, {val: newdate, ack: true});
+            adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
+            adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
+            adapter.setState({device: item.name , state: 'endDate'}, {val: newdate, ack: true});
 
 
 
             if (now.diff(newdate) >= 0){
                 // Countdown reached today -> disable countdown 
-                //adapter.setState({device: item.name , state: 'years'}, {val: 0, ack: true});
-                //adapter.setState({device: item.name , state: 'months'}, {val: 0, ack: true});
-                //adapter.setState({device: item.name , state: 'days'}, {val: 0, ack: true});
-                //adapter.setState({device: item.name , state: 'hours'}, {val: 0, ack: true});
-                //adapter.setState({device: item.name , state: 'minutes'}, {val: 0, ack: true});
-                //adapter.setState({device: item.name , state: 'inWordsShort'}, {val: '', ack: true});
-                //adapter.setState({device: item.name , state: 'inWordsLong'}, {val: '', ack: true});
-                //adapter.setState({device: item.name , state: 'reached'}, {val: true, ack: true});
+                adapter.setState({device: item.name , state: 'years'}, {val: 0, ack: true});
+                adapter.setState({device: item.name , state: 'months'}, {val: 0, ack: true});
+                adapter.setState({device: item.name , state: 'days'}, {val: 0, ack: true});
+                adapter.setState({device: item.name , state: 'hours'}, {val: 0, ack: true});
+                adapter.setState({device: item.name , state: 'minutes'}, {val: 0, ack: true});
+                adapter.setState({device: item.name , state: 'inWordsShort'}, {val: '', ack: true});
+                adapter.setState({device: item.name , state: 'inWordsLong'}, {val: '', ack: true});
+                adapter.setState({device: item.name , state: 'reached'}, {val: true, ack: true});
 
             }
             else{
@@ -260,16 +257,15 @@ function updateresults(){
                 else{
                     CountDowninWordsLong = minutes+'Minute ';
                 } 
-                //adapter.setObjectAsync(item.name + '.inwordslong', {type: `string`,common: {name: CountDowninWordsLong},native: {}});
 
-               // adapter.setState({device: item.name , state: 'years'}, {val: years, ack: true});
-                //adapter.setState({device: item.name , state: 'months'}, {val: months, ack: true});
-               // adapter.setState({device: item.name , state: 'days'}, {val: days, ack: true});
-               // adapter.setState({device: item.name , state: 'hours'}, {val: hours, ack: true});
-               // adapter.setState({device: item.name , state: 'minutes'}, {val: minutes, ack: true});
-               // adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
-               // adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
-               // adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
+                adapter.setState({device: item.name , state: 'years'}, {val: years, ack: true});
+                adapter.setState({device: item.name , state: 'months'}, {val: months, ack: true});
+                adapter.setState({device: item.name , state: 'days'}, {val: days, ack: true});
+                adapter.setState({device: item.name , state: 'hours'}, {val: hours, ack: true});
+                adapter.setState({device: item.name , state: 'minutes'}, {val: minutes, ack: true});
+                adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
+                adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
+                adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
 
             }
 
