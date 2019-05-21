@@ -1,6 +1,8 @@
 ![Logo](admin/countdown.png)
 # ioBroker.countdown
 =================
+
+
 [![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown)
 <!--![Number of Installations](http://iobroker.live/badges/bring-installed.svg) ![Number of Installations](http://iobroker.live/badges/bring-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.bring.svg)](https://www.npmjs.com/package/iobroker.bring)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.bring.svg)](https://www.npmjs.com/package/iobroker.bring)
@@ -20,7 +22,7 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2019 Moritz Heusinger <moritz.heusinger@gmail.com>
+Copyright (c) 2019 jack-blackson <blacksonj7@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
