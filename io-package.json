@@ -1,11 +1,15 @@
 {
     "common": {
       "name": "countdown",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "news": {
         "0.1": {
           "en": "Initial version",
           "de": "Initiale Version "
+        },
+        "0.2": {
+          "en": "Ajusted packages",
+          "de": "Pakete angepasst "
         }
       },
       "title": "Countdown",

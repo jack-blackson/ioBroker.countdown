@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Countdown",
   "main": "main.js",
   "repository": {
@@ -17,20 +17,7 @@
   "bugs": {
     "url": "https://github.com/jack-blackson/ioBroker.countdown/issues"
   },
-
-  "news": {"0.1.0": {
-    "en": "initial version ",
-    "de": "Initiale Version "
-    }
-  },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
-    "commander": "^2.11.0",
-    "lodash.defaultto": "^4.14.0",
-    "lodash.groupby": "^4.6.0",
-    "lodash.isequal": "^4.5.0",
-    "loglevel": "^1.5.1",
-    "@iobroker/adapter-core": "^1.0.3",
     "moment":"2.24.0",
     "@iobroker/testing": "^1.2.0"
   },
