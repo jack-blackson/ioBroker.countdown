@@ -37,10 +37,6 @@ function startAdapter(options) {
 
 
 function main() {
-    adapter.log.info('Alarm Active:' + countdownenabled());
-    //updatemasterdataobjects()
-    //cleanresults()
-    //createObjects()
     if (AdapterStarted == false){
         createObjects()
         clearOldChannels()
@@ -58,18 +54,7 @@ function main() {
 }
 
 function clearOldChannels(){
-    /*
-    const objectsState = adapter.getAdapterObjects('states');
-    adapter.log.info('ObjectsState'+ objectsState);
-    const setup = adapter.config.setup
-    for (const objectState of objectsState){
-        adapter.log.info('Check object '+ objectState);
-        var arraycontainsturtles = (setup.name.indexOf(objectState) > -1);
-        adapter.log.info('array check '+ arraycontainsturtles);
-
-    }
-    */
-
+    // clear objects which were deleted in the setup - run once after adapter restart
    var setuparr = [];
    const setup = adapter.config.setup;
    for (const item of setup){
@@ -83,15 +68,11 @@ function clearOldChannels(){
 
         if (obj.type == 'channel'){
             var arraycontains = (setuparr.indexOf(obj.common.name) > -1);
-            adapter.log.info('array check '+ arraycontains);
             if (arraycontains == false){
                 adapter.deleteChannel(id1)
             }
-        }
-        
-  
+        }   
     }
-  
   });
 }
 
