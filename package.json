@@ -34,7 +34,10 @@
     "moment":"2.24.0"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "npm run test:package && npm run test:unit",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
+    "test:integration": "mocha test/integration --exit"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
