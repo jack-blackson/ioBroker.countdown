@@ -74,11 +74,12 @@ function clearOldChannels(){
     for (const id1 of Object.keys(objects)) {
         
         const obj = objects[id1];
-        const setup = adapter.config.setup
-        adapter.log.info('Check object1 '+ id1 );
         adapter.log.info('Check object6 '+ obj.common.name );
 
-        var arraycontains = (setup.name.indexOf(obj.common.name) > -1);
+        const setupnames = adapter.config.setup.name
+        adapter.log.info('Check object9 '+ setupnames );
+
+        var arraycontains = (setupnames.indexOf(obj.common.name) > -1);
         adapter.log.info('array check '+ arraycontains);
   
     }
