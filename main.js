@@ -75,9 +75,9 @@ function clearOldChannels(){
         
         const obj = objects[id];
         const setup = adapter.config.setup
-        adapter.log.info('Check object '+ id);
+        adapter.log.info('Check object '+ adapter.getObject(obj).name);
 
-        var arraycontains = (setup.name.indexOf(id) > -1);
+        var arraycontains = (setup.name.indexOf(adapter.getObject(obj).name) > -1);
         adapter.log.info('array check '+ arraycontains);
   
     }
