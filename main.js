@@ -75,9 +75,9 @@ function clearOldChannels(){
         
         const obj = objects[id];
         const setup = adapter.config.setup
-        adapter.log.info('Check object '+ obj);
-        var arraycontainsturtles = (setup.name.indexOf(obj) > -1);
-        adapter.log.info('array check '+ arraycontainsturtles);
+        adapter.log.info('Check object '+ obj.name);
+        var arraycontains = (setup.name.indexOf(obj.name) > -1);
+        adapter.log.info('array check '+ arraycontains);
       // Mit ID oder dem Objekt selbst weiterarbeiten...
   
     }
@@ -183,8 +183,6 @@ function updateresults(){
 
     const setup = adapter.config.setup;
         for (const item of setup){
-            adapter.log.info('Update für:' + item.name);
-
 
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
