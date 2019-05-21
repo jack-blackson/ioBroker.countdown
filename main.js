@@ -220,7 +220,7 @@ function updateresults(){
                     CountDowninWordsShort += days+'D';
                 }
                 if (hours != 0){
-                    CountDowninWordsShort += ' ' + hours+'H';
+                    CountDowninWordsShort += hours+'H';
                 }
                 CountDowninWordsShort += minutes+'M';
 
@@ -235,33 +235,33 @@ function updateresults(){
                 }
                 if (months != 0){
                     if (months > 1){
-                        CountDowninWordsLong = months+'Months ';
+                        CountDowninWordsLong = months+' Months ';
                     }
                     else{
-                        CountDowninWordsLong = months+'Month ';
+                        CountDowninWordsLong = months+' Month ';
                     }
                 }
                 if (days != 0){
                     if (days > 1){
-                        CountDowninWordsLong = days+'Days ';
+                        CountDowninWordsLong = days+' Days ';
                     }
                     else{
-                        CountDowninWordsLong = days+'Day ';
+                        CountDowninWordsLong = days+' Day ';
                     }
                 }
                 if (hours != 0){
                     if (hours > 1){
-                        CountDowninWordsLong = hours+'Hours ';
+                        CountDowninWordsLong = hours+' Hours ';
                     }
                     else{
-                        CountDowninWordsLong = hours+'Hour ';
+                        CountDowninWordsLong = hours+' Hour ';
                     } 
                 }
                 if (minutes > 1){
-                    CountDowninWordsLong = minutes+'Minutes ';
+                    CountDowninWordsLong = minutes+' Minutes ';
                 }
                 else{
-                    CountDowninWordsLong = minutes+'Minute ';
+                    CountDowninWordsLong = minutes+' Minute ';
                 } 
 
                 adapter.setState({device: item.name , state: 'years'}, {val: years, ack: true});
