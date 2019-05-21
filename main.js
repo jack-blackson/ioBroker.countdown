@@ -58,6 +58,7 @@ function main() {
 }
 
 function clearOldChannels(){
+    /*
     const objectsState = adapter.getAdapterObjects('states');
     adapter.log.info('ObjectsState'+ objectsState);
     const setup = adapter.config.setup
@@ -67,6 +68,21 @@ function clearOldChannels(){
         adapter.log.info('array check '+ arraycontainsturtles);
 
     }
+    */
+   adapter.getAdapterObjects((objects) => {
+
+    for (const id of Object.keys(objects)) {
+        
+        const obj = objects[id];
+        const setup = adapter.config.setup
+        adapter.log.info('Check object '+ obj);
+        var arraycontainsturtles = (setup.name.indexOf(obj) > -1);
+        adapter.log.info('array check '+ arraycontainsturtles);
+      // Mit ID oder dem Objekt selbst weiterarbeiten...
+  
+    }
+  
+  });
 }
 
 function createObjects(){
