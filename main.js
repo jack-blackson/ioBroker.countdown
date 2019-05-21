@@ -71,18 +71,13 @@ function clearOldChannels(){
     */
    adapter.getAdapterObjects((objects) => {
 
-    for (const id of Object.keys(objects)) {
+    for (const id1 of Object.keys(objects)) {
         
-        const obj = objects[id];
+        const obj = objects[id1];
         const setup = adapter.config.setup
-        adapter.log.info('Check object '+ obj);    
-        adapter.log.info('Check object1 '+ id );
-        adapter.log.info('Check object2 '+ obj.id );
-        adapter.log.info('Check object3 '+ obj.name );
-        adapter.log.info('Check object4 '+ adapter.getObject(obj).common.name );
-        adapter.log.info('Check object5 '+ adapter.getObject(obj).common.id );
-        adapter.log.info('Check object6 '+ adapter.getObject(id).common.name );
-        adapter.log.info('Check object8 '+ adapter.getObject(id).common.id );
+        adapter.log.info('Check object1 '+ id1 );
+        adapter.log.info('Check object6 '+ adapter.getObject(id1).common.name );
+        adapter.log.info('Check object8 '+ adapter.getObject(id1).common.id );
 
         const objName =  id
 
