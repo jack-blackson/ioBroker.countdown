@@ -50,61 +50,15 @@
         onChange(false);
         values2table('setup', setup, onChange);
     }
-    // ... and the function save has to exist.
-    // you have to make sure the callback is called with the settings object as first param!
     function save(callback) {
         var obj = {};
-        //var newValues = table2values();
-        /*
-        $('.value').each(function () {
-            var $this = $(this);
-            if ($this.attr('type') === 'checkbox') {
-                obj[$this.attr('id')] = $this.prop('checked');
-            } else {
-                obj[$this.attr('id')] = $this.val();
-            }
-        });
-        var newValues = table2values();
-        for (var v = 0; v < newValues.length; v++) {
-            if (!newValues[v].name) {
-                showMessage(_('Empty names are not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (names.indexOf(newValues[v].name) !== -1) {
-                showError(_('Duplicate names are not allowed'));
-                return;
-            }
-            if (!newValues[v].year) {
-                showMessage(_('Empty year is not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (!newValues[v].month) {
-                showMessage(_('Empty month is not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (!newValues[v].day) {
-                showMessage(_('Empty day is not allowed'), _('Error'), 'alert');
-                return;
-            }
-        }*/
         
-
-
         obj.setup = table2values('setup');
 
         var newValues = table2values();
         var tasks = [];
         var names = [];
 
-
-        // delete all channels
-        /*
-        getDevices(function (err, devices) {
-        for(var d = 0; d < devices.length; d++) {
-            deleteDevice(devices[d]._id);
-            }
-        });
-        */
 
         for (var v = 0; v < newValues.length; v++) {
             if (!newValues[v].name) {
@@ -131,90 +85,7 @@
             names.push(newValues[v].name);
             var found = false;
             var t;
-            // find same name in old values
-            /*
-            for (t = 0; t < values.length; t++) {
-                if (values[t].name === newValues[v].name) {
-                    found = true;
-                    break;
-                }
-            }
-            if (typeof newValues[v].factor === 'string') {
-                newValues[v].factor = newValues[v].factor.replace(',', '.');
-            }
-            if (typeof newValues[v].offset === 'string') {
-                newValues[v].offset = newValues[v].offset.replace(',', '.');
-            }
-            newValues[v].offset = parseFloat(newValues[v].offset) || 0;
-            newValues[v].factor = parseFloat(newValues[v].factor) || 1;
-            newValues[v].item   = parseInt(newValues[v].item, 10) || 0;
-            if (found) {
-                var _obj = values[t].obj;
-                var changed = false;
-                if (_obj.common.write !== !!newValues[v].write) {
-                    _obj.common.write = !!newValues[v].write;
-                    changed = true;
-                }
-                if (_obj.common.read !== true) {
-                    _obj.common.read = true;
-                    changed = true;
-                }
-                if (_obj.common.unit !== newValues[v].unit) {
-                    _obj.common.unit = newValues[v].unit;
-                    changed = true;
-                }
-                var type = newValues[v].type;
-                if (newValues[v].type === 'commaNumber') type = 'number';
-                var comma = (newValues[v].type === 'commaNumber');
-                if (_obj.common.type !== type) {
-                    _obj.common.type = type;
-                    changed = true;
-                }
-                _obj.native.comma = !!_obj.native.comma;
-                if (_obj.native.comma !== comma) {
-                    _obj.native.comma = comma;
-                    changed = true;
-                }
-                if (_obj.common.role !== newValues[v].role) {
-                    _obj.common.role = newValues[v].role;
-                    changed = true;
-                }
-                if (_obj.native.link !== newValues[v].link) {
-                    _obj.native.link = newValues[v].link;
-                    changed = true;
-                }
-                if (_obj.native.regex !== newValues[v].regex) {
-                    _obj.native.regex = newValues[v].regex;
-                     changed = true;
-                }
-                if (_obj.native.interval !== newValues[v].interval) {
-                    _obj.native.interval = newValues[v].interval;
-                    changed = true;
-                }
-                if (_obj.native.item !== newValues[v].item) {
-                    _obj.native.item = newValues[v].item;
-                    changed = true;
-                }
-                if (_obj.native.substitute !== newValues[v].substitute) {
-                    _obj.native.substitute = newValues[v].substitute;
-                    changed = true;
-                }
-                if (_obj.native.substituteOld !== newValues[v].substituteOld) {
-                    _obj.native.substituteOld = newValues[v].substituteOld;
-                    changed = true;
-                }
-                if (_obj.native.factor !== newValues[v].factor) {
-                    _obj.native.factor = newValues[v].factor;
-                    changed = true;
-                }
-                if (_obj.native.offset !== newValues[v].offset) {
-                    _obj.native.offset = newValues[v].offset;
-                    changed = true;
-                }
-                
-                if (changed) tasks.push(_obj);
-            } else {
-            */
+            
                 tasks.push({
                     _id:            adapter + '.' + instance + '.' + newValues[v].name.replace(/[()\[\]\\\/*?\s]/g, '_'),
                     common: {
@@ -228,27 +99,15 @@
                     native: {
                         name:           newValues[v].name,
                         active:          newValues[v].active
-                        //interval:       newValues[v].interval,
-                        //factor:         newValues[v].factor,
-                        //item:           newValues[v].item,
-                        //offset:         newValues[v].offset,
-                        //substitute:     newValues[v].substitute,
-                        //substituteOld:  newValues[v].substituteOld
                     },
                     type: 'channel'
                 });
-            //}
-
-
-        }    
-
-
+             }    
 
         processTasks(tasks, function () {
             values = newValues;
             callback(obj);
         });
-        //callback(obj);
     }
 
 
@@ -290,7 +149,7 @@
 <body>
 <!-- you have to put your config page in a div with id adapter-container -->
 <div class="m adapter-container">
-    <div class="row config-form"> 
+    <div class="row "> 
         <div id="tab-main" class="col s12 page">
             <div class="row">
                 <div class="col s6">
@@ -302,23 +161,21 @@
                     <label class="translate" for="interval">mandatory</label>
                 </div>
             </div>
-             <div id="tab-main"    class="col s16 page">
-                 <div class="col s16" id="setup">
-                     <span style="font-size: larger;" class="translate">AddCtn
-                        <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+            <div class="col s16" id="setup">
+                <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
                     <div class="table-values-div">
                         <table class="table-values">
                             <thead>
                                 <tr>
-                                   <th data-name="_index"     style="width: 10%" class="translate">ID</th>
-                                    <th data-name="name"     style="width: 30%" class="translate">Name</th>
-                                    <th data-name="year"     style="width: 8%" class="translate">year</th>
-                                    <th data-name="month"     style="width: 8%" class="translate">month</th>
-                                    <th data-name="day"     style="width: 8%" class="translate">day</th>
-                                    <th data-name="hour"     style="width: 8%" class="translate">hour</th>
-                                    <th data-name="minute"     style="width: 8%" class="translate">minute</th>
-                                    <th data-name="active"  style="width: 10%" data-style="width: 70px" data-type="checkbox" class="translate">active</th>
-                                    <th data-buttons="delete up down" style="width: 120px"></th>
+                                        <th data-name="_index"     style="width: 10%" class="translate">ID</th>
+                                        <th data-name="name"     style="width: 30%" class="translate">Name</th>
+                                        <th data-name="year"     style="width: 8%" class="translate">year</th>
+                                        <th data-name="month"     style="width: 8%" class="translate">month</th>
+                                        <th data-name="day"     style="width: 8%" class="translate">day</th>
+                                        <th data-name="hour"     style="width: 8%" class="translate">hour</th>
+                                        <th data-name="minute"     style="width: 8%" class="translate">minute</th>
+                                        <th data-name="active"  style="width: 10%" data-style="width: 70px" data-type="checkbox" class="translate">active</th>
+                                        <th data-buttons="delete up down" style="width: 120px"></th>
                                 </tr>
                             </thead>
                         </table>
