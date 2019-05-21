@@ -69,6 +69,12 @@ function clearOldChannels(){
 
     }
     */
+
+   var setuparr = [];
+   const setup = adapter.config.setup;
+   for (const item of setup){
+     setuparr.push(item.name);
+   }
    adapter.getAdapterObjects((objects) => {
 
     for (const id1 of Object.keys(objects)) {
@@ -76,10 +82,11 @@ function clearOldChannels(){
         const obj = objects[id1];
         adapter.log.info('Check object6 '+ obj.common.name );
 
-        const setupnames = adapter.config.setup.name
-        adapter.log.info('Check object9 '+ setupnames );
 
-        var arraycontains = (setupnames.indexOf(obj.common.name) > -1);
+        //const setupnames = adapter.config.setup.name
+        //adapter.log.info('Check object9 '+ setupnames );
+
+        var arraycontains = (setuparr.indexOf(obj.common.name) > -1);
         adapter.log.info('array check '+ arraycontains);
   
     }
