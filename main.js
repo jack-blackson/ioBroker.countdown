@@ -80,12 +80,13 @@ function clearOldChannels(){
     for (const id1 of Object.keys(objects)) {
         
         const obj = objects[id1];
-        adapter.log.info('Check object '+ obj.common.name );
-        adapter.log.info('Type '+ obj.type );
 
         if (obj.type == 'channel'){
             var arraycontains = (setuparr.indexOf(obj.common.name) > -1);
             adapter.log.info('array check '+ arraycontains);
+            if (arraycontains == false){
+                adapter.deleteChannel(id1)
+            }
         }
         
   
