@@ -11,6 +11,7 @@
 Countdown Adapter for ioBroker
 ------------------------------------------------------------------------------
 
+The goal of the adapter is to provide you a possibility to run countdowns for future events, with years, months, days, hours and minutes. It will provide you each of those valies seperately, and also two strings with a short and long version of the date.
 
 ## Changelog
 ### 0.1.0 (2019-04-29)
