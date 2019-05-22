@@ -173,8 +173,8 @@ function createObjects(){
 
 function updateresults(){
 
-    const setup = adapter.config.setup;
-        for (const item of setup){
+    const setuploop = adapter.config.setup;
+        for (const item of setuploop){
 
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
