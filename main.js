@@ -39,9 +39,6 @@ function startAdapter(options) {
 
 function main() {
 
-    var userLang = navigator.language; 
-    adapter.log.info('language: ' + userLang)
-
     if (AdapterStarted == false){
         createObjects()
         clearOldChannels()
@@ -224,10 +221,13 @@ function updateresults(){
                 if (days != 0){
                     CountDowninWordsShort += days+'D';
                 }
-                if (hours != 0){
+                if (hours != 0 && years == 0 && months == 0){
                     CountDowninWordsShort += hours+'H';
                 }
-                CountDowninWordsShort += minutes+'M';
+                if (years == 0 && months == 0){
+                    CountDowninWordsShort += minutes+'M';
+                }
+                
 
                 var CountDowninWordsLong = '';
                 if (years != 0){
@@ -254,7 +254,7 @@ function updateresults(){
                         CountDowninWordsLong = days+' Day ';
                     }
                 }
-                if (hours != 0){
+                if (hours != 0 && years == 0 && months == 0){
                     if (hours > 1){
                         CountDowninWordsLong = hours+' Hours ';
                     }
@@ -262,13 +262,15 @@ function updateresults(){
                         CountDowninWordsLong = hours+' Hour ';
                     } 
                 }
-                if (minutes > 1){
-                    CountDowninWordsLong = minutes+' Minutes ';
+                if (years == 0 && months == 0){
+                    if (minutes > 1){
+                        CountDowninWordsLong = minutes+' Minutes ';
+                    }
+                    else{
+                        CountDowninWordsLong = minutes+' Minute ';
+                    }     
                 }
-                else{
-                    CountDowninWordsLong = minutes+' Minute ';
-                } 
-
+                
                 adapter.setState({device: item.name , state: 'years'}, {val: years, ack: true});
                 adapter.setState({device: item.name , state: 'months'}, {val: months, ack: true});
                 adapter.setState({device: item.name , state: 'days'}, {val: days, ack: true});
