@@ -57,8 +57,8 @@ function main() {
 function clearOldChannels(){
     // clear objects which were deleted in the setup - run once after adapter restart
    var setuparr = [];
-   const setup = adapter.config.setup;
-   for (const item of setup){
+   const setuploop = adapter.config.setup;
+   for (const item of setuploop){
      setuparr.push(item.name);
    }
    adapter.getAdapterObjects((objects) => {
@@ -284,8 +284,8 @@ function countdownenabled(){
     var alarmactive = false;
     // Check if there are active countdowns
     if (adapter.config.setup) {
-        const setup = adapter.config.setup;
-        for (const item of setup){
+        const setuploop = adapter.config.setup;
+        for (const item of setuploop){
             if (item.active == true){
                 alarmactive = true;
             }
