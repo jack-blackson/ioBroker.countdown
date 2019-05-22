@@ -2,6 +2,8 @@
 # ioBroker.countdown
 =================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jack-blackson/ioBroker.countdown.svg)](https://greenkeeper.io/)
+
 [![NPM version](http://img.shields.io/npm/v/iobroker.countdown.svg)](https://www.npmjs.com/package/iobroker.countdown)
 
 **Tests:** Linux/Mac: [![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown) Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/jack-blackson/ioBroker.countdown?branch=master&svg=true)](https://ci.appveyor.com/project/jack-blackson/iobroker-countdown/)
