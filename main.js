@@ -291,9 +291,6 @@ function countdownenabled(){
             }
         }
     }
-    else{
-        // no setup available
-    }
     return alarmactive
 
 } 
