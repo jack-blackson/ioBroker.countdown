@@ -9,7 +9,8 @@
  */
 
 'use strict';
-const utils = require('@iobroker/adapter-core');
+const utils = require('@iobroker/adapter-core'); // Get common adapter utils
+
 const moment = require('moment');
 var AdapterStarted;
 

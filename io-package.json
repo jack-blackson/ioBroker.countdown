@@ -38,7 +38,7 @@
           "icon":                     "countdown.png",
           "materialize":              true,
           "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
-          "type":                     "info",
+          "type":                     "date-and-time",
       "singletonHost":            true
       },
        "native": {

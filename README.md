@@ -2,12 +2,11 @@
 # ioBroker.countdown
 =================
 
-
-[![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown)
 [![NPM version](http://img.shields.io/npm/v/iobroker.countdown.svg)](https://www.npmjs.com/package/iobroker.countdown)
 
-[![NPM](https://nodei.co/npm/iobroker.countdown.png?downloads=true)](https://nodei.co/npm/iobroker.countdown.png?downloads=true/)
+**Tests:** Linux/Mac: [![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown) Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/jack-blackson/ioBroker.countdown?branch=master&svg=true)](https://ci.appveyor.com/project/jack-blackson/iobroker-countdown/)
 
+[![NPM](https://nodei.co/npm/iobroker.countdown.png?downloads=true)](https://nodei.co/npm/iobroker.countdown.png?downloads=true/)
 <!--![Number of Installations](http://iobroker.live/badges/bring-installed.svg) ![Number of Installations](http://iobroker.live/badges/bring-stable.svg) 
 [![Downloads](https://img.shields.io/npm/dm/iobroker.bring.svg)](https://www.npmjs.com/package/iobroker.countdown)
 
@@ -27,6 +26,9 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 ## Changelog
 ### 0.1.0 (2019-04-29)
 * (jack-blackson) initial version
+
+### 0.2.0 (2019-05-21)
+* (jack-blackson) adjusted packages
 
 ## License
 The MIT License (MIT)
