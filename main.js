@@ -77,8 +77,8 @@ function clearOldChannels(){
 }
 
 function createObjects(){
-    const setup = adapter.config.setup;
-    for (const item of setup){
+    const setuploop = adapter.config.setup;
+    for (const item of setuploop){
         adapter.createState('', item.name, 'name', {
             read: true, 
             write: false, 
