@@ -59,7 +59,7 @@ function clearOldChannels(){
     // clear objects which were deleted in the setup - run once after adapter restart
    var setuparr = [];
    const setuploop = adapter.config.setup;
-   for (const item of setuploop){
+   for (const item of setuploop.keys){
      setuparr.push(item.name);
    }
    adapter.getAdapterObjects((objects) => {
@@ -80,7 +80,7 @@ function clearOldChannels(){
 
 function createObjects(){
     const setuploop = adapter.config.setup;
-    for (const item of setuploop){
+    for (const item of setuploop.keys){
         adapter.createState('', item.name, 'name', {
             read: true, 
             write: false, 
@@ -175,7 +175,7 @@ function createObjects(){
 function updateresults(){
 
     const setuploop = adapter.config.setup;
-        for (const item of setuploop){
+        for (const item of setuploop.keys){
 
             let datestring = "";
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
@@ -291,7 +291,7 @@ function countdownenabled(){
     // Check if there are active countdowns
     if (adapter.config.setup) {
         const setuploop = adapter.config.setup;
-        for (const item of setuploop){
+        for (const item of setuploop.keys){
             if (item.active == true){
                 alarmactive = true;
             }
