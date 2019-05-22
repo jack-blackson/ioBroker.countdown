@@ -38,6 +38,10 @@ function startAdapter(options) {
 
 
 function main() {
+
+    var userLang = navigator.language; 
+    adapter.log.info('language: ' + userLang)
+
     if (AdapterStarted == false){
         createObjects()
         clearOldChannels()

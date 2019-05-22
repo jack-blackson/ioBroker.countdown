@@ -32,7 +32,7 @@
           "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
           "loglevel":                 "info",
           "restartAdapters":          [
-            "hs100"
+            "countdown"
           ],        
           "keywords":                 ["countdown"],
           "icon":                     "countdown.png",
