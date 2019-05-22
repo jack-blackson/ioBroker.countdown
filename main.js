@@ -212,25 +212,11 @@ function updateresults(){
                 // Countdown not reached -> update values
 
                 var CountDowninWordsShort = '';
+                var CountDowninWordsLong = '';
+
+                //years
                 if (years != 0){
                     CountDowninWordsShort = years+'Y';
-                }
-                if (months != 0){
-                    CountDowninWordsShort += months+'M';
-                }
-                if (days != 0){
-                    CountDowninWordsShort += days+'D';
-                }
-                if (hours != 0 && years == 0 && months == 0){
-                    CountDowninWordsShort += hours+'H';
-                }
-                if (years == 0 && months == 0){
-                    CountDowninWordsShort += minutes+'M';
-                }
-                
-
-                var CountDowninWordsLong = '';
-                if (years != 0){
                     if (years > 1){
                         CountDowninWordsLong = years+'Year ';
                     }
@@ -238,7 +224,11 @@ function updateresults(){
                         CountDowninWordsLong = years+'Years ';
                     }
                 }
-                if (months != 0){
+
+                //months
+                if (months != 0 || years != 0){
+                    CountDowninWordsShort += months+'M';
+
                     if (months > 1){
                         CountDowninWordsLong = months+' Months ';
                     }
@@ -246,7 +236,11 @@ function updateresults(){
                         CountDowninWordsLong = months+' Month ';
                     }
                 }
-                if (days != 0){
+
+                //days
+                if (days != 0 || months != 0 || years != 0){
+                    CountDowninWordsShort += days+'D';
+
                     if (days > 1){
                         CountDowninWordsLong = days+' Days ';
                     }
@@ -254,7 +248,10 @@ function updateresults(){
                         CountDowninWordsLong = days+' Day ';
                     }
                 }
+
+                //hours
                 if (hours != 0 && years == 0 && months == 0){
+                    CountDowninWordsShort += hours+'H';
                     if (hours > 1){
                         CountDowninWordsLong = hours+' Hours ';
                     }
@@ -262,7 +259,10 @@ function updateresults(){
                         CountDowninWordsLong = hours+' Hour ';
                     } 
                 }
+
+                //minutes
                 if (years == 0 && months == 0){
+                    CountDowninWordsShort += minutes+'M';
                     if (minutes > 1){
                         CountDowninWordsLong = minutes+' Minutes ';
                     }
