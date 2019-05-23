@@ -6,7 +6,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.countdown.svg)](https://www.npmjs.com/package/iobroker.countdown)
 
-**Tests:** Linux/Mac: [![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown) Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/jack-blackson/ioBroker.countdown?branch=master&svg=true)](https://ci.appveyor.com/project/jack-blackson/iobroker-countdown/)
+**Tests:** [![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown) 
 
 [![NPM](https://nodei.co/npm/iobroker.countdown.png?downloads=true)](https://nodei.co/npm/iobroker.countdown.png?downloads=true/)
 <!--![Number of Installations](http://iobroker.live/badges/bring-installed.svg) ![Number of Installations](http://iobroker.live/badges/bring-stable.svg) 
