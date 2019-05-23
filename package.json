@@ -8,7 +8,7 @@
     "url": "git+https://github.com/jack-blackson/ioBroker.countdown.git"
   },
   "author": {
-    "name": "Alexander Kolb",
+    "name": "jack blackson",
     "email": "blacksonj7@gmail.com"
   },
   "keywords": ["Countdown","countdown"],
@@ -19,7 +19,8 @@
   },
   "dependencies": {
     "moment":"2.24.0",
-    "@iobroker/testing": "^1.2.0"
+    "@iobroker/testing": "^1.2.0",
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "scripts": {
     "test": "npm run test:package && npm run test:unit",
