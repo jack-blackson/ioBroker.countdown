@@ -9,10 +9,11 @@
  */
 
 'use strict';
-const utils = require('@iobroker/adapter-core'); // Get common adapter utils
+const utils = require('@iobroker/adapter-core');
 
 const moment = require('moment');
 var AdapterStarted;
+
 
 let adapter;
 startAdapter()
@@ -21,6 +22,17 @@ setInterval(function() {
     // alle 1 Minute ausführen 
     main(); 
 }, 60000);
+
+adapter.on('message', obj => {
+    adapter.log.info('received message!');
+
+    /*if (obj && obj.command === 'send') {
+        processMessage(obj);
+    }
+    processMessages();
+    */
+});
+
 
 function startAdapter(options) {
     options = options || {};
