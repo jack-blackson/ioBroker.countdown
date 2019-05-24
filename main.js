@@ -81,8 +81,8 @@ function createCountdownTable(){
          const obj = objects[id1];
 
          if (obj.type == 'channel'){
-             var CountDowninWordsLong = obj.inWordsLong;
-             var CountDowninWordsShort = obj.inWordsShort;
+             var CountDowninWordsLong = adapter.getState(id1 + '.inWordsLong');
+             var CountDowninWordsShort = adapter.getState(obj + '.inWordsShort');;
 
              var arrlineShort = [];
              var arrlineLong = [];
@@ -95,7 +95,7 @@ function createCountdownTable(){
          }   
      }
      
-     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableShort), ack: true});
+     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
      adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
 
    });
