@@ -70,21 +70,23 @@ function main() {
 
 function createCountdownTable(){
     var arrtable = [];
+
     var i=0;
     adapter.getAdapterObjects((objects) => { 
      for (const id1 of Object.keys(objects)) { 
          const obj = objects[id1];
+         arrtable.push(['Name','Value']);
+
          if (obj.type == 'channel'){
              var CountDowninWordsLong = obj.CountDowninWordsLong;
-             var arrline = [obj.common.name,];
+             var arrline= [];
+             arrline = [obj.common.name,CountDowninWordsLong];
              arrtable.push(arrline);
          }   
      }
      adapter.log.info('Tabelle: '+ tableify(arrtable));
      
-     //var storagename = item.name.replace(/ /g,"_");
-
-     //adapter.setState({device: storagename , state: 'name'}, {val: item.name, ack: true});
+     adapter.setState({ state: 'htmlContentLong'}, {val: arrtable, ack: true});
    });
 }
 
@@ -112,6 +114,23 @@ function clearOldChannels(){
 }
 
 function createObjects(){
+    adapter.createState('', '', 'htmlContentLong', {
+        read: true, 
+        write: false, 
+        name: "HTML Content Countdown Long", 
+        type: "string", 
+        def: '',
+        role: 'value'
+      });
+      adapter.createState('', '', 'htmlContentShort', {
+        read: true, 
+        write: false, 
+        name: "HTML Content Countdown Short", 
+        type: "string", 
+        def: '',
+        role: 'value'
+      });
+
     const setuploop = adapter.config.setup;
     for (const item of setuploop){
         adapter.createState('', item.name, 'name', {
@@ -216,22 +235,6 @@ function createObjects(){
             name: "Total No. of Hours", 
             type: "number", 
             def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'htmlContentLong', {
-            read: true, 
-            write: false, 
-            name: "HTML Content Countdown Long", 
-            type: "string", 
-            def: '',
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'htmlContentShort', {
-            read: true, 
-            write: false, 
-            name: "HTML Content Countdown Short", 
-            type: "string", 
-            def: '',
             role: 'value'
           });
     }
