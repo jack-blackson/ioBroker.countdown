@@ -181,6 +181,22 @@ function createObjects(){
             def: '',
             role: 'value'
           });
+          adapter.createState('', item.name, 'totalDays', {
+            read: true, 
+            write: false, 
+            name: "Total No. of Days", 
+            type: "number", 
+            def: '',
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'totalHours', {
+            read: true, 
+            write: false, 
+            name: "Total No. of Hours", 
+            type: "number", 
+            def: '',
+            role: 'value'
+          });
     }
 }
 
@@ -291,12 +307,36 @@ function updateresults(){
                 adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
                 adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
                 adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
+                adapter.setState({device: item.name , state: 'totalDays'}, {val: mydiff(newdate,Date(),"days"), ack: true});
+                adapter.setState({device: item.name , state: 'totalHours'}, {val: mydiff(newdate,Date(),"hours"), ack: true});
+
 
             }
 
         }
 }
 
+function mydiff(date1,date2,interval) {
+    var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
+    date1 = new Date(date1);
+    date2 = new Date(date2);
+    var timediff = date2 - date1;
+    if (isNaN(timediff)) return NaN;
+    switch (interval) {
+        case "years": return date2.getFullYear() - date1.getFullYear();
+        case "months": return (
+            ( date2.getFullYear() * 12 + date2.getMonth() )
+            -
+            ( date1.getFullYear() * 12 + date1.getMonth() )
+        );
+        case "weeks"  : return Math.floor(timediff / week);
+        case "days"   : return Math.floor(timediff / day); 
+        case "hours"  : return Math.floor(timediff / hour); 
+        case "minutes": return Math.floor(timediff / minute);
+        case "seconds": return Math.floor(timediff / second);
+        default: return undefined;
+    }
+}
 
 function countdownenabled(){
     var alarmactive = false;

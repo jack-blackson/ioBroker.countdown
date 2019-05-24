@@ -10,6 +10,10 @@
         "0.2": {
           "en": "Ajusted packages",
           "de": "Pakete angepasst "
+        },
+        "0.3": {
+          "en": "Add total Hours and Days, small fixes",
+          "de": "Totale Stunden und Tage hinzugefügt, kleine Korrekturen "
         }
       },
       "title": "Countdown",

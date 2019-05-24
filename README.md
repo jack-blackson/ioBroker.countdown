@@ -32,6 +32,9 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 ### 0.2.0 (2019-05-21)
 * (jack-blackson) adjusted packages
 
+### 0.3.0 (2019-05-24)
+* (jack-blackson) added total No. of days and hours
+
 ## License
 The MIT License (MIT)
 
