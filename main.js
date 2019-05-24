@@ -200,19 +200,6 @@ function createObjects(){
     }
 }
 
-function temp(){
-    const setuploop = adapter.config.setup;
-    //setuploop.replace(/ /g,"_");
-        for (const item of setuploop){
-        }
-
-        for(var i = 0; i < setuploop.length; i++)
-        {
-            setuploop[i] = setuploop[i].r.replace(/ /g,"_");
-            adapter.log.info('ID:'+setuploop[i]);
-
-        }
-}
 
 function updateresults(){
     //temp();
@@ -233,8 +220,10 @@ function updateresults(){
             var hours = duration.hours() * -1;
             var minutes = duration.minutes() * -1;
 
+            var storagename = item.name.replace(/ /g,"_");
+
             adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
-            adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
+            adapter.setState({device: storagename , state: 'active'}, {val: item.active, ack: true});
             adapter.setState({device: item.name , state: 'endDate'}, {val: newdatelocal, ack: true});
 
 
