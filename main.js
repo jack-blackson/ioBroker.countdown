@@ -209,6 +209,7 @@ function updateresults(){
             datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
 
             var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
+            var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
 
             var now = moment(new Date()); //todays date
             var duration = moment.duration(now.diff(newdate));
