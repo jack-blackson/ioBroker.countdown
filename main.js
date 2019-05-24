@@ -244,7 +244,7 @@ function updateresults(){
 
                 //years
                 if (years != 0){
-                    CountDowninWordsShort = years+'Y';
+                    CountDowninWordsShort = years+'Y ';
                     if (years > 1){
                         CountDowninWordsLong = years+'Year ';
                     }
@@ -255,36 +255,36 @@ function updateresults(){
 
                 //months
                 if (months != 0 || years != 0){
-                    CountDowninWordsShort += months+' M';
+                    CountDowninWordsShort += months+'M ';
 
                     if (months > 1){
-                        CountDowninWordsLong = months+' Months ';
+                        CountDowninWordsLong += months+' Months ';
                     }
                     else{
-                        CountDowninWordsLong = months+' Month ';
+                        CountDowninWordsLong += months+' Month ';
                     }
                 }
 
                 //days
                 if (days != 0 || months != 0 || years != 0){
-                    CountDowninWordsShort += days+' D';
+                    CountDowninWordsShort += days+'D ';
 
                     if (days > 1){
-                        CountDowninWordsLong = days+' Days ';
+                        CountDowninWordsLong += days+' Days ';
                     }
                     else{
-                        CountDowninWordsLong = days+' Day ';
+                        CountDowninWordsLong += days+' Day ';
                     }
                 }
 
                 //hours
                 if (hours != 0 && years == 0 && months == 0){
-                    CountDowninWordsShort += hours+' H';
+                    CountDowninWordsShort += hours+'H';
                     if (hours > 1){
-                        CountDowninWordsLong = hours+' Hours ';
+                        CountDowninWordsLong += hours+' Hours ';
                     }
                     else{
-                        CountDowninWordsLong = hours+' Hour ';
+                        CountDowninWordsLong += hours+' Hour ';
                     } 
                 }
 
@@ -292,10 +292,10 @@ function updateresults(){
                 if (years == 0 && months == 0){
                     CountDowninWordsShort += minutes+' M';
                     if (minutes > 1){
-                        CountDowninWordsLong = minutes+' Minutes ';
+                        CountDowninWordsLong += minutes+' Minutes ';
                     }
                     else{
-                        CountDowninWordsLong = minutes+' Minute ';
+                        CountDowninWordsLong += minutes+' Minute ';
                     }     
                 }
                 
@@ -307,8 +307,8 @@ function updateresults(){
                 adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
                 adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
                 adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
-                adapter.setState({device: item.name , state: 'totalDays'}, {val: mydiff(newdate,Date(),"days"), ack: true});
-                adapter.setState({device: item.name , state: 'totalHours'}, {val: mydiff(newdate,Date(),"hours"), ack: true});
+                adapter.setState({device: item.name , state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
+                adapter.setState({device: item.name , state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});
 
 
             }
@@ -330,7 +330,7 @@ function mydiff(date1,date2,interval) {
             ( date1.getFullYear() * 12 + date1.getMonth() )
         );
         case "weeks"  : return Math.floor(timediff / week);
-        case "days"   : return Math.floor(timediff / day); 
+        case "days"   : return Math.floor(timediff / day)-1; 
         case "hours"  : return Math.floor(timediff / hour); 
         case "minutes": return Math.floor(timediff / minute);
         case "seconds": return Math.floor(timediff / second);
