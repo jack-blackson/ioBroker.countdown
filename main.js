@@ -186,7 +186,7 @@ function createObjects(){
             write: false, 
             name: "Total No. of Days", 
             type: "number", 
-            def: '',
+            def: 0,
             role: 'value'
           });
           adapter.createState('', item.name, 'totalHours', {
@@ -194,7 +194,7 @@ function createObjects(){
             write: false, 
             name: "Total No. of Hours", 
             type: "number", 
-            def: '',
+            def: 0,
             role: 'value'
           });
     }
@@ -307,8 +307,8 @@ function updateresults(){
                 adapter.setState({device: item.name , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
                 adapter.setState({device: item.name , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
                 adapter.setState({device: item.name , state: 'reached'}, {val: false, ack: true});
-                //adapter.setState({device: item.name , state: 'totalDays'}, {val: mydiff(newdate,Date(),"days"), ack: true});
-                //adapter.setState({device: item.name , state: 'totalHours'}, {val: mydiff(newdate,Date(),"hours"), ack: true});
+                adapter.setState({device: item.name , state: 'totalDays'}, {val: mydiff(newdate,Date(),"days"), ack: true});
+                adapter.setState({device: item.name , state: 'totalHours'}, {val: mydiff(newdate,Date(),"hours"), ack: true});
 
 
             }
