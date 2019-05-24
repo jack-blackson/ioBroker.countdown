@@ -200,8 +200,16 @@ function createObjects(){
     }
 }
 
-function updateresults(){
+function temp(){
+    const setuploop = adapter.config.setup;
+    setuploop.replace(/ /g,"_");
+        for (const item of setuploop){
+            adapter.log.info('ID:'+setuploop);
+        }
+}
 
+function updateresults(){
+    temp();
     const setuploop = adapter.config.setup;
         for (const item of setuploop){
 
