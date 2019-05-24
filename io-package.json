@@ -3,15 +3,15 @@
       "name": "countdown",
       "version": "0.3.0",
       "news": {
-        "0.1": {
+        "0.1.0": {
           "en": "Initial version",
           "de": "Initiale Version "
         },
-        "0.2": {
+        "0.2.0": {
           "en": "Ajusted packages",
           "de": "Pakete angepasst "
         },
-        "0.3": {
+        "0.3.0": {
           "en": "Add total Hours and Days, small fixes",
           "de": "Totale Stunden und Tage hinzugefügt, kleine Korrekturen "
         }
