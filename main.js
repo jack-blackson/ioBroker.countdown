@@ -90,7 +90,7 @@ function createCountdownTable(){
              arrlineLong = [obj.common.name,CountDowninWordsLong];
              arrlineShort = [obj.common.name,CountDowninWordsShort];
              arrtableLong.push(arrlineLong);
-             arrlineShort.push(arrlineShort);
+             arrtableShort.push(arrlineShort);
 
          }   
      }
