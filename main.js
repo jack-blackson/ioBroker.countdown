@@ -204,7 +204,13 @@ function temp(){
     const setuploop = adapter.config.setup;
     //setuploop.replace(/ /g,"_");
         for (const item of setuploop){
-            adapter.log.info('ID:'+setuploop);
+        }
+
+        for(var i = 0; i < setuploop.length; i++)
+        {
+            setuploop[i] = setuploop[i].r.replace(/ /g,"_");
+            adapter.log.info('ID:'+setuploop[i]);
+
         }
 }
 
