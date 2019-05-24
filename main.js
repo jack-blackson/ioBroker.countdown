@@ -279,7 +279,7 @@ function updateresults(){
 
                 //hours
                 if (hours != 0 && years == 0 && months == 0){
-                    CountDowninWordsShort += hours+'H';
+                    CountDowninWordsShort += hours+'H ';
                     if (hours > 1){
                         CountDowninWordsLong += hours+' Hours ';
                     }
@@ -290,7 +290,7 @@ function updateresults(){
 
                 //minutes
                 if (years == 0 && months == 0){
-                    CountDowninWordsShort += minutes+' M';
+                    CountDowninWordsShort += minutes+'M';
                     if (minutes > 1){
                         CountDowninWordsLong += minutes+' Minutes ';
                     }
