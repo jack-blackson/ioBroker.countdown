@@ -215,7 +215,7 @@ function temp(){
 }
 
 function updateresults(){
-    //temp();
+    temp();
     const setuploop = adapter.config.setup;
         for (const item of setuploop){
 
