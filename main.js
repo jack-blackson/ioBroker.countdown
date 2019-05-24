@@ -221,7 +221,7 @@ function updateresults(){
 
             adapter.setState({device: item.name , state: 'name'}, {val: item.name, ack: true});
             adapter.setState({device: item.name , state: 'active'}, {val: item.active, ack: true});
-            adapter.setState({device: item.name , state: 'endDate'}, {val: newdate, ack: true});
+            adapter.setState({device: item.name , state: 'endDate'}, {val: newdatelocal, ack: true});
 
 
 
