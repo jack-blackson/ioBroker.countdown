@@ -330,7 +330,7 @@ function mydiff(date1,date2,interval) {
             ( date1.getFullYear() * 12 + date1.getMonth() )
         );
         case "weeks"  : return Math.floor(timediff / week);
-        case "days"   : return Math.floor(timediff / day)-1; 
+        case "days"   : return Math.floor(timediff / day); 
         case "hours"  : return Math.floor(timediff / hour); 
         case "minutes": return Math.floor(timediff / minute);
         case "seconds": return Math.floor(timediff / second);
