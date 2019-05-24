@@ -10,7 +10,7 @@
 
 'use strict';
 const utils = require('@iobroker/adapter-core');
-
+const tableify = require(`tableify`);
 const moment = require('moment');
 var AdapterStarted;
 
@@ -62,9 +62,32 @@ function main() {
     else{
         adapter.log.info('No active countdown');
     }
+    createCountdownTable(){
+
+    }
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
+}
+
+function createCountdownTable(){
+    var arrtable = [];
+    var i=0;
+    adapter.getAdapterObjects((objects) => { 
+     for (const id1 of Object.keys(objects)) { 
+         const obj = objects[id1];
+         if (obj.type == 'channel'){
+             var CountDowninWordsLong = obj.CountDowninWordsLong;
+             var arrline = [obj.common.name,];
+             arrtable.push(arrline);
+         }   
+     }
+     adapter.log.info('Tabelle: '+ tableify(arrtable))
+     
+     //var storagename = item.name.replace(/ /g,"_");
+
+     //adapter.setState({device: storagename , state: 'name'}, {val: item.name, ack: true});
+   });
 }
 
 function clearOldChannels(){
@@ -195,6 +218,22 @@ function createObjects(){
             name: "Total No. of Hours", 
             type: "number", 
             def: 0,
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'htmlContentLong', {
+            read: true, 
+            write: false, 
+            name: "HTML Content Countdown Long", 
+            type: "string", 
+            def: '',
+            role: 'value'
+          });
+          adapter.createState('', item.name, 'htmlContentShort', {
+            read: true, 
+            write: false, 
+            name: "HTML Content Countdown Short", 
+            type: "string", 
+            def: '',
             role: 'value'
           });
     }
