@@ -73,6 +73,11 @@
                 showMessage(_('Empty year are not allowed'), _('Error'), 'alert');
                 return;
             }
+            if (!/^\d+$/.test(newValues[v].year)) {
+                showMessage(_('Please just enter numbers in year field'), _('Error'), 'alert');
+                return;
+            }
+
             if (!newValues[v].month) {
                 showMessage(_('Empty month are not allowed'), _('Error'), 'alert');
                 return;
