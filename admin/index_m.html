@@ -77,13 +77,28 @@
                 showMessage(_('Please just enter numbers in year field'), _('Error'), 'alert');
                 return;
             }
-
             if (!newValues[v].month) {
                 showMessage(_('Empty month are not allowed'), _('Error'), 'alert');
                 return;
             }
+            if (!/^\d+$/.test(newValues[v].month)) {
+                showMessage(_('Please just enter numbers in month field'), _('Error'), 'alert');
+                return;
+            }
             if (!newValues[v].day) {
                 showMessage(_('Empty day are not allowed'), _('Error'), 'alert');
+                return;
+            }
+            if (!/^\d+$/.test(newValues[v].day)) {
+                showMessage(_('Please just enter numbers in day field'), _('Error'), 'alert');
+                return;
+            }
+            if (!/^\d+$/.test(newValues[v].hour)) {
+                showMessage(_('Please just enter numbers in hour field'), _('Error'), 'alert');
+                return;
+            }
+            if (!/^\d+$/.test(newValues[v].minute)) {
+                showMessage(_('Please just enter numbers in minute field'), _('Error'), 'alert');
                 return;
             }
 
