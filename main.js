@@ -62,9 +62,7 @@ function main() {
     else{
         adapter.log.info('No active countdown');
     }
-    createCountdownTable(){
-
-    }
+    createCountdownTable()
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
@@ -82,7 +80,7 @@ function createCountdownTable(){
              arrtable.push(arrline);
          }   
      }
-     adapter.log.info('Tabelle: '+ tableify(arrtable))
+     adapter.log.info('Tabelle: '+ tableify(arrtable));
      
      //var storagename = item.name.replace(/ /g,"_");
 
