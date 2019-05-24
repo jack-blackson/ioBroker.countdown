@@ -69,24 +69,35 @@ function main() {
 }
 
 function createCountdownTable(){
-    var arrtable = [];
+    var arrtableLong = [];
+    var arrtableShort = [];
+
+    arrtableLong.push(['Name','Value']);
+    arrtableShort.push(['Name','Value']);
 
     var i=0;
     adapter.getAdapterObjects((objects) => { 
      for (const id1 of Object.keys(objects)) { 
          const obj = objects[id1];
-         arrtable.push(['Name','Value']);
 
          if (obj.type == 'channel'){
-             var CountDowninWordsLong = obj.CountDowninWordsLong;
-             var arrline= [];
-             arrline = [obj.common.name,CountDowninWordsLong];
-             arrtable.push(arrline);
+             var CountDowninWordsLong = obj.inWordsLong;
+             var CountDowninWordsShort = obj.inWordsShort;
+
+             var arrlineShort = [];
+             var arrlineLong = [];
+
+             arrlineLong = [obj.common.name,CountDowninWordsLong];
+             arrlineShort = [obj.common.name,CountDowninWordsShort];
+             arrtableLong.push(arrlineLong);
+             arrlineShort.push(arrlineShort);
+
          }   
      }
-     adapter.log.info('Tabelle: '+ tableify(arrtable));
      
-     adapter.setState({ state: 'htmlContentLong'}, {val: arrtable, ack: true});
+     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableShort), ack: true});
+     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
+
    });
 }
 
