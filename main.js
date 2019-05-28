@@ -60,7 +60,7 @@ function main() {
             common: {
                   name: 'Countdown Masterdata'
             },
-            type: 'channel'
+            type: 'device'
         });
         //createObjects()
         //clearOldChannels()
@@ -85,12 +85,16 @@ function main() {
 function loopsetup(){
     adapter.log.info('loopsetup');
 
-    const setuploop = adapter.getStatesOf('', 'setup')
+   // const setuploop = adapter.getStatesOf( 'inWordsShort')
+   const setuploop = adapter.getChannels('setup')
     if (setuploop != null){
         for (const item of setuploop){
             adapter.log.info('vorhandenes Setup:' +item.common.name + "," +  item.common.val);
     
           }
+    }
+    else{
+        adapter.log.info('kein setup gefunden')
     }
     
 }
@@ -104,79 +108,114 @@ function processMessage(obj){
     var hour = '01'
     var minute = '01'
     var name = obj.message.name
+    var erroroccured = false
 
-    if (obj.message.year != ''){
-        if(obj.message.year === '' + parseInt(obj.message.year)){
-            // is int
-            year = obj.message.year;
-        }
-        else
-        {
-            adapter.log.error('Could not create alarm as year value is no int!');
-        }
+    if (obj.message.date != ''){
+        adapter.createState('', 'setup', name, {
+            read: true, 
+            write: false, 
+            name: "Name", 
+            type: "string", 
+            def: obj.message.date,
+            role: 'value'
+          });
     }
-    if (obj.message.month != ''){
-        if(obj.message.month === '' + parseInt(obj.message.month)){
-            // is int
-            if (obj.message.month <=9) {
-                month = '0' + obj.message.month;
+    else
+    {
+        if (obj.message.year != ''){
+            if(obj.message.year === '' + parseInt(obj.message.year)){
+                // is int
+                year = obj.message.year;
             }
-            else{
-                month = obj.message.month;
-            }
-        }
-        else
-        {
-            adapter.log.error('Could not create alarm as month value is no int!');
-        }
-    }
-    if (obj.message.day != ''){
-        if(obj.message.day === '' + parseInt(obj.message.day)){
-            // is 
-            if (obj.message.month <=9) {
-                day = '0' + obj.message.day;
-            }
-            else{
-                day = obj.message.day;
+            else
+            {
+                adapter.log.error('Could not create alarm as year value is no int!');
+                erroroccured = true;
             }
         }
-        else
-        {
-            adapter.log.error('Could not create alarm as day value is no int!');
+        if (obj.message.month != ''){
+            if(obj.message.month === '' + parseInt(obj.message.month)){
+                // is int
+                if (obj.message.month <=9) {
+                    month = '0' + obj.message.month;
+                }
+                else{
+                    month = obj.message.month;
+                }
+            }
+            else
+            {
+                adapter.log.error('Could not create alarm as month value is no int!');
+                erroroccured = true;
+    
+            }
         }
-    }
-    if (obj.message.hour != ''){
-        if(obj.message.hour === '' + parseInt(obj.message.hour)){
-            // is int
-            hour = obj.message.hour;
+        if (obj.message.day != ''){
+            if(obj.message.day === '' + parseInt(obj.message.day)){
+                // is 
+                if (obj.message.month <=9) {
+                    day = '0' + obj.message.day;
+                }
+                else{
+                    day = obj.message.day;
+                }
+            }
+            else
+            {
+                adapter.log.error('Could not create alarm as day value is no int!');
+                erroroccured = true;
+    
+            }
         }
-        else
-        {
-            adapter.log.error('Could not create alarm as hour value is no int!');
+        if (obj.message.hour != ''){
+            if(obj.message.hour === '' + parseInt(obj.message.hour)){
+                // is int
+                if (obj.message.hour <=9) {
+                    hour = '0' + obj.message.hour;
+                }
+                else{
+                    hour = obj.message.hour;
+                }
+            }
+            else
+            {
+                adapter.log.error('Could not create alarm as hour value is no int!');
+                erroroccured = true;
+    
+            }
         }
-    }
-    if (obj.message.minute != ''){
-        if(obj.message.minute === '' + parseInt(obj.message.minute)){
-            // is int
-            minute = obj.message.minute;
+        if (obj.message.minute != ''){
+            if(obj.message.minute === '' + parseInt(obj.message.minute)){
+                // is int
+                if (obj.message.minute <=9) {
+                    minute = '0' + obj.message.minute;
+                }
+                else{
+                    minute = obj.message.minute;
+                }
+            }
+            else
+            {
+                adapter.log.error('Could not create alarm as minute value is no int!');
+                erroroccured = true;
+    
+            }
         }
-        else
-        {
-            adapter.log.error('Could not create alarm as minute value is no int!');
+    
+        if (erroroccured == false){
+            var datestring = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00";
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: "Name", 
+                type: "string", 
+                def: datestring,
+                role: 'value'
+              });
         }
     }
 
-
-
-    var datestring = day + "." + month + "." + year + " " + hour + ":" + minute;
-    adapter.createState('', 'setup', name, {
-        read: true, 
-        write: false, 
-        name: "Name", 
-        type: "string", 
-        def: datestring,
-        role: 'value'
-      });
+    
 }
 
 
