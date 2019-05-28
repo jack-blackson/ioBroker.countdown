@@ -122,7 +122,7 @@ function processMessage(obj){
                 role: 'value'
               });
             */
-            adapter.setObject('setup', {
+            adapter.setObject('setup.' + name, {
                  common: {
                   name: name
                  },
