@@ -26,11 +26,10 @@ setInterval(function() {
 adapter.on('message', obj => {
     adapter.log.info('received message!');
 
-    /*if (obj && obj.command === 'send') {
+    if (obj && obj.command === 'send') {
         processMessage(obj);
     }
-    processMessages();
-    */
+    
 });
 
 
@@ -69,6 +68,12 @@ function main() {
     adapter.subscribeStates('*')
 }
 
+function processMessage(obj){
+    adapter.log.info('received message content:' + obj.year);
+
+}
+
+
 function createCountdownTable(){
     var arrtableLong = [];
     var arrtableShort = [];
@@ -89,7 +94,7 @@ function createCountdownTable(){
             adapter.log.info('used:' + objNameLong);
 
 
-             var CountDowninWordsLong = adapter.getState({device: obj.common.name , state: 'inWordsLong'}).val;
+             var CountDowninWordsLong = adapter.getState(objNameLong).val;
              var CountDowninWordsShort = adapter.getState({device: obj.common.name , state: 'inWordsShort'}).val;
 
              var arrlineShort = [];
