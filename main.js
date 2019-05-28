@@ -93,7 +93,7 @@ function processMessage(obj){
             year = obj.message.year;
         }
         else{
-            adapter.log.console.error('Could not create alarm as year value is no int!');
+            adapter.log.error('Could not create alarm as year value is no int!');
         }
     }
 
