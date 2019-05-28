@@ -79,7 +79,7 @@ function main() {
 }
 
 function processMessage(obj){
-    adapter.log.info('received message content:' + obj.year);
+    adapter.log.info('received message content:' + obj.message.year);
 
 }
 
