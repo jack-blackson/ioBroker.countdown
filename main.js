@@ -111,6 +111,7 @@ function processMessage(obj){
     var erroroccured = false
 
     if (obj.message.date != ''){
+        adapter.log.info('obj.date:'+obj.message.date)
         adapter.createState('', 'setup', name, {
             read: true, 
             write: false, 
@@ -122,6 +123,8 @@ function processMessage(obj){
     }
     else
     {
+        adapter.log.info('nicht obj.date:'+obj.message.year)
+
         if (obj.message.year != ''){
             if(obj.message.year === '' + parseInt(obj.message.year)){
                 // is int
