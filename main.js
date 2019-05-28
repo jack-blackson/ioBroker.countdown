@@ -82,10 +82,10 @@ function createCountdownTable(){
          const obj = objects[id1];
 
          if (obj.type == 'channel'){
-            adapter.log.info('id: ' + id1 + '.inWordsLong');
+            adapter.log.info('id: ' + obj.common.name + '.inWordsLong');
 
-             var CountDowninWordsLong = adapter.getState(id1 + '.inWordsLong').val;
-             var CountDowninWordsShort = adapter.getState(id1 + '.inWordsShort').val;
+             var CountDowninWordsLong = adapter.getState(obj.common.name + '.inWordsLong').val;
+             var CountDowninWordsShort = adapter.getState(obj.common.name + '.inWordsShort').val;
              adapter.log.info('id1:' + id1);
              adapter.log.info('obj:' + obj);
 
