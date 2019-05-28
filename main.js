@@ -99,11 +99,11 @@ function loopsetup(){
 function processMessage(obj){
     adapter.log.info('received message content:' + obj.message.year);
     var year = 0
-    var month = 0
-    var day = 0
-    var hour = 0
-    var minute = 0
-    var name = 'testname'
+    var month = '0'
+    var day = '0'
+    var hour = '01'
+    var minute = '01'
+    var name = obj.message.name
 
     if (obj.message.year != ''){
         if(obj.message.year === '' + parseInt(obj.message.year)){
@@ -114,11 +114,62 @@ function processMessage(obj){
         {
             adapter.log.error('Could not create alarm as year value is no int!');
         }
-
+    }
+    if (obj.message.month != ''){
+        if(obj.message.month === '' + parseInt(obj.message.month)){
+            // is int
+            if (obj.message.month <=9) {
+                month = '0' + obj.message.month;
+            }
+            else{
+                month = obj.message.month;
+            }
+        }
+        else
+        {
+            adapter.log.error('Could not create alarm as month value is no int!');
+        }
+    }
+    if (obj.message.day != ''){
+        if(obj.message.day === '' + parseInt(obj.message.day)){
+            // is 
+            if (obj.message.month <=9) {
+                day = '0' + obj.message.day;
+            }
+            else{
+                day = obj.message.day;
+            }
+        }
+        else
+        {
+            adapter.log.error('Could not create alarm as day value is no int!');
+        }
+    }
+    if (obj.message.hour != ''){
+        if(obj.message.hour === '' + parseInt(obj.message.hour)){
+            // is int
+            hour = obj.message.hour;
+        }
+        else
+        {
+            adapter.log.error('Could not create alarm as hour value is no int!');
+        }
+    }
+    if (obj.message.minute != ''){
+        if(obj.message.minute === '' + parseInt(obj.message.minute)){
+            // is int
+            minute = obj.message.minute;
+        }
+        else
+        {
+            adapter.log.error('Could not create alarm as minute value is no int!');
+        }
     }
 
-    var datestring = '05' + "." + '05' + "." + year + " " + '20' + ":" + '10';
-    adapter.createState('', 'setup', 'Name', {
+
+
+    var datestring = day + "." + month + "." + year + " " + hour + ":" + minute;
+    adapter.createState('', 'setup', name, {
         read: true, 
         write: false, 
         name: "Name", 
