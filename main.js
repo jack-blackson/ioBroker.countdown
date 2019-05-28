@@ -34,6 +34,7 @@ adapter.on('message', obj => {
 
 
 function startAdapter(options) {
+
     options = options || {};
     Object.assign(options, {
         name: 'countdown',
@@ -45,10 +46,19 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     return adapter;
+
 }
 
 
 function main() {
+    adapter.setObject('setup', {
+        common: {
+              name: 'Countdown Masterdata'
+        },
+        type: 'channel'
+    });
+
+
     adapter.log.info('branch v0.4');
 
     if (AdapterStarted == false){
