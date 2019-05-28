@@ -51,32 +51,45 @@ function startAdapter(options) {
 
 
 function main() {
-    adapter.setObject('setup', {
-        common: {
-              name: 'Countdown Masterdata'
-        },
-        type: 'channel'
-    });
+    
 
 
-    adapter.log.info('branch v0.4');
-
+    
     if (AdapterStarted == false){
-        createObjects()
-        clearOldChannels()
+        adapter.setObject('setup', {
+            common: {
+                  name: 'Countdown Masterdata'
+            },
+            type: 'channel'
+        });
+        //createObjects()
+        //clearOldChannels()
         AdapterStarted = true
     }
-    if (countdownenabled()) {
-        updateresults()
-    }
-    else{
-        adapter.log.info('No active countdown');
-    }
-    createCountdownTable()
+    //if (countdownenabled()) {
+        //updateresults()
+    //}
+    //else{
+    //    adapter.log.info('No active countdown');
+    //}
+    //createCountdownTable()
+
+    loopsetup()
+
+
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
 }
+
+function loopsetup(){
+    const setuploop = adapter.setup;
+    for (const item of setuploop){
+        adapter.log.info('vorhandenes Setup:' +item.name + "," +  item.val);
+
+      }
+}
+
 
 function processMessage(obj){
     adapter.log.info('received message content:' + obj.message.year);
@@ -100,7 +113,7 @@ function processMessage(obj){
     }
 
     var datestring = '05' + "." + '05' + "." + year + " " + '20' + ":" + '10';
-    adapter.createState('', name, 'Name', {
+    adapter.createState('', 'setup', 'Name', {
         read: true, 
         write: false, 
         name: "Name", 
@@ -443,7 +456,7 @@ function mydiff(date1,date2,interval) {
         default: return undefined;
     }
 }
-
+/*
 function countdownenabled(){
     var alarmactive = false;
     // Check if there are active countdowns
@@ -458,3 +471,4 @@ function countdownenabled(){
     return alarmactive
 
 } 
+*/
