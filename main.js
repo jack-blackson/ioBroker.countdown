@@ -93,18 +93,18 @@ function createCountdownTable(){
             adapter.log.info('obj:' + obj);
             adapter.log.info('used:' + objNameLong);
 
-
+            /*
              var CountDowninWordsLong = adapter.getState(objNameLong).val;
              var CountDowninWordsShort = adapter.getState({device: obj.common.name , state: 'inWordsShort'}).val;
 
              var arrlineShort = [];
              var arrlineLong = [];
 
-             arrlineLong = [obj.common.name,CountDowninWordsLong];
+             //arrlineLong = [obj.common.name,CountDowninWordsLong];
              arrlineShort = [obj.common.name,CountDowninWordsShort];
              arrtableLong.push(arrlineLong);
              arrtableShort.push(arrlineShort);
-
+            */
          }   
      }
      
