@@ -80,8 +80,34 @@ function main() {
 
 function processMessage(obj){
     adapter.log.info('received message content:' + obj.message.year);
+    var year = 0
+    var month = 0
+    var day = 0
+    var hour = 0
+    var minute = 0
+    var name = 'testname'
 
+    if (obj.message.year != ''){
+        if(obj.message.year === parseInt(obj.message.year, 10)){
+            // is int
+            year = obj.message.year;
+        }
+        else{
+            adapter.log.console.error('Could not create alarm as year value is no int!');
+        }
+    }
+
+    var datestring = '05' + "." + '05' + "." + year + " " + '20' + ":" + '10';
+    adapter.createState('', name, 'Name', {
+        read: true, 
+        write: false, 
+        name: "Name", 
+        type: "string", 
+        def: datestring,
+        role: 'value'
+      });
 }
+
 
 
 function createCountdownTable(){
