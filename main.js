@@ -112,7 +112,7 @@ function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
-            adapter.log.info('obj.date:'+obj.message.date)
+            /*
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -121,12 +121,18 @@ function processMessage(obj){
                 def: obj.message.date,
                 role: 'value'
               });
+            */
+            adapter.setObject('setup', {
+                 common: {
+                  name: name
+                 },
+            type: 'channel',
+            def: obj.message.date
+        });
         }
     }    
     else
     {
-        adapter.log.info('nicht obj.date:'+obj.message.year)
-
         if (obj.message.year != ''){
             if(obj.message.year === '' + parseInt(obj.message.year)){
                 // is int
@@ -222,8 +228,6 @@ function processMessage(obj){
 
     
 }
-
-
 
 function createCountdownTable(){
     var arrtableLong = [];
