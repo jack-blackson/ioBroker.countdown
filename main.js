@@ -110,17 +110,19 @@ function processMessage(obj){
     var name = obj.message.name
     var erroroccured = false
 
-    if (obj.message.date != ''){
-        adapter.log.info('obj.date:'+obj.message.date)
-        adapter.createState('', 'setup', name, {
-            read: true, 
-            write: false, 
-            name: "Name", 
-            type: "string", 
-            def: obj.message.date,
-            role: 'value'
-          });
-    }
+    if (typeof obj.message.date != 'undefined'){
+        if (obj.message.date != ''){
+            adapter.log.info('obj.date:'+obj.message.date)
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: "Name", 
+                type: "string", 
+                def: obj.message.date,
+                role: 'value'
+              });
+        }
+    }    
     else
     {
         adapter.log.info('nicht obj.date:'+obj.message.year)
