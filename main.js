@@ -84,10 +84,13 @@ function main() {
 
 function loopsetup(){
     const setuploop = adapter.setup;
-    for (const item of setuploop){
-        adapter.log.info('vorhandenes Setup:' +item.common.name + "," +  item.common.val);
-
-      }
+    if (Object.keys(setuploop).length === 0){
+        // setups exist
+        for (const item of setuploop){
+            adapter.log.info('vorhandenes Setup:' +item.common.name + "," +  item.common.val);
+    
+          }
+    }  
 }
 
 
