@@ -85,7 +85,7 @@ function main() {
 function loopsetup(){
     const setuploop = adapter.setup;
     for (const item of setuploop){
-        adapter.log.info('vorhandenes Setup:' +item.name + "," +  item.val);
+        adapter.log.info('vorhandenes Setup:' +item.common.name + "," +  item.common.val);
 
       }
 }
