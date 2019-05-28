@@ -83,7 +83,7 @@ function main() {
 }
 
 function loopsetup(){
-    const setuploop = adapter.setup;
+    const setuploop = adapter.getStatesOf('', 'setup')
     if (Object.keys(setuploop).length === 0){
         // setups exist
         for (const item of setuploop){
