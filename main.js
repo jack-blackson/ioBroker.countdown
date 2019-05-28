@@ -88,13 +88,15 @@ function processMessage(obj){
     var name = 'testname'
 
     if (obj.message.year != ''){
-        if(obj.message.year === parseInt(obj.message.year, 10)){
+        if(obj.message.year === '' + parseInt(obj.message.year)){
             // is int
             year = obj.message.year;
         }
-        else{
+        else
+        {
             adapter.log.error('Could not create alarm as year value is no int!');
         }
+
     }
 
     var datestring = '05' + "." + '05' + "." + year + " " + '20' + ":" + '10';
