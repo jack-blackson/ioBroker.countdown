@@ -95,6 +95,10 @@ function loopsetup(){
             
         }
     }
+    else{
+        adapter.log.info('Kein Setup gefunden');
+
+    }
     /*
     
     adapter.getAdapterObjects((objects) => {
