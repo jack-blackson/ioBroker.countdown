@@ -87,62 +87,11 @@ function loopsetup(){
     adapter.log.info('loopsetup');
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
-        //...
         for (const id1 of result) {
-            adapter.log.info('vorhandenes Setup:' +id1.common.name + id1);
-
+            adapter.log.info('vorhandenes Setup:' +id1.common.name + id1.val);
+            //createCountdownTable(id1.common.name)
         }
      });
-     /*
-     adapter.getStatesOf("setup", function(error, result) {
-        adapter.log.info('vorhandenes Setup1:' +result);
-        //...
-     
-     });
-     */
-
-    /*
-    const setuploop = adapter.getStatesOf("countdown.0.setup")
-    if (setuploop != null){
-        for (const id1 of setuploop) {
-
-            adapter.log.info('vorhandenes Setup:' +id1);
-
-            
-        }
-    }
-    else{
-        adapter.log.info('Kein Setup gefunden');
-
-    }
-    */
-    /*
-    
-    adapter.getAdapterObjects((objects) => {
-        if (objects != null){
-            for (const id1 of Object.keys(objects)) {
-                const obj = objects[id1];
-    
-                adapter.log.info('vorhandenes Setup:' +obj.common.name + "," +  obj.common.val);
-    
-                
-            }
-        }
-        
-      });
-      */
-      /*
-   // const setuploop = adapter.getStatesOf( 'inWordsShort')
-   const setuploop = adapter.getChannels('setup')
-    if (setuploop != null){
-        for (const item of setuploop){
-
-          }
-    }
-    else{
-        adapter.log.info('kein setup gefunden')
-    }
-    */
 }
 
 
@@ -262,8 +211,6 @@ function processMessage(obj){
                 def: datestring,
                 role: 'value'
               });
-              loopsetup()
-
         }
     }
     
