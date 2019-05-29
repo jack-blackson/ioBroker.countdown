@@ -83,7 +83,17 @@ function main() {
 }
 
 function loopsetup(){
+
     adapter.log.info('loopsetup');
+
+    var setupcache =  $('countdown.0.setup.*');
+    setupcache.each(function(id,i){
+        adapter.log.info('results:' + adapter.getObject(id) + adapter.getObject(id).name);
+
+    });
+
+    
+    /*
     adapter.getAdapterObjects((objects) => {
         if (objects != null){
             for (const id1 of Object.keys(objects.setup)) {
@@ -96,7 +106,7 @@ function loopsetup(){
         }
         
       });
-
+      */
       /*
    // const setuploop = adapter.getStatesOf( 'inWordsShort')
    const setuploop = adapter.getChannels('setup')
