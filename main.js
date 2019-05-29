@@ -86,7 +86,7 @@ function loopsetup(){
 
     adapter.log.info('loopsetup');
 
-    var setuploop = "countdown.0.setup.*"
+    const setuploop = adapter.getStatesOf('setup')
     if (setuploop != null){
         for (const id1 of setuploop) {
 
