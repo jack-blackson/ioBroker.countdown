@@ -87,17 +87,19 @@ function loopsetup(){
     adapter.log.info('loopsetup');
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
-        adapter.log.info('vorhandenes Setup:' +result);
         //...
-     
-     });
+        for (const id1 of result) {
+            adapter.log.info('vorhandenes Setup:' +id1.common.name + id1);
 
+        }
+     });
+     /*
      adapter.getStatesOf("setup", function(error, result) {
         adapter.log.info('vorhandenes Setup1:' +result);
         //...
      
      });
-
+     */
 
     /*
     const setuploop = adapter.getStatesOf("countdown.0.setup")
