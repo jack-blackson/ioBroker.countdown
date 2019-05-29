@@ -85,14 +85,16 @@ function main() {
 function loopsetup(){
     adapter.log.info('loopsetup');
     adapter.getAdapterObjects((objects) => {
-
-        for (const id1 of Object.keys(objects.setup)) {
-            const obj = objects[id1];
-
-            adapter.log.info('vorhandenes Setup:' +obj.common.name + "," +  obj.common.val);
-
-            
+        if (objects != null){
+            for (const id1 of Object.keys(objects.setup)) {
+                const obj = objects[id1];
+    
+                adapter.log.info('vorhandenes Setup:' +obj.common.name + "," +  obj.common.val);
+    
+                
+            }
         }
+        
       });
 
       /*
