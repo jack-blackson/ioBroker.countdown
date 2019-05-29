@@ -86,6 +86,20 @@ function loopsetup(){
 
     adapter.log.info('loopsetup');
 
+    adapter.getStatesOf("countdown.0.setup", function(error, result) {
+        adapter.log.info('vorhandenes Setup:' +result);
+        //...
+     
+     });
+
+     adapter.getStatesOf("setup", function(error, result) {
+        adapter.log.info('vorhandenes Setup1:' +result);
+        //...
+     
+     });
+
+
+    /*
     const setuploop = adapter.getStatesOf("countdown.0.setup")
     if (setuploop != null){
         for (const id1 of setuploop) {
@@ -99,6 +113,7 @@ function loopsetup(){
         adapter.log.info('Kein Setup gefunden');
 
     }
+    */
     /*
     
     adapter.getAdapterObjects((objects) => {
