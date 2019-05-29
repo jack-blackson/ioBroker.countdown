@@ -86,11 +86,20 @@ function loopsetup(){
 
     adapter.log.info('loopsetup');
 
-    
+    var setuploop = "countdown.0.setup"
+    if (setuploop != null){
+        for (const id1 of setuploop) {
+
+            adapter.log.info('vorhandenes Setup:' +id1);
+
+            
+        }
+    }
+    /*
     
     adapter.getAdapterObjects((objects) => {
         if (objects != null){
-            for (const id1 of Object.keys(objects.setup)) {
+            for (const id1 of Object.keys(objects)) {
                 const obj = objects[id1];
     
                 adapter.log.info('vorhandenes Setup:' +obj.common.name + "," +  obj.common.val);
@@ -100,7 +109,7 @@ function loopsetup(){
         }
         
       });
-      
+      */
       /*
    // const setuploop = adapter.getStatesOf( 'inWordsShort')
    const setuploop = adapter.getChannels('setup')
@@ -132,7 +141,7 @@ function processMessage(obj){
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
-                name: "Name", 
+                name: name, 
                 type: "string", 
                 def: obj.message.date,
                 role: 'value'
@@ -227,7 +236,7 @@ function processMessage(obj){
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
-                name: "Name", 
+                name: name, 
                 type: "string", 
                 def: datestring,
                 role: 'value'
