@@ -52,9 +52,6 @@ function startAdapter(options) {
 
 function main() {
     
-
-
-    
     if (AdapterStarted == false){
         adapter.setObject('setup', {
             common: {
@@ -88,7 +85,7 @@ function loopsetup(){
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
-            adapter.log.info('vorhandenes Setup:' +id1.common.name + id1.val);
+            adapter.log.info('vorhandenes Setup:' +id1.common.name + id1.common.val);
             //createCountdownTable(id1.common.name)
         }
      });
@@ -96,7 +93,6 @@ function loopsetup(){
 
 
 function processMessage(obj){
-    adapter.log.info('received message content:' + obj.message.year);
     var year = 0
     var month = '0'
     var day = '0'
