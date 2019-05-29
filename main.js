@@ -84,19 +84,29 @@ function main() {
 
 function loopsetup(){
     adapter.log.info('loopsetup');
+    adapter.getAdapterObjects((objects) => {
 
+        for (const id1 of Object.keys(objects.setup)) {
+            const obj = objects[id1];
+
+            adapter.log.info('vorhandenes Setup:' +obj.common.name + "," +  obj.common.val);
+
+            
+        }
+      });
+
+      /*
    // const setuploop = adapter.getStatesOf( 'inWordsShort')
    const setuploop = adapter.getChannels('setup')
     if (setuploop != null){
         for (const item of setuploop){
-            adapter.log.info('vorhandenes Setup:' +item.common.name + "," +  item.common.val);
-    
+
           }
     }
     else{
         adapter.log.info('kein setup gefunden')
     }
-    
+    */
 }
 
 
@@ -112,7 +122,7 @@ function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
-            /*
+            
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -120,14 +130,7 @@ function processMessage(obj){
                 type: "string", 
                 def: obj.message.date,
                 role: 'value'
-              });
-            */
-            adapter.setObject('setup.' + name, {
-                 common: {
-                  name: name
-                 },
-            type: 'channel',
-            def: obj.message.date
+            
         });
         }
     }    
