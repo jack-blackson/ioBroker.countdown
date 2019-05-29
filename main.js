@@ -74,7 +74,7 @@ function main() {
     //}
     //createCountdownTable()
 
-    //loopsetup()
+    loopsetup()
 
 
 
@@ -86,7 +86,7 @@ function loopsetup(){
 
     adapter.log.info('loopsetup');
 
-    const setuploop = adapter.getStatesOf('setup')
+    const setuploop = adapter.getStatesOf("countdown.0.setup")
     if (setuploop != null){
         for (const id1 of setuploop) {
 
