@@ -85,7 +85,7 @@ function loopsetup(){
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
-            adapter.log.info('vorhandenes Setup:' + id1.common.name +  adapter.getState(id1).val);
+            adapter.log.info('vorhandenes Setup:' + id1.common.name +  adapter.getState("countdown.0.setup.countdown_einstellige_werte").val;);
             //createCountdownTable(id1.common.name)
         }
      });
