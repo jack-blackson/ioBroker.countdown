@@ -103,23 +103,23 @@ function loopsetup(){
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
-            var CountdownName = id1.common.name.replace(/ /g,"_");
+            var CountdownNameUnderlined = id1.common.name.replace(/ /g,"_");
 
             //var pathCountdownSetup = 'countdown.0.setup.' + CountdownName
             //var pathCountdown = 'countdown.0.' + CountdownName
-            adapter.log.info('Countdown Name:' + CountdownName );
+            adapter.log.info('Countdown Name:' + CountdownNameUnderlined );
 
-            adapter.getForeignState('countdown.0.setup.' + CountdownName, function (err, state) {
-                adapter.log.info('vorhandenes Setup:' + CountdownName +  state.val );
+            adapter.getForeignState('countdown.0.setup.' + CountdownNameUnderlined, function (err, state) {
+                adapter.log.info('vorhandenes Setup:' + CountdownNameUnderlined +  state.val );
                 //prüfen ob Device schon vorhanden ist
-                adapter.getForeignState('countdown.0.' + CountdownName, function (err, result) {
+                adapter.getForeignState('countdown.0.' + CountdownNameUnderlined, function (err, result) {
                     if (err) {
                         
-                        adapter.log.info('Datenpunkt für Countdown ' + CountdownName + 'waren noch nicht vorhanden - angelegt');
-                        createObjects(CountdownName);
+                        adapter.log.info('Datenpunkt für Countdown ' + CountdownNameUnderlined + 'waren noch nicht vorhanden - angelegt');
+                        createObjects(CountdownNameUnderlined);
                     } else {
-                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + CountdownName);
-                        createCountdownData(CountdownName,state.val)
+                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + CountdownNameUnderlined);
+                        createCountdownData(CountdownNameUnderlined,state.val)
                 
                     }
                 });
