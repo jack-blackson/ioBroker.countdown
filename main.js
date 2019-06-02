@@ -57,7 +57,8 @@ function main() {
             common: {
                   name: 'Countdown Masterdata'
             },
-            type: 'device'
+            type: 'device',
+            'native' : {}
         });
 
         adapter.createState('', '', 'htmlContentLong', {
@@ -103,10 +104,12 @@ function loopsetup(){
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
             var CountdownName = id1.common.name
-            adapter.getForeignState("countdown.0.setup.countdown_einstellige_werte", function (err, state) {
+            var pathCountdownSetup = '"countdown.0.setup.' + CountdownName + '"'
+            var pathCountdown = '"countdown.0.' + CountdownName + '"'
+            adapter.getForeignState(pathCountdownSetup, function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + CountdownName +  state.val );
                 //prüfen ob Device schon vorhanden ist
-                adapter.getState(CountdownName, function (err, result) {
+                adapter.getState(pathCountdown, function (err, result) {
                     if (err) {
                         
                         adapter.log.info('Datenpunkt für Countdown ' + CountdownName + 'waren noch nicht vorhanden - angelegt');
@@ -345,7 +348,8 @@ function createObjects(Name){
         common: {
               name: Name
         },
-        type: 'device'
+        type: 'device',
+        'native' : {}
     });
       adapter.createState('', Name, 'name', {
         read: true, 
