@@ -102,18 +102,18 @@ function loopsetup(){
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
+            var CountdownName = id1.common.name
             adapter.getForeignState("countdown.0.setup.countdown_einstellige_werte", function (err, state) {
-                adapter.log.info('vorhandenes Setup:' + id1.common.name +  state.val );
-                createCountdownData(id1.common.name,state.val)
-                adapter.getState(id1.common.name, function (err, result) {
-
+                adapter.log.info('vorhandenes Setup:' + CountdownName +  state.val );
+                //prüfen ob Device schon vorhanden ist
+                adapter.getState(CountdownName, function (err, result) {
                     if (err) {
                         
-                        adapter.log.info('Datenpunkt für COuntdown ' + id1.common.name + 'waren noch nicht vorhanden - angelegt');
-                        createObjects(id1.common.name);
+                        adapter.log.info('Datenpunkt für Countdown ' + CountdownName + 'waren noch nicht vorhanden - angelegt');
+                        createObjects(CountdownName);
                     } else {
-                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name + 'waren noch nicht vorhanden - angelegt');
-                        createCountdownData(id1.common.name,state.val)
+                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + CountdownName);
+                        createCountdownData(CountdownName,state.val)
                 
                     }
                 });
