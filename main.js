@@ -113,7 +113,7 @@ function loopsetup(){
                         createObjects(id1.common.name);
                     } else {
                         adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name + 'waren noch nicht vorhanden - angelegt');
-                        createCountdownData(id1.common.name,result.val)
+                        createCountdownData(id1.common.name,state.val)
                 
                     }
                 });
