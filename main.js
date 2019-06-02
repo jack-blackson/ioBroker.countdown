@@ -104,8 +104,8 @@ function loopsetup(){
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
             var CountdownName = id1.common.name
-            var pathCountdownSetup = '"countdown.0.setup.' + CountdownName + '"'
-            var pathCountdown = '"countdown.0.' + CountdownName + '"'
+            var pathCountdownSetup = 'countdown.0.setup.' + CountdownName
+            var pathCountdown = 'countdown.0.' + CountdownName
             adapter.getForeignState(pathCountdownSetup, function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + CountdownName +  state.val );
                 //prüfen ob Device schon vorhanden ist
