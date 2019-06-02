@@ -109,7 +109,7 @@ function loopsetup(){
             adapter.getForeignState(pathCountdownSetup, function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + CountdownName +  state.val );
                 //prüfen ob Device schon vorhanden ist
-                adapter.getState(pathCountdown, function (err, result) {
+                adapter.getForeignState(pathCountdown, function (err, result) {
                     if (err) {
                         
                         adapter.log.info('Datenpunkt für Countdown ' + CountdownName + 'waren noch nicht vorhanden - angelegt');
