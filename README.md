@@ -35,6 +35,9 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 ### 0.3.0 (2019-05-24)
 * (jack-blackson) added total No. of days and hours
 
+### 0.4.0 (2019-06-04)
+* (jack-blackson) restructuring - creation of alarms with sendto or manually with datapoint is now possible
+
 ## License
 The MIT License (MIT)
 

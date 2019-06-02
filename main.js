@@ -85,7 +85,7 @@ function loopsetup(){
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
-            adapter.getForeignState(id1, function (err, state) {
+            adapter.getForeignState("countdown.0.setup.countdown_einstellige_werte", function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + id1.common.name +  state);
 
             });

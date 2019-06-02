@@ -1,7 +1,7 @@
 {
     "common": {
       "name": "countdown",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "news": {
         "0.1.0": {
           "en": "Initial version",
@@ -14,6 +14,10 @@
         "0.3.0": {
           "en": "Add total Hours and Days, small fixes",
           "de": "Totale Stunden und Tage hinzugefügt, kleine Korrekturen "
+        },
+        "0.4.0": {
+          "en": "Restructuring",
+          "de": "Struktur geändert "
         }
       },
       "title": "Countdown",
