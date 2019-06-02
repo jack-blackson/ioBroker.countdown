@@ -106,10 +106,12 @@ function loopsetup(){
             var CountdownName = id1.common.name
             //var pathCountdownSetup = 'countdown.0.setup.' + CountdownName
             //var pathCountdown = 'countdown.0.' + CountdownName
-            adapter.getForeignState("countdown.0.setup." + CountdownName, function (err, state) {
+            adapter.log.info('Countdown Name:' + CountdownName );
+
+            adapter.getForeignState('countdown.0.setup.' + CountdownName, function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + CountdownName +  state.val );
                 //prüfen ob Device schon vorhanden ist
-                adapter.getForeignState("countdown.0." + CountdownName, function (err, result) {
+                adapter.getForeignState('countdown.0.' + CountdownName, function (err, result) {
                     if (err) {
                         
                         adapter.log.info('Datenpunkt für Countdown ' + CountdownName + 'waren noch nicht vorhanden - angelegt');
