@@ -103,7 +103,8 @@ function loopsetup(){
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
-            var CountdownName = id1.common.name
+            var CountdownName = id1.common.name.replace(/ /g,"_");
+
             //var pathCountdownSetup = 'countdown.0.setup.' + CountdownName
             //var pathCountdown = 'countdown.0.' + CountdownName
             adapter.log.info('Countdown Name:' + CountdownName );
