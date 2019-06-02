@@ -59,6 +59,23 @@ function main() {
             },
             type: 'device'
         });
+
+        adapter.createState('', '', 'htmlContentLong', {
+            read: true, 
+            write: false, 
+            name: "HTML Content Countdown Long", 
+            type: "string", 
+            def: '',
+            role: 'value'
+          });
+          adapter.createState('', '', 'htmlContentShort', {
+            read: true, 
+            write: false, 
+            name: "HTML Content Countdown Short", 
+            type: "string", 
+            def: '',
+            role: 'value'
+          });
         //createObjects()
         //clearOldChannels()
         AdapterStarted = true
@@ -86,14 +103,56 @@ function loopsetup(){
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
             adapter.getForeignState("countdown.0.setup.countdown_einstellige_werte", function (err, state) {
-                adapter.log.info('vorhandenes Setup:' + id1.common.name +  state.val + state.value);
+                adapter.log.info('vorhandenes Setup:' + id1.common.name +  state.val );
+                createCountdownData(id1.common.name,state.val)
+                adapter.getState(id1.common.name, function (err, result) {
 
+                    if (err) {
+                        
+                        adapter.log.info('Datenpunkt für COuntdown ' + id1.common.name + 'waren noch nicht vorhanden - angelegt');
+                        createObjects(id1.common.name);
+                    } else {
+                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name + 'waren noch nicht vorhanden - angelegt');
+                        createCountdownData(id1.common.name,result.val)
+                
+                    }
+                });
             });
 
-            //createCountdownTable(id1.common.name)
         }
-     });
+    });
 }
+
+function createCountdownData(CountName, CountDate){
+    adapter.log.info('werte aktualisiert für ' + CountName);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function processMessage(obj){
@@ -256,6 +315,7 @@ function createCountdownTable(){
    });
 }
 
+/*
 function clearOldChannels(){
     // clear objects which were deleted in the setup - run once after adapter restart
    var setuparr = [];
@@ -278,135 +338,117 @@ function clearOldChannels(){
     }
   });
 }
+*/
 
-function createObjects(){
-    adapter.createState('', '', 'htmlContentLong', {
+function createObjects(Name){
+      adapter.createState('', Name, 'name', {
         read: true, 
         write: false, 
-        name: "HTML Content Countdown Long", 
+        name: "Name", 
+        type: "string", 
+        def: Name,
+        role: 'value'
+      });
+    adapter.createState('', Name, 'active', {
+        read: true, 
+        write: false, 
+        name: "Active", 
+        type: "boolean", 
+        def: true,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'reached', {
+        read: true, 
+        write: false, 
+        name: "Reached", 
+        type: "boolean", 
+        def: false,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'years', {
+        read: true, 
+        write: false, 
+        name: "Years", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'months', {
+        read: true, 
+        write: false, 
+        name: "Months", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'days', {
+        read: true, 
+        write: false, 
+        name: "Days", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'hours', {
+        read: true, 
+        write: false, 
+        name: "Hours", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'minutes', {
+        read: true, 
+        write: false, 
+        name: "Minutes", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'inWordsLong', {
+        read: true, 
+        write: false, 
+        name: "Result in Words Long", 
         type: "string", 
         def: '',
         role: 'value'
       });
-      adapter.createState('', '', 'htmlContentShort', {
+      adapter.createState('', Name, 'inWordsShort', {
         read: true, 
         write: false, 
-        name: "HTML Content Countdown Short", 
+        name: "Result in Words Short", 
         type: "string", 
         def: '',
         role: 'value'
       });
+      adapter.createState('', Name, 'endDate', {
+        read: true, 
+        write: false, 
+        name: "Enddate", 
+        type: "string", 
+        def: '',
+        role: 'value'
+      });
+      adapter.createState('', Name, 'totalDays', {
+        read: true, 
+        write: false, 
+        name: "Total No. of Days", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+      adapter.createState('', Name, 'totalHours', {
+        read: true, 
+        write: false, 
+        name: "Total No. of Hours", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
 
-    const setuploop = adapter.config.setup;
-    for (const item of setuploop){
-        adapter.createState('', item.name, 'name', {
-            read: true, 
-            write: false, 
-            name: "Name", 
-            type: "string", 
-            def: item.name,
-            role: 'value'
-          });
-        adapter.createState('', item.name, 'active', {
-            read: true, 
-            write: false, 
-            name: "Active", 
-            type: "boolean", 
-            def: item.active,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'reached', {
-            read: true, 
-            write: false, 
-            name: "Reached", 
-            type: "boolean", 
-            def: false,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'years', {
-            read: true, 
-            write: false, 
-            name: "Years", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'months', {
-            read: true, 
-            write: false, 
-            name: "Months", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'days', {
-            read: true, 
-            write: false, 
-            name: "Days", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'hours', {
-            read: true, 
-            write: false, 
-            name: "Hours", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'minutes', {
-            read: true, 
-            write: false, 
-            name: "Minutes", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'inWordsLong', {
-            read: true, 
-            write: false, 
-            name: "Result in Words Long", 
-            type: "string", 
-            def: '',
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'inWordsShort', {
-            read: true, 
-            write: false, 
-            name: "Result in Words Short", 
-            type: "string", 
-            def: '',
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'endDate', {
-            read: true, 
-            write: false, 
-            name: "Enddate", 
-            type: "string", 
-            def: '',
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'totalDays', {
-            read: true, 
-            write: false, 
-            name: "Total No. of Days", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-          adapter.createState('', item.name, 'totalHours', {
-            read: true, 
-            write: false, 
-            name: "Total No. of Hours", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-          });
-    }
 }
 
-
+/*
 function updateresults(){
     //temp();
     const setuploop = adapter.config.setup;
@@ -525,7 +567,7 @@ function updateresults(){
 
         }
 }
-
+*/
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
     date1 = new Date(date1);
