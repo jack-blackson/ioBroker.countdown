@@ -106,6 +106,17 @@ function loopsetup(){
             adapter.getForeignState('countdown.0.setup.' + id1.common.name.replace(/ /g,"_"), function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + id1.common.name.replace(/ /g,"_") +  state.val );
                 //prüfen ob Device schon vorhanden ist
+                if (adapter.getObject('countdown.0.' + id1.common.name.replace(/ /g,"_"))){
+                    adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
+                    createCountdownData(id1.common.name,state.val)
+                }
+                else{
+                    adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
+                    createObjects(id1.common.name);
+                }
+
+
+                /*
                 adapter.getForeignState('countdown.0.' + id1.common.name.replace(/ /g,"_"), function (err1, result1) {
                     if (err1) {
                         adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
@@ -116,6 +127,7 @@ function loopsetup(){
                 
                     }
                 });
+                */
             });
 
         }
