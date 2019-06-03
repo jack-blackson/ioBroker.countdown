@@ -93,14 +93,19 @@ function loopsetup(){
                 adapter.log.info('vorhandenes Setup:' + id1.common.name.replace(/ /g,"_") +  state.val );
                 //prüfen ob Device schon vorhanden ist
                 adapter.getObject('countdown.0.' + id1.common.name.replace(/ /g,"_"), function (err1, state1){
+                    adapter.log.info('Testobjekt: ' + state1);
+                    /*
                     if (state1.length === 0){
-                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
-                        createCountdownData(id1.common.name,state.val)
-                    }
-                    else{
                         adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
                         createObjects(id1.common.name);
                     }
+                    else{
+                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
+                        createCountdownData(id1.common.name,state.val)
+                    }
+                    */
+                   createObjects(id1.common.name);
+
                 });
             });
 
