@@ -117,7 +117,7 @@ function loopsetup(){
             });
 
         }
-        createCountdownTable()
+        //createCountdownTable()
     });
 }
 
