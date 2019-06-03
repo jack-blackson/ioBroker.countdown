@@ -77,36 +77,22 @@ function main() {
             def: '',
             role: 'value'
           });
-        //createObjects()
-        //clearOldChannels()
         AdapterStarted = true
     }
-    //if (countdownenabled()) {
-        //updateresults()
-    //}
-    //else{
-    //    adapter.log.info('No active countdown');
-    //}
-    //createCountdownTable()
 
     loopsetup()
-
-
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
 }
 
 function loopsetup(){
-
-    adapter.log.info('loopsetup');
-
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
             adapter.getForeignState('countdown.0.setup.' + id1.common.name.replace(/ /g,"_"), function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + id1.common.name.replace(/ /g,"_") +  state.val );
                 //prüfen ob Device schon vorhanden ist
-                if (adapter.getObject('countdown.0.' + id1.common.name.replace(/ /g,"_"))){
+                if (adapter.getObject('countdown.0.' + id1.common.name.replace(/ /g,"_")) == adapter.getState('countdown.0.' + id1.common.name.replace(/ /g,"_")).val){
                     adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
                     createCountdownData(id1.common.name,state.val)
                 }
@@ -115,54 +101,122 @@ function loopsetup(){
                     createObjects(id1.common.name);
                 }
 
-
-                /*
-                adapter.getForeignState('countdown.0.' + id1.common.name.replace(/ /g,"_"), function (err1, result1) {
-                    if (err1) {
-                        adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
-                        createObjects(id1.common.name);
-                    } else {
-                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
-                        createCountdownData(id1.common.name,state.val)
-                
-                    }
-                });
-                */
             });
 
         }
     });
 }
 
+
 function createCountdownData(CountName, CountDate){
     adapter.log.info('werte aktualisiert für ' + CountName);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
     
+    var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
+
+    var now = moment(new Date()); //todays date
+    var duration = moment.duration(now.diff(newdate));        
+    var years = duration.years() * -1;
+    var months = duration.months() * -1;
+    var days = duration.days() * -1;
+    var hours = duration.hours() * -1;
+    var minutes = duration.minutes() * -1;
+
+    var storagename = CountName.replace(/ /g,"_");
+
+    adapter.setState({device: storagename , state: 'name'}, {val: CountName, ack: true});
+    adapter.setState({device: storagename , state: 'endDate'}, {val: newdatelocal, ack: true});
+
+
+
+    if (now.diff(newdate) >= 0){
+        // Countdown reached today -> disable countdown 
+        adapter.setState({device: storagename , state: 'years'}, {val: 0, ack: true});
+        adapter.setState({device: storagename , state: 'months'}, {val: 0, ack: true});
+        adapter.setState({device: storagename , state: 'days'}, {val: 0, ack: true});
+        adapter.setState({device: storagename , state: 'hours'}, {val: 0, ack: true});
+        adapter.setState({device: storagename , state: 'minutes'}, {val: 0, ack: true});
+        adapter.setState({device: storagename , state: 'inWordsShort'}, {val: '', ack: true});
+        adapter.setState({device: storagename , state: 'inWordsLong'}, {val: '', ack: true});
+        adapter.setState({device: storagename , state: 'reached'}, {val: true, ack: true});
+
+    }
+    else{
+        // Countdown not reached -> update values
+
+        var CountDowninWordsShort = '';
+        var CountDowninWordsLong = '';
+
+        //years
+        if (years != 0){
+            CountDowninWordsShort = years+'Y ';
+            if (years > 1){
+                CountDowninWordsLong = years+'Year ';
+            }
+            else{
+                CountDowninWordsLong = years+'Years ';
+            }
+        }
+
+        //months
+        if (months != 0 || years != 0){
+            CountDowninWordsShort += months+'M ';
+
+            if (months > 1){
+                CountDowninWordsLong += months+' Months ';
+            }
+            else{
+                CountDowninWordsLong += months+' Month ';
+            }
+        }
+
+        //days
+        if (days != 0 || months != 0 || years != 0){
+            CountDowninWordsShort += days+'D ';
+
+            if (days > 1){
+                CountDowninWordsLong += days+' Days ';
+            }
+            else{
+                CountDowninWordsLong += days+' Day ';
+            }
+        }
+
+        //hours
+        if (hours != 0 && years == 0 && months == 0){
+            CountDowninWordsShort += hours+'H ';
+            if (hours > 1){
+                CountDowninWordsLong += hours+' Hours ';
+            }
+            else{
+                CountDowninWordsLong += hours+' Hour ';
+            } 
+        }
+
+        //minutes
+        if (years == 0 && months == 0){
+            CountDowninWordsShort += minutes+'M';
+            if (minutes > 1){
+                CountDowninWordsLong += minutes+' Minutes ';
+            }
+            else{
+                CountDowninWordsLong += minutes+' Minute ';
+            }     
+        }
+                
+        adapter.setState({device: storagename , state: 'years'}, {val: years, ack: true});
+        adapter.setState({device: storagename , state: 'months'}, {val: months, ack: true});
+        adapter.setState({device: storagename , state: 'days'}, {val: days, ack: true});
+        adapter.setState({device: storagename , state: 'hours'}, {val: hours, ack: true});
+        adapter.setState({device: storagename , state: 'minutes'}, {val: minutes, ack: true});
+        adapter.setState({device: storagename , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
+        adapter.setState({device: storagename , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
+        adapter.setState({device: storagename , state: 'reached'}, {val: false, ack: true});
+        adapter.setState({device: storagename , state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
+        adapter.setState({device: storagename , state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});   
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -272,7 +326,7 @@ function processMessage(obj){
         }
     
         if (erroroccured == false){
-            var datestring = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00";
+            var datestring = year + "." + month + "." + day + " " + hour + ":" + minute + ":00";
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -299,30 +353,19 @@ function createCountdownTable(){
          const obj = objects[id1];
 
          if (obj.type == 'channel'){
-            var objNameLong = id1 + '.inWordsLong'
-            var objNameShort = id1 + '.inWordsLong'
-            adapter.log.info('id1:' + id1);
-            adapter.log.info('obj:' + obj);
-            adapter.log.info('used:' + objNameLong);
 
-            /*
-             var CountDowninWordsLong = adapter.getState(objNameLong).val;
-             var CountDowninWordsShort = adapter.getState({device: obj.common.name , state: 'inWordsShort'}).val;
-
-             var arrlineShort = [];
-             var arrlineLong = [];
-
-             //arrlineLong = [obj.common.name,CountDowninWordsLong];
-             arrlineShort = [obj.common.name,CountDowninWordsShort];
-             arrtableLong.push(arrlineLong);
-             arrtableShort.push(arrlineShort);
-            */
+            adapter.getForeignState('countdown.0.' + id1.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
+                var arrlineLong = [];
+                arrtableLong.push(state.val);
+            });
+            adapter.getForeignState('countdown.0.' + id1.replace(/ /g,"_") + '.inWordsShort', function (err, state) {
+                var arrlineShort = [];
+                arrtableShort.push(state.val);
+            });
          }   
      }
-     
-     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
      adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
-
+     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
    });
 }
 
@@ -352,13 +395,6 @@ function clearOldChannels(){
 */
 
 function createObjects(Name){
-    adapter.setObject(Name, {
-        common: {
-              name: Name
-        },
-        type: 'device',
-        'native' : {}
-    });
       adapter.createState('', Name, 'name', {
         read: true, 
         write: false, 
@@ -586,6 +622,7 @@ function updateresults(){
         }
 }
 */
+
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
     date1 = new Date(date1);
@@ -607,19 +644,3 @@ function mydiff(date1,date2,interval) {
         default: return undefined;
     }
 }
-/*
-function countdownenabled(){
-    var alarmactive = false;
-    // Check if there are active countdowns
-    if (adapter.config.setup) {
-        const setuploop = adapter.config.setup;
-        for (const item of setuploop){
-            if (item.active == true){
-                alarmactive = true;
-            }
-        }
-    }
-    return alarmactive
-
-} 
-*/
