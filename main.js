@@ -402,6 +402,14 @@ function clearOldChannels(){
 */
 
 function createObjects(Name){
+    adapter.setObject(Name, {
+        common: {
+              name: Name
+        },
+        type: 'device',
+        'native' : {}
+    });
+    /*
       adapter.createState('', Name, 'name', {
         read: true, 
         write: false, 
@@ -498,7 +506,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-
+      */
 }
 
 /*
