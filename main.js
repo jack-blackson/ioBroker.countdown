@@ -60,6 +60,13 @@ function main() {
             type: 'device',
             'native' : {}
         });
+        adapter.setObject('countdowns', {
+            common: {
+                  name: 'Countdown Details'
+            },
+            type: 'device',
+            'native' : {}
+        });
 
         adapter.createState('', '', 'htmlContentLong', {
             read: true, 
@@ -92,7 +99,7 @@ function loopsetup(){
             adapter.getForeignState('countdown.0.setup.' + id1.common.name.replace(/ /g,"_"), function (err, state) {
                 adapter.log.info('vorhandenes Setup:' + id1.common.name.replace(/ /g,"_") +  state.val );
                 //prüfen ob Device schon vorhanden ist
-                adapter.getForeignState('countdown.0.' + id1.common.name.replace(/ /g,"_"), function (err1, state1){
+                adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_"), function (err1, state1){
                     adapter.log.info('Testobjekt: ' + state1);
                     /*
                     if (state1.length === 0){
@@ -402,11 +409,11 @@ function clearOldChannels(){
 */
 
 function createObjects(Name){
-    adapter.setObject(Name, {
+    adapter.setObject('countdowns.' + Name, {
         common: {
               name: Name
         },
-        type: 'device',
+        type: 'channel',
         'native' : {}
     });
     /*
