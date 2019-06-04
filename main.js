@@ -105,40 +105,9 @@ function loopsetup(){
                         createObjects(id1.common.name);
                     }
                     else{
-                        adapter.log.info('Datenpunkt ' + result1.val);
-                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
-
-                    }
-                    
-
-                    if (err1) {
-                        
-
-                    } else {
-                
-                    }
-                
-                });
-
-                createObjects(id1.common.name);
-
-                /*
-                adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_"), function (err1, state1){
-                    adapter.log.info('Testobjekt: ' + state1);
-                    
-                    if (state1.length === 0){
-                        adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
-                        createObjects(id1.common.name);
-                    }
-                    else{
-                        adapter.log.info('Datenpunkt vorhanden, nur aktualisiert ' + id1.common.name);
                         createCountdownData(id1.common.name,state.val)
                     }
-                    
-                   createObjects(id1.common.name);
-
                 });
-                */
             });
 
         }
@@ -450,8 +419,8 @@ function createObjects(Name){
         def: Name,
         role: 'value'
       });
-      /*
-      adapter.createState('', Name, 'reached', {
+      
+      adapter.createState('countdowns', Name, 'reached', {
         read: true, 
         write: false, 
         name: "Reached", 
@@ -459,7 +428,7 @@ function createObjects(Name){
         def: false,
         role: 'value'
       });
-      adapter.createState('', Name, 'years', {
+      adapter.createState('countdowns', Name, 'years', {
         read: true, 
         write: false, 
         name: "Years", 
@@ -467,7 +436,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      adapter.createState('', Name, 'months', {
+      adapter.createState('countdowns', Name, 'months', {
         read: true, 
         write: false, 
         name: "Months", 
@@ -475,7 +444,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      adapter.createState('', Name, 'days', {
+      adapter.createState('countdowns', Name, 'days', {
         read: true, 
         write: false, 
         name: "Days", 
@@ -483,7 +452,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      adapter.createState('', Name, 'hours', {
+      adapter.createState('countdowns', Name, 'hours', {
         read: true, 
         write: false, 
         name: "Hours", 
@@ -491,7 +460,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      adapter.createState('', Name, 'minutes', {
+      adapter.createState('countdowns', Name, 'minutes', {
         read: true, 
         write: false, 
         name: "Minutes", 
@@ -499,7 +468,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      adapter.createState('', Name, 'inWordsLong', {
+      adapter.createState('countdowns', Name, 'inWordsLong', {
         read: true, 
         write: false, 
         name: "Result in Words Long", 
@@ -507,7 +476,7 @@ function createObjects(Name){
         def: '',
         role: 'value'
       });
-      adapter.createState('', Name, 'inWordsShort', {
+      adapter.createState('countdowns', Name, 'inWordsShort', {
         read: true, 
         write: false, 
         name: "Result in Words Short", 
@@ -515,7 +484,7 @@ function createObjects(Name){
         def: '',
         role: 'value'
       });
-      adapter.createState('', Name, 'endDate', {
+      adapter.createState('countdowns', Name, 'endDate', {
         read: true, 
         write: false, 
         name: "Enddate", 
@@ -523,7 +492,7 @@ function createObjects(Name){
         def: '',
         role: 'value'
       });
-      adapter.createState('', Name, 'totalDays', {
+      adapter.createState('countdowns', Name, 'totalDays', {
         read: true, 
         write: false, 
         name: "Total No. of Days", 
@@ -531,7 +500,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      adapter.createState('', Name, 'totalHours', {
+      adapter.createState('countdowns', Name, 'totalHours', {
         read: true, 
         write: false, 
         name: "Total No. of Hours", 
@@ -539,7 +508,7 @@ function createObjects(Name){
         def: 0,
         role: 'value'
       });
-      */
+      
 }
 
 /*
