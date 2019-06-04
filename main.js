@@ -431,16 +431,24 @@ function clearOldChannels(){
 }
 */
 
-function createObjects(Name){
-    adapter.setObjectNotExists('countdowns.' + Name, {
+function createObjects(CountName){
+    adapter.setObjectNotExists('countdowns.' + CountName, {
         common: {
-              name: Name
+              name: CountName
         },
         type: 'channel',
         'native' : {}
     });
 
-    adapter.createState('countdowns.' + Name + '.name')
+    adapter.createState("countdowns." + CountName + '.name', CountName, {
+        read: true, 
+        write: true, 
+        name: "Name", 
+        type: "string", 
+        def: CountName
+      });
+
+    //adapter.createState('countdowns.' + Name + '.name')
     /*
     adapter.createState('countdowns.' + Name,'name',{
         read: true, 
