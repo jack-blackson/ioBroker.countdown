@@ -439,7 +439,7 @@ function createObjects(Name){
         type: 'channel',
         'native' : {}
     });
-    /*
+    
       adapter.createState('countdowns.' + Name + '.', 'name',{
         read: true, 
         write: false, 
@@ -448,7 +448,7 @@ function createObjects(Name){
         def: Name,
         role: 'value'
       });
-      
+      /*
       adapter.createState('countdowns', Name, 'reached', {
         read: true, 
         write: false, 
