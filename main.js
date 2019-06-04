@@ -111,7 +111,7 @@ function loopsetup(){
             });
 
         }
-        createCountdownTable()
+        //createCountdownTable()
     });
 }
 
@@ -425,6 +425,7 @@ function clearOldChannels(){
 */
 
 function createObjects(Name){
+    /*
     adapter.setObject('countdowns.' + Name, {
         common: {
               name: Name
@@ -432,7 +433,7 @@ function createObjects(Name){
         type: 'channel',
         'native' : {}
     });
-    
+    */
       adapter.createState('countdowns', Name, 'name', {
         read: true, 
         write: false, 
