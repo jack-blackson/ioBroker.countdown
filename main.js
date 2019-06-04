@@ -432,7 +432,7 @@ function clearOldChannels(){
 */
 
 function createObjects(CountName){
-    adapter.setObjectNotExists('countdowns.' + CountName.replace(/_/g," "), {
+    adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
         common: {
               name: CountName
         },
