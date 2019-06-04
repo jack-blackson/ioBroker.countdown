@@ -440,7 +440,7 @@ function createObjects(Name){
         'native' : {}
     });
 
-    adapter.createState('countdowns.' + Name + '.name',{
+    adapter.createState('countdowns.' + Name,'name',{
         read: true, 
         write: false, 
         name: "Name", 
