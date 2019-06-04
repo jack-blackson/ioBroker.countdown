@@ -430,7 +430,7 @@ function clearOldChannels(){
 
 function createObjects(Name){
     
-    adapter.setObject('countdowns.' + Name, {
+    adapter.setObject('countdowns.', Name,{
         common: {
               name: Name
         },
@@ -438,7 +438,7 @@ function createObjects(Name){
         'native' : {}
     });
     
-      adapter.createState('countdowns.' + Name, {
+      adapter.createState('countdowns.' + Name, 'name',{
         read: true, 
         write: false, 
         name: "Name", 
