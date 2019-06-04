@@ -135,23 +135,23 @@ function createCountdownData(CountName, CountDate){
     var hours = duration.hours() * -1;
     var minutes = duration.minutes() * -1;
 
-    var storagename = 'countdowns.' + CountName.replace(/ /g,"_");
+    var storagename = CountName.replace(/ /g,"_");
 
-    adapter.setState({device: storagename , state: 'name'}, {val: CountName, ack: true});
-    adapter.setState({device: storagename , state: 'endDate'}, {val: newdatelocal, ack: true});
+    adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
+    adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
 
 
     if (now.diff(newdate) >= 0){
         // Countdown reached today -> disable countdown 
-        adapter.setState({device: storagename , state: 'years'}, {val: 0, ack: true});
-        adapter.setState({device: storagename , state: 'months'}, {val: 0, ack: true});
-        adapter.setState({device: storagename , state: 'days'}, {val: 0, ack: true});
-        adapter.setState({device: storagename , state: 'hours'}, {val: 0, ack: true});
-        adapter.setState({device: storagename , state: 'minutes'}, {val: 0, ack: true});
-        adapter.setState({device: storagename , state: 'inWordsShort'}, {val: '', ack: true});
-        adapter.setState({device: storagename , state: 'inWordsLong'}, {val: '', ack: true});
-        adapter.setState({device: storagename , state: 'reached'}, {val: true, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
 
     }
     else{
@@ -217,16 +217,16 @@ function createCountdownData(CountName, CountDate){
             }     
         }
                 
-        adapter.setState({device: storagename , state: 'years'}, {val: years, ack: true});
-        adapter.setState({device: storagename , state: 'months'}, {val: months, ack: true});
-        adapter.setState({device: storagename , state: 'days'}, {val: days, ack: true});
-        adapter.setState({device: storagename , state: 'hours'}, {val: hours, ack: true});
-        adapter.setState({device: storagename , state: 'minutes'}, {val: minutes, ack: true});
-        adapter.setState({device: storagename , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
-        adapter.setState({device: storagename , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
-        adapter.setState({device: storagename , state: 'reached'}, {val: false, ack: true});
-        adapter.setState({device: storagename , state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
-        adapter.setState({device: storagename , state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: days, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: hours, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: minutes, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});   
     }
 }
 
@@ -429,7 +429,7 @@ function clearOldChannels(){
 */
 
 function createObjects(Name){
-    /*
+    
     adapter.setObject('countdowns.' + Name, {
         common: {
               name: Name
@@ -437,8 +437,8 @@ function createObjects(Name){
         type: 'channel',
         'native' : {}
     });
-    */
-      adapter.createState('countdowns', Name, 'name', {
+    
+      adapter.createState('countdowns.' + Name, {
         read: true, 
         write: false, 
         name: "Name", 
