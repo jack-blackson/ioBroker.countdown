@@ -349,7 +349,10 @@ function processMessage(obj){
               });
         }
     }
-    
+    setTimeout(function() {
+        // Code, der erst nach 5 Sekunden ausgeführt wird
+        loopsetup()
+    }, 5000);
 }
 
 function createCountdownTable(){
