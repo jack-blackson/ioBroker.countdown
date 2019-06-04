@@ -53,14 +53,14 @@ function startAdapter(options) {
 function main() {
     
     if (AdapterStarted == false){
-        adapter.setObject('setup', {
+        adapter.setObjectNotExists('setup', {
             common: {
                   name: 'Countdown Masterdata'
             },
             type: 'device',
             'native' : {}
         });
-        adapter.setObject('countdowns', {
+        adapter.setObjectNotExists('countdowns', {
             common: {
                   name: 'Countdown Details'
             },
@@ -432,8 +432,7 @@ function clearOldChannels(){
 */
 
 function createObjects(Name){
-    
-    adapter.setObjectNotExists('countdowns.', Name,{
+    adapter.setObjectNotExists('countdowns.' + Name, {
         common: {
               name: Name
         },
