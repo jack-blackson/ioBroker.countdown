@@ -100,7 +100,7 @@ function loopsetup(){
                 adapter.log.info('vorhandenes Setup:' + id1.common.name.replace(/ /g,"_") +  state.val );
                 //prüfen ob Device schon vorhanden ist
                 adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.name', function (err1, result1) {
-                    if(result1.val === null) {
+                    if(result1 === null && typeof result1 === "object") {
                         adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
                         createObjects(id1.common.name);
                     }
