@@ -439,8 +439,17 @@ function createObjects(Name){
         type: 'channel',
         'native' : {}
     });
-    
-      adapter.createState('countdowns.' + Name + '.', 'name',{
+
+    adapter.setObjectNotExists('countdowns.' + Name + '.name', {
+        read: true, 
+        write: false, 
+        type: 'state',
+        name: "Name", 
+        def: Name,
+        role: 'value'
+    });
+    /*
+      adapter.createState('countdowns.' + Name, 'name',{
         read: true, 
         write: false, 
         name: "Name", 
@@ -448,7 +457,7 @@ function createObjects(Name){
         def: Name,
         role: 'value'
       });
-      /*
+      
       adapter.createState('countdowns', Name, 'reached', {
         read: true, 
         write: false, 
