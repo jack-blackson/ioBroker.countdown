@@ -440,6 +440,8 @@ function createObjects(Name){
         'native' : {}
     });
 
+    adapter.createState('countdowns.' + Name + '.name')
+    /*
     adapter.createState('countdowns.' + Name,'name',{
         read: true, 
         write: false, 
@@ -448,7 +450,7 @@ function createObjects(Name){
         def: Name,
         role: 'value'
       });
-/*
+
     adapter.setObjectNotExists('countdowns.' + Name + '.name', {
         read: true, 
         write: false, 
