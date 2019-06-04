@@ -447,63 +447,26 @@ function createObjects(CountName){
         def: CountName,
         role: 'value'
     });
-
-    /*
-    adapter.createState("countdowns." + CountName + '.name', CountName, {
-        read: true, 
-        write: true, 
-        name: "Name", 
-        type: "string", 
-        def: CountName,
-        role: 'value'
-      });
-
-    //adapter.createState('countdowns.' + Name + '.name')
-    
-    adapter.createState('countdowns.' + Name,'name',{
-        read: true, 
-        write: false, 
-        name: "Name", 
-        type: "string", 
-        def: Name,
-        role: 'value'
-      });
-
-    adapter.setObjectNotExists('countdowns.' + Name + '.name', {
-        read: true, 
-        write: false, 
-        type: 'state',
-        name: "Name", 
-        def: Name,
-        role: 'value'
-    });
-    
-      adapter.createState('countdowns.' + Name, 'name',{
-        read: true, 
-        write: false, 
-        name: "Name", 
-        type: "string", 
-        def: Name,
-        role: 'value'
-      });
       
-      adapter.createState('countdowns', Name, 'reached', {
+    adapter.createState('countdowns', CountName, 'reached', {
         read: true, 
         write: false, 
         name: "Reached", 
         type: "boolean", 
         def: false,
         role: 'value'
-      });
-      adapter.createState('countdowns', Name, 'years', {
+    });
+
+    adapter.createState('countdowns', CountName, 'years', {
         read: true, 
         write: false, 
         name: "Years", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
-      adapter.createState('countdowns', Name, 'months', {
+    });
+
+      adapter.createState('countdowns', CountName, 'months', {
         read: true, 
         write: false, 
         name: "Months", 
@@ -511,7 +474,8 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'days', {
+
+      adapter.createState('countdowns', CountName, 'days', {
         read: true, 
         write: false, 
         name: "Days", 
@@ -519,7 +483,8 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'hours', {
+
+      adapter.createState('countdowns', CountName, 'hours', {
         read: true, 
         write: false, 
         name: "Hours", 
@@ -527,7 +492,8 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'minutes', {
+
+      adapter.createState('countdowns', CountName, 'minutes', {
         read: true, 
         write: false, 
         name: "Minutes", 
@@ -535,7 +501,8 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'inWordsLong', {
+
+      adapter.createState('countdowns', CountName, 'inWordsLong', {
         read: true, 
         write: false, 
         name: "Result in Words Long", 
@@ -543,7 +510,8 @@ function createObjects(CountName){
         def: '',
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'inWordsShort', {
+
+      adapter.createState('countdowns', CountName, 'inWordsShort', {
         read: true, 
         write: false, 
         name: "Result in Words Short", 
@@ -551,7 +519,8 @@ function createObjects(CountName){
         def: '',
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'endDate', {
+
+      adapter.createState('countdowns', CountName, 'endDate', {
         read: true, 
         write: false, 
         name: "Enddate", 
@@ -559,7 +528,8 @@ function createObjects(CountName){
         def: '',
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'totalDays', {
+
+      adapter.createState('countdowns', CountName, 'totalDays', {
         read: true, 
         write: false, 
         name: "Total No. of Days", 
@@ -567,7 +537,8 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.createState('countdowns', Name, 'totalHours', {
+
+      adapter.createState('countdowns', CountName, 'totalHours', {
         read: true, 
         write: false, 
         name: "Total No. of Hours", 
@@ -575,7 +546,7 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      */
+      
 }
 
 /*
