@@ -432,7 +432,7 @@ function clearOldChannels(){
 */
 
 function createObjects(CountName){
-    adapter.setObjectNotExists('countdowns.' + CountName, {
+    adapter.setObjectNotExists('countdowns.' + CountName.replace(/_/g," "), {
         common: {
               name: CountName
         },
@@ -446,7 +446,7 @@ function createObjects(CountName){
         type: "string", 
         def: CountName,
         role: 'value'
-});
+    });
 
     /*
     adapter.createState("countdowns." + CountName + '.name', CountName, {
