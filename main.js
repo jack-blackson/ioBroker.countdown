@@ -103,6 +103,10 @@ function loopsetup(){
                     if(result1 === null && typeof result1 === "object") {
                         adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
                         createObjects(id1.common.name);
+                        setTimeout(function() {
+                            // Code, der erst nach 5 Sekunden ausgeführt wird
+                            createCountdownData(id1.common.name,state.val)
+                        }, 5000);
                     }
                     else{
                         createCountdownData(id1.common.name,state.val)
@@ -117,10 +121,10 @@ function loopsetup(){
 
 
 function createCountdownData(CountName, CountDate){
-    adapter.log.info('werte aktualisiert für ' + CountName);
 
     var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
-    
+    adapter.log.info('werte aktualisiert für ' + CountName + ' mit Datum ' + CountDate + 'als wert ' + newdate);
+
     var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
 
     var now = moment(new Date()); //todays date
