@@ -14,6 +14,8 @@ const tableify = require(`tableify`);
 const moment = require('moment');
 var AdapterStarted;
 
+var arrtableLong = [];
+var arrtableShort = [];
 
 let adapter;
 startAdapter()
@@ -94,6 +96,12 @@ function main() {
 }
 
 function loopsetup(){
+    arrtableLong = [];
+    arrtableShort = [];
+
+    arrtableLong.push(['Name','Value']);
+    arrtableShort.push(['Name','Value']);
+
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
             adapter.getForeignState('countdown.0.setup.' + id1.common.name.replace(/ /g,"_"), function (err, state) {
@@ -113,7 +121,10 @@ function loopsetup(){
             });
 
         }
-        createCountdownTable()
+        setTimeout(function() {
+            // Code, der erst nach 5 Sekunden ausgeführt wird
+            createCountdownTable()
+        }, 5000);
     });
 }
 
@@ -224,6 +235,12 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});   
+
+        var arrlineLong = [CountName,CountDowninWordsLong];
+        arrtableLong.push(arrlineLong);
+
+        var arrlineLong = [CountName,CountDowninWordsShort];
+        arrtableLong.push(arrlineLong);
     }
 }
 
@@ -356,11 +373,9 @@ function createCountdownTable(){
 
     adapter.log.info('Countdowntabelle erstellen');
 
-    var arrtableLong = [];
-    var arrtableShort = [];
+    /*
 
-    arrtableLong.push(['Name','Value']);
-    arrtableShort.push(['Name','Value']);
+
 
     var i=0;
 
@@ -376,13 +391,13 @@ function createCountdownTable(){
                var arrlineLong = [id1.common.name.replace,state.val];
                arrtableLong.push(arrlineLong);
            });               
-           adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace.replace(/ /g,"_") + '.inWordsShort', function (err, state) {   
+           adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.inWordsShort', function (err, state) {   
             var arrlineShort = [id1.common.name.replace,state.val];
             arrtableShort.push(arrlineShort);
            });
         }
     });
-
+    */
     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
 
