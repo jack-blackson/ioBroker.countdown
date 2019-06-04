@@ -97,11 +97,9 @@ function loopsetup(){
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
             adapter.getForeignState('countdown.0.setup.' + id1.common.name.replace(/ /g,"_"), function (err, state) {
-                adapter.log.info('vorhandenes Setup:' + id1.common.name.replace(/ /g,"_") +  state.val );
                 //prüfen ob Device schon vorhanden ist
                 adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.name', function (err1, result1) {
                     if(result1 === null && typeof result1 === "object") {
-                        adapter.log.info('Datenpunkt für Countdown ' + id1.common.name.replace(/ /g,"_") + 'war noch nicht vorhanden - angelegt');
                         createObjects(id1.common.name);
                         setTimeout(function() {
                             // Code, der erst nach 5 Sekunden ausgeführt wird
@@ -115,7 +113,7 @@ function loopsetup(){
             });
 
         }
-        //createCountdownTable()
+        createCountdownTable()
     });
 }
 
@@ -123,7 +121,6 @@ function loopsetup(){
 function createCountdownData(CountName, CountDate){
 
     var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
-    adapter.log.info('werte aktualisiert für ' + CountName + ' mit Datum ' + CountDate + 'als wert ' + newdate);
 
     var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
 
@@ -356,6 +353,9 @@ function processMessage(obj){
 }
 
 function createCountdownTable(){
+
+    adapter.log.info('Countdowntabelle erstellen');
+
     var arrtableLong = [];
     var arrtableShort = [];
 
@@ -370,7 +370,8 @@ function createCountdownTable(){
             //const obj = objects[id1];
    
            // if (obj.type == 'channel'){
-   
+            adapter.log.info('Countdowntabelle erstellen für:' + id1);
+
             adapter.getForeignState('countdown.0.countdowns.' + id1.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
                var arrlineLong = [id1,state.val];
                arrtableLong.push(arrlineLong);
@@ -548,127 +549,6 @@ function createObjects(CountName){
       });
       
 }
-
-/*
-function updateresults(){
-    //temp();
-    const setuploop = adapter.config.setup;
-        for (const item of setuploop){
-
-            let datestring = "";
-            datestring = item.day + "." + item.month + "." + item.year + " " + item.hour + ":" + item.minute;
-
-            var newdate = moment(datestring, 'DD.MM.YYYY HH:mm').toDate();
-            var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
-
-            var now = moment(new Date()); //todays date
-            var duration = moment.duration(now.diff(newdate));
-            var years = duration.years() * -1;
-            var months = duration.months() * -1;
-            var days = duration.days() * -1;
-            var hours = duration.hours() * -1;
-            var minutes = duration.minutes() * -1;
-
-            var storagename = item.name.replace(/ /g,"_");
-
-            adapter.setState({device: storagename , state: 'name'}, {val: item.name, ack: true});
-            adapter.setState({device: storagename , state: 'active'}, {val: item.active, ack: true});
-            adapter.setState({device: storagename , state: 'endDate'}, {val: newdatelocal, ack: true});
-
-
-
-            if (now.diff(newdate) >= 0){
-                // Countdown reached today -> disable countdown 
-                adapter.setState({device: storagename , state: 'years'}, {val: 0, ack: true});
-                adapter.setState({device: storagename , state: 'months'}, {val: 0, ack: true});
-                adapter.setState({device: storagename , state: 'days'}, {val: 0, ack: true});
-                adapter.setState({device: storagename , state: 'hours'}, {val: 0, ack: true});
-                adapter.setState({device: storagename , state: 'minutes'}, {val: 0, ack: true});
-                adapter.setState({device: storagename , state: 'inWordsShort'}, {val: '', ack: true});
-                adapter.setState({device: storagename , state: 'inWordsLong'}, {val: '', ack: true});
-                adapter.setState({device: storagename , state: 'reached'}, {val: true, ack: true});
-
-            }
-            else{
-                // Countdown not reached -> update values
-
-                var CountDowninWordsShort = '';
-                var CountDowninWordsLong = '';
-
-                //years
-                if (years != 0){
-                    CountDowninWordsShort = years+'Y ';
-                    if (years > 1){
-                        CountDowninWordsLong = years+'Year ';
-                    }
-                    else{
-                        CountDowninWordsLong = years+'Years ';
-                    }
-                }
-
-                //months
-                if (months != 0 || years != 0){
-                    CountDowninWordsShort += months+'M ';
-
-                    if (months > 1){
-                        CountDowninWordsLong += months+' Months ';
-                    }
-                    else{
-                        CountDowninWordsLong += months+' Month ';
-                    }
-                }
-
-                //days
-                if (days != 0 || months != 0 || years != 0){
-                    CountDowninWordsShort += days+'D ';
-
-                    if (days > 1){
-                        CountDowninWordsLong += days+' Days ';
-                    }
-                    else{
-                        CountDowninWordsLong += days+' Day ';
-                    }
-                }
-
-                //hours
-                if (hours != 0 && years == 0 && months == 0){
-                    CountDowninWordsShort += hours+'H ';
-                    if (hours > 1){
-                        CountDowninWordsLong += hours+' Hours ';
-                    }
-                    else{
-                        CountDowninWordsLong += hours+' Hour ';
-                    } 
-                }
-
-                //minutes
-                if (years == 0 && months == 0){
-                    CountDowninWordsShort += minutes+'M';
-                    if (minutes > 1){
-                        CountDowninWordsLong += minutes+' Minutes ';
-                    }
-                    else{
-                        CountDowninWordsLong += minutes+' Minute ';
-                    }     
-                }
-                
-                adapter.setState({device: storagename , state: 'years'}, {val: years, ack: true});
-                adapter.setState({device: storagename , state: 'months'}, {val: months, ack: true});
-                adapter.setState({device: storagename , state: 'days'}, {val: days, ack: true});
-                adapter.setState({device: storagename , state: 'hours'}, {val: hours, ack: true});
-                adapter.setState({device: storagename , state: 'minutes'}, {val: minutes, ack: true});
-                adapter.setState({device: storagename , state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
-                adapter.setState({device: storagename , state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
-                adapter.setState({device: storagename , state: 'reached'}, {val: false, ack: true});
-                adapter.setState({device: storagename , state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
-                adapter.setState({device: storagename , state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});
-
-
-            }
-
-        }
-}
-*/
 
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
