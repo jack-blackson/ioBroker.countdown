@@ -370,14 +370,14 @@ function createCountdownTable(){
             //const obj = objects[id1];
    
            // if (obj.type == 'channel'){
-            adapter.log.info('Countdowntabelle erstellen für:' + id1);
+            adapter.log.info('Countdowntabelle erstellen für:' + id1.common.name);
 
-            adapter.getForeignState('countdown.0.countdowns.' + id1.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
-               var arrlineLong = [id1,state.val];
+            adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
+               var arrlineLong = [id1.common.name.replace,state.val];
                arrtableLong.push(arrlineLong);
            });               
-           adapter.getForeignState('countdown.0.countdowns.' + id1.replace(/ /g,"_") + '.inWordsShort', function (err, state) {   
-            var arrlineShort = [id1,state.val];
+           adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace.replace(/ /g,"_") + '.inWordsShort', function (err, state) {   
+            var arrlineShort = [id1.common.name.replace,state.val];
             arrtableShort.push(arrlineShort);
            });
         }
