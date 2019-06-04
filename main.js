@@ -111,7 +111,7 @@ function loopsetup(){
             });
 
         }
-        //createCountdownTable()
+        createCountdownTable()
     });
 }
 
@@ -356,6 +356,29 @@ function createCountdownTable(){
     arrtableShort.push(['Name','Value']);
 
     var i=0;
+
+
+    adapter.getStatesOf("countdown.0.countdowns", function(error, result) {
+        for (const id1 of result) { 
+            //const obj = objects[id1];
+   
+           // if (obj.type == 'channel'){
+   
+            adapter.getForeignState('countdown.0.countdowns.' + id1.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
+               var arrlineLong = [id1,state.val];
+               arrtableLong.push(arrlineLong);
+           });               
+           adapter.getForeignState('countdown.0.countdowns.' + id1.replace(/ /g,"_") + '.inWordsShort', function (err, state) {   
+            var arrlineShort = [id1,state.val];
+            arrtableShort.push(arrlineShort);
+           });
+        }
+    });
+
+    adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
+    adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
+
+    /*
     adapter.getAdapterObjects((objects) => { 
      for (const id1 of Object.keys(objects)) { 
          const obj = objects[id1];
@@ -372,9 +395,8 @@ function createCountdownTable(){
             });
          }   
      }
-     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
-     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
-   });
+     */
+   //});
 }
 
 /*
