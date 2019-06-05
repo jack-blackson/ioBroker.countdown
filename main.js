@@ -53,7 +53,10 @@ function startAdapter(options) {
 
 
 function main() {
-    
+    adapter.log.info('Sprache: ' + adapter.config.descLanguage);
+    adapter.log.info('AutoDelete: ' + adapter.config.autodelete);
+
+
     if (AdapterStarted == false){
         adapter.setObjectNotExists('setup', {
             common: {
