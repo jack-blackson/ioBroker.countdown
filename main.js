@@ -239,8 +239,8 @@ function createCountdownData(CountName, CountDate){
         var arrlineLong = [CountName,CountDowninWordsLong];
         arrtableLong.push(arrlineLong);
 
-        var arrlineLong = [CountName,CountDowninWordsShort];
-        arrtableLong.push(arrlineLong);
+        var arrlineShort = [CountName,CountDowninWordsShort];
+        arrtableShort.push(arrlineShort);
     }
 }
 

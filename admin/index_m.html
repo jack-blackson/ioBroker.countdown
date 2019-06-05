@@ -25,140 +25,39 @@
 <script type="text/javascript">
     var setup = [];
     // the function loadSettings has to exist ...
-    function load(settings, onChange) {
-        if (!settings) return;
-        for (var key in settings) {
-            if (!settings.hasOwnProperty(key)) continue;
-            var $value = $('#' + key + '.value');
-            if ($value.attr('type') === 'checkbox') {
-                $value.prop('checked', settings[key]).on('change', function() {
-                    if ($('#auth').prop('checked')) {
-                        $('#secure').prop('checked', true);
-                    }
-                    onChange();
-                    showHideSettings();
-                });
-            } else {
-                $value.val(settings[key]).on('change', function() {
-                    onChange();
-                }).keyup(function() {
-                    onChange();
-                });
-            }
-        }
-        setup    = settings.setup    || [];
-        onChange(false);
-        values2table('setup', setup, onChange);
-    }
     function save(callback) {
-        var obj = {};
-        
-        obj.setup = table2values('setup');
-
-        var newValues = table2values();
-        var tasks = [];
-        var names = [];
-
-
-        for (var v = 0; v < newValues.length; v++) {
-            if (!newValues[v].name) {
-                showMessage(_('Empty names are not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (names.indexOf(newValues[v].name) !== -1) {
-                showError(_('Duplicate names are not allowed'));
-                return;
-            }
-            if (!newValues[v].year) {
-                showMessage(_('Empty year are not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (!/^\d+$/.test(newValues[v].year)) {
-                showMessage(_('Please just enter numbers in year field'), _('Error'), 'alert');
-                return;
-            }
-            if (!newValues[v].month) {
-                showMessage(_('Empty month are not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (!/^\d+$/.test(newValues[v].month)) {
-                showMessage(_('Please just enter numbers in month field'), _('Error'), 'alert');
-                return;
-            }
-            if (!newValues[v].day) {
-                showMessage(_('Empty day are not allowed'), _('Error'), 'alert');
-                return;
-            }
-            if (!/^\d+$/.test(newValues[v].day)) {
-                showMessage(_('Please just enter numbers in day field'), _('Error'), 'alert');
-                return;
-            }
-            if (!/^\d+$/.test(newValues[v].hour)) {
-                showMessage(_('Please just enter numbers in hour field'), _('Error'), 'alert');
-                return;
-            }
-            if (!/^\d+$/.test(newValues[v].minute)) {
-                showMessage(_('Please just enter numbers in minute field'), _('Error'), 'alert');
-                return;
-            }
-
-            names.push(newValues[v].name);
-            var found = false;
-            var t;
-            
-                tasks.push({
-                    _id:            adapter + '.' + instance + '.' + newValues[v].name.replace(/[()\[\]\\\/*?\s]/g, '_'),
-                    common: {
-                        name:           newValues[v].name,
-                        write:          !!newValues[v].write,
-                        read:           true,
-                        unit:           newValues[v].unit,
-                        type:           newValues[v].type,
-                        role:           newValues[v].role
-                    },
-                    native: {
-                        name:           newValues[v].name,
-                        active:          newValues[v].active
-                    },
-                    type: 'channel'
-                });
-             }    
-
-        processTasks(tasks, function () {
-            values = newValues;
+            var obj = {};
+            $('.value').each(function () {
+                var $this = $(this);
+                var id = $this.attr('id');
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
+            });
             callback(obj);
-        });
-    }
-
-
-    function processTasks(tasks, cb) {
-        if (!tasks || !tasks.length) {
-            cb && cb();
-            return;
         }
-        var task = tasks.pop();
-        if (typeof task === 'object') {
-            socket.emit('setObject', task._id, task, function (err) {
-                if (err) console.error(err);
-                setTimeout(function () {
-                    processTasks(tasks, cb);
-                }, 0);
+    
+        function load(settings, onChange) {
+            if (!settings) return;
+            $('.value').each(function () {
+                var key = $(this).attr('id');
+                var $key = $('#' + key + '.value');
+                if ($key.attr('type') === 'checkbox') {
+                    $key.prop('checked', settings[key]).change(function () {
+                        onChange();
+                    });
+                } else {
+                    $key.val(settings[key]).change(function () {
+                        onChange();
+                    }).keyup(function () {
+                        onChange();
+                    });
+                }
             });
-        } else {
-            socket.emit('delState', task, function (err) {
-                if (err) console.error(err);
-                socket.emit('delObject', task, function (err) {
-                    if (err) console.error(err);
-                    setTimeout(function () {
-                        processTasks(tasks, cb);
-                    }, 0);
-                });
-            });
+            onChange(false);
         }
-    }
-
-   
-
 </script>
 <style>
     .m .select-wrapper+label {
@@ -168,40 +67,29 @@
 </head>
 <body>
 <div class="m adapter-container">
+    <div class="row">
         <div class="row">
-            <div class="col s12" id="setup">
-                <div class="row">
-                    <div class="col s6">
-                        <img src="countdown.png" class="logo"/>
+            <div class="input-field col s3">
+                <img src="countdown.png" class="logo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col m12 l2">
+                <input class="value" id="autodelete" type="checkbox" />
+                <label for="autodelete" class="translate">Delete Countdown when done</label>
+                <span class="translate"></span>
+            </div>
+            <div class="row">
+                    <div class="input-field col s11 m2">
+                        <select class="value" id="descLanguage">
+                            <option value="de" class="translate">German</option>
+                            <option value="en" class="translate">English</option>
+                        </select>
+                        <label for="descLanguage" class="translate">Description Language</label>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s8">
-                        <label class="translate" for="interval">mandatory</label>
-                    </div>
-                </div>
-                <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
-                <div class="table-values-div">
-                        <table class="table-values">
-                            <thead>
-                                <tr>
-                                        <th data-name="_index"     style="width: 10%" class="translate">ID</th>
-                                        <th data-name="name"     style="width: 30%" class="translate">Name</th>
-                                        <th data-name="year"     style="width: 8%" class="translate">year</th>
-                                        <th data-name="month"     style="width: 8%" class="translate">month</th>
-                                        <th data-name="day"     style="width: 8%" class="translate">day</th>
-                                        <th data-name="hour"     style="width: 8%" class="translate">hour</th>
-                                        <th data-name="minute"     style="width: 8%" class="translate">minute</th>
-                                        <th data-name="active"  style="width: 10%" data-style="width: 70px" data-type="checkbox" class="translate">active</th>
-                                        <th data-buttons="delete up down" style="width: 120px"></th>
-                                </tr>
-                            </thead>
-                        </table>
-                </div>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
