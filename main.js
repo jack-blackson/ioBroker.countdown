@@ -92,7 +92,7 @@ function main() {
             'native' : {}
         });
 
-        adapter.createState('', '', 'htmlContentLong', {
+        adapter.createState('', '', 'jsonContentLong', {
             read: true, 
             write: false, 
             name: "HTML Content Countdown Long", 
@@ -100,7 +100,7 @@ function main() {
             def: '',
             role: 'value'
           });
-          adapter.createState('', '', 'htmlContentShort', {
+          adapter.createState('', '', 'jsonContentShort', {
             read: true, 
             write: false, 
             name: "HTML Content Countdown Short", 
@@ -463,11 +463,13 @@ function createCountdownTable(){
 
 
    adapter.log.info('Countdowntabelle jsonify:' + JSON.stringify(arrtableLong));
+   adapter.setState({ state: 'jsonContentLong'}, {val: JSON.stringify(arrtableLong), ack: true});
+   adapter.setState({ state: 'jsonContentShort'}, {val: JSON.stringify(arrtableShort), ack: true});
 
-
+    /*
     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
-
+    */
     /*
     adapter.getAdapterObjects((objects) => { 
      for (const id1 of Object.keys(objects)) { 
