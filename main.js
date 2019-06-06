@@ -70,10 +70,8 @@ function startAdapter(options) {
 
 
 function main() {
-    getVariableTranslation()
 
-    adapter.log.info('Sprache: ' + adapter.config.descLanguage);
-    adapter.log.info('AutoDelete: ' + adapter.config.autodelete);
+  
 
 
     if (AdapterStarted == false){
@@ -108,6 +106,7 @@ function main() {
             def: '',
             role: 'value'
           });
+          getVariableTranslation()
         AdapterStarted = true
     }
 
@@ -188,6 +187,8 @@ function getVariableTranslation(){
           // Anweisungen werden ausgeführt,
           // falls keine der case-Klauseln mit expression übereinstimmt
       }
+      adapter.log.info('Sprache: ' + adapter.config.descLanguage);
+      adapter.log.info('texthours: ' + textHours);
 }
 
 
