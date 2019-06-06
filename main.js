@@ -16,6 +16,23 @@ var AdapterStarted;
 
 var arrtableLong = [];
 var arrtableShort = [];
+var textYear = '';
+var textYears = '';
+var textYearsShort = '';
+var textMonth = '';
+var textMonths = '';
+var textMonthsShort = '';
+var textDay = '';
+var textDays = '';
+var textDaysShort = '';
+var textHour = '';
+var textHours = '';
+var textHoursShort = '';
+var textMinute = '';
+var textMinutes = '';
+var textMinutesShort = '';
+
+
 
 let adapter;
 startAdapter()
@@ -53,6 +70,8 @@ function startAdapter(options) {
 
 
 function main() {
+    getVariableTranslation()
+
     adapter.log.info('Sprache: ' + adapter.config.descLanguage);
     adapter.log.info('AutoDelete: ' + adapter.config.autodelete);
 
@@ -131,6 +150,46 @@ function loopsetup(){
     });
 }
 
+function getVariableTranslation(){
+    switch (adapter.config.descLanguage) {
+        case 'de':
+            textYear = 'Jahr';
+            textYears = 'Jahre';
+            textYearsShort = 'J';
+            textMonth = 'Monat';
+            textMonths = 'Monate';
+            textMonthsShort = 'M';
+            textDay = 'Tag';
+            textDays = 'Tage';
+            textDaysShort = 'T';
+            textHour = 'Stunde';
+            textHours = 'Stunden';
+            textHoursShort = 'S';
+            textMinute = 'Minute';
+            textMinutes = 'Minuten';          
+            textMinutesShort = 'M';
+        case 'en':
+            textYear = 'Year';
+            textYears = 'Years';
+            textYearsShort = 'Y';
+            textMonth = 'Month';
+            textMonths = 'Months';
+            textMonthsShort = 'M'
+            textDay = 'Day';
+            textDays = 'Days';
+            textDaysShort = 'D';
+            textHour = 'Hour';
+            textHours = 'Hours';
+            textHoursShort = 'H';
+            textMinute = 'Minute';
+            textMinutes = 'Minutes';         
+            textMonthsShort = 'M';
+        default:
+          // Anweisungen werden ausgeführt,
+          // falls keine der case-Klauseln mit expression übereinstimmt
+      }
+}
+
 
 function createCountdownData(CountName, CountDate){
 
@@ -173,58 +232,58 @@ function createCountdownData(CountName, CountDate){
 
         //years
         if (years != 0){
-            CountDowninWordsShort = years+'Y ';
+            CountDowninWordsShort = years+textYearsShort;
             if (years > 1){
-                CountDowninWordsLong = years+'Year ';
+                CountDowninWordsLong = years+textYears;
             }
             else{
-                CountDowninWordsLong = years+'Years ';
+                CountDowninWordsLong = years+textYear;
             }
         }
 
         //months
         if (months != 0 || years != 0){
-            CountDowninWordsShort += months+'M ';
+            CountDowninWordsShort += months+textMonthsShort;
 
             if (months > 1){
-                CountDowninWordsLong += months+' Months ';
+                CountDowninWordsLong += months+ textMonths;
             }
             else{
-                CountDowninWordsLong += months+' Month ';
+                CountDowninWordsLong += months+ textMonth;
             }
         }
 
         //days
         if (days != 0 || months != 0 || years != 0){
-            CountDowninWordsShort += days+'D ';
+            CountDowninWordsShort += days+textDaysShort;
 
             if (days > 1){
-                CountDowninWordsLong += days+' Days ';
+                CountDowninWordsLong += days+ textDays;
             }
             else{
-                CountDowninWordsLong += days+' Day ';
+                CountDowninWordsLong += days+ textDay;
             }
         }
 
         //hours
         if (hours != 0 && years == 0 && months == 0){
-            CountDowninWordsShort += hours+'H ';
+            CountDowninWordsShort += hours+textHoursShort;
             if (hours > 1){
-                CountDowninWordsLong += hours+' Hours ';
+                CountDowninWordsLong += hours+ textHours;
             }
             else{
-                CountDowninWordsLong += hours+' Hour ';
+                CountDowninWordsLong += hours+textHour;
             } 
         }
 
         //minutes
         if (years == 0 && months == 0){
-            CountDowninWordsShort += minutes+'M';
+            CountDowninWordsShort += minutes+textMinutesShort;
             if (minutes > 1){
-                CountDowninWordsLong += minutes+' Minutes ';
+                CountDowninWordsLong += minutes+ textMinutes;
             }
             else{
-                CountDowninWordsLong += minutes+' Minute ';
+                CountDowninWordsLong += minutes+textMinute;
             }     
         }
                 

@@ -41,6 +41,7 @@
     
         function load(settings, onChange) {
             if (!settings) return;
+            if (settings.descLanguage === undefined) settings.descLanguage = 'en';
             $('.value').each(function () {
                 var key = $(this).attr('id');
                 var $key = $('#' + key + '.value');
