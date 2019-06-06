@@ -460,6 +460,11 @@ function createCountdownTable(){
         }
     });
     */
+
+
+   adapter.log.info('Countdowntabelle jsonify:' + JSON.stringify(arrtableLong));
+
+
     adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
     adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
 
