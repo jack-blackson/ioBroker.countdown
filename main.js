@@ -150,7 +150,9 @@ function loopsetup(){
 }
 
 function getVariableTranslation(){
-    switch (adapter.config.descLanguage) {
+    var language = ''
+    language = adapter.config.descLanguage
+    switch (language) {
         case 'de':
             textYear = 'Jahr';
             textYears = 'Jahre';
@@ -233,12 +235,12 @@ function createCountdownData(CountName, CountDate){
 
         //years
         if (years != 0){
-            CountDowninWordsShort = years+textYearsShort;
+            CountDowninWordsShort = years+ textYearsShort;
             if (years > 1){
-                CountDowninWordsLong = years+textYears;
+                CountDowninWordsLong = years+' ' +  textYears;
             }
             else{
-                CountDowninWordsLong = years+textYear;
+                CountDowninWordsLong = years+' ' +  textYear;
             }
         }
 
@@ -247,10 +249,10 @@ function createCountdownData(CountName, CountDate){
             CountDowninWordsShort += months+textMonthsShort;
 
             if (months > 1){
-                CountDowninWordsLong += months+ textMonths;
+                CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
             }
             else{
-                CountDowninWordsLong += months+ textMonth;
+                CountDowninWordsLong += ' ' + months+ ' ' + textMonth;
             }
         }
 
@@ -259,10 +261,10 @@ function createCountdownData(CountName, CountDate){
             CountDowninWordsShort += days+textDaysShort;
 
             if (days > 1){
-                CountDowninWordsLong += days+ textDays;
+                CountDowninWordsLong += ' ' + days+ ' ' + textDays;
             }
             else{
-                CountDowninWordsLong += days+ textDay;
+                CountDowninWordsLong += ' ' + days+ ' ' + textDay;
             }
         }
 
@@ -270,10 +272,10 @@ function createCountdownData(CountName, CountDate){
         if (hours != 0 && years == 0 && months == 0){
             CountDowninWordsShort += hours+textHoursShort;
             if (hours > 1){
-                CountDowninWordsLong += hours+ textHours;
+                CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
             }
             else{
-                CountDowninWordsLong += hours+textHour;
+                CountDowninWordsLong += ' ' + hours+' ' + textHour;
             } 
         }
 
@@ -281,10 +283,10 @@ function createCountdownData(CountName, CountDate){
         if (years == 0 && months == 0){
             CountDowninWordsShort += minutes+textMinutesShort;
             if (minutes > 1){
-                CountDowninWordsLong += minutes+ textMinutes;
+                CountDowninWordsLong += ' ' + minutes+ ' ' + textMinutes;
             }
             else{
-                CountDowninWordsLong += minutes+textMinute;
+                CountDowninWordsLong += ' ' + minutes+' ' + textMinute;
             }     
         }
                 
