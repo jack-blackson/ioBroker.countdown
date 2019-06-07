@@ -141,8 +141,8 @@ function cleanresults(CountName){
 }
 
 function deleteCountdownResults(CountName){
-    adapter.log.info('Resultate gelöscht für :' + CountName);
-    adapter.deleteChannel('countdown.0.countdowns.' + CountName.replace(/ /g,"_"));
+    adapter.log.info('Resultate gelöscht für :' + CountName.replace(/ /g,"_"));
+    adapter.deleteChannel('countdowns',CountName.replace(/ /g,"_"));
 }
 
 

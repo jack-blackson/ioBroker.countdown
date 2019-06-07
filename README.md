@@ -25,6 +25,8 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 
 ## Displaying alarms
 The adapter prowides you automatically a json table. You just need to use it with the json table widged. Please tick "No Header" there. It is possible to either display the short text or the long text.
+![Logo](admin/countdown_json.png)
+
 
 ## How to create alarms
 The adapter is using states in the channel setup to create the alarm details. 
