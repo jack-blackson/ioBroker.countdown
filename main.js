@@ -114,7 +114,11 @@ function main() {
 
 function cleanresults(CountName){
     // clean results when a setup is deleted
+    adapter.log.info('clean results');
+
     if (CountName === null){
+        adapter.log.info('without parameter');
+
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
 
@@ -128,11 +132,10 @@ function cleanresults(CountName){
     }
     else{
         // function started with parameter Name
+        adapter.log.info('with parameter');
+
     }
 }
-
-
-
 
 function loopsetup(){
     arrtableLong = [];
@@ -202,7 +205,7 @@ function getVariableTranslation(){
                 textHoursShort = 'H';
                 textMinute = 'Minute';
                 textMinutes = 'Minutes';         
-                textMonthsShort = 'M';
+                textMinutesShort = 'M';
                 break;
     
             default:
@@ -220,7 +223,7 @@ function getVariableTranslation(){
                     textHoursShort = 'H';
                     textMinute = 'Minute';
                     textMinutes = 'Minutes';         
-                    textMonthsShort = 'M';
+                    textMinutesShort = 'M';
                     break;
           }
 
