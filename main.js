@@ -30,7 +30,7 @@ var textHoursShort = '';
 var textMinute = '';
 var textMinutes = '';
 var textMinutesShort = '';
-
+let objects = null;
 
 let adapter;
 startAdapter()
@@ -149,8 +149,10 @@ function loopsetup(){
 
 function getVariableTranslation(){
     var language = ''
-    adapter.getForeignState('system.config', (err, systemConfig) => {
-        language = systemConfig.common.language
+    //adapter.getForeignState('system.config', (err, systemConfig) => {
+        //language = systemConfig.common.language
+        language = objects['system.config'].common.language;
+
         //var arrlineLong = [id1.common.name.replace,state.val];
         //arrtableLong.push(arrlineLong);
         adapter.log.info('Sprache: ' + language);
@@ -210,7 +212,7 @@ function getVariableTranslation(){
           }
           adapter.log.info('texthours: ' + textHours);
 
-    });
+    //});
 }
 
 
