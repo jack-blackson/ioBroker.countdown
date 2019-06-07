@@ -114,15 +114,10 @@ function main() {
 
 function cleanresults(CountName){
     // clean results when a setup is deleted
-    adapter.log.info('clean results: ' + CountName);
-
     if(CountName == null){
-        adapter.log.info('without parameter');
-
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
-                adapter.log.info('Loop durch countdowns:' + channel.common.name);
                 adapter.getForeignState('countdown.0.setup.' + channel.common.name.replace(/ /g,"_"), function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
@@ -135,14 +130,16 @@ function cleanresults(CountName){
     }
     else{
         // function started with parameter Name
-        adapter.log.info('with parameter');
 
     }
 }
 
 function deleteCountdownResults(CountName){
-    adapter.log.info('Resultate gelöscht für :' + CountName.replace(/ /g,"_"));
     adapter.deleteChannel('countdowns',CountName.replace(/ /g,"_"));
+}
+
+function deleteCountdownSetup(CountName){
+    adapter.deleteState('setup','',CountName.replace(/ /g,"_"));
 }
 
 
@@ -262,7 +259,7 @@ function createCountdownData(CountName, CountDate){
 
 
     if (now.diff(newdate) >= 0){
-        // Countdown reached today -> disable countdown 
+        // Countdown reached now -> disable countdown 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
@@ -272,6 +269,10 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
 
+        if (adapter.config.autodelete){
+            deleteCountdownSetup(CountName)
+            deleteCountdownResults(CountName)
+        }
     }
     else{
         // Countdown not reached -> update values
