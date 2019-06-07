@@ -149,9 +149,8 @@ function loopsetup(){
 
 function getVariableTranslation(){
     var language = ''
-    //adapter.getForeignState('system.config', (err, systemConfig) => {
-        //language = systemConfig.common.language
-        language = objects['system.config'].common.language;
+    adapter.getObject('system.config', (err, systemConfig) => {
+        language = systemConfig.common.language
 
         //var arrlineLong = [id1.common.name.replace,state.val];
         //arrtableLong.push(arrlineLong);
@@ -212,7 +211,7 @@ function getVariableTranslation(){
           }
           adapter.log.info('texthours: ' + textHours);
 
-    //});
+    });
 }
 
 
