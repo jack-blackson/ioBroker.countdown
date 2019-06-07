@@ -41,7 +41,6 @@
     
         function load(settings, onChange) {
             if (!settings) return;
-            if (settings.descLanguage === undefined) settings.descLanguage = 'en';
             $('.value').each(function () {
                 var key = $(this).attr('id');
                 var $key = $('#' + key + '.value');
@@ -79,15 +78,6 @@
                 <input class="value" id="autodelete" type="checkbox" />
                 <label for="autodelete" class="translate">Delete Countdown when done</label>
                 <span class="translate"></span>
-            </div>
-            <div class="row">
-                    <div class="input-field col s11 m2">
-                        <select class="value" id="descLanguage">
-                            <option value="de" class="translate">German</option>
-                            <option value="en" class="translate">English</option>
-                        </select>
-                        <label for="descLanguage" class="translate">Description Language</label>
-                    </div>
             </div>
         </div>
     </div>

@@ -21,8 +21,17 @@ Countdown Adapter for ioBroker
 The goal of the adapter is to provide you a possibility to run countdowns for future events, with years, months, days, hours and minutes. It will provide you each of those valies seperately, and also two strings with a short and long version of the date.
 
 ## Features to implement
-* Translation of long/shorttexts
-* Possibility to change the setup of countdowns via VIS
+* Better checks for correct data input
+
+## How to create alarms
+The adapter is using states in the channel setup to create the alarm details. 
+
+## How to create alarms
+There are two ways to set up alarms:
+
+* You can create a manual state in the device "setup". The name of the object is the alarm name, and the value will be the date. The date neets to be in the format "YYYY.MM.DD HH:mm:ss".
+* You can create an alarm with sendto. There, you can either send the components (minimum is Year Month Date) or a date string in the format "YYYY.MM.DD HH:mm:ss".
+![Logo](admin/countdown_blocky.png)
 
 
 ## Changelog

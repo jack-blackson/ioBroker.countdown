@@ -152,9 +152,6 @@ function getVariableTranslation(){
     adapter.getForeignObject('system.config', (err, systemConfig) => {
         language = systemConfig.common.language
 
-        //var arrlineLong = [id1.common.name.replace,state.val];
-        //arrtableLong.push(arrlineLong);
-        adapter.log.info('Sprache: ' + language);
         switch (language) {
             case 'de':
                 textYear = 'Jahr';
@@ -209,7 +206,6 @@ function getVariableTranslation(){
                     textMonthsShort = 'M';
                     break;
           }
-          adapter.log.info('texthours: ' + textHours);
 
     });
 }
@@ -267,7 +263,7 @@ function createCountdownData(CountName, CountDate){
 
         //months
         if (months != 0 || years != 0){
-            CountDowninWordsShort += months+textMonthsShort;
+            CountDowninWordsShort += ' ' + months+textMonthsShort;
 
             if (months > 1){
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
@@ -279,7 +275,7 @@ function createCountdownData(CountName, CountDate){
 
         //days
         if (days != 0 || months != 0 || years != 0){
-            CountDowninWordsShort += days+textDaysShort;
+            CountDowninWordsShort += ' ' + days+textDaysShort;
 
             if (days > 1){
                 CountDowninWordsLong += ' ' + days+ ' ' + textDays;
@@ -291,7 +287,7 @@ function createCountdownData(CountName, CountDate){
 
         //hours
         if (hours != 0 && years == 0 && months == 0){
-            CountDowninWordsShort += hours+textHoursShort;
+            CountDowninWordsShort += ' ' + hours+textHoursShort;
             if (hours > 1){
                 CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
             }
@@ -302,7 +298,7 @@ function createCountdownData(CountName, CountDate){
 
         //minutes
         if (years == 0 && months == 0){
-            CountDowninWordsShort += minutes+textMinutesShort;
+            CountDowninWordsShort += ' ' + minutes+textMinutesShort;
             if (minutes > 1){
                 CountDowninWordsLong += ' ' + minutes+ ' ' + textMinutes;
             }
@@ -329,8 +325,6 @@ function createCountdownData(CountName, CountDate){
         arrtableShort.push(arrlineShort);
     }
 }
-
-
 
 function processMessage(obj){
     var year = 0
@@ -457,62 +451,11 @@ function processMessage(obj){
 
 function createCountdownTable(){
 
-    adapter.log.info('Countdowntabelle erstellen');
-
-    /*
-
-
-
-    var i=0;
-
-
-    adapter.getStatesOf("countdown.0.countdowns", function(error, result) {
-        for (const id1 of result) { 
-            //const obj = objects[id1];
-   
-           // if (obj.type == 'channel'){
-            adapter.log.info('Countdowntabelle erstellen für:' + id1.common.name);
-
-            adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
-               var arrlineLong = [id1.common.name.replace,state.val];
-               arrtableLong.push(arrlineLong);
-           });               
-           adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.inWordsShort', function (err, state) {   
-            var arrlineShort = [id1.common.name.replace,state.val];
-            arrtableShort.push(arrlineShort);
-           });
-        }
-    });
-    */
-
 
    adapter.log.info('Countdowntabelle jsonify:' + JSON.stringify(arrtableLong));
    adapter.setState({ state: 'jsonContentLong'}, {val: JSON.stringify(arrtableLong), ack: true});
    adapter.setState({ state: 'jsonContentShort'}, {val: JSON.stringify(arrtableShort), ack: true});
 
-    /*
-    adapter.setState({ state: 'htmlContentLong'}, {val: tableify(arrtableLong), ack: true});
-    adapter.setState({ state: 'htmlContentShort'}, {val: tableify(arrtableShort), ack: true});
-    */
-    /*
-    adapter.getAdapterObjects((objects) => { 
-     for (const id1 of Object.keys(objects)) { 
-         const obj = objects[id1];
-
-         if (obj.type == 'channel'){
-
-            adapter.getForeignState('countdown.0.' + id1.replace(/ /g,"_") + '.inWordsLong', function (err, state) {
-                var arrlineLong = [];
-                arrtableLong.push(state.val);
-            });
-            adapter.getForeignState('countdown.0.' + id1.replace(/ /g,"_") + '.inWordsShort', function (err, state) {
-                var arrlineShort = [];
-                arrtableShort.push(state.val);
-            });
-         }   
-     }
-     */
-   //});
 }
 
 /*
