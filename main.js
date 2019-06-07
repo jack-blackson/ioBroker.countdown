@@ -116,7 +116,7 @@ function cleanresults(CountName){
     // clean results when a setup is deleted
     adapter.log.info('clean results: ' + CountName);
 
-    if(CountName === null && typeof CountName === "object"){
+    if(CountName == null){
         adapter.log.info('without parameter');
 
         // function started without parameter from normal loop
