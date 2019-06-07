@@ -150,53 +150,30 @@ function loopsetup(){
 
 function getVariableTranslation(){
     var language = ''
-    adapter.getForeignState('system.config.language', function (err, state) {
-        language = state
+    adapter.getObject('system.config', (err, systemConfig) => {
+        language = systemConfig.common.language
         //var arrlineLong = [id1.common.name.replace,state.val];
         //arrtableLong.push(arrlineLong);
         adapter.log.info('Sprache: ' + language);
-
-    });
-    
-
-
-    switch (language) {
-        case 'de':
-            textYear = 'Jahr';
-            textYears = 'Jahre';
-            textYearsShort = 'J';
-            textMonth = 'Monat';
-            textMonths = 'Monate';
-            textMonthsShort = 'M';
-            textDay = 'Tag';
-            textDays = 'Tage';
-            textDaysShort = 'T';
-            textHour = 'Stunde';
-            textHours = 'Stunden';
-            textHoursShort = 'S';
-            textMinute = 'Minute';
-            textMinutes = 'Minuten';          
-            textMinutesShort = 'M';
-            break;
-        case 'en':
-            textYear = 'Year';
-            textYears = 'Years';
-            textYearsShort = 'Y';
-            textMonth = 'Month';
-            textMonths = 'Months';
-            textMonthsShort = 'M'
-            textDay = 'Day';
-            textDays = 'Days';
-            textDaysShort = 'D';
-            textHour = 'Hour';
-            textHours = 'Hours';
-            textHoursShort = 'H';
-            textMinute = 'Minute';
-            textMinutes = 'Minutes';         
-            textMonthsShort = 'M';
-            break;
-
-        default:
+        switch (language) {
+            case 'de':
+                textYear = 'Jahr';
+                textYears = 'Jahre';
+                textYearsShort = 'J';
+                textMonth = 'Monat';
+                textMonths = 'Monate';
+                textMonthsShort = 'M';
+                textDay = 'Tag';
+                textDays = 'Tage';
+                textDaysShort = 'T';
+                textHour = 'Stunde';
+                textHours = 'Stunden';
+                textHoursShort = 'S';
+                textMinute = 'Minute';
+                textMinutes = 'Minuten';          
+                textMinutesShort = 'M';
+                break;
+            case 'en':
                 textYear = 'Year';
                 textYears = 'Years';
                 textYearsShort = 'Y';
@@ -213,8 +190,28 @@ function getVariableTranslation(){
                 textMinutes = 'Minutes';         
                 textMonthsShort = 'M';
                 break;
-      }
-      adapter.log.info('texthours: ' + textHours);
+    
+            default:
+                    textYear = 'Year';
+                    textYears = 'Years';
+                    textYearsShort = 'Y';
+                    textMonth = 'Month';
+                    textMonths = 'Months';
+                    textMonthsShort = 'M'
+                    textDay = 'Day';
+                    textDays = 'Days';
+                    textDaysShort = 'D';
+                    textHour = 'Hour';
+                    textHours = 'Hours';
+                    textHoursShort = 'H';
+                    textMinute = 'Minute';
+                    textMinutes = 'Minutes';         
+                    textMonthsShort = 'M';
+                    break;
+          }
+          adapter.log.info('texthours: ' + textHours);
+
+    });
 }
 
 
