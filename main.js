@@ -68,10 +68,6 @@ function startAdapter(options) {
 
 
 function main() {
-
-  
-
-
     if (AdapterStarted == false){
         adapter.setObjectNotExists('setup', {
             common: {
@@ -110,16 +106,37 @@ function main() {
 
     loopsetup()
 
+    cleanresults()
+
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
 }
 
+function cleanresults(CountName){
+    // clean results when a setup is deleted
+    if (CountName === null){
+        // function started without parameter from normal loop
+        adapter.getChannelsOf('countdowns', function (err, result) {
+
+            for (const channel of result) {
+                adapter.log.info('Loop durch countdowns:' + channel.common.name);
+
+                
+            }
+          });
+
+    }
+    else{
+        // function started with parameter Name
+    }
+}
+
+
+
+
 function loopsetup(){
     arrtableLong = [];
     arrtableShort = [];
-
-    arrtableLong.push(['Name','Value']);
-    arrtableShort.push(['Name','Value']);
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
@@ -450,9 +467,6 @@ function processMessage(obj){
 }
 
 function createCountdownTable(){
-
-
-   adapter.log.info('Countdowntabelle jsonify:' + JSON.stringify(arrtableLong));
    adapter.setState({ state: 'jsonContentLong'}, {val: JSON.stringify(arrtableLong), ack: true});
    adapter.setState({ state: 'jsonContentShort'}, {val: JSON.stringify(arrtableShort), ack: true});
 
