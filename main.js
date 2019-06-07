@@ -30,7 +30,7 @@ var textHoursShort = '';
 var textMinute = '';
 var textMinutes = '';
 var textMinutesShort = '';
-
+let objects = null;
 
 
 let adapter;
@@ -150,7 +150,7 @@ function loopsetup(){
 
 function getVariableTranslation(){
     var language = ''
-    adapter.getAdapterObjects('system.config', (err, systemConfig) => {
+    objects.getObject('system.config', (err, systemConfig) => {
         language = systemConfig.common.language
         //var arrlineLong = [id1.common.name.replace,state.val];
         //arrtableLong.push(arrlineLong);
