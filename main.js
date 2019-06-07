@@ -129,7 +129,7 @@ function cleanresults(CountName){
           });
     }
     else{
-        // function started with parameter Name
+        // function started with parameter Name - not necessary yet
 
     }
 }
