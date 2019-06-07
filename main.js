@@ -106,7 +106,7 @@ function main() {
 
     loopsetup()
 
-    cleanresults()
+    cleanresults('')
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
@@ -114,9 +114,9 @@ function main() {
 
 function cleanresults(CountName){
     // clean results when a setup is deleted
-    adapter.log.info('clean results');
+    adapter.log.info('clean results: ' + CountName);
 
-    if (CountName === null){
+    if(CountName === null && typeof CountName === "object"){
         adapter.log.info('without parameter');
 
         // function started without parameter from normal loop
