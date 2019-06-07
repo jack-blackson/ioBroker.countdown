@@ -121,14 +121,17 @@ function cleanresults(CountName){
 
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
-
             for (const channel of result) {
                 adapter.log.info('Loop durch countdowns:' + channel.common.name);
-
-                
+                adapter.getForeignState('countdown.0.setup.' + channel.common.name.common.name.replace(/ /g,"_"), function (err, state) {
+                    //check if setup is still existing
+                    if(state === null && typeof state === "object") {
+                        //if not - delete results
+                        deleteCountdownResults(channel.common.name)
+                    }
+                });   
             }
           });
-
     }
     else{
         // function started with parameter Name
@@ -136,6 +139,12 @@ function cleanresults(CountName){
 
     }
 }
+
+function deleteCountdownResults(CountName){
+    adapter.log.info('Resultate gelöscht für :' + CountName);
+    adapter.deleteChannel(CountName.replace(/ /g,"_"));
+}
+
 
 function loopsetup(){
     arrtableLong = [];
