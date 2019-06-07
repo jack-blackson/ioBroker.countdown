@@ -149,7 +149,7 @@ function loopsetup(){
 
 function getVariableTranslation(){
     var language = ''
-    adapter.getObject('system.config', (err, systemConfig) => {
+    adapter.getForeignObject('system.config', (err, systemConfig) => {
         language = systemConfig.common.language
 
         //var arrlineLong = [id1.common.name.replace,state.val];
