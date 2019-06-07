@@ -106,7 +106,7 @@ function main() {
 
     loopsetup()
 
-    cleanresults('')
+    cleanresults()
 
     adapter.config.interval = 60000;
     adapter.subscribeStates('*')
