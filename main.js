@@ -10,7 +10,6 @@
 
 'use strict';
 const utils = require('@iobroker/adapter-core');
-const tableify = require(`tableify`);
 const moment = require('moment');
 var AdapterStarted;
 
@@ -151,7 +150,16 @@ function loopsetup(){
 
 function getVariableTranslation(){
     var language = ''
-    language = adapter.config.descLanguage
+    adapter.getForeignState('system.config.language', function (err, state) {
+        language = state
+        //var arrlineLong = [id1.common.name.replace,state.val];
+        //arrtableLong.push(arrlineLong);
+        adapter.log.info('Sprache: ' + language);
+
+    });
+    
+
+
     switch (language) {
         case 'de':
             textYear = 'Jahr';
@@ -169,6 +177,7 @@ function getVariableTranslation(){
             textMinute = 'Minute';
             textMinutes = 'Minuten';          
             textMinutesShort = 'M';
+            break;
         case 'en':
             textYear = 'Year';
             textYears = 'Years';
@@ -185,11 +194,26 @@ function getVariableTranslation(){
             textMinute = 'Minute';
             textMinutes = 'Minutes';         
             textMonthsShort = 'M';
+            break;
+
         default:
-          // Anweisungen werden ausgeführt,
-          // falls keine der case-Klauseln mit expression übereinstimmt
+                textYear = 'Year';
+                textYears = 'Years';
+                textYearsShort = 'Y';
+                textMonth = 'Month';
+                textMonths = 'Months';
+                textMonthsShort = 'M'
+                textDay = 'Day';
+                textDays = 'Days';
+                textDaysShort = 'D';
+                textHour = 'Hour';
+                textHours = 'Hours';
+                textHoursShort = 'H';
+                textMinute = 'Minute';
+                textMinutes = 'Minutes';         
+                textMonthsShort = 'M';
+                break;
       }
-      adapter.log.info('Sprache: ' + adapter.config.descLanguage);
       adapter.log.info('texthours: ' + textHours);
 }
 

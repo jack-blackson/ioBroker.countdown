@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Countdown",
   "main": "main.js",
   "repository": {
@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "moment":"2.24.0",
-    "tableify": "^1.1.0",
     "@iobroker/testing": "^1.2.0",
     "@iobroker/adapter-core": "^1.0.3"
   },
