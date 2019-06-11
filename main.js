@@ -11,10 +11,10 @@
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const moment = require('moment');
+const tableify = require(`tableify`);
 var AdapterStarted;
 
-var arrtableLong = [];
-var arrtableShort = [];
+var tableArray = [];
 var textYear = '';
 var textYears = '';
 var textYearsShort = '';
@@ -84,23 +84,25 @@ function main() {
             'native' : {}
         });
 
-        adapter.createState('', '', 'jsonContentLong', {
+        adapter.createState('', '', 'jsonContent', {
             read: true, 
             write: false, 
-            name: "HTML Content Countdown Long", 
+            name: "JSON Content", 
             type: "string", 
             def: '',
             role: 'value'
-          });
-          adapter.createState('', '', 'jsonContentShort', {
+        });
+
+        adapter.createState('', '', 'htmlContent', {
             read: true, 
             write: false, 
-            name: "HTML Content Countdown Short", 
+            name: "HTML Content", 
             type: "string", 
             def: '',
             role: 'value'
-          });
-          getVariableTranslation()
+        });
+
+        getVariableTranslation()
         AdapterStarted = true
     }
 
@@ -144,8 +146,7 @@ function deleteCountdownSetup(CountName){
 
 
 function loopsetup(){
-    arrtableLong = [];
-    arrtableShort = [];
+    tableArray = [];
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
@@ -336,6 +337,9 @@ function createCountdownData(CountName, CountDate){
                 CountDowninWordsLong += ' ' + minutes+' ' + textMinute;
             }     
         }
+
+        var totalDays = mydiff(Date(),newdate,"days");
+        var totalHours = mydiff(Date(),newdate,"hours");
                 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
@@ -345,14 +349,36 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
+
+        var tableContent = adapter.config.tablefields;
+        var tableContentTemp = []
+        tableContentTemp.push(CountName)
+
+        if (tableContent.indexOf("inWordsShort") != -1 ){
+            tableContentTemp.push(CountDowninWordsShort)
+        }
+
+        if (tableContent.indexOf("inWordsLong") != -1 ){
+            tableContentTemp.push(CountDowninWordsLong)
+        }
+
+        if (tableContent.indexOf("totalNoOfDays") != -1 ){
+            tableContentTemp.push(totalDays)
+        }
+
+        if (tableContent.indexOf("totalNoOfHours") != -1 ){
+            tableContentTemp.push(totalHours)
+        }
+
+        if (tableContent.indexOf("endDate") != -1 ){
+            tableContentTemp.push(newdatelocal)
+        }
 
         var arrlineLong = [CountName,CountDowninWordsLong];
-        arrtableLong.push(arrlineLong);
+        tableArray.push(tableContentTemp);
 
-        var arrlineShort = [CountName,CountDowninWordsShort];
-        arrtableShort.push(arrlineShort);
     }
 }
 
@@ -480,21 +506,10 @@ function processMessage(obj){
 }
 
 function createCountdownTable(){
-    adapter.log.info('table fields: ' + adapter.config.tablefields);
 
-    if (adapter.config.tablefields.inWordsShort){
-        adapter.log.info('In Words Short aktiv');
-    }
-    else{
-        adapter.log.info('In Words Short inaktiv');
+    adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true});
 
-    }
-   
-
-    
-
-   adapter.setState({ state: 'jsonContentLong'}, {val: JSON.stringify(arrtableLong), ack: true});
-   adapter.setState({ state: 'jsonContentShort'}, {val: JSON.stringify(arrtableShort), ack: true});
+    adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true});
 
 }
 
