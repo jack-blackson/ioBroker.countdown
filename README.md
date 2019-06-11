@@ -52,6 +52,9 @@ There are two ways to set up alarms:
 ### 0.4.0 (2019-06-04)
 * (jack-blackson) restructuring - creation of alarms with sendto or manually with datapoint is now possible
 
+## 0.5.0 (2019-25-04)
+* (jack-blackson) adjust the data in the table
+
 ## License
 The MIT License (MIT)
 
