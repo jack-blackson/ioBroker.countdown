@@ -480,6 +480,8 @@ function processMessage(obj){
 }
 
 function createCountdownTable(){
+    adapter.log.info('table fields: ' + adapter.config.tablefields);
+
     if (adapter.config.tablefields.inWordsShort){
         adapter.log.info('In Words Short aktiv');
     }
