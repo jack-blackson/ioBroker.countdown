@@ -480,35 +480,15 @@ function processMessage(obj){
 }
 
 function createCountdownTable(){
+    adapter.log.info('In Words Short: '+  adapter.config.tablefields.inWordsShort);
+
+    
+
    adapter.setState({ state: 'jsonContentLong'}, {val: JSON.stringify(arrtableLong), ack: true});
    adapter.setState({ state: 'jsonContentShort'}, {val: JSON.stringify(arrtableShort), ack: true});
 
 }
 
-/*
-function clearOldChannels(){
-    // clear objects which were deleted in the setup - run once after adapter restart
-   var setuparr = [];
-   const setuploop = adapter.config.setup;
-   for (const item of setuploop){
-     setuparr.push(item.name);
-   }
-   adapter.getAdapterObjects((objects) => {
-
-    for (const id1 of Object.keys(objects)) {
-        
-        const obj = objects[id1];
-
-        if (obj.type == 'channel'){
-            var arraycontains = (setuparr.indexOf(obj.common.name) > -1);
-            if (arraycontains == false){
-                adapter.deleteChannel(id1)
-            }
-        }   
-    }
-  });
-}
-*/
 
 function createObjects(CountName){
     adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
