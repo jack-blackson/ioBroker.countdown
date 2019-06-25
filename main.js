@@ -419,8 +419,7 @@ function processMessage(obj){
             }
         }
         if (obj.message.month != ''){
-            var messagemonth = obj.message.month
-            messagemonth.replace(/^0+/, '')
+            var messagemonth = obj.message.month.replace(/^0+/, '')
 
             if(messagemonth === '' + parseInt(messagemonth)){
                 // is int
@@ -439,8 +438,7 @@ function processMessage(obj){
             }
         }
         if (obj.message.day != ''){
-            var messageday = obj.message.day
-            messageday.replace(/^0+/, '')
+            var messageday = obj.message.day.replace(/^0+/, '')
             if(messageday === '' + parseInt(messageday)){
                 // is 
                 if (messageday <=9) {
@@ -458,8 +456,7 @@ function processMessage(obj){
             }
         }
         if (obj.message.hour != ''){
-            var messagehour = obj.message.hour
-            messagehour.replace(/^0+/, '')
+            var messagehour = obj.message.hour.replace(/^0+/, '')
 
             if(messagehour === '' + parseInt(messagehour)){
                 // is int
@@ -478,8 +475,7 @@ function processMessage(obj){
             }
         }
         if (obj.message.minute != ''){
-            var messageminute = obj.message.minute
-            messageminute.replace(/^0+/, '')
+            var messageminute = obj.message.minute.replace(/^0+/, '')
 
             if(messageminute === '' + parseInt(messageminute)){
                 // is int
