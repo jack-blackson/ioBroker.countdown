@@ -408,7 +408,6 @@ function processMessage(obj){
     {
         if (obj.message.year != ''){
             var messageyear = obj.message.year
-            messageyear.replace(/^0+/, '')
             if(messageyear === '' + parseInt(messageyear)){
                 // is int
                 year = messageyear;
@@ -434,7 +433,7 @@ function processMessage(obj){
             }
             else
             {
-                adapter.log.error('Could not create alarm as month value is no int! Value: ');
+                adapter.log.error('Could not create alarm as month value is no int! Value: ' + messagemonth);
                 erroroccured = true;
     
             }
@@ -442,7 +441,6 @@ function processMessage(obj){
         if (obj.message.day != ''){
             var messageday = obj.message.day
             messageday.replace(/^0+/, '')
-
             if(messageday === '' + parseInt(messageday)){
                 // is 
                 if (messageday <=9) {
