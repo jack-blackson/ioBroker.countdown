@@ -392,7 +392,7 @@ function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
-            obj.message.date.replace(".","-");
+            obj.message.date.replace(/-/g, '.');
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 

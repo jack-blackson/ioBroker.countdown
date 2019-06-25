@@ -25,5 +25,9 @@ systemDictionary = {
     'endDate': {
         'en': 'Enddate',
         'de': 'Enddatum'
-    }    
+    },
+    'tablecontent': {
+        'en': 'Show these fields in table:',
+        'de': 'Folgende Felder in Tabelle anzeigen:'
+    }        
 };
