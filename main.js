@@ -242,7 +242,7 @@ function createCountdownData(CountName, CountDate){
 
     var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
 
-    var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
+    var newdatelocal = moment(newdate).local().format('YYYY.MM.DD HH:mm');
 
     var now = moment(new Date()); //todays date
     var duration = moment.duration(now.diff(newdate));        
@@ -392,7 +392,7 @@ function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
-            
+            obj.message.date.replace(".","-");
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
