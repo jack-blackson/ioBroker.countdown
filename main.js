@@ -360,7 +360,7 @@ function createCountdownData(CountName, CountDate){
             tableContentTemp.push(CountDowninWordsShort)
         }
 
-        if (adapter.config.inWordsShort){
+        if (adapter.config.inWordsLong){
             tableContentTemp.push(CountDowninWordsLong)
         }
 
@@ -392,13 +392,13 @@ function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
-            obj.message.date.replace(/-/g, '.');
+            var messageDate = obj.message.date.replace(/-/g, '.');
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
                 name: name, 
                 type: "string", 
-                def: obj.message.date,
+                def: messageDate,
                 role: 'value'
             
         });
