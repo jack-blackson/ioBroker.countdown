@@ -356,27 +356,26 @@ function createCountdownData(CountName, CountDate){
         var tableContentTemp = []
         tableContentTemp.push(CountName)
 
-        if (tableContent.indexOf("inWordsShort") != -1 ){
+        if (adapter.config.inWordsShort){
             tableContentTemp.push(CountDowninWordsShort)
         }
 
-        if (tableContent.indexOf("inWordsLong") != -1 ){
+        if (adapter.config.inWordsShort){
             tableContentTemp.push(CountDowninWordsLong)
         }
 
-        if (tableContent.indexOf("totalNoOfDays") != -1 ){
+        if (adapter.config.totalNoOfDays){
             tableContentTemp.push(totalDays)
         }
 
-        if (tableContent.indexOf("totalNoOfHours") != -1 ){
+        if (adapter.config.totalNoOfHours){
             tableContentTemp.push(totalHours)
         }
 
-        if (tableContent.indexOf("endDate") != -1 ){
+        if (adapter.config.endDate){
             tableContentTemp.push(newdatelocal)
         }
 
-        var arrlineLong = [CountName,CountDowninWordsLong];
         tableArray.push(tableContentTemp);
 
     }
@@ -408,6 +407,7 @@ function processMessage(obj){
     else
     {
         if (obj.message.year != ''){
+            obj.message.year.replace(/^0+/, '')
             if(obj.message.year === '' + parseInt(obj.message.year)){
                 // is int
                 year = obj.message.year;
@@ -419,6 +419,8 @@ function processMessage(obj){
             }
         }
         if (obj.message.month != ''){
+            obj.message.month.replace(/^0+/, '')
+
             if(obj.message.month === '' + parseInt(obj.message.month)){
                 // is int
                 if (obj.message.month <=9) {
@@ -436,6 +438,8 @@ function processMessage(obj){
             }
         }
         if (obj.message.day != ''){
+            obj.message.day.replace(/^0+/, '')
+
             if(obj.message.day === '' + parseInt(obj.message.day)){
                 // is 
                 if (obj.message.month <=9) {
@@ -453,6 +457,8 @@ function processMessage(obj){
             }
         }
         if (obj.message.hour != ''){
+            obj.message.hour.replace(/^0+/, '')
+
             if(obj.message.hour === '' + parseInt(obj.message.hour)){
                 // is int
                 if (obj.message.hour <=9) {
@@ -470,6 +476,8 @@ function processMessage(obj){
             }
         }
         if (obj.message.minute != ''){
+            obj.message.minute.replace(/^0+/, '')
+
             if(obj.message.minute === '' + parseInt(obj.message.minute)){
                 // is int
                 if (obj.message.minute <=9) {
