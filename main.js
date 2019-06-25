@@ -407,10 +407,11 @@ function processMessage(obj){
     else
     {
         if (obj.message.year != ''){
-            obj.message.year.replace(/^0+/, '')
-            if(obj.message.year === '' + parseInt(obj.message.year)){
+            var messageyear = obj.message.year
+            messageyear.replace(/^0+/, '')
+            if(messageyear === '' + parseInt(messageyear)){
                 // is int
-                year = obj.message.year;
+                year = messageyear;
             }
             else
             {
@@ -419,34 +420,36 @@ function processMessage(obj){
             }
         }
         if (obj.message.month != ''){
-            obj.message.month.replace(/^0+/, '')
+            var messagemonth = obj.message.month
+            messagemonth.replace(/^0+/, '')
 
-            if(obj.message.month === '' + parseInt(obj.message.month)){
+            if(messagemonth === '' + parseInt(messagemonth)){
                 // is int
-                if (obj.message.month <=9) {
-                    month = '0' + obj.message.month;
+                if (messagemonth <=9) {
+                    month = '0' + messagemonth;
                 }
                 else{
-                    month = obj.message.month;
+                    month = messagemonth;
                 }
             }
             else
             {
-                adapter.log.error('Could not create alarm as month value is no int!');
+                adapter.log.error('Could not create alarm as month value is no int! Value: ');
                 erroroccured = true;
     
             }
         }
         if (obj.message.day != ''){
-            obj.message.day.replace(/^0+/, '')
+            var messageday = obj.message.day
+            messageday.replace(/^0+/, '')
 
-            if(obj.message.day === '' + parseInt(obj.message.day)){
+            if(messageday === '' + parseInt(messageday)){
                 // is 
-                if (obj.message.month <=9) {
-                    day = '0' + obj.message.day;
+                if (messageday <=9) {
+                    day = '0' + messageday;
                 }
                 else{
-                    day = obj.message.day;
+                    day = messageday;
                 }
             }
             else
@@ -457,15 +460,16 @@ function processMessage(obj){
             }
         }
         if (obj.message.hour != ''){
-            obj.message.hour.replace(/^0+/, '')
+            var messagehour = obj.message.hour
+            messagehour.replace(/^0+/, '')
 
-            if(obj.message.hour === '' + parseInt(obj.message.hour)){
+            if(messagehour === '' + parseInt(messagehour)){
                 // is int
-                if (obj.message.hour <=9) {
-                    hour = '0' + obj.message.hour;
+                if (messagehour <=9) {
+                    hour = '0' + messagehour;
                 }
                 else{
-                    hour = obj.message.hour;
+                    hour = messagehour;
                 }
             }
             else
@@ -476,22 +480,21 @@ function processMessage(obj){
             }
         }
         if (obj.message.minute != ''){
-            obj.message.minute.replace(/^0+/, '')
+            var messageminute = obj.message.minute
+            messageminute.replace(/^0+/, '')
 
-            if(obj.message.minute === '' + parseInt(obj.message.minute)){
+            if(messageminute === '' + parseInt(messageminute)){
                 // is int
-                if (obj.message.minute <=9) {
-                    minute = '0' + obj.message.minute;
+                if (messageminute <=9) {
+                    minute = '0' + messageminute;
                 }
                 else{
-                    minute = obj.message.minute;
+                    minute = messageminute;
                 }
             }
             else
             {
-                adapter.log.error('Could not create alarm as minute value is no int!');
-                erroroccured = true;
-    
+                minute = '00'
             }
         }
     
