@@ -395,8 +395,7 @@ function processMessage(obj){
             var messageDate = obj.message.date.replace(/-/g, '.');
             var date = moment(messageDate);
             
-            adapter.log.info('Datecheck: ' + date + ' ' + date.isValid());
-
+            adapter.log.info('Datecheck: ' + date + ' ' + isValidDate(date));
 
             adapter.createState('', 'setup', name, {
                 read: true, 
@@ -664,8 +663,6 @@ function mydiff(date1,date2,interval) {
     }
 }
 
-function isValidDate(s) {
-    var bits = s.split('.');
-    var d = new Date(bits[2], bits[1] - 1, bits[0]);
-    return d && (d.getMonth() + 1) == bits[1];
+function isValidDate(d) {
+    return d instanceof Date && !isNaN(d);
   }
