@@ -168,9 +168,9 @@ function loopsetup(){
 
         }
         setTimeout(function() {
-            // Code, der erst nach 5 Sekunden ausgeführt wird
+            // Code, der erst nach 10 Sekunden ausgeführt wird
             createCountdownTable()
-        }, 5000);
+        }, 10000);
     });
 }
 
