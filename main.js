@@ -393,6 +393,11 @@ function processMessage(obj){
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
             var messageDate = obj.message.date.replace(/-/g, '.');
+            var date = moment(messageDate);
+            
+            adapter.log.info('Datecheck: ' + date + ' ' + date.isValid());
+
+
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -658,3 +663,9 @@ function mydiff(date1,date2,interval) {
         default: return undefined;
     }
 }
+
+function isValidDate(s) {
+    var bits = s.split('.');
+    var d = new Date(bits[2], bits[1] - 1, bits[0]);
+    return d && (d.getMonth() + 1) == bits[1];
+  }
