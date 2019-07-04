@@ -29,5 +29,9 @@ systemDictionary = {
     'tablecontent': {
         'en': 'Show these fields in table:',
         'de': 'Folgende Felder in Tabelle anzeigen:'
-    }        
+    },
+    'datetype': {
+        'en': 'Date Format:',
+        'de': 'Datumsformat:'
+    }       
 };
