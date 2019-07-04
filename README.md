@@ -54,6 +54,7 @@ There are two ways to set up alarms:
 
 ## 0.5.0 (2019-25-04)
 * (jack-blackson) adjust the data in the table
+* (jack-blackson) bugfix date import 
 
 ## License
 The MIT License (MIT)
