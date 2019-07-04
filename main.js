@@ -395,8 +395,6 @@ function processMessage(obj){
             var messageDate = obj.message.date.replace(/-/g, '.');
             var date = moment(messageDate);
             
-            adapter.log.info('Datecheck: ' + date + ' ' + isValidDate(date));
-
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -662,7 +660,3 @@ function mydiff(date1,date2,interval) {
         default: return undefined;
     }
 }
-
-function isValidDate(d) {
-    return d instanceof Date && !isNaN(d);
-  }
