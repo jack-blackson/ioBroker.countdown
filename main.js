@@ -68,6 +68,8 @@ function startAdapter(options) {
 
 
 function main() {
+    adapter.log.info('Date format:' +  adapter.config.dateFormat);
+
     if (AdapterStarted == false){
         adapter.setObjectNotExists('setup', {
             common: {
