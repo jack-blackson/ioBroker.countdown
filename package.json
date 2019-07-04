@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Countdown",
   "main": "main.js",
   "repository": {
@@ -20,7 +20,8 @@
   "dependencies": {
     "moment":"2.24.0",
     "@iobroker/testing": "^1.2.0",
-    "@iobroker/adapter-core": "^1.0.3"
+    "@iobroker/adapter-core": "^1.0.3",
+    "tableify": "1.1.0"
   },
   "scripts": {
     "test": "npm run test:package && npm run test:unit",

@@ -11,10 +11,10 @@
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const moment = require('moment');
+const tableify = require(`tableify`);
 var AdapterStarted;
 
-var arrtableLong = [];
-var arrtableShort = [];
+var tableArray = [];
 var textYear = '';
 var textYears = '';
 var textYearsShort = '';
@@ -84,23 +84,25 @@ function main() {
             'native' : {}
         });
 
-        adapter.createState('', '', 'jsonContentLong', {
+        adapter.createState('', '', 'jsonContent', {
             read: true, 
             write: false, 
-            name: "HTML Content Countdown Long", 
+            name: "JSON Content", 
             type: "string", 
             def: '',
             role: 'value'
-          });
-          adapter.createState('', '', 'jsonContentShort', {
+        });
+
+        adapter.createState('', '', 'htmlContent', {
             read: true, 
             write: false, 
-            name: "HTML Content Countdown Short", 
+            name: "HTML Content", 
             type: "string", 
             def: '',
             role: 'value'
-          });
-          getVariableTranslation()
+        });
+
+        getVariableTranslation()
         AdapterStarted = true
     }
 
@@ -144,8 +146,7 @@ function deleteCountdownSetup(CountName){
 
 
 function loopsetup(){
-    arrtableLong = [];
-    arrtableShort = [];
+    tableArray = [];
 
     adapter.getStatesOf("countdown.0.setup", function(error, result) {
         for (const id1 of result) {
@@ -167,9 +168,9 @@ function loopsetup(){
 
         }
         setTimeout(function() {
-            // Code, der erst nach 5 Sekunden ausgeführt wird
+            // Code, der erst nach 10 Sekunden ausgeführt wird
             createCountdownTable()
-        }, 5000);
+        }, 10000);
     });
 }
 
@@ -241,7 +242,7 @@ function createCountdownData(CountName, CountDate){
 
     var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
 
-    var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
+    var newdatelocal = moment(newdate).local().format('YYYY.MM.DD HH:mm');
 
     var now = moment(new Date()); //todays date
     var duration = moment.duration(now.diff(newdate));        
@@ -336,6 +337,9 @@ function createCountdownData(CountName, CountDate){
                 CountDowninWordsLong += ' ' + minutes+' ' + textMinute;
             }     
         }
+
+        var totalDays = mydiff(Date(),newdate,"days");
+        var totalHours = mydiff(Date(),newdate,"hours");
                 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
@@ -345,14 +349,35 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: mydiff(Date(),newdate,"days"), ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: mydiff(Date(),newdate,"hours"), ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
 
-        var arrlineLong = [CountName,CountDowninWordsLong];
-        arrtableLong.push(arrlineLong);
+        var tableContent = adapter.config.tablefields;
+        var tableContentTemp = []
+        tableContentTemp.push(CountName)
 
-        var arrlineShort = [CountName,CountDowninWordsShort];
-        arrtableShort.push(arrlineShort);
+        if (adapter.config.inWordsShort){
+            tableContentTemp.push(CountDowninWordsShort)
+        }
+
+        if (adapter.config.inWordsLong){
+            tableContentTemp.push(CountDowninWordsLong)
+        }
+
+        if (adapter.config.totalNoOfDays){
+            tableContentTemp.push(totalDays)
+        }
+
+        if (adapter.config.totalNoOfHours){
+            tableContentTemp.push(totalHours)
+        }
+
+        if (adapter.config.endDate){
+            tableContentTemp.push(newdatelocal)
+        }
+
+        tableArray.push(tableContentTemp);
+
     }
 }
 
@@ -367,13 +392,15 @@ function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         if (obj.message.date != ''){
+            var messageDate = obj.message.date.replace(/-/g, '.');
+            var date = moment(messageDate);
             
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
                 name: name, 
                 type: "string", 
-                def: obj.message.date,
+                def: messageDate,
                 role: 'value'
             
         });
@@ -382,9 +409,10 @@ function processMessage(obj){
     else
     {
         if (obj.message.year != ''){
-            if(obj.message.year === '' + parseInt(obj.message.year)){
+            var messageyear = obj.message.year
+            if(messageyear === '' + parseInt(messageyear)){
                 // is int
-                year = obj.message.year;
+                year = messageyear;
             }
             else
             {
@@ -393,30 +421,33 @@ function processMessage(obj){
             }
         }
         if (obj.message.month != ''){
-            if(obj.message.month === '' + parseInt(obj.message.month)){
+            var messagemonth = obj.message.month.replace(/^0+/, '')
+
+            if(messagemonth === '' + parseInt(messagemonth)){
                 // is int
-                if (obj.message.month <=9) {
-                    month = '0' + obj.message.month;
+                if (messagemonth <=9) {
+                    month = '0' + messagemonth;
                 }
                 else{
-                    month = obj.message.month;
+                    month = messagemonth;
                 }
             }
             else
             {
-                adapter.log.error('Could not create alarm as month value is no int!');
+                adapter.log.error('Could not create alarm as month value is no int! Value: ' + messagemonth);
                 erroroccured = true;
     
             }
         }
         if (obj.message.day != ''){
-            if(obj.message.day === '' + parseInt(obj.message.day)){
+            var messageday = obj.message.day.replace(/^0+/, '')
+            if(messageday === '' + parseInt(messageday)){
                 // is 
-                if (obj.message.month <=9) {
-                    day = '0' + obj.message.day;
+                if (messageday <=9) {
+                    day = '0' + messageday;
                 }
                 else{
-                    day = obj.message.day;
+                    day = messageday;
                 }
             }
             else
@@ -427,13 +458,15 @@ function processMessage(obj){
             }
         }
         if (obj.message.hour != ''){
-            if(obj.message.hour === '' + parseInt(obj.message.hour)){
+            var messagehour = obj.message.hour.replace(/^0+/, '')
+
+            if(messagehour === '' + parseInt(messagehour)){
                 // is int
-                if (obj.message.hour <=9) {
-                    hour = '0' + obj.message.hour;
+                if (messagehour <=9) {
+                    hour = '0' + messagehour;
                 }
                 else{
-                    hour = obj.message.hour;
+                    hour = messagehour;
                 }
             }
             else
@@ -444,20 +477,20 @@ function processMessage(obj){
             }
         }
         if (obj.message.minute != ''){
-            if(obj.message.minute === '' + parseInt(obj.message.minute)){
+            var messageminute = obj.message.minute.replace(/^0+/, '')
+
+            if(messageminute === '' + parseInt(messageminute)){
                 // is int
-                if (obj.message.minute <=9) {
-                    minute = '0' + obj.message.minute;
+                if (messageminute <=9) {
+                    minute = '0' + messageminute;
                 }
                 else{
-                    minute = obj.message.minute;
+                    minute = messageminute;
                 }
             }
             else
             {
-                adapter.log.error('Could not create alarm as minute value is no int!');
-                erroroccured = true;
-    
+                minute = '00'
             }
         }
     
@@ -480,35 +513,13 @@ function processMessage(obj){
 }
 
 function createCountdownTable(){
-   adapter.setState({ state: 'jsonContentLong'}, {val: JSON.stringify(arrtableLong), ack: true});
-   adapter.setState({ state: 'jsonContentShort'}, {val: JSON.stringify(arrtableShort), ack: true});
+
+    adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true});
+
+    adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true});
 
 }
 
-/*
-function clearOldChannels(){
-    // clear objects which were deleted in the setup - run once after adapter restart
-   var setuparr = [];
-   const setuploop = adapter.config.setup;
-   for (const item of setuploop){
-     setuparr.push(item.name);
-   }
-   adapter.getAdapterObjects((objects) => {
-
-    for (const id1 of Object.keys(objects)) {
-        
-        const obj = objects[id1];
-
-        if (obj.type == 'channel'){
-            var arraycontains = (setuparr.indexOf(obj.common.name) > -1);
-            if (arraycontains == false){
-                adapter.deleteChannel(id1)
-            }
-        }   
-    }
-  });
-}
-*/
 
 function createObjects(CountName){
     adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
