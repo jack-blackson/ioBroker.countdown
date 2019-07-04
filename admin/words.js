@@ -30,7 +30,7 @@ systemDictionary = {
         'en': 'Show these fields in table:',
         'de': 'Folgende Felder in Tabelle anzeigen:'
     },
-    'datetype': {
+    'dateFormat': {
         'en': 'Date Format:',
         'de': 'Datumsformat:'
     }       
