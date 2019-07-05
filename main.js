@@ -441,7 +441,7 @@ function processMessage(obj){
     else if (typeof obj.message.adddays != 'undefined'){
         if (obj.message.adddays != ''){            
             var date = new Date();
-            var newDate = new Date(date.getFullYear(), date.getMonth + obj.message.addyears, date.getDate())
+            var newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate  + obj.message.adddays)
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -463,7 +463,7 @@ function processMessage(obj){
     else if (typeof obj.message.addmonths != 'undefined'){
         if (obj.message.addmonths != ''){            
             var date = new Date();
-            var newDate = new Date(date.getFullYear(), date.getMonth + obj.message.addyears, date.getDate())
+            var newDate = new Date(date.getFullYear(), date.getMonth + obj.message.addmonths, date.getDate())
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
