@@ -68,7 +68,6 @@ function startAdapter(options) {
 
 
 function main() {
-    adapter.log.info('Date format:' +  adapter.config.dateFormat);
 
     if (AdapterStarted == false){
         adapter.setObjectNotExists('setup', {
@@ -244,7 +243,16 @@ function createCountdownData(CountName, CountDate){
 
     var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
 
-    var newdatelocal = moment(newdate).local().format('YYYY.MM.DD HH:mm');
+
+    switch (adapter.config.dateFormat) {
+        case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
+        case "EuropeMinus": var newdatelocal = moment(newdate).local().format('DD-MM-YYYY HH:mm');
+        case "USDot"  : var newdatelocal = moment(newdate).local().format('MM.DD.YYYY HH:MM');
+        case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH.MM');
+        default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
+    }
+
+    
 
     var now = moment(new Date()); //todays date
     var duration = moment.duration(now.diff(newdate));        
@@ -408,7 +416,7 @@ function processMessage(obj){
         });
         }
     }    
-    else
+    else if (obj.message.keys(obj).length >= 2) 
     {
         if (obj.message.year != ''){
             var messageyear = obj.message.year
@@ -507,6 +515,11 @@ function processMessage(obj){
                 role: 'value'
               });
         }
+    }
+    else if (obj.message.keys(obj).length == 1){
+        adapter.log.info('Delete countdown: ' +name);
+
+
     }
     setTimeout(function() {
         // Code, der erst nach 5 Sekunden ausgeführt wird
