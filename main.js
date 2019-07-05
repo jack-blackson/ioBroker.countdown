@@ -246,9 +246,13 @@ function createCountdownData(CountName, CountDate){
 
     switch (adapter.config.dateFormat) {
         case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
+                        break;
         case "EuropeMinus": var newdatelocal = moment(newdate).local().format('DD-MM-YYYY HH:mm');
+                            break;
         case "USDot"  : var newdatelocal = moment(newdate).local().format('MM.DD.YYYY HH:MM');
+                        break;
         case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH.MM');
+                        break;
         default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
     }
 
@@ -521,6 +525,9 @@ function processMessage(obj){
 
 
     }
+    adapter.log.info('Message objects: ' +countProperties(obj.message));
+
+
     setTimeout(function() {
         // Code, der erst nach 5 Sekunden ausgeführt wird
         loopsetup()
