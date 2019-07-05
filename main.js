@@ -409,23 +409,15 @@ function processMessage(obj){
             switch (adapter.config.dateFormat) {
                 case "EuropeDot": 
                                 var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
-                                adapter.log.info('Date 1st conversion: ' +messageDate);
-
                                 break;
                 case "EuropeMinus": 
                                  var messageDate = moment(obj.message.date, 'DD-MM-YYYY HH:mm').toDate();
-                                 adapter.log.info('Date 1st conversion: ' +messageDate);
-
                                 break;
                 case "USDot"  : 
                                 var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
-                                adapter.log.info('Date 1st conversion: ' +messageDate);
-
                                 break;
                 case "USMinuts"   : 
                                 var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH.MM').toDate();
-                                adapter.log.info('Date 1st conversion: ' +messageDate);
-
                                 break;
                 default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
                 ;
@@ -433,7 +425,6 @@ function processMessage(obj){
             var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
                                     moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
                                     moment(messageDate).format('mm') + ':00' 
-            adapter.log.info('Date 2nd conversion: ' +messageDateString);
 
 
             adapter.createState('', 'setup', name, {
@@ -447,7 +438,69 @@ function processMessage(obj){
         });
         }
     }    
-    else if (countProperties(obj.message) >= 2) 
+    else if (typeof obj.message.adddays != 'undefined'){
+        if (obj.message.adddays != ''){            
+            var date = new Date();
+            date = addDays(date,obj.message.adddays)
+
+            var messageDateString = moment(date).format('DD') + '.' + moment(date).format('MM') + '.' + 
+                                    moment(date).format('YYYY') + ' ' + moment(date).format('HH') + ':' + 
+                                    moment(date).format('mm') + ':00' 
+
+
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: name, 
+                type: "string", 
+                def: messageDateString,
+                role: 'value'
+            
+        });
+        }
+    }
+    else if (typeof obj.message.addmonths != 'undefined'){
+        if (obj.message.addmonths != ''){            
+            var date = new Date();
+            var newDate = new Date(date.setMonth(date.getMonth()+obj.message.addmonths));
+
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                    moment(newDate).format('mm') + ':00' 
+
+
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: name, 
+                type: "string", 
+                def: messageDateString,
+                role: 'value'
+            
+        });
+        }
+    }
+    else if (typeof obj.message.addyears != 'undefined'){
+        if (obj.message.addyears != ''){            
+            var date = new Date();
+            var newDate = new Date(date.setFullYear(new Date().getFullYear() + obj.message.addyears));
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                    moment(newDate).format('mm') + ':00' 
+
+
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: name, 
+                type: "string", 
+                def: messageDateString,
+                role: 'value'
+            
+        });
+        }
+    }
+    else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
     {
         if (obj.message.year != ''){
             var messageyear = obj.message.year
@@ -697,6 +750,13 @@ function countProperties(obj) {
 
     return count;
 }
+
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
 
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
