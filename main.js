@@ -416,7 +416,7 @@ function processMessage(obj){
         });
         }
     }    
-    else if (obj.message.keys(obj).length >= 2) 
+    else if (countProperties(obj.message) >= 2) 
     {
         if (obj.message.year != ''){
             var messageyear = obj.message.year
@@ -516,7 +516,7 @@ function processMessage(obj){
               });
         }
     }
-    else if (obj.message.keys(obj).length == 1){
+    else if (countProperties(obj.message) == 1){
         adapter.log.info('Delete countdown: ' +name);
 
 
@@ -652,6 +652,17 @@ function createObjects(CountName){
         role: 'value'
       });
       
+}
+
+function countProperties(obj) {
+    var count = 0;
+
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            ++count;
+    }
+
+    return count;
 }
 
 function mydiff(date1,date2,interval) {
