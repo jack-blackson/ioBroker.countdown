@@ -430,17 +430,18 @@ function processMessage(obj){
                 default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
                 ;
             }
-            messageDate = moment(messageDate, 'DD.MM.YYYY HH:mm:ss').toDate()
-            adapter.log.info('Date 2nd conversion: ' +messageDate);
+            var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
+                                    moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
+                                    moment(messageDate).format('mm') + ':00' 
+            adapter.log.info('Date 2nd conversion: ' +messageDateString);
 
 
-            
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
                 name: name, 
                 type: "string", 
-                def: messageDate,
+                def: messageDateString,
                 role: 'value'
             
         });
