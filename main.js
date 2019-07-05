@@ -241,7 +241,7 @@ function getVariableTranslation(){
 
 function createCountdownData(CountName, CountDate){
 
-    var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
+    var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
 
 
     switch (adapter.config.dateFormat) {
@@ -405,9 +405,26 @@ function processMessage(obj){
     var erroroccured = false
 
     if (typeof obj.message.date != 'undefined'){
-        if (obj.message.date != ''){
-            var messageDate = obj.message.date.replace(/-/g, '.');
-            var date = moment(messageDate);
+        if (obj.message.date != ''){            
+            switch (adapter.config.dateFormat) {
+                case "EuropeDot": 
+                                var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                                break;
+                case "EuropeMinus": 
+                                 var messageDate = moment(obj.message.date, 'DD-MM-YYYY HH:mm').toDate();
+                                break;
+                case "USDot"  : 
+                                var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
+                                break;
+                case "USMinuts"   : 
+                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH.MM').toDate();
+                                break;
+                default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                ;
+            }
+            messageDate = moment(messageDate, 'DD.MM.YYYY HH:mm').toDate()
+
+
             
             adapter.createState('', 'setup', name, {
                 read: true, 
@@ -509,7 +526,7 @@ function processMessage(obj){
         }
     
         if (erroroccured == false){
-            var datestring = year + "." + month + "." + day + " " + hour + ":" + minute + ":00";
+            var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -522,7 +539,8 @@ function processMessage(obj){
     }
     else if (countProperties(obj.message) == 1){
         adapter.log.info('Delete countdown: ' +name);
-
+        deleteCountdownSetup(name)
+        deleteCountdownResults(name)
 
     }
     adapter.log.info('Message objects: ' +countProperties(obj.message));

@@ -23,20 +23,20 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 ## Features to implement
 * Better checks for correct data input
 
-## Displaying alarms
+## Displaying countdowns
 The adapter prowides you automatically a json table. You just need to use it with the json table widged. Please tick "No Header" there. It is possible to either display the short text or the long text.
 ![Logo](admin/countdown_json.png)
 
-
-## How to create alarms
-The adapter is using states in the channel setup to create the alarm details. 
-
-## How to create alarms
-There are two ways to set up alarms:
+## How to create countdowns
+There are two ways to set up countdowns:
 
 * You can create a manual state in the device "setup". The name of the object is the alarm name, and the value will be the date. The date neets to be in the format "YYYY.MM.DD HH:mm:ss".
 * You can create an alarm with sendto. There, you can either send the components (minimum is Year Month Date) or a date string in the format "YYYY.MM.DD HH:mm:ss".
 ![Logo](admin/countdown_blocky.png)
+
+
+## How to delete countdowns
+You  can delete a countdown with the sendto. Therefore, send just the name with sendto to the adapter, and the countdown will be deleted automatically.
 
 
 ## Changelog
@@ -58,6 +58,7 @@ There are two ways to set up alarms:
 
 ## 0.6.0 (2019-25-04)
 * (jack-blackson) adjustable date format for input and output
+* (jack-blackson) delete countdowns with sendto
 
 
 ## License
