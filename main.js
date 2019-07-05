@@ -409,20 +409,29 @@ function processMessage(obj){
             switch (adapter.config.dateFormat) {
                 case "EuropeDot": 
                                 var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                                adapter.log.info('Date 1st conversion: ' +messageDate);
+
                                 break;
                 case "EuropeMinus": 
                                  var messageDate = moment(obj.message.date, 'DD-MM-YYYY HH:mm').toDate();
+                                 adapter.log.info('Date 1st conversion: ' +messageDate);
+
                                 break;
                 case "USDot"  : 
                                 var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
+                                adapter.log.info('Date 1st conversion: ' +messageDate);
+
                                 break;
                 case "USMinuts"   : 
                                 var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH.MM').toDate();
+                                adapter.log.info('Date 1st conversion: ' +messageDate);
+
                                 break;
                 default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
                 ;
             }
-            messageDate = moment(messageDate, 'DD.MM.YYYY HH:mm').toDate()
+            messageDate = moment(messageDate, 'DD.MM.YYYY HH:mm:ss').toDate()
+            adapter.log.info('Date 2nd conversion: ' +messageDate);
 
 
             
@@ -543,8 +552,6 @@ function processMessage(obj){
         deleteCountdownResults(name)
 
     }
-    adapter.log.info('Message objects: ' +countProperties(obj.message));
-
 
     setTimeout(function() {
         // Code, der erst nach 5 Sekunden ausgeführt wird
