@@ -441,12 +441,12 @@ function processMessage(obj){
     else if (typeof obj.message.adddays != 'undefined'){
         if (obj.message.adddays != ''){            
             var date = new Date();
-            date = addDays(date,obj.message.adddays)
-            adapter.log.info(name + ': ' +date);
+            var newDate = new Date(date.getFullYear(), date.getMonth + obj.message.addyears, date.getDate())
+            adapter.log.info(name + ': ' +newDate);
 
-            var messageDateString = moment(date).format('DD') + '.' + moment(date).format('MM') + '.' + 
-                                    moment(date).format('YYYY') + ' ' + moment(date).format('HH') + ':' + 
-                                    moment(date).format('mm') + ':00' 
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                    moment(newDate).format('mm') + ':00' 
 
 
             adapter.createState('', 'setup', name, {
@@ -463,7 +463,7 @@ function processMessage(obj){
     else if (typeof obj.message.addmonths != 'undefined'){
         if (obj.message.addmonths != ''){            
             var date = new Date();
-            var newDate = new Date(date.setMonth(date.getMonth()+obj.message.addmonths));
+            var newDate = new Date(date.getFullYear(), date.getMonth + obj.message.addyears, date.getDate())
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -485,7 +485,8 @@ function processMessage(obj){
     else if (typeof obj.message.addyears != 'undefined'){
         if (obj.message.addyears != ''){            
             var date = new Date();
-            var newDate = new Date(date.setFullYear(new Date().getFullYear() + obj.message.addyears));
+            var newDate = new Date(date.getFullYear + obj.message.addyears, date.getMonth(), date.getDate())
+            //var newDate = new Date(date.setFullYear(new Date().getFullYear() + obj.message.addyears));
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -754,13 +755,6 @@ function countProperties(obj) {
 
     return count;
 }
-
-function addDays(date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
-
 
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
