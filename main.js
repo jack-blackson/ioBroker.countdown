@@ -441,7 +441,7 @@ function processMessage(obj){
     else if (typeof obj.message.adddays != 'undefined'){
         if (obj.message.adddays != ''){            
             var date = new Date();
-            var newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate  + obj.message.adddays)
+            var newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()  + obj.message.adddays)
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -463,7 +463,7 @@ function processMessage(obj){
     else if (typeof obj.message.addmonths != 'undefined'){
         if (obj.message.addmonths != ''){            
             var date = new Date();
-            var newDate = new Date(date.getFullYear(), date.getMonth + obj.message.addmonths, date.getDate())
+            var newDate = new Date(date.getFullYear(), date.getMonth() + obj.message.addmonths, date.getDate())
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -485,7 +485,7 @@ function processMessage(obj){
     else if (typeof obj.message.addyears != 'undefined'){
         if (obj.message.addyears != ''){            
             var date = new Date();
-            var newDate = new Date(date.getFullYear + obj.message.addyears, date.getMonth(), date.getDate())
+            var newDate = new Date(date.getFullYear() + obj.message.addyears, date.getMonth(), date.getDate())
             //var newDate = new Date(date.setFullYear(new Date().getFullYear() + obj.message.addyears));
             adapter.log.info(name + ': ' +newDate);
 
