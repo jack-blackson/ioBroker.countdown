@@ -443,7 +443,7 @@ function processMessage(obj){
             var now = new Date(); //todays date
             adapter.log.info(name + ': ' +now);
 
-            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()  + obj.message.adddays)
+            var newDate = new Date(addDays(now,obj.message.adddays))
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -757,6 +757,12 @@ function countProperties(obj) {
 
     return count;
 }
+
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
 
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
