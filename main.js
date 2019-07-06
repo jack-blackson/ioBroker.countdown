@@ -444,7 +444,7 @@ function processMessage(obj){
             adapter.log.info(name + ': ' +now);
 
             var newDate = moment(addDays(now,obj.message.adddays), 'DD.MM.YYYY HH:mm').toDate()
-            adapter.log.info(name + ': ' +newDate);
+            adapter.log.info(name + ': ' + now + obj.message.adddays +' = ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
