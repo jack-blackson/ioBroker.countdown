@@ -441,6 +441,8 @@ function processMessage(obj){
     else if (typeof obj.message.adddays != 'undefined'){
         if (obj.message.adddays != ''){            
             var now = new Date(); //todays date
+            adapter.log.info(name + ': ' +now);
+
             var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()  + obj.message.adddays)
             adapter.log.info(name + ': ' +newDate);
 
