@@ -450,11 +450,8 @@ function processMessage(obj){
     else if (typeof obj.message.adddays != 'undefined'){
         if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
             var now = new Date(); //todays date
-            adapter.log.info(name + ': ' +now);
-
             var toAdd = Number(obj.message.adddays)
             var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
-            adapter.log.info(name + ': ' + now + toAdd +' = ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
@@ -474,7 +471,7 @@ function processMessage(obj){
 
         }
         else{
-            adapter.log.error('Adding ' + obj.message.adddays + ' is invalid')
+            adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
         }
     }
     else if (typeof obj.message.addmonths != 'undefined'){
@@ -502,11 +499,11 @@ function processMessage(obj){
 
         }
         else{
-            adapter.log.error('Adding ' + obj.message.addmonths + ' is invalid')
+            adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
         }
     }
     else if (typeof obj.message.addyears != 'undefined'){
-        if (obj.message.addyears != '' && obj.message.addyears != '0' && parseInt(obj.message.addyear)){            
+        if (obj.message.addyears != '' && obj.message.addyears != '0' && parseInt(obj.message.addyears)){            
          
             var now = new Date(); //todays date
             var toAdd = Number(obj.message.addyears)
@@ -528,7 +525,7 @@ function processMessage(obj){
             adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
         }
         else{
-            adapter.log.error('Adding ' + obj.message.addyears + ' is invalid')
+            adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
         }
     }
     else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
