@@ -422,9 +422,14 @@ function processMessage(obj){
                 default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
                 ;
             }
+
+
+
             var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
                                     moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
                                     moment(messageDate).format('mm') + ':00' 
+             
+            adapter.log.info(name + messageDateString + 'is valid: ' + moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid());
 
 
             adapter.createState('', 'setup', name, {
@@ -443,7 +448,7 @@ function processMessage(obj){
             var now = new Date(); //todays date
             adapter.log.info(name + ': ' +now);
 
-            var newDate = moment(addDays(now,'10'), 'DD.MM.YYYY HH:mm').toDate()
+            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + obj.message.adddays)
             adapter.log.info(name + ': ' + now + obj.message.adddays +' = ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
