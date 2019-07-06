@@ -447,7 +447,7 @@ function processMessage(obj){
         }
     }    
     else if (typeof obj.message.adddays != 'undefined'){
-        if (obj.message.adddays != ''&& obj.message.adddays === '0' && parseInt(obj.message.adddays){            
+        if (obj.message.adddays != ''&& obj.message.adddays === '0' && parseInt(obj.message.adddays)){            
             var now = new Date(); //todays date
             adapter.log.info(name + ': ' +now);
 
@@ -475,7 +475,7 @@ function processMessage(obj){
         }
     }
     else if (typeof obj.message.addmonths != 'undefined'){
-        if (obj.message.addmonths != ''&& obj.message.addmonths === '0' && parseInt(obj.message.addmonths){            
+        if (obj.message.addmonths != ''&& obj.message.addmonths === '0' && parseInt(obj.message.addmonths)){            
             var now = new Date(); //todays date
             var toAdd = Number(obj.message.addmonths)
 
