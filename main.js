@@ -429,18 +429,21 @@ function processMessage(obj){
                                     moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
                                     moment(messageDate).format('mm') + ':00' 
              
-            adapter.log.info(name + messageDateString + 'is valid: ' + moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid());
-
-
-            adapter.createState('', 'setup', name, {
-                read: true, 
-                write: false, 
-                name: name, 
-                type: "string", 
-                def: messageDateString,
-                role: 'value'
-            
-        });
+            if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
+                adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: false, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+                });
+            }
+            else{
+                // invalid date
+                adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
+            }
         }
     }    
     else if (typeof obj.message.adddays != 'undefined'){
@@ -448,8 +451,9 @@ function processMessage(obj){
             var now = new Date(); //todays date
             adapter.log.info(name + ': ' +now);
 
-            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + obj.message.adddays)
-            adapter.log.info(name + ': ' + now + obj.message.adddays +' = ' +newDate);
+            var toAdd = Number(obj.message.adddays)
+            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd)
+            adapter.log.info(name + ': ' + now + toAdd +' = ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
