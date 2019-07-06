@@ -68,6 +68,7 @@ function startAdapter(options) {
 
 
 function main() {
+
     if (AdapterStarted == false){
         adapter.setObjectNotExists('setup', {
             common: {
@@ -240,9 +241,22 @@ function getVariableTranslation(){
 
 function createCountdownData(CountName, CountDate){
 
-    var newdate = moment(CountDate, 'YYYY.MM.DD HH:mm:ss').toDate();
+    var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
 
-    var newdatelocal = moment(newdate).local().format('YYYY.MM.DD HH:mm');
+
+    switch (adapter.config.dateFormat) {
+        case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
+                        break;
+        case "EuropeMinus": var newdatelocal = moment(newdate).local().format('DD-MM-YYYY HH:mm');
+                            break;
+        case "USDot"  : var newdatelocal = moment(newdate).local().format('MM.DD.YYYY HH:MM');
+                        break;
+        case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH.MM');
+                        break;
+        default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
+    }
+
+    
 
     var now = moment(new Date()); //todays date
     var duration = moment.duration(now.diff(newdate));        
@@ -391,22 +405,130 @@ function processMessage(obj){
     var erroroccured = false
 
     if (typeof obj.message.date != 'undefined'){
-        if (obj.message.date != ''){
-            var messageDate = obj.message.date.replace(/-/g, '.');
-            var date = moment(messageDate);
-            
+        if (obj.message.date != ''){            
+            switch (adapter.config.dateFormat) {
+                case "EuropeDot": 
+                                var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                                break;
+                case "EuropeMinus": 
+                                 var messageDate = moment(obj.message.date, 'DD-MM-YYYY HH:mm').toDate();
+                                break;
+                case "USDot"  : 
+                                var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
+                                break;
+                case "USMinuts"   : 
+                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH.MM').toDate();
+                                break;
+                default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                ;
+            }
+
+
+
+            var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
+                                    moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
+                                    moment(messageDate).format('mm') + ':00' 
+             
+            if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
+                adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: false, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+                });
+                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+            }
+            else{
+                // invalid date
+                adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
+            }
+        }
+    }    
+    else if (typeof obj.message.adddays != 'undefined'){
+        if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
+            var now = new Date(); //todays date
+            var toAdd = Number(obj.message.adddays)
+            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
+
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                    moment(newDate).format('mm') + ':00' 
+
+
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
                 name: name, 
                 type: "string", 
-                def: messageDate,
+                def: messageDateString,
                 role: 'value'
             
-        });
+            });
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+
         }
-    }    
-    else
+        else{
+            adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
+        }
+    }
+    else if (typeof obj.message.addmonths != 'undefined'){
+        if (obj.message.addmonths != ''&& obj.message.addmonths != '0' && parseInt(obj.message.addmonths)){            
+            var now = new Date(); //todays date
+            var toAdd = Number(obj.message.addmonths)
+
+            var newDate = new Date(now.getFullYear(), now.getMonth() + toAdd, now.getDate(), now.getHours(), now.getMinutes())
+
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                    moment(newDate).format('mm') + ':00' 
+
+
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: name, 
+                type: "string", 
+                def: messageDateString,
+                role: 'value'
+            
+            });
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+
+        }
+        else{
+            adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
+        }
+    }
+    else if (typeof obj.message.addyears != 'undefined'){
+        if (obj.message.addyears != '' && obj.message.addyears != '0' && parseInt(obj.message.addyears)){            
+         
+            var now = new Date(); //todays date
+            var toAdd = Number(obj.message.addyears)
+            var newDate = new Date(now.getFullYear() + toAdd, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes())
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                    moment(newDate).format('mm') + ':00' 
+
+
+            adapter.createState('', 'setup', name, {
+                read: true, 
+                write: false, 
+                name: name, 
+                type: "string", 
+                def: messageDateString,
+                role: 'value'
+            
+            });
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+        }
+        else{
+            adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
+        }
+    }
+    else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
     {
         if (obj.message.year != ''){
             var messageyear = obj.message.year
@@ -495,7 +617,7 @@ function processMessage(obj){
         }
     
         if (erroroccured == false){
-            var datestring = year + "." + month + "." + day + " " + hour + ":" + minute + ":00";
+            var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: false, 
@@ -504,8 +626,17 @@ function processMessage(obj){
                 def: datestring,
                 role: 'value'
               });
+              adapter.log.info('Created Countdown ' + name + ': ' + datestring);
+
         }
     }
+    else if (countProperties(obj.message) == 1){
+        adapter.log.info('Delete countdown: ' +name);
+        deleteCountdownSetup(name)
+        deleteCountdownResults(name)
+
+    }
+
     setTimeout(function() {
         // Code, der erst nach 5 Sekunden ausgeführt wird
         loopsetup()
@@ -637,6 +768,17 @@ function createObjects(CountName){
         role: 'value'
       });
       
+}
+
+function countProperties(obj) {
+    var count = 0;
+
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            ++count;
+    }
+
+    return count;
 }
 
 function mydiff(date1,date2,interval) {
