@@ -60,6 +60,7 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 ## 0.6.0 (2019-25-04)
 * (jack-blackson) adjustable date format for input and output
 * (jack-blackson) delete countdowns with sendto
+* (jack-blackson) ability to add countdowns by "days/months/weeks from now)
 
 
 ## License
