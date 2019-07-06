@@ -439,6 +439,7 @@ function processMessage(obj){
                     role: 'value'
                 
                 });
+                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
             }
             else{
                 // invalid date
@@ -447,7 +448,7 @@ function processMessage(obj){
         }
     }    
     else if (typeof obj.message.adddays != 'undefined'){
-        if (obj.message.adddays != ''&& obj.message.adddays === '0' && parseInt(obj.message.adddays)){            
+        if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
             var now = new Date(); //todays date
             adapter.log.info(name + ': ' +now);
 
@@ -468,19 +469,20 @@ function processMessage(obj){
                 def: messageDateString,
                 role: 'value'
             
-        });
+            });
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+
         }
         else{
             adapter.log.error('Adding ' + obj.message.adddays + ' is invalid')
         }
     }
     else if (typeof obj.message.addmonths != 'undefined'){
-        if (obj.message.addmonths != ''&& obj.message.addmonths === '0' && parseInt(obj.message.addmonths)){            
+        if (obj.message.addmonths != ''&& obj.message.addmonths != '0' && parseInt(obj.message.addmonths)){            
             var now = new Date(); //todays date
             var toAdd = Number(obj.message.addmonths)
 
             var newDate = new Date(now.getFullYear(), now.getMonth() + toAdd, now.getDate(), now.getHours(), now.getMinutes())
-            adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
@@ -495,14 +497,16 @@ function processMessage(obj){
                 def: messageDateString,
                 role: 'value'
             
-        });
+            });
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+
         }
         else{
             adapter.log.error('Adding ' + obj.message.addmonths + ' is invalid')
         }
     }
     else if (typeof obj.message.addyears != 'undefined'){
-        if (obj.message.addyears != '' && obj.message.addyears === '0' && parseInt(obj.message.addyear)){            
+        if (obj.message.addyears != '' && obj.message.addyears != '0' && parseInt(obj.message.addyear)){            
          
             var now = new Date(); //todays date
             var toAdd = Number(obj.message.addyears)
@@ -521,9 +525,7 @@ function processMessage(obj){
                 role: 'value'
             
             });
-            
-            
-            
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
         }
         else{
             adapter.log.error('Adding ' + obj.message.addyears + ' is invalid')
@@ -627,6 +629,8 @@ function processMessage(obj){
                 def: datestring,
                 role: 'value'
               });
+              adapter.log.info('Created Countdown ' + name + ': ' + datestring);
+
         }
     }
     else if (countProperties(obj.message) == 1){
