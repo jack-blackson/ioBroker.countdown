@@ -443,7 +443,7 @@ function processMessage(obj){
             var now = new Date(); //todays date
             adapter.log.info(name + ': ' +now);
 
-            var newDate = moment(addDays(now,obj.message.adddays), 'DD.MM.YYYY HH:mm').toDate()
+            var newDate = moment(addDays(now,'10'), 'DD.MM.YYYY HH:mm').toDate()
             adapter.log.info(name + ': ' + now + obj.message.adddays +' = ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
