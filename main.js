@@ -474,7 +474,7 @@ function processMessage(obj){
     else if (typeof obj.message.addmonths != 'undefined'){
         if (obj.message.addmonths != ''){            
             var now = new Date(); //todays date
-            var toAdd = Number(obj.message.adddays)
+            var toAdd = Number(obj.message.addmonths)
 
             var newDate = new Date(now.getFullYear(), now.getMonth() + toAdd, now.getDate(), now.getHours(), now.getMinutes())
             adapter.log.info(name + ': ' +newDate);
@@ -498,7 +498,7 @@ function processMessage(obj){
     else if (typeof obj.message.addyears != 'undefined'){
         if (obj.message.addyears != ''){            
             var now = new Date(); //todays date
-            var toAdd = Number(obj.message.adddays)
+            var toAdd = Number(obj.message.addyears)
 
             var newDate = new Date(now.getFullYear() + toAdd, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes())
             adapter.log.info(name + ': ' +newDate);
