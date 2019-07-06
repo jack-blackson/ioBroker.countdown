@@ -452,7 +452,7 @@ function processMessage(obj){
             adapter.log.info(name + ': ' +now);
 
             var toAdd = Number(obj.message.adddays)
-            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd)
+            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
             adapter.log.info(name + ': ' + now + toAdd +' = ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -474,7 +474,9 @@ function processMessage(obj){
     else if (typeof obj.message.addmonths != 'undefined'){
         if (obj.message.addmonths != ''){            
             var now = new Date(); //todays date
-            var newDate = new Date(now.getFullYear(), now.getMonth() + obj.message.addmonths, now.getDate())
+            var toAdd = Number(obj.message.adddays)
+
+            var newDate = new Date(now.getFullYear(), now.getMonth() + toAdd, now.getDate(), now.getHours(), now.getMinutes())
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -496,8 +498,9 @@ function processMessage(obj){
     else if (typeof obj.message.addyears != 'undefined'){
         if (obj.message.addyears != ''){            
             var now = new Date(); //todays date
-            var newDate = new Date(now.getFullYear() + obj.message.addyears, now.getMonth(), now.getDate())
-            //var newDate = new Date(date.setFullYear(new Date().getFullYear() + obj.message.addyears));
+            var toAdd = Number(obj.message.adddays)
+
+            var newDate = new Date(now.getFullYear() + toAdd, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes())
             adapter.log.info(name + ': ' +newDate);
 
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
@@ -766,12 +769,6 @@ function countProperties(obj) {
 
     return count;
 }
-
-function addDays(date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
 
 function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
