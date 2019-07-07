@@ -32,7 +32,7 @@ There are two ways to set up countdowns:
 * You can create an alarm with sendto. There, you can either send the components (minimum is Year Month Date) or a date string. For the date string, you can adjust the format in the setup of the adapter.
 ![Logo](admin/countdown_blocky.png)
 * You can add days, months and years with sendto to todays date. Therefore, please send the component "name" and either "addminutes", "addhours", "adddays", "addmonths" or "addyears" as int value.
-
+![Logo](admin/countdown_blocky_add.png)
 
 ## How to delete countdowns
 You  can delete a countdown with the sendto. Therefore, send just the name with sendto to the adapter, and the countdown will be deleted automatically.
@@ -53,7 +53,7 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 |totalHours|Total No. of hours until the end date|
 |totalDays|Total No. of days until the end date|
 |totalWeeks|Total No. of weeks until the end date|
-|reached|Boolean field defining if end date was reached or not|
+|reached|Boolean field defining if the end date was reached or not|
 
 ## Changelog
 ### 0.1.0 (2019-04-29)
