@@ -20,8 +20,6 @@ Countdown Adapter for ioBroker
 
 The goal of the adapter is to provide you a possibility to run countdowns for future events, with years, months, days, hours and minutes. It will provide you each of those valies seperately, and also two strings with a short and long version of the date.
 
-## Features to implement
-* Better checks for correct data input
 
 ## Displaying countdowns
 The adapter prowides you automatically a json table. You just need to use it with the json table widged. Please tick "No Header" there. It is possible to either display the short text or the long text.
@@ -39,6 +37,23 @@ There are two ways to set up countdowns:
 ## How to delete countdowns
 You  can delete a countdown with the sendto. Therefore, send just the name with sendto to the adapter, and the countdown will be deleted automatically.
 
+## Available outputs
+
+|Data type|Description|                                                                       
+|:---:|:---:|
+|minutes|Minutes until countdown end (not total!)|
+|hours|Hours until countdown end (not total!)|
+|days|Days until countdown end (not total!)|
+|months|Months until countdown end (not total!)|
+|years|Years until countdown end (not total!)|
+|name|Countdown name|
+|endDate|End date of count down - formated as in the setup defined|
+|inWordsShort|Combined value of minutes, hours,... - e.g. 1Y 5M 4D|
+|inWordsLong|Combined value of minutes, hours,... - e.g. 1 Year 5 Months 4 Days|
+|totalHours|Total No. of hours until the end date|
+|totalDays|Total No. of days until the end date|
+|totalWeeks|Total No. of weeks until the end date|
+|reached|Boolean field defining if end date was reached or not|
 
 ## Changelog
 ### 0.1.0 (2019-04-29)
@@ -65,7 +80,8 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 ## 0.7.0 (2019-07-07)
 * (jack-blackson) Bugfixes
 * (jack-blackson) addminutes and addhours are now also possible
-* (jack-blackson) ability to add countdowns by "days/months/weeks from now)
+* (jack-blackson) datapoint in setup is now editable
+* (jack-blackson) added total no. of weeks
 
 
 ## License

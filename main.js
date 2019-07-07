@@ -354,6 +354,8 @@ function createCountdownData(CountName, CountDate){
 
         var totalDays = mydiff(Date(),newdate,"days");
         var totalHours = mydiff(Date(),newdate,"hours");
+        var totalWeeks = mydiff(Date(),newdate,"weeks");
+
                 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
@@ -365,6 +367,8 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
+
 
         var tableContent = adapter.config.tablefields;
         var tableContentTemp = []
@@ -384,6 +388,10 @@ function createCountdownData(CountName, CountDate){
 
         if (adapter.config.totalNoOfHours){
             tableContentTemp.push(totalHours)
+        }
+
+        if (adapter.config.totalNoOfWeeks){
+            tableContentTemp.push(totalWeeks)
         }
 
         if (adapter.config.endDate){
@@ -816,6 +824,15 @@ function createObjects(CountName){
         read: true, 
         write: false, 
         name: "Total No. of Hours", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+
+      adapter.createState('countdowns', CountName, 'totalWeeks', {
+        read: true, 
+        write: false, 
+        name: "Total No. of Weeks", 
         type: "number", 
         def: 0,
         role: 'value'
