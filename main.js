@@ -432,7 +432,7 @@ function processMessage(obj){
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
                 adapter.createState('', 'setup', name, {
                     read: true, 
-                    write: false, 
+                    write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
@@ -460,7 +460,7 @@ function processMessage(obj){
     
             adapter.createState('', 'setup', name, {
                     read: true, 
-                    write: false, 
+                    write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
@@ -486,7 +486,7 @@ function processMessage(obj){
     
             adapter.createState('', 'setup', name, {
                     read: true, 
-                    write: false, 
+                    write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
@@ -512,7 +512,7 @@ function processMessage(obj){
     
             adapter.createState('', 'setup', name, {
                     read: true, 
-                    write: false, 
+                    write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
@@ -541,7 +541,7 @@ function processMessage(obj){
 
             adapter.createState('', 'setup', name, {
                 read: true, 
-                write: false, 
+                write: true, 
                 name: name, 
                 type: "string", 
                 def: messageDateString,
@@ -568,7 +568,7 @@ function processMessage(obj){
 
             adapter.createState('', 'setup', name, {
                 read: true, 
-                write: false, 
+                write: true, 
                 name: name, 
                 type: "string", 
                 def: messageDateString,
@@ -673,7 +673,7 @@ function processMessage(obj){
             var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
             adapter.createState('', 'setup', name, {
                 read: true, 
-                write: false, 
+                write: true, 
                 name: name, 
                 type: "string", 
                 def: datestring,
