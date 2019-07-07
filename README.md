@@ -33,7 +33,7 @@ There are two ways to set up countdowns:
 * You can create a manual state in the device "setup". The name of the object is the alarm name, and the value will be the date. The date neets to be in the format "DD.MM.YYYY HH:mm:ss".
 * You can create an alarm with sendto. There, you can either send the components (minimum is Year Month Date) or a date string. For the date string, you can adjust the format in the setup of the adapter.
 ![Logo](admin/countdown_blocky.png)
-* You can add days, months and years with sendto to todays date. Therefore, please send the component "name" and either "adddays", "addmonths" or "addyears" as int value.
+* You can add days, months and years with sendto to todays date. Therefore, please send the component "name" and either "addminutes", "addhours", "adddays", "addmonths" or "addyears" as int value.
 
 
 ## How to delete countdowns
@@ -57,9 +57,14 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 * (jack-blackson) adjust the data in the table
 * (jack-blackson) bugfix date import 
 
-## 0.6.0 (2019-25-04)
+## 0.6.0 (2019-07-06)
 * (jack-blackson) adjustable date format for input and output
 * (jack-blackson) delete countdowns with sendto
+* (jack-blackson) ability to add countdowns by "days/months/weeks from now)
+
+## 0.7.0 (2019-07-07)
+* (jack-blackson) Bugfixes
+* (jack-blackson) addminutes and addhours are now also possible
 * (jack-blackson) ability to add countdowns by "days/months/weeks from now)
 
 

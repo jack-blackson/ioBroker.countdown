@@ -470,6 +470,82 @@ function processMessage(obj){
             adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
 
         }
+        else if (typeof obj.message.addminutes != 'undefined'){
+            if (obj.message.addminutes != '' && obj.message.addminutes != '0' && parseInt(obj.message.addminutes)){            
+             
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.addminutes)
+                var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()+ toAdd)
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                        moment(newDate).format('mm') + ':00' 
+    
+    
+                adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: false, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+                });
+                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+            }
+            else{
+                adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
+            }
+        }
+        else if (typeof obj.message.addhours != 'undefined'){
+            if (obj.message.addhours != '' && obj.message.addhours != '0' && parseInt(obj.message.addhours)){            
+             
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.addhours)
+                var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()+ toAdd, now.getMinutes())
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                        moment(newDate).format('mm') + ':00' 
+    
+    
+                adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: false, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+                });
+                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+            }
+            else{
+                adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
+            }
+        }
+        else if (typeof obj.message.adddays != 'undefined'){
+            if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.adddays)
+                var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
+    
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                        moment(newDate).format('mm') + ':00' 
+    
+    
+                adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: false, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+                });
+                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+    
+            }
+        
         else{
             adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
         }
