@@ -40,6 +40,9 @@ There are two ways to set up countdowns:
 You  can delete a countdown with the sendto. Therefore, send just the name with sendto to the adapter, and the countdown will be deleted automatically.
 
 
+## Features to add
+* Possibility to add a script as a parameter and start it when countdown ends
+
 ## Changelog
 ### 0.1.0 (2019-04-29)
 * (jack-blackson) initial version
