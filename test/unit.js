@@ -10,7 +10,7 @@ tests.unit(path.join(__dirname, '..'), {
         // Ein leeres Array reicht, damit der Wert iterable ist
 
         config.setup = [];
-        system.common = {
+        system.config = {
             language: "de"
             
           };
