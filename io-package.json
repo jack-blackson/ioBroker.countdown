@@ -1,7 +1,7 @@
 {
     "common": {
       "name": "countdown",
-      "version": "0.6.0",
+      "version": "0.7.0",
       "news": {
         "0.1.0": {
           "en": "Initial version",
@@ -24,8 +24,12 @@
           "de": "Anpassbare Tabellen "
         },
         "0.6.0": {
-          "en": "Adjustable date format",
-          "de": "Datumsformat anpassbar "
+          "en": "Adjustable date format, Add Countdowns with adddays,..",
+          "de": "Datumsformat anpassbar, Countdowns mit adddays & Co hinzufügen"
+        },
+        "0.7.0": {
+          "en": "Bugfixes, add countdowns with addhours and addminutes",
+          "de": "Bugfixes, Countdowns mit addminutes und addhours hinzufügen"
         }
       },
       "title": "Countdown",

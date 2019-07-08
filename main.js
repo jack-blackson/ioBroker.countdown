@@ -354,6 +354,8 @@ function createCountdownData(CountName, CountDate){
 
         var totalDays = mydiff(Date(),newdate,"days");
         var totalHours = mydiff(Date(),newdate,"hours");
+        var totalWeeks = mydiff(Date(),newdate,"weeks");
+
                 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
@@ -365,6 +367,8 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
+
 
         var tableContent = adapter.config.tablefields;
         var tableContentTemp = []
@@ -384,6 +388,10 @@ function createCountdownData(CountName, CountDate){
 
         if (adapter.config.totalNoOfHours){
             tableContentTemp.push(totalHours)
+        }
+
+        if (adapter.config.totalNoOfWeeks){
+            tableContentTemp.push(totalWeeks)
         }
 
         if (adapter.config.endDate){
@@ -432,7 +440,7 @@ function processMessage(obj){
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
                 adapter.createState('', 'setup', name, {
                     read: true, 
-                    write: false, 
+                    write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
@@ -447,29 +455,82 @@ function processMessage(obj){
             }
         }
     }    
+    
+    else if (typeof obj.message.addminutes != 'undefined'){
+        if (obj.message.addminutes != '' && obj.message.addminutes != '0' && parseInt(obj.message.addminutes)){             
+            var now = new Date(); //todays date
+            var toAdd = Number(obj.message.addminutes)
+            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()+ toAdd)
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                        moment(newDate).format('mm') + ':00' 
+    
+    
+            adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: true, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+                });
+                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+            }
+        else{
+                adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
+        }
+    }
+    else if (typeof obj.message.addhours != 'undefined'){
+        if (obj.message.addhours != '' && obj.message.addhours != '0' && parseInt(obj.message.addhours)){            
+             
+            var now = new Date(); //todays date
+            var toAdd = Number(obj.message.addhours)
+            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()+ toAdd, now.getMinutes())
+            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                        moment(newDate).format('mm') + ':00' 
+    
+    
+            adapter.createState('', 'setup', name, {
+                    read: true, 
+                    write: true, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
+            });
+            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
+        }
+        else{
+            adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
+        }
+    }
     else if (typeof obj.message.adddays != 'undefined'){
         if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
             var now = new Date(); //todays date
             var toAdd = Number(obj.message.adddays)
             var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
-
+    
             var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
-                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
-                                    moment(newDate).format('mm') + ':00' 
-
-
+                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                        moment(newDate).format('mm') + ':00' 
+    
+    
             adapter.createState('', 'setup', name, {
-                read: true, 
-                write: false, 
-                name: name, 
-                type: "string", 
-                def: messageDateString,
-                role: 'value'
-            
+                    read: true, 
+                    write: true, 
+                    name: name, 
+                    type: "string", 
+                    def: messageDateString,
+                    role: 'value'
+                
             });
             adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
-
+    
         }
+        
         else{
             adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
         }
@@ -488,7 +549,7 @@ function processMessage(obj){
 
             adapter.createState('', 'setup', name, {
                 read: true, 
-                write: false, 
+                write: true, 
                 name: name, 
                 type: "string", 
                 def: messageDateString,
@@ -515,7 +576,7 @@ function processMessage(obj){
 
             adapter.createState('', 'setup', name, {
                 read: true, 
-                write: false, 
+                write: true, 
                 name: name, 
                 type: "string", 
                 def: messageDateString,
@@ -620,7 +681,7 @@ function processMessage(obj){
             var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
             adapter.createState('', 'setup', name, {
                 read: true, 
-                write: false, 
+                write: true, 
                 name: name, 
                 type: "string", 
                 def: datestring,
@@ -763,6 +824,15 @@ function createObjects(CountName){
         read: true, 
         write: false, 
         name: "Total No. of Hours", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      });
+
+      adapter.createState('countdowns', CountName, 'totalWeeks', {
+        read: true, 
+        write: false, 
+        name: "Total No. of Weeks", 
         type: "number", 
         def: 0,
         role: 'value'
