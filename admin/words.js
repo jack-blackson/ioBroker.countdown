@@ -22,6 +22,10 @@ systemDictionary = {
         'en': 'Total No. of Hours',
         'de': 'Gesamtanzahl Stunden'
     },
+    'totalNoOfWeeks': {
+        'en': 'Total No. of Weeks',
+        'de': 'Gesamtanzahl Wochen'
+    },
     'endDate': {
         'en': 'Enddate',
         'de': 'Enddatum'

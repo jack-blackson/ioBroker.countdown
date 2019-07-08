@@ -5,15 +5,29 @@ const { tests } = require('@iobroker/testing');
 
 tests.unit(path.join(__dirname, '..'), {
 
+    predefinedObjects: [
+        {
+            _id: "system.config",
+            common: { language: "de" },
+            native: { /* ... */ },
+            type: 'device'
+
+            
+        }
+        // ...
+    ],
+
     overwriteAdapterConfig(config) {
 
         // Ein leeres Array reicht, damit der Wert iterable ist
 
         config.setup = [];
-        system.common = {
+        /*
+        system.config = {
             language: "de"
             
           };
+        */
         return config;
 
     }
