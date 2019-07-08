@@ -10,6 +10,8 @@ tests.unit(path.join(__dirname, '..'), {
             _id: "system.config",
             common: { language: "de" },
             native: { /* ... */ },
+            type: 'device'
+
             
         }
         // ...
