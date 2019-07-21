@@ -6,7 +6,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.countdown.svg)](https://www.npmjs.com/package/iobroker.countdown)
 
-**Tests:** [![Build Status Travis](https://travis-ci.org/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.org/jack-blackson/ioBroker.countdown) 
+**Tests:** [![Build Status Travis](https://travis-ci.com/jack-blackson/ioBroker.countdown.svg?branch=master)](https://travis-ci.com/jack-blackson/ioBroker.countdown) 
 
 [![NPM](https://nodei.co/npm/iobroker.countdown.png?downloads=true)](https://nodei.co/npm/iobroker.countdown.png?downloads=true/)
 <!--![Number of Installations](http://iobroker.live/badges/bring-installed.svg) ![Number of Installations](http://iobroker.live/badges/bring-stable.svg) 
@@ -57,6 +57,7 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 
 ## Features to add
 * Possibility to add a script as a parameter and start it when countdown ends
+* Possibility to use plus and minus in addminutes and the other add functions
 
 ## Changelog
 ### 0.1.0 (2019-04-29)
@@ -85,6 +86,9 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 * (jack-blackson) addminutes and addhours are now also possible
 * (jack-blackson) datapoint in setup is now editable
 * (jack-blackson) added total no. of weeks
+
+## 1.0.0 (2019-07-21)
+* (jack-blackson) Release version
 
 
 ## License
