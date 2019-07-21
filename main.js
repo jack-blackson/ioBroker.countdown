@@ -41,7 +41,7 @@ setInterval(function() {
 }, 60000);
 
 adapter.on('message', obj => {
-    adapter.log.info('received message!');
+    adapter.log.debug('received message!');
 
     if (obj && obj.command === 'send') {
         processMessage(obj);
