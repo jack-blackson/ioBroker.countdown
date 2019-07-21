@@ -1,7 +1,7 @@
 {
     "common": {
       "name": "countdown",
-      "version": "0.7.0",
+      "version": "1.0.0",
       "news": {
         "0.1.0": {
           "en": "Initial version",
@@ -30,6 +30,10 @@
         "0.7.0": {
           "en": "Bugfixes, add countdowns with addhours and addminutes",
           "de": "Bugfixes, Countdowns mit addminutes und addhours hinzufügen"
+        },
+        "1.0.0": {
+          "en": "Release Version",
+          "de": "Release Version"
         }
       },
       "title": "Countdown",
