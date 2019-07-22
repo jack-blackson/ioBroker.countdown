@@ -215,7 +215,142 @@ function getVariableTranslation(){
                 textMinutes = 'Minutes';         
                 textMinutesShort = 'M';
                 break;
-    
+            case 'ru':
+                textYear = 'Год';
+                textYears = 'лет';
+                textYearsShort = 'Y';
+                textMonth = 'месяц';
+                textMonths = 'месяцы';
+                textMonthsShort = 'M'
+                textDay = 'день';
+                textDays = 'дней';
+                textDaysShort = 'D';
+                textHour = 'час';
+                textHours = 'часов';
+                textHoursShort = 'H';
+                textMinute = 'минут';
+                textMinutes = 'минут';         
+                textMinutesShort = 'M';
+                break;
+            case 'pt':
+                textYear = 'ano';
+                textYears = 'anos';
+                textYearsShort = 'A';
+                textMonth = 'mês';
+                textMonths = 'meses';
+                textMonthsShort = 'M'
+                textDay = 'dia';
+                textDays = 'dias';
+                textDaysShort = 'D';
+                textHour = 'hora';
+                textHours = 'horas';
+                textHoursShort = 'H';
+                textMinute = 'minuto';
+                textMinutes = 'minutos';         
+                textMinutesShort = 'M';
+                break;
+            case 'nl':
+                textYear = 'jaar';
+                textYears = 'jaar';
+                textYearsShort = 'J';
+                textMonth = 'maand';
+                textMonths = 'maanden';
+                textMonthsShort = 'M'
+                textDay = 'dag';
+                textDays = 'dagen';
+                textDaysShort = 'D';
+                textHour = 'uur';
+                textHours = 'uur';
+                textHoursShort = 'H';
+                textMinute = 'minuut';
+                textMinutes = 'notulen';         
+                textMinutesShort = 'M';
+                break;
+            case 'fr':
+                textYear = 'année';
+                textYears = 'années';
+                textYearsShort = 'A';
+                textMonth = 'mois';
+                textMonths = 'mois';
+                textMonthsShort = 'M'
+                textDay = 'journée';
+                textDays = 'journées';
+                textDaysShort = 'J';
+                textHour = 'heure';
+                textHours = 'heures';
+                textHoursShort = 'H';
+                textMinute = 'minute';
+                textMinutes = 'minutes';         
+                textMinutesShort = 'M';
+                break;
+            case 'it':
+                textYear = 'anno';
+                textYears = 'anni';
+                textYearsShort = 'A';
+                textMonth = 'mese';
+                textMonths = 'mesi';
+                textMonthsShort = 'M'
+                textDay = 'giorno';
+                textDays = 'giorni';
+                textDaysShort = 'G';
+                textHour = 'ora';
+                textHours = 'ore';
+                textHoursShort = 'O';
+                textMinute = 'minuto';
+                textMinutes = 'minuti';         
+                textMinutesShort = 'M';
+                break;
+            case 'es':
+                textYear = 'año';
+                textYears = 'años';
+                textYearsShort = 'A';
+                textMonth = 'mes';
+                textMonths = 'meses';
+                textMonthsShort = 'M'
+                textDay = 'día';
+                textDays = 'dias';
+                textDaysShort = 'D';
+                textHour = 'hora';
+                textHours = 'horas';
+                textHoursShort = 'H';
+                textMinute = 'minuto';
+                textMinutes = 'minutos';         
+                textMinutesShort = 'M';
+                break;
+            case 'pl':
+                textYear = 'rok';
+                textYears = 'lat';
+                textYearsShort = 'R';
+                textMonth = 'miesiąc';
+                textMonths = 'miesięcy';
+                textMonthsShort = 'M'
+                textDay = 'dzień';
+                textDays = 'dni';
+                textDaysShort = 'D';
+                textHour = 'godzina';
+                textHours = 'godziny';
+                textHoursShort = 'G';
+                textMinute = 'minuta';
+                textMinutes = 'minuty';         
+                textMinutesShort = 'M';
+                break;
+            case 'zh-cn':
+                textYear = '年';
+                textYears = '年份';
+                textYearsShort = 'Y';
+                textMonth = '月';
+                textMonths = '个月';
+                textMonthsShort = 'M'
+                textDay = '天';
+                textDays = '天';
+                textDaysShort = 'D';
+                textHour = '小时';
+                textHours = '小时';
+                textHoursShort = 'H';
+                textMinute = '分钟';
+                textMinutes = '分钟';         
+                textMinutesShort = 'M';
+                break;    
             default:
                     textYear = 'Year';
                     textYears = 'Years';
