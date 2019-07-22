@@ -1,7 +1,7 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "news": {
         "0.1.0": {
           "en": "Initial version",
@@ -31,7 +31,7 @@
           "en": "Bugfixes, add countdowns with addhours and addminutes",
           "de": "Bugfixes, Countdowns mit addminutes und addhours hinzufügen"
         },
-        "1.0.1": {
+        "1.0.2": {
           "en": "Release Version",
           "de": "Release Version"
         }
@@ -39,11 +39,27 @@
       "title": "Countdown",
           "titleLang": {
             "en": "Countdown",
-            "de": "Countdown"
+            "de": "Countdown",
+            "ru": "обратный отсчет",
+            "pt": "Contagem regressiva",
+            "nl": "Countdown",
+            "fr": "Compte à rebours",
+            "it": "Conto alla rovescia",
+            "es": "cuenta regresiva",
+            "pl": "Odliczanie",
+            "zh-cn": "倒数"
           },
           "desc": {
             "en": "Countdown Adapter",
-            "de": "Countdown Adapter"
+            "de": "Countdown Adapter",
+            "ru": "Адаптер обратного отсчета",
+            "pt": "Adaptador de Contagem Regressiva",
+            "nl": "Afteladapter",
+            "fr": "Adaptateur compte à rebours",
+            "it": "Conto alla rovescia",
+            "es": "Adaptador de cuenta regresiva",
+            "pl": "Adapter do odliczania",
+            "zh-cn": "倒计时适配器"
           },
           "authors": [
               "Jack <blacksonj7@gmail.com>"
@@ -52,7 +68,8 @@
           "platform":                 "Javascript/Node.js",
           "mode":                     "daemon",
           "messagebox":               true,
-      "enabled":                  false,
+      "enabled":                  true,
+      "compact": true,
           "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
           "loglevel":                 "info",
           "restartAdapters":          [

@@ -87,7 +87,7 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 * (jack-blackson) datapoint in setup is now editable
 * (jack-blackson) added total no. of weeks
 
-## 1.0.1 (2019-07-21)
+## 1.0.2 (2019-07-22)
 * (jack-blackson) Release version
 
 
