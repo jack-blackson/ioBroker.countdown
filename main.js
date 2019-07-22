@@ -33,7 +33,6 @@ var textMinutesShort = '';
 let objects = null;
 
 let adapter;
-startAdapter()
 
 setInterval(function() { 
     // alle 1 Minute ausführen 
@@ -1007,3 +1006,11 @@ function mydiff(date1,date2,interval) {
         default: return undefined;
     }
 }
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
+} 

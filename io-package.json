@@ -68,7 +68,8 @@
           "platform":                 "Javascript/Node.js",
           "mode":                     "daemon",
           "messagebox":               true,
-      "enabled":                  false,
+      "enabled":                  true,
+      "compact": true,
           "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
           "loglevel":                 "info",
           "restartAdapters":          [
