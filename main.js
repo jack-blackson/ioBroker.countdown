@@ -39,14 +39,7 @@ setInterval(function() {
     main(); 
 }, 60000);
 
-adapter.on('message', obj => {
-    adapter.log.debug('received message!');
 
-    if (obj && obj.command === 'send') {
-        processMessage(obj);
-    }
-    
-});
 
 
 function startAdapter(options) {
@@ -61,9 +54,19 @@ function startAdapter(options) {
 
     adapter = new utils.Adapter(options);
 
+    adapter.on('message', obj => {
+        adapter.log.debug('received message!');
+    
+        if (obj && obj.command === 'send') {
+            processMessage(obj);
+        }
+        
+    });
     return adapter;
 
 }
+
+
 
 
 function main() {
