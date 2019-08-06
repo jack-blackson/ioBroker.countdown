@@ -6,8 +6,6 @@
 
 [![NPM](https://nodei.co/npm/iobroker.countdown.png?downloads=true)](https://nodei.co/npm/iobroker.countdown.png?downloads=true/)
 
--->
-
 
 Countdown Adapter for ioBroker
 ------------------------------------------------------------------------------
