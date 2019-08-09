@@ -126,8 +126,8 @@ function main() {
 
     cleanresults()
 
-    adapter.config.interval = 60000;
-    adapter.subscribeStates('*')
+    //adapter.config.interval = 60000;
+    //adapter.subscribeStates('*')
 }
 
 function cleanresults(CountName){
