@@ -157,6 +157,7 @@ function loopsetup(){
                 //prüfen ob Device schon vorhanden ist
                 adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.name', function (err1, result1) {
                     if(result1 === null && typeof result1 === "object") {
+                        adapter.log.info('temp: ' +  id1.common.name + ',' + state.val)
                         createObjects(id1.common.name,state.val)
                     }
                     else{
