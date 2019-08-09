@@ -399,7 +399,7 @@ function createCountdownData(CountName, CountDate){
     var hours = duration.hours() * -1;
     var minutes = duration.minutes() * -1;
 
-    var storagename = CountName.replace(/ /g,"_");
+    var storagename = CountName
 
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
