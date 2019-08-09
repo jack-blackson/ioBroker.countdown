@@ -819,9 +819,9 @@ function processMessage(obj){
                 type: "string", 
                 def: datestring,
                 role: 'value'
+              },function(){
+                loopsetup()
               });
-              adapter.log.info('Created Countdown ' + name + ': ' + datestring);
-
         }
     }
     else if (countProperties(obj.message) == 1){
@@ -830,11 +830,6 @@ function processMessage(obj){
         deleteCountdownResults(name)
 
     }
-
-    setTimeout(function() {
-        // Code, der erst nach 5 Sekunden ausgeführt wird
-        loopsetup()
-    }, 5000);
 }
 
 function createCountdownTable(){
@@ -973,6 +968,7 @@ function createObjects(CountName){
 
       adapter.getForeignState('countdown.0.setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
+        adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
       });
 }
 
