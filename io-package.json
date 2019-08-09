@@ -31,6 +31,10 @@
           "en": "Bugfixes, add countdowns with addhours and addminutes",
           "de": "Bugfixes, Countdowns mit addminutes und addhours hinzufügen"
         },
+        "1.0.2": {
+          "en": "Release Version",
+          "de": "Release Version"
+        },
         "1.0.3": {
           "en": "Changes for Compact Mode",
           "de": "Änderungen Compact Modus"
@@ -80,7 +84,15 @@
       "singletonHost":            true
       },
        "native": {
-          "interval": 120000
+          "interval": 120000,
+          "autodelete": false,
+          "dateformat": "DD.MM.YYYY HH:MM",
+          "inWordsShort": false,
+          "inWordsLong": true,
+          "totalNoOfDays":false,
+          "totalNoOfHours":false,
+          "totalNoOfWeeks":false,
+          "endDate":true
       },
       "objects": [],
       "instanceObjects": []

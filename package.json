@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "moment":"2.24.0",
-    "@iobroker/testing": "^1.2.0",
     "@iobroker/adapter-core": "^1.0.3",
     "tableify": "1.1.0"
   },
@@ -32,7 +31,8 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "mocha": "^6.1.4",
-    "chai": "^4.2.0"
+    "chai": "^4.2.0",
+    "@iobroker/testing": "^1.2.0"
   },
 
   "readmeFilename": "README.md"
