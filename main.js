@@ -970,8 +970,8 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.getForeignState('countdown.0.setup.' + CountName, function (err, state) {
-        createCountdownData(CountName, state.val)
+      adapter.getForeignState('countdown.0.setup.' + CountName.replace(/ /g,"_"), function (err, state) {
+        createCountdownData(CountName.replace(/ /g,"_"), state.val)
       });
 }
 
