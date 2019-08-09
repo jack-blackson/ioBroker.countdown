@@ -16,7 +16,6 @@
           "zh-cn": "初始版本"
         },
         "0.2.0": {
-          "Ajusted packages": {
             "en": "Ajusted packages",
             "de": "Pakete angepasst",
             "ru": "Скорректированные пакеты",
@@ -29,7 +28,6 @@
             "zh-cn": "Ajusted包"
         },
         "0.3.0": {
-          "Add total Hours and Days, small fixes": {
             "en": "Add total Hours and Days, small fixes",
             "de": "Totale Stunden und Tage hinzugefügt, kleine Korrekturen",
             "ru": "Добавьте общее количество часов и дней, небольшие исправления",
