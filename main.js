@@ -34,14 +34,6 @@ let objects = null;
 
 let adapter;
 
-setInterval(function() { 
-    // alle 1 Minute ausführen 
-    main(); 
-}, 60000);
-
-
-
-
 function startAdapter(options) {
 
     options = options || {};
@@ -62,6 +54,27 @@ function startAdapter(options) {
         }
         
     });
+
+    adapter.on(`ready`, async () => {
+        var meinIntervall = setInterval(function() { 
+            // alle 1 Minute ausführen 
+            main(); 
+        }, 60000); 
+        
+        
+    });
+
+    adapter.on(`unload`, callback => {
+        try {
+            adapter.log.info(`Stopping countdown adapter!`);
+            clearInterval(meinIntervall);
+            callback();
+        } catch (e) {
+            callback();
+        }
+    });
+
+
     return adapter;
 
 }
@@ -605,7 +618,6 @@ function processMessage(obj){
                     role: 'value'
                 
                 });
-                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
             }
         else{
                 adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
