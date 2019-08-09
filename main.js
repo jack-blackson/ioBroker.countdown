@@ -39,7 +39,14 @@ function startAdapter(options) {
     options = options || {};
     Object.assign(options, {
         name: 'countdown',
-        ready: () => main()
+        ready: function() {
+            adapter.log.info('onready section passed')
+            var meinIntervall = setInterval(function() { 
+                // alle 1 Minute ausführen 
+                main(); 
+            }, 60000); 
+            main()
+        }
     });
 
     AdapterStarted = false;
@@ -52,15 +59,6 @@ function startAdapter(options) {
         if (obj && obj.command === 'send') {
             processMessage(obj);
         }
-        
-    });
-
-    adapter.on(`ready`, async () => {
-        var meinIntervall = setInterval(function() { 
-            // alle 1 Minute ausführen 
-            main(); 
-        }, 60000); 
-        
         
     });
 
@@ -78,7 +76,6 @@ function startAdapter(options) {
     return adapter;
 
 }
-
 
 
 
