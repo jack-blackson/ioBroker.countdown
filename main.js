@@ -166,10 +166,6 @@ function loopsetup(){
             });
 
         }
-        setTimeout(function() {
-            // Code, der erst nach 10 Sekunden ausgeführt wird
-            createCountdownTable()
-        }, 10000);
     });
 }
 
@@ -532,6 +528,7 @@ function createCountdownData(CountName, CountDate){
         }
 
         tableArray.push(tableContentTemp);
+        createCountdownTable()
 
     }
 }
