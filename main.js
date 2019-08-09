@@ -847,7 +847,7 @@ function createCountdownTable(){
 
 
 function createObjects(CountName){
-    adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
+    adapter.setObjectNotExists('countdowns.' + CountName, {
         common: {
               name: CountName
         },
