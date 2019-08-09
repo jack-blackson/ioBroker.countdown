@@ -157,11 +157,9 @@ function loopsetup(){
                 //prüfen ob Device schon vorhanden ist
                 adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.name', function (err1, result1) {
                     if(result1 === null && typeof result1 === "object") {
-                        createObjects(id1.common.name);
-                        setTimeout(function() {
-                            // Code, der erst nach 5 Sekunden ausgeführt wird
+                        createObjects(id1.common.name,function(){
                             createCountdownData(id1.common.name,state.val)
-                        }, 5000);
+                        });
                     }
                     else{
                         createCountdownData(id1.common.name,state.val)
@@ -850,7 +848,7 @@ function createCountdownTable(){
 }
 
 
-function createObjects(CountName){
+function createObjects(CountName,_callback){
     adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
         common: {
               name: CountName
@@ -974,7 +972,7 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      
+      _callback();
 }
 
 function countProperties(obj) {
