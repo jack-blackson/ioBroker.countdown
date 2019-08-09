@@ -72,15 +72,16 @@
           "platform":                 "Javascript/Node.js",
           "mode":                     "daemon",
           "messagebox":               true,
-      "enabled":                  true,
-      "compact": true,
+          "enabled":                  true,
+          "compact": true,
           "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
           "loglevel":                 "info",     
           "keywords":                 ["countdown"],
           "icon":                     "countdown.png",
           "materialize":              true,
           "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
-          "type":                     "date-and-time"
+          "type":                     "date-and-time",
+      "singletonHost":            false
       },
        "native": {
           "interval": 120000,
