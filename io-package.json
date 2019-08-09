@@ -81,7 +81,6 @@
           "materialize":              true,
           "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
           "type":                     "date-and-time",
-      "singletonHost":            true
       },
        "native": {
           "interval": 120000,
