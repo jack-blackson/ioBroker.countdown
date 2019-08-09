@@ -63,13 +63,9 @@ function startAdapter(options) {
     });
 
     adapter.on(`unload`, callback => {
-        try {
-            adapter.log.info(`Stopping countdown adapter!`);
-            clearInterval(Interval);
-            callback();
-        } catch (e) {
-            callback();
-        }
+        adapter.log.info(`Stopping countdown adapter!`);
+        clearInterval(Interval);
+        callback && callback();
     });
 
 
