@@ -123,7 +123,7 @@ function cleanresults(CountName){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
-                adapter.getForeignState('countdown.0.setup.' + channel.common.name.replace(/ /g,"_"), function (err, state) {
+                adapter.getForeignState('countdown.0.setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
                         //if not - delete results
@@ -140,11 +140,11 @@ function cleanresults(CountName){
 }
 
 function deleteCountdownResults(CountName){
-    adapter.deleteChannel('countdowns',CountName.replace(/ /g,"_"));
+    adapter.deleteChannel('countdowns',CountName);
 }
 
 function deleteCountdownSetup(CountName){
-    adapter.deleteState('setup','',CountName.replace(/ /g,"_"));
+    adapter.deleteState('setup','',CountName);
 }
 
 
@@ -970,8 +970,6 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      adapter.log.info('with replace: ' + CountName.replace(/ /g,"_"))
-      adapter.log.info('without  replace: ' + CountName)
 
       adapter.getForeignState('countdown.0.setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
