@@ -13,6 +13,7 @@ const utils = require('@iobroker/adapter-core');
 const moment = require('moment');
 const tableify = require(`tableify`);
 var AdapterStarted;
+var Interval
 
 var tableArray = [];
 var textYear = '';
@@ -40,8 +41,7 @@ function startAdapter(options) {
     Object.assign(options, {
         name: 'countdown',
         ready: function() {
-            adapter.log.info('onready section passed')
-            var meinIntervall = setInterval(function() { 
+            Interval = setInterval(function() { 
                 // alle 1 Minute ausführen 
                 main(); 
             }, 60000); 
@@ -65,7 +65,7 @@ function startAdapter(options) {
     adapter.on(`unload`, callback => {
         try {
             adapter.log.info(`Stopping countdown adapter!`);
-            clearInterval(meinIntervall);
+            clearInterval(Interval);
             callback();
         } catch (e) {
             callback();
