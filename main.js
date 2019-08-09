@@ -151,7 +151,7 @@ function deleteCountdownSetup(CountName){
 function loopsetup(){
     tableArray = [];
 
-    adapter.getStatesOf("countdown.0.setup", function(error, result) {
+    adapter.getStatesOf("setup", function(error, result) {
         for (const id1 of result) {
             adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
