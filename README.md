@@ -84,6 +84,7 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 
 ## 1.0.3 (2019-08-10)
 * (jack-blackson) Changes for Compact Mode
+* (jack-blackson) Various bugfixes
 
 ## License
 The MIT License (MIT)
