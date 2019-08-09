@@ -159,9 +159,8 @@ function loopsetup(){
                 adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.name', function (err1, result1) {
                     if(result1 === null && typeof result1 === "object") {
                         adapter.log.info('temp1: ' +  id1.common.name )
-                        adapter.log.info('temp2: ' +  state.val )
 
-                        createObjects(id1.common.name,state.val)
+                        createObjects(id1.common.name)
                     }
                     else{
                         createCountdownData(id1.common.name,state.val)
@@ -850,7 +849,7 @@ function createCountdownTable(){
 }
 
 
-function createObjects(CountName, CountDate){
+function createObjects(CountName){
     adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
         common: {
               name: CountName
@@ -974,7 +973,10 @@ function createObjects(CountName, CountDate){
         def: 0,
         role: 'value'
       });
-      createCountdownData(CountName, CountDate)
+      adapter.getForeignState('countdown.0.setup.' + CountName.replace(/ /g,"_"), function (err, state) {
+        createCountdownData(CountName, state.val)
+
+      });
 }
 
 function countProperties(obj) {
