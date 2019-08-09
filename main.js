@@ -123,7 +123,7 @@ function cleanresults(CountName){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
-                adapter.getForeignState('countdown.0.setup.' + channel.common.name, function (err, state) {
+                adapter.getState('setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
                         //if not - delete results
@@ -963,7 +963,7 @@ function createObjects(CountName){
         role: 'value'
       });
 
-      adapter.getForeignState('countdown.0.setup.' + CountName, function (err, state) {
+      adapter.getState('setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
         adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
       });
