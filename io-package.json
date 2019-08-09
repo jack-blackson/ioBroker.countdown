@@ -1,7 +1,7 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "news": {
         "0.1.0": {
           "en": "Initial version",
@@ -31,9 +31,9 @@
           "en": "Bugfixes, add countdowns with addhours and addminutes",
           "de": "Bugfixes, Countdowns mit addminutes und addhours hinzufügen"
         },
-        "1.0.2": {
-          "en": "Release Version",
-          "de": "Release Version"
+        "1.0.3": {
+          "en": "Changes for Compact Mode",
+          "de": "Änderungen Compact Modus"
         }
       },
       "title": "Countdown",
@@ -71,10 +71,7 @@
       "enabled":                  true,
       "compact": true,
           "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
-          "loglevel":                 "info",
-          "restartAdapters":          [
-            "countdown"
-          ],        
+          "loglevel":                 "info",     
           "keywords":                 ["countdown"],
           "icon":                     "countdown.png",
           "materialize":              true,
