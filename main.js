@@ -13,6 +13,7 @@ const utils = require('@iobroker/adapter-core');
 const moment = require('moment');
 const tableify = require(`tableify`);
 var AdapterStarted;
+var Interval
 
 var tableArray = [];
 var textYear = '';
@@ -34,20 +35,18 @@ let objects = null;
 
 let adapter;
 
-setInterval(function() { 
-    // alle 1 Minute ausführen 
-    main(); 
-}, 60000);
-
-
-
-
 function startAdapter(options) {
 
     options = options || {};
     Object.assign(options, {
         name: 'countdown',
-        ready: () => main()
+        ready: function() {
+            Interval = setInterval(function() { 
+                // alle 1 Minute ausführen 
+                main(); 
+            }, 60000); 
+            main()
+        }
     });
 
     AdapterStarted = false;
@@ -62,10 +61,17 @@ function startAdapter(options) {
         }
         
     });
+    
+    adapter.on(`unload`, callback => {
+        adapter.log.info(`Stopping countdown adapter!`);
+        clearInterval(Interval);
+        callback && callback();
+    });
+
+
     return adapter;
 
 }
-
 
 
 
@@ -113,8 +119,8 @@ function main() {
 
     cleanresults()
 
-    adapter.config.interval = 60000;
-    adapter.subscribeStates('*')
+    //adapter.config.interval = 60000;
+    //adapter.subscribeStates('*')
 }
 
 function cleanresults(CountName){
@@ -123,7 +129,7 @@ function cleanresults(CountName){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
-                adapter.getForeignState('countdown.0.setup.' + channel.common.name.replace(/ /g,"_"), function (err, state) {
+                adapter.getState('setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
                         //if not - delete results
@@ -140,28 +146,24 @@ function cleanresults(CountName){
 }
 
 function deleteCountdownResults(CountName){
-    adapter.deleteChannel('countdowns',CountName.replace(/ /g,"_"));
+    adapter.deleteChannel('countdowns',CountName);
 }
 
 function deleteCountdownSetup(CountName){
-    adapter.deleteState('setup','',CountName.replace(/ /g,"_"));
+    adapter.deleteState('setup','',CountName);
 }
 
 
 function loopsetup(){
     tableArray = [];
 
-    adapter.getStatesOf("countdown.0.setup", function(error, result) {
+    adapter.getStatesOf("setup", function(error, result) {
         for (const id1 of result) {
-            adapter.getForeignState('countdown.0.setup.' + id1.common.name.replace(/ /g,"_"), function (err, state) {
+            adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
-                adapter.getForeignState('countdown.0.countdowns.' + id1.common.name.replace(/ /g,"_") + '.name', function (err1, result1) {
+                adapter.getState('countdowns.' + id1.common.name + '.name', function (err1, result1) {
                     if(result1 === null && typeof result1 === "object") {
-                        createObjects(id1.common.name);
-                        setTimeout(function() {
-                            // Code, der erst nach 5 Sekunden ausgeführt wird
-                            createCountdownData(id1.common.name,state.val)
-                        }, 5000);
+                        createObjects(id1.common.name)
                     }
                     else{
                         createCountdownData(id1.common.name,state.val)
@@ -170,10 +172,6 @@ function loopsetup(){
             });
 
         }
-        setTimeout(function() {
-            // Code, der erst nach 10 Sekunden ausgeführt wird
-            createCountdownTable()
-        }, 10000);
     });
 }
 
@@ -403,7 +401,7 @@ function createCountdownData(CountName, CountDate){
     var hours = duration.hours() * -1;
     var minutes = duration.minutes() * -1;
 
-    var storagename = CountName.replace(/ /g,"_");
+    var storagename = CountName
 
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
@@ -536,6 +534,7 @@ function createCountdownData(CountName, CountDate){
         }
 
         tableArray.push(tableContentTemp);
+        createCountdownTable()
 
     }
 }
@@ -584,7 +583,6 @@ function processMessage(obj){
                     role: 'value'
                 
                 });
-                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
             }
             else{
                 // invalid date
@@ -612,7 +610,6 @@ function processMessage(obj){
                     role: 'value'
                 
                 });
-                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
             }
         else{
                 adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
@@ -638,7 +635,6 @@ function processMessage(obj){
                     role: 'value'
                 
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
@@ -664,7 +660,6 @@ function processMessage(obj){
                     role: 'value'
                 
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
     
         }
         
@@ -693,7 +688,6 @@ function processMessage(obj){
                 role: 'value'
             
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
 
         }
         else{
@@ -720,7 +714,6 @@ function processMessage(obj){
                 role: 'value'
             
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
@@ -823,9 +816,9 @@ function processMessage(obj){
                 type: "string", 
                 def: datestring,
                 role: 'value'
+              },function(){
+                loopsetup()
               });
-              adapter.log.info('Created Countdown ' + name + ': ' + datestring);
-
         }
     }
     else if (countProperties(obj.message) == 1){
@@ -834,11 +827,6 @@ function processMessage(obj){
         deleteCountdownResults(name)
 
     }
-
-    setTimeout(function() {
-        // Code, der erst nach 5 Sekunden ausgeführt wird
-        loopsetup()
-    }, 5000);
 }
 
 function createCountdownTable(){
@@ -851,7 +839,7 @@ function createCountdownTable(){
 
 
 function createObjects(CountName){
-    adapter.setObjectNotExists('countdowns.' + CountName.replace(/ /g,"_"), {
+    adapter.setObjectNotExists('countdowns.' + CountName, {
         common: {
               name: CountName
         },
@@ -974,7 +962,11 @@ function createObjects(CountName){
         def: 0,
         role: 'value'
       });
-      
+
+      adapter.getState('setup.' + CountName, function (err, state) {
+        createCountdownData(CountName, state.val)
+        adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
+      });
 }
 
 function countProperties(obj) {
