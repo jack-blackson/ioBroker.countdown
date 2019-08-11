@@ -61,13 +61,13 @@ function startAdapter(options) {
         }
         
     });
-    /*
+    
     adapter.on(`unload`, callback => {
         adapter.log.info(`Stopping countdown adapter!`);
         clearInterval(Interval);
         callback && callback();
     });
-*/
+
 
     return adapter;
 
@@ -583,7 +583,6 @@ function processMessage(obj){
                     role: 'value'
                 
                 });
-                adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
             }
             else{
                 // invalid date
@@ -636,7 +635,6 @@ function processMessage(obj){
                     role: 'value'
                 
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
@@ -662,7 +660,6 @@ function processMessage(obj){
                     role: 'value'
                 
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
     
         }
         
@@ -691,7 +688,6 @@ function processMessage(obj){
                 role: 'value'
             
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
 
         }
         else{
@@ -718,7 +714,6 @@ function processMessage(obj){
                 role: 'value'
             
             });
-            adapter.log.info('Created Countdown ' + name + ': ' + messageDateString);
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
