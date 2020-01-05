@@ -57,6 +57,7 @@ function startAdapter(options) {
         adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
+            adapter.log.debug('received send command!);
             processMessage(obj);
         }
         
@@ -466,7 +467,7 @@ function createCountdownData(CountName, CountDate){
         }
 
         //hours
-        if (hours != 0 && years == 0 && months == 0){
+        if (years == 0 && months == 0){
             CountDowninWordsShort += ' ' + hours+textHoursShort;
             if (hours > 1){
                 CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
@@ -784,8 +785,7 @@ function processMessage(obj){
             }
             else
             {
-                adapter.log.error('Could not create alarm as hour value is no int!');
-                erroroccured = true;
+                hour = '00';
     
             }
         }
