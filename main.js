@@ -57,6 +57,7 @@ function startAdapter(options) {
         adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
+            adapter.log.debug('received send command!');
             processMessage(obj);
         }
         
@@ -129,7 +130,7 @@ function cleanresults(CountName){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
-                adapter.getState('setup.' + channel.common.name, function (err, state) {
+                adapter.getObject('setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
                         //if not - delete results
@@ -156,12 +157,13 @@ function deleteCountdownSetup(CountName){
 
 function loopsetup(){
     tableArray = [];
-
     adapter.getStatesOf("setup", function(error, result) {
+
         for (const id1 of result) {
             adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
-                adapter.getState('countdowns.' + id1.common.name + '.name', function (err1, result1) {
+                adapter.getObject('countdowns.' + id1.common.name + '.name', function (err1, result1) {
+
                     if(result1 === null && typeof result1 === "object") {
                         createObjects(id1.common.name)
                     }
@@ -784,9 +786,7 @@ function processMessage(obj){
             }
             else
             {
-                adapter.log.error('Could not create alarm as hour value is no int!');
-                erroroccured = true;
-    
+                hour = '00';
             }
         }
         if (obj.message.minute != ''){
@@ -965,7 +965,7 @@ function createObjects(CountName){
 
       adapter.getState('setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
-        adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
+        adapter.log.info('Created Countdown ' + CountName);
       });
 }
 

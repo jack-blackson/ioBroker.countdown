@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "news": {
+        "1.0.5": {
+          "en": "Bugfix for countdown around midnight",
+          "de": "Bugfix für Countdown gegen Mitternacht",
+          "ru": "Исправлена ошибка обратного отсчета около полуночи",
+          "pt": "Correção de bug para contagem regressiva por volta da meia-noite",
+          "nl": "Bugfix voor aftellen rond middernacht",
+          "fr": "Correction d'un bug pour le compte à rebours vers minuit",
+          "it": "Bugfix per il conto alla rovescia verso mezzanotte",
+          "es": "Corrección de errores para la cuenta regresiva alrededor de la medianoche",
+          "pl": "Bugfix do odliczania około północy",
+          "zh-cn": "午夜时分倒计时的错误修正"
+      },
         "1.0.4": {
             "en": "Change in release infos",
             "de": "Änderung der Release-Infos",
