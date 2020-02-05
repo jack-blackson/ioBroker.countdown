@@ -57,6 +57,7 @@ function startAdapter(options) {
         adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
+            adapter.log.debug('received send command!');
             processMessage(obj);
         }
         
@@ -784,9 +785,7 @@ function processMessage(obj){
             }
             else
             {
-                adapter.log.error('Could not create alarm as hour value is no int!');
-                erroroccured = true;
-    
+                hour = '00';
             }
         }
         if (obj.message.minute != ''){
