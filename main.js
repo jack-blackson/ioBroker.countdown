@@ -130,7 +130,7 @@ function cleanresults(CountName){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
-                adapter.getState('setup.' + channel.common.name, function (err, state) {
+                adapter.getObject('setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
                         //if not - delete results
@@ -162,19 +162,13 @@ function loopsetup(){
         for (const id1 of result) {
             adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
-                adapter.log.info('Prüfen ob Objekte schon vorhanden' + id1.common.name)
-
                 adapter.getObject('countdowns.' + id1.common.name + '.name', function (err1, result1) {
 
                     if(result1 === null && typeof result1 === "object") {
                         createObjects(id1.common.name)
-                        adapter.log.info('Objekte fehlen, werden angelegt für ' + id1.common.name)
-
                     }
                     else{
                         createCountdownData(id1.common.name,state.val)
-                        adapter.log.info('Objekte vorhanden, nur update für ' + id1.common.name)
-
                     }
                 });
             });
@@ -845,7 +839,6 @@ function createCountdownTable(){
 
 
 function createObjects(CountName){
-    adapter.log.info('arrived in create object for ' + CountName)
     adapter.setObjectNotExists('countdowns.' + CountName, {
         common: {
               name: CountName
@@ -970,7 +963,7 @@ function createObjects(CountName){
         role: 'value'
       });
 
-      adapter.getState('setup.' + CountName, function (err, state) {
+      adapter.getObject('setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
         adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
       });
