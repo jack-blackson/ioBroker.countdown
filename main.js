@@ -963,7 +963,7 @@ function createObjects(CountName){
         role: 'value'
       });
 
-      adapter.getObject('setup.' + CountName, function (err, state) {
+      adapter.getStatesOf('setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
         adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
       });
