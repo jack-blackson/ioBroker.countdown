@@ -164,8 +164,8 @@ function loopsetup(){
                 //prüfen ob Device schon vorhanden ist
                 adapter.log.info('Prüfen ob Objekte schon vorhanden' + id1.common.name)
 
-                adapter.getState('countdowns.' + id1.common.name + '.name', function (err1, result1) {
-                    adapter.log.info(err1)
+                adapter.getObject('countdowns.' + id1.common.name + '.name', function (err1, result1) {
+
                     if(result1 === null && typeof result1 === "object") {
                         createObjects(id1.common.name)
                         adapter.log.info('Objekte fehlen, werden angelegt für ' + id1.common.name)
