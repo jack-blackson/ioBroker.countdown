@@ -965,7 +965,7 @@ function createObjects(CountName){
 
       adapter.getState('setup.' + CountName, function (err, state) {
         createCountdownData(CountName, state.val)
-        adapter.log.info('Created Countdown ' + CountName + ': ' + state.val);
+        adapter.log.info('Created Countdown ' + CountName);
       });
 }
 
