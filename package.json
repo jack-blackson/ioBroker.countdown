@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Countdown",
   "main": "main.js",
   "repository": {
@@ -30,9 +30,9 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2",
-    "mocha": "^6.1.4",
+    "mocha": "^7.0.1",
     "chai": "^4.2.0",
-    "@iobroker/testing": "^2.0.0"
+    "@iobroker/testing": "^2.0.2"
   },
 
   "readmeFilename": "README.md"

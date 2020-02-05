@@ -846,6 +846,7 @@ function createCountdownTable(){
 
 
 function createObjects(CountName){
+    adapter.log.info('arrived in create object for ' + CountName)
     adapter.setObjectNotExists('countdowns.' + CountName, {
         common: {
               name: CountName
