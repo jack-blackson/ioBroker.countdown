@@ -6,3 +6,5 @@ package-lock.json
 gulpfile.js
 /node_modules
 .travis.yml
+test/
+tsconfig.json
