@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "news": {
+        "1.0.6": {
+          "en": "DutchmanNL: Fixed adapter type",
+          "de": "DutchmanNL: Adaptertyp behoben",
+          "ru": "DutchmanNL: фиксированный тип адаптера",
+          "pt": "DutchmanNL: tipo de adaptador fixo",
+          "nl": "DutchmanNL: Type vaste adapter",
+          "fr": "DutchmanNL: Type d'adaptateur fixe",
+          "it": "DutchmanNL: tipo di adattatore fisso",
+          "es": "DutchmanNL: tipo de adaptador fijo",
+          "pl": "DutchmanNL: Naprawiono typ adaptera",
+          "zh-cn": "DutchmanNL：固定适配器类型"
+      },
         "1.0.5": {
           "en": "Bugfix for countdown around midnight",
           "de": "Bugfix für Countdown gegen Mitternacht",
