@@ -565,7 +565,10 @@ function processMessage(obj){
                                 var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
                                 break;
                 case "USMinuts"   : 
-                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH.MM').toDate();
+                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH:MM').toDate();
+                                break;
+                case "YearFirst"   : 
+                                var messageDate = moment(obj.message.date, 'YYYY-MM-DD HH:MM').toDate();
                                 break;
                 default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
                 ;
