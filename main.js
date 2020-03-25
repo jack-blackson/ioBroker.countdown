@@ -390,6 +390,8 @@ function createCountdownData(CountName, CountDate){
                         break;
         case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH.MM');
                         break;
+        case "YearFirst"   : var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH.MM');
+                        break;
         default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
     }
 
