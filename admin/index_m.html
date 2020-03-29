@@ -62,6 +62,8 @@
             $('#addCountdown').on('click', function () {
                 let CountdownName = $('#CountName').val();
                 let CountdownDate = $('#CountDate').val();
+                let CountdownTime = $('#CountTime').val();
+
                 console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
             });
         }
@@ -162,8 +164,12 @@
                 </div>
 
                 <div class="col s12 m3 l2 input-field">
-                    <input class="value" id="CountDate" size="5" type="datetime-local" />
+                    <input class="value" id="CountDate" size="5" type="date" />
                     <label class="translate" for="date">date</label>
+                </div>
+                <div class="col s12 m3 l2 input-field">
+                    <input class="value" id="CountTime" size="5" type="time" />
+                    <label class="translate" for="date">time</label>
                 </div>
                 <div class="col s5 m3 l2">
                     <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
