@@ -57,6 +57,13 @@
                 }
             });
             onChange(false);
+
+
+            $('#addCountdown').on('click', function () {
+                let CountdownName = $('#CountName').val();
+                let CountdownDate = $('#CountDate').val();
+                console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
+            });
         }
 </script>
 <style>
@@ -74,6 +81,10 @@
                 <li class="tab col s2"><a href="#tab-addcountdown" class="translate">Add Countdown</a></li>
             </ul>
         </div>
+
+        
+
+
         <div id="tab-settings"      class="col s12 page">
             <div class="row">
                 <div class="input-field col s3">
@@ -139,7 +150,25 @@
             </div>
         </div>
         <div id="tab-addcountdown"      class="col s12 page">
+            <div class="row">
+                <div class="input-field col s3">
+                    <img src="countdown.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4 l2 input-field">
+                    <input class="value" id="CountName" type="text" />
+                    <label class="translate" for="name">Name</label>
+                </div>
 
+                <div class="col s12 m3 l2 input-field">
+                    <input class="value" id="CountDate" size="5" type="date" />
+                    <label class="translate" for="date">date</label>
+                </div>
+                <div class="col s5 m3 l2">
+                    <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
+                </div>
+            </div>
 
         </div> 
     </div>
