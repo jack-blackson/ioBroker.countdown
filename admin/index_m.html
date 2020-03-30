@@ -79,10 +79,20 @@
                     CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
                     //CountDateTime = '31.03.2020 12:01:01'
                     sendTo('countdown.0', 'send', {
-                    name: CountdownName,
-                    //date: '31.03.2020 12:01:01'
-                    date: CountDateTime
+                    "name": CountdownName,
+                    //date": '31.03.2020 12:01:01'
+                    "date": CountDateTime
                     })
+
+                    /*
+                    sendTo("countdown.0", "send", {
+                    "name": 'Countdown with date string',
+                    "date": '2020-03-30 10:19:00'
+                    });
+                    */
+
+
+
                     showToast(_(result + 'Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))
 
                     /*
