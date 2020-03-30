@@ -78,7 +78,7 @@
                     var CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
                     sendTo('countdown.0', 'send', {
                     name: CountdownName,
-                    date: CountDateTime
+                    date: '31.03.2020 12:01:01'
                     })
                     showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))
                     $('#CountName').val() = '';
@@ -102,7 +102,7 @@
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s2"><a href="#tab-settings"      class="translate active">Seettings</a></li>
+                <li class="tab col s2"><a href="#tab-settings"      class="translate active">Settings</a></li>
                 <li class="tab col s2"><a href="#tab-addcountdown" class="translate">Add Countdown</a></li>
             </ul>
         </div>
