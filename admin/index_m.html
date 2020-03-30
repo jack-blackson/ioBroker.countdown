@@ -78,23 +78,23 @@
                     var CountDateTime = ''
                     CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
                     //CountDateTime = '31.03.2020 12:01:01'
-                    /*
+                    
                     sendTo('countdown.0', 'send', {
                     "name": CountdownName,
                     //date": '31.03.2020 12:01:01'
                     "date": CountDateTime
                     }, function(){
-                        console.log('done')
+                        showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))
                     })
-                    */
+                    
                     console.log('done1')
 
-                    showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))
 
-
+                    /*
                     $('#CountName').val() = '';
                     $('#CountDate').val() = '';
                     $('#CountTime').val() = '';
+                    */
                 }
                 
 
