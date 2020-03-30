@@ -61,7 +61,6 @@
 
 
             $('#addCountdown').on('click', function () {
-                const moment = require('moment');
                 let CountdownName = $('#CountName').val();
                 let CountdownDate = $('#CountDate').val();
                 let CountdownTime = $('#CountTime').val();
@@ -74,11 +73,10 @@
                 }
                 else {
                     var CountDateTime = '';
-                    let inputDateTime = CountdownDate + ' ' + CountdownTime
-                    var messageDate = moment(inputDateTime, 'DD.MM.YYYY HH:mm').toDate();
-                    var CountDateTime = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
-                                    moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
-                                    moment(messageDate).format('mm') + ':00' 
+                    let CountYear =  CountdownDate.slice(1, 1 + 4)
+                    let CountMonth=  CountdownDate.slice(5, 5 + 2)
+                    let CountDay =  CountdownDate.slice(8, 8 + 2)
+                    var CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
                     sendTo('countdown.0', 'send', {
                     name: CountdownName,
                     date: CountDateTime
