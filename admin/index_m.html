@@ -81,15 +81,8 @@
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": CountdownName,
                     "date": CountDateTime
-                    }, function(){
-                        showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))
                     })
-                    
-                    
-                    $('#CountName').val = '';
-                    $('#CountDate').val = '';
-                    $('#CountTime').val = '';
-                    
+                    showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))                    
                 }
                 console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
             });
