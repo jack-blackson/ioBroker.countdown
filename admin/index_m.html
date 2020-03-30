@@ -71,10 +71,12 @@
                     showToast(_('Please fill in date and time for the countdown!'))
                 }
                 else {
-                    sendTo(adapter + "." + instance, 'countdown', {
+                    sendTo('countdown.0', 'send', {
                     name: CountdownName,
                     date: '15.04.2020 12:10:01'
                     })
+                    showToast(_('Countdown added.'))
+
                 }
                 
 
