@@ -75,7 +75,8 @@
                     let CountYear =  CountdownDate.slice(0, 0 + 4)
                     let CountMonth=  CountdownDate.slice(5, 5 + 2)
                     let CountDay =  CountdownDate.slice(8, 8 + 2)
-                    var CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
+                    var CountDateTime = ''
+                    CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
                     sendTo('countdown.0', 'send', {
                     name: CountdownName,
                     //date: '31.03.2020 12:01:01'

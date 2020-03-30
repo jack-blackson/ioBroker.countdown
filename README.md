@@ -55,6 +55,7 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 
 ## 1.0.7 (2020-03-20)
 * (jack-blackson) Added new date-type for settings: YYYY-MM-DD
+* (jack-blackson) Add countdown directly in adapter settings
 
 ## 1.0.6 (2020-03-20)
 * (DutchmanNL) Fixed adapter type
