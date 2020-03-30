@@ -109,5 +109,30 @@ systemDictionary = {
         "es": "Formato de fecha",
         "pl": "Format daty",
         "zh-cn": "日期格式"
-    }       
+    },       
+    'addCountdown': {
+        "en": "Add countdown",
+        "de": "Countdown hinzufügen",
+        "ru": "Добавить обратный отсчет",
+        "pt": "Adicionar contagem regressiva",
+        "nl": "Aftellen toevoegen",
+        "fr": "Ajouter un compte à rebours",
+        "it": "Aggiungi il conto alla rovescia",
+        "es": "Agregar cuenta regresiva",
+        "pl": "Dodaj odliczanie",
+        "zh-cn": "添加倒计时"
+    }
+    ,       
+    'settings': {
+        "en": "Settings",
+        "de": "Einstellungen",
+        "ru": "настройки",
+        "pt": "Definições",
+        "nl": "Instellingen",
+        "fr": "Paramètres",
+        "it": "impostazioni",
+        "es": "Configuraciones",
+        "pl": "Ustawienia",
+        "zh-cn": "设定值"
+    }
 };

@@ -24,6 +24,7 @@
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
     var setup = [];
+
     // the function loadSettings has to exist ...
     function save(callback) {
             var obj = {};
@@ -57,6 +58,34 @@
                 }
             });
             onChange(false);
+
+
+            $('#addCountdown').on('click', function () {
+                let CountdownName = $('#CountName').val();
+                let CountdownDate = $('#CountDate').val();
+                let CountdownTime = $('#CountTime').val();
+
+                if (CountdownName == ''){
+                    showToast(_('Please fill in a name for the countdown!'));
+                }
+                else if ((CountdownTime == '')|| (CountdownDate =='')) {
+                    showToast(_('Please fill in date and time for the countdown!'))
+                }
+                else {
+                    let CountYear =  CountdownDate.slice(0, 0 + 4)
+                    let CountMonth=  CountdownDate.slice(5, 5 + 2)
+                    let CountDay =  CountdownDate.slice(8, 8 + 2)
+                    var CountDateTime = ''
+                    CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
+                    console.log('done534')
+                    sendTo(adapter + '.' + instance, 'send', {
+                    "name": CountdownName,
+                    "date": CountDateTime
+                    })
+                    showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))                    
+                }
+                console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
+            });
         }
 </script>
 <style>
@@ -68,67 +97,104 @@
 <body>
 <div class="m adapter-container">
     <div class="row">
-        <div class="row">
-            <div class="input-field col s3">
-                <img src="countdown.png" class="logo">
-            </div>
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s2"><a href="#tab-settings"      class="translate active">settings</a></li>
+                <li class="tab col s2"><a href="#tab-addcountdown" class="translate">addCountdown</a></li>
+            </ul>
         </div>
 
-        <div class="row">
-            <div class="input-field col m4">
-                <input class="value" id="autodelete" type="checkbox" />
-                <label for="autodelete" class="translate">autodelete</label>
-                <span class="translate"></span>
-            </div>
-        </div>
+        
 
-        <div class="row">
 
-            <div class="input-field col s11 m2">
-                <select class="value" id="dateFormat">
-                    <option value="EuropeDot" class="translate">DD.MM.YYYY HH:MM</option>
-                    <option value="EuropeMinus" class="translate">DD-MM-YYYY HH:MM</option>
-                    <option value="USDot" class="translate">MM.DD.YYYY HH:MM</option>
-                    <option value="USMinuts" class="translate">MM-DD-YYYY HH.MM</option>
-                </select>
-                <label for="dateFormat" class="translate">dateFormat</label>
+        <div id="tab-settings"      class="col s12 page">
+            <div class="row">
+                <div class="input-field col s3">
+                    <img src="countdown.png" class="logo">
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="input-field col m4">
+                    <input class="value" id="autodelete" type="checkbox" />
+                    <label for="autodelete" class="translate">autodelete</label>
+                    <span class="translate"></span>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="input-field col s11 m2">
+                    <select class="value" id="dateFormat">
+                        <option value="EuropeDot" class="translate">DD.MM.YYYY HH:MM</option>
+                        <option value="EuropeMinus" class="translate">DD-MM-YYYY HH:MM</option>
+                        <option value="USDot" class="translate">MM.DD.YYYY HH:MM</option>
+                        <option value="USMinuts" class="translate">MM-DD-YYYY HH:MM</option>
+                        <option value="YearFirst" class="translate">YYYY-MM-DD HH:MM</option>
+    
+                    </select>
+                    <label for="dateFormat" class="translate">dateFormat</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <span class="translate">tablecontent</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="checkbox" id="inWordsShort" class="value" />
+                    <label for="inWordsShort" class="translate">inWordsShort</label>
+                </div> 
+                <div class="input-field col s6">
+                    <input type="checkbox" id="inWordsLong" class="value" />
+                    <label for="inWordsLong" class="translate">inWordsLong</label>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="checkbox" id="totalNoOfDays" class="value" />
+                    <label for="totalNoOfDays" class="translate">totalNoOfDays</label>
+                </div> 
+                <div class="input-field col s6">
+                    <input type="checkbox" id="totalNoOfHours" class="value" />
+                    <label for="totalNoOfHours" class="translate">totalNoOfHours</label>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="checkbox" id="totalNoOfWeeks" class="value" />
+                    <label for="totalNoOfWeeks" class="translate">totalNoOfWeeks</label>
+                </div> 
+                <div class="input-field col s6">
+                    <input type="checkbox" id="endDate" class="value" />
+                    <label for="endDate" class="translate">endDate</label>
+                </div> 
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
-                <span class="translate">tablecontent</span>
+        <div id="tab-addcountdown"      class="col s12 page">
+            <div class="row">
+                <div class="input-field col s3">
+                    <img src="countdown.png" class="logo">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <input type="checkbox" id="inWordsShort" class="value" />
-                <label for="inWordsShort" class="translate">inWordsShort</label>
-            </div> 
-            <div class="input-field col s6">
-                <input type="checkbox" id="inWordsLong" class="value" />
-                <label for="inWordsLong" class="translate">inWordsLong</label>
-            </div> 
-        </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <input type="checkbox" id="totalNoOfDays" class="value" />
-                <label for="totalNoOfDays" class="translate">totalNoOfDays</label>
-            </div> 
-            <div class="input-field col s6">
-                <input type="checkbox" id="totalNoOfHours" class="value" />
-                <label for="totalNoOfHours" class="translate">totalNoOfHours</label>
-            </div> 
-        </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <input type="checkbox" id="totalNoOfWeeks" class="value" />
-                <label for="totalNoOfWeeks" class="translate">totalNoOfWeeks</label>
-            </div> 
-            <div class="input-field col s6">
-                <input type="checkbox" id="endDate" class="value" />
-                <label for="endDate" class="translate">endDate</label>
-            </div> 
-        </div>
+            <div class="row">
+                <div class="col s12 m4 l2 input-field">
+                    <input class="value" id="CountName" type="text" />
+                    <label class="translate" for="name">Name</label>
+                </div>
+
+                <div class="col s12 m3 l2 input-field">
+                    <input class="value" id="CountDate" size="5" type="date" />
+                </div>
+                <div class="col s12 m3 l2 input-field">
+                    <input class="value" id="CountTime" size="5" type="time" />
+                </div>
+                <div class="col s5 m3 l2">
+                    <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
+                </div>
+            </div>
+
+        </div> 
     </div>
 </div>
 </body>

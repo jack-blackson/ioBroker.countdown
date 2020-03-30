@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.6",
+      "version": "1.0.7",
       "news": {
+        "1.0.7": {
+          "en": "Added date format YYYY-MM-DD",
+          "de": "Datumsformat hinzugefügt JJJJ-MM-TT",
+          "ru": "Добавлен формат даты ГГГГ-ММ-ДД",
+          "pt": "Formato de data adicionado AAAA-MM-DD",
+          "nl": "Datumformaat toegevoegd JJJJ-MM-DD",
+          "fr": "Format de date ajouté AAAA-MM-JJ",
+          "it": "Aggiunto il formato della data AAAA-MM-GG",
+          "es": "Formato de fecha agregado AAAA-MM-DD",
+          "pl": "Dodano format daty RRRR-MM-DD",
+          "zh-cn": "添加日期格式YYYY-MM-DD"
+      },
         "1.0.6": {
           "en": "DutchmanNL: Fixed adapter type",
           "de": "DutchmanNL: Adaptertyp behoben",

@@ -388,7 +388,9 @@ function createCountdownData(CountName, CountDate){
                             break;
         case "USDot"  : var newdatelocal = moment(newdate).local().format('MM.DD.YYYY HH:MM');
                         break;
-        case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH.MM');
+        case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH:MM');
+                        break;
+        case "YearFirst"   : var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
                         break;
         default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
     }
@@ -563,7 +565,10 @@ function processMessage(obj){
                                 var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
                                 break;
                 case "USMinuts"   : 
-                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH.MM').toDate();
+                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH:MM').toDate();
+                                break;
+                case "YearFirst"   : 
+                                var messageDate = moment(obj.message.date, 'YYYY-MM-DD HH:mm').toDate();
                                 break;
                 default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
                 ;
