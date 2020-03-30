@@ -122,4 +122,17 @@ systemDictionary = {
         "pl": "Dodaj odliczanie",
         "zh-cn": "添加倒计时"
     }
+    ,       
+    'settings': {
+        "en": "Settings",
+        "de": "Einstellungen",
+        "ru": "настройки",
+        "pt": "Definições",
+        "nl": "Instellingen",
+        "fr": "Paramètres",
+        "it": "impostazioni",
+        "es": "Configuraciones",
+        "pl": "Ustawienia",
+        "zh-cn": "设定值"
+    }
 };
