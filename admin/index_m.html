@@ -24,7 +24,6 @@
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
     var setup = [];
-    const moment = require('moment');
 
     // the function loadSettings has to exist ...
     function save(callback) {
@@ -62,6 +61,7 @@
 
 
             $('#addCountdown').on('click', function () {
+                const moment = require('moment');
                 let CountdownName = $('#CountName').val();
                 let CountdownDate = $('#CountDate').val();
                 let CountdownTime = $('#CountTime').val();
