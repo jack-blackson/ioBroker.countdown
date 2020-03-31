@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.8",
+      "version": "1.0.9",
       "news": {
+        "1.0.9": {
+          "en": "Bugfix log messages",
+          "de": "Bugfix-Protokollmeldungen",
+          "ru": "Исправление сообщений журнала",
+          "pt": "Mensagens de log de correções",
+          "nl": "Bugfix-logberichten",
+          "fr": "Messages du journal de correction de bogues",
+          "it": "Messaggi di registro bugfix",
+          "es": "Mensajes de registro de corrección de errores",
+          "pl": "Komunikaty dziennika błędów",
+          "zh-cn": "错误修正日志消息"
+      },
         "1.0.8": {
           "en": "Repeat countdown in defined period (e.g. every year)",
           "de": "Wiederholen Sie den Countdown in einem definierten Zeitraum (z. B. jedes Jahr).",
