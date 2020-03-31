@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.0.7",
+      "version": "1.0.8",
       "news": {
+        "1.0.8": {
+          "en": "Repeat countdown in defined period (e.g. every year)",
+          "de": "Wiederholen Sie den Countdown in einem definierten Zeitraum (z. B. jedes Jahr).",
+          "ru": "Повторите обратный отсчет в определенный период (например, каждый год)",
+          "pt": "Repita a contagem regressiva no período definido (por exemplo, todos os anos)",
+          "nl": "Herhaal het aftellen in een bepaalde periode (bijv. Elk jaar)",
+          "fr": "Répéter le compte à rebours dans la période définie (par exemple chaque année)",
+          "it": "Ripeti il conto alla rovescia in un periodo definito (ad es. Ogni anno)",
+          "es": "Repita la cuenta regresiva en un período definido (por ejemplo, cada año)",
+          "pl": "Powtórz odliczanie w zdefiniowanym okresie (np. Co roku)",
+          "zh-cn": "在定义的时间段内（例如每年）重复倒数计时"
+      },
         "1.0.7": {
           "en": "Added date format YYYY-MM-DD",
           "de": "Datumsformat hinzugefügt JJJJ-MM-TT",

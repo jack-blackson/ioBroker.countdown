@@ -157,6 +157,7 @@ function deleteCountdownSetup(CountName){
 
 function loopsetup(){
     tableArray = [];
+
     adapter.getStatesOf("setup", function(error, result) {
 
         for (const id1 of result) {
@@ -377,9 +378,16 @@ function getVariableTranslation(){
 
 
 function createCountdownData(CountName, CountDate){
+    var repeatCycle = ''
+    // check if a "repeat cycle" was added
+    let SearchForCycle = CountDate.indexOf('+')
+    if (SearchForCycle != 0){
+        repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
+        CountDate = CountDate.slice(0,SearchForCycle)
+    }
+    adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
 
     var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
-
 
     switch (adapter.config.dateFormat) {
         case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
@@ -393,9 +401,7 @@ function createCountdownData(CountName, CountDate){
         case "YearFirst"   : var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
                         break;
         default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
-    }
-
-    
+    } 
 
     var now = moment(new Date()); //todays date
     var duration = moment.duration(now.diff(newdate));        
@@ -410,22 +416,65 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-
-
     if (now.diff(newdate) >= 0){
-        // Countdown reached now -> disable countdown 
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
+        if (repeatCycle != ''){
+            // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
+            var repeatNumber = Number(repeatCycle.match(/\d+/g).map(Number))
+            if (repeatNumber != null){
+                var repeatType = repeatCycle.slice(repeatNumber.toString().length, repeatCycle.length);
+                if (repeatType != '') {
+                    var newDateRepeat = newdate
 
-        if (adapter.config.autodelete){
-            deleteCountdownSetup(CountName)
-            deleteCountdownResults(CountName)
+                    switch (repeatType) {
+                        case "Y": 
+                                        newDateRepeat = new Date(newdate.getFullYear() + repeatNumber, newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes())
+                                        break;
+                        case "M": 
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth() + repeatNumber, newdate.getDate(), newdate.getHours(), newdate.getMinutes())
+                                        break;
+                        case "D"  : 
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate()+ repeatNumber, newdate.getHours(), newdate.getMinutes())
+                                        break;
+                        case "H"   : 
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours()+ repeatNumber, newdate.getMinutes())
+                                        break;
+                        case "m"   : 
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes()+ repeatNumber)
+                                        break;
+                        default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                        ;
+                    }
+                    let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
+                    moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
+                    moment(newDateRepeat).format('mm') + ':00' + '+' + repeatCycle
+                    adapter.setState({device: 'setup' , state: storagename}, {val: newDateString, ack: true});
+
+                }
+                else{
+                    adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                }   
+            }
+            else{
+                adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+            }
+        }
+        else{
+            // Countdown reached now -> disable countdown 
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: true, ack: true});
+
+
+            if (adapter.config.autodelete){
+                deleteCountdownSetup(CountName)
+                deleteCountdownResults(CountName)
+            }
         }
     }
     else{
@@ -507,6 +556,7 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true});   
 
 
         var tableContent = adapter.config.tablefields;
@@ -553,34 +603,43 @@ function processMessage(obj){
     var erroroccured = false
 
     if (typeof obj.message.date != 'undefined'){
-        if (obj.message.date != ''){            
-            switch (adapter.config.dateFormat) {
-                case "EuropeDot": 
-                                var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
-                                break;
-                case "EuropeMinus": 
-                                 var messageDate = moment(obj.message.date, 'DD-MM-YYYY HH:mm').toDate();
-                                break;
-                case "USDot"  : 
-                                var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
-                                break;
-                case "USMinuts"   : 
-                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH:MM').toDate();
-                                break;
-                case "YearFirst"   : 
-                                var messageDate = moment(obj.message.date, 'YYYY-MM-DD HH:mm').toDate();
-                                break;
-                default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
-                ;
+        var repeatCycle = ''
+        if (obj.message.date != ''){ 
+            var processingDate = obj.message.date
+            // check if a "repeat cycle" was added
+            let SearchForCycle = obj.message.date.indexOf('+')
+            if (SearchForCycle != 0){
+                repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
+                processingDate = processingDate.slice(0,SearchForCycle)
             }
 
 
+            switch (adapter.config.dateFormat) {
+                case "EuropeDot": 
+                                var messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
+                                break;
+                case "EuropeMinus": 
+                                 var messageDate = moment(processingDate, 'DD-MM-YYYY HH:mm').toDate();
+                                break;
+                case "USDot"  : 
+                                var messageDate = moment(processingDate, 'MM.DD.YYYY HH:MM').toDate();
+                                break;
+                case "USMinuts"   : 
+                                var messageDate = moment(processingDate, 'MM-DD-YYYY HH:MM').toDate();
+                                break;
+                case "YearFirst"   : 
+                                var messageDate = moment(processingDate, 'YYYY-MM-DD HH:mm').toDate();
+                                break;
+                default: var messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
+                ;
+            }
 
             var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
                                     moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
-                                    moment(messageDate).format('mm') + ':00' 
+                                    moment(messageDate).format('mm') + ':00'
              
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
+                messageDateString += repeatCycle
                 adapter.createState('', 'setup', name, {
                     read: true, 
                     write: true, 
@@ -964,6 +1023,15 @@ function createObjects(CountName){
         write: false, 
         name: "Total No. of Weeks", 
         type: "number", 
+        def: 0,
+        role: 'value'
+      });
+
+      adapter.createState('countdowns', CountName, 'repeatEvery', {
+        read: true, 
+        write: false, 
+        name: "Period when the Countdown should be repeated", 
+        type: "string", 
         def: 0,
         role: 'value'
       });

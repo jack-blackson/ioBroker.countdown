@@ -64,7 +64,9 @@
                 let CountdownName = $('#CountName').val();
                 let CountdownDate = $('#CountDate').val();
                 let CountdownTime = $('#CountTime').val();
+                let RepeatPeriod = $('#RepeatPeriod').val();
 
+                
                 if (CountdownName == ''){
                     showToast(_('Please fill in a name for the countdown!'));
                 }
@@ -76,8 +78,10 @@
                     let CountMonth=  CountdownDate.slice(5, 5 + 2)
                     let CountDay =  CountdownDate.slice(8, 8 + 2)
                     var CountDateTime = ''
-                    CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00' 
-                    console.log('done534')
+                    CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00'
+                    if (RepeatPeriod != ''){
+                        CountDateTime += '+' + RepeatPeriod
+                    }
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": CountdownName,
                     "date": CountDateTime
@@ -188,6 +192,10 @@
                 </div>
                 <div class="col s12 m3 l2 input-field">
                     <input class="value" id="CountTime" size="5" type="time" />
+                </div>
+                <div class="col s12 m4 l2 input-field">
+                    <input class="value" id="RepeatPeriod" type="text" />
+                    <label class="translate" for="RepeatPeriod">RepeatPeriod</label>
                 </div>
                 <div class="col s5 m3 l2">
                     <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
