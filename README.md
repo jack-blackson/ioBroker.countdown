@@ -54,6 +54,9 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 
 ## Changelog
 
+## 1.0.8 (2020-03-22)
+* (jack-blackson) Repeat countdown in defined period (e.g. every year)
+
 ## 1.0.7 (2020-03-20)
 * (jack-blackson) Added new date-type for settings: YYYY-MM-DD
 * (jack-blackson) Add countdown directly in adapter settings
