@@ -157,6 +157,8 @@ function deleteCountdownSetup(CountName){
 
 function loopsetup(){
     tableArray = [];
+    adapter.log.info('Version 1  323')
+
     adapter.getStatesOf("setup", function(error, result) {
 
         for (const id1 of result) {
@@ -415,7 +417,7 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.debug('Version 223')
+    adapter.log.info('Version 323')
 
 
     if (now.diff(newdate) >= 0){
