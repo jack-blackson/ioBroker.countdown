@@ -381,13 +381,11 @@ function createCountdownData(CountName, CountDate){
     // check if a "repeat cycle" was added
     let SearchForCycle = CountDate.indexOf('+')
     if (SearchForCycle != 0){
-        repeatCycle = CountDate.slice((SearchForCycle), CountDate.length)
+        repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
         CountDate = CountDate.slice(0,SearchForCycle)
     }
 
-
     var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
-
 
     switch (adapter.config.dateFormat) {
         case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
@@ -401,9 +399,7 @@ function createCountdownData(CountName, CountDate){
         case "YearFirst"   : var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
                         break;
         default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
-    }
-
-    
+    } 
 
     var now = moment(new Date()); //todays date
     var duration = moment.duration(now.diff(newdate));        
@@ -421,21 +417,30 @@ function createCountdownData(CountName, CountDate){
 
 
     if (now.diff(newdate) >= 0){
-        // Countdown reached now -> disable countdown 
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: true, ack: true});
+        if (repeatCycle != ''){
+            // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
+            var repeatNumber = repeatCycle.match('/\d+/');
+            var repeatType = repeatCycle.slice(repeatNumber?.length,repeatCycle.length);
+            adapter.log('Repeat number: ' + repeatNumber)
+            adapter.log('Repeat type: ' + repeatType)
+        }
+        else{
+            // Countdown reached now -> disable countdown 
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: true, ack: true});
 
 
-        if (adapter.config.autodelete){
-            deleteCountdownSetup(CountName)
-            deleteCountdownResults(CountName)
+            if (adapter.config.autodelete){
+                deleteCountdownSetup(CountName)
+                deleteCountdownResults(CountName)
+            }
         }
     }
     else{
