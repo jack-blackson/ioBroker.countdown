@@ -422,6 +422,8 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: true, ack: true});
+
 
         if (adapter.config.autodelete){
             deleteCountdownSetup(CountName)
@@ -507,6 +509,7 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: 'totalWeeks', ack: true});   
 
 
         var tableContent = adapter.config.tablefields;
@@ -553,34 +556,44 @@ function processMessage(obj){
     var erroroccured = false
 
     if (typeof obj.message.date != 'undefined'){
-        if (obj.message.date != ''){            
+        var repeatCycle = ''
+        if (obj.message.date != ''){ 
+            var processingDate = obj.message.date
+            // check if a "repeat cycle" was added
+            let SearchForCycle = obj.message.date.indexOf('+')
+            if (SearchForCycle != 0){
+                repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
+                processingDate = processingDate.slice(0,SearchForCycle)
+            }
+            console.log('Repeat cycle: ' + repeatCycle)
+            console.log('Date after slizing: ' + processingDate)
+
             switch (adapter.config.dateFormat) {
                 case "EuropeDot": 
-                                var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                                var messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
                                 break;
                 case "EuropeMinus": 
-                                 var messageDate = moment(obj.message.date, 'DD-MM-YYYY HH:mm').toDate();
+                                 var messageDate = moment(processingDate, 'DD-MM-YYYY HH:mm').toDate();
                                 break;
                 case "USDot"  : 
-                                var messageDate = moment(obj.message.date, 'MM.DD.YYYY HH:MM').toDate();
+                                var messageDate = moment(processingDate, 'MM.DD.YYYY HH:MM').toDate();
                                 break;
                 case "USMinuts"   : 
-                                var messageDate = moment(obj.message.date, 'MM-DD-YYYY HH:MM').toDate();
+                                var messageDate = moment(processingDate, 'MM-DD-YYYY HH:MM').toDate();
                                 break;
                 case "YearFirst"   : 
-                                var messageDate = moment(obj.message.date, 'YYYY-MM-DD HH:mm').toDate();
+                                var messageDate = moment(processingDate, 'YYYY-MM-DD HH:mm').toDate();
                                 break;
-                default: var messageDate = moment(obj.message.date, 'DD.MM.YYYY HH:mm').toDate();
+                default: var messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
                 ;
             }
 
-
-
             var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
                                     moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
-                                    moment(messageDate).format('mm') + ':00' 
+                                    moment(messageDate).format('mm') + ':00'
              
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
+                messageDateString += repeatCycle
                 adapter.createState('', 'setup', name, {
                     read: true, 
                     write: true, 
@@ -964,6 +977,15 @@ function createObjects(CountName){
         write: false, 
         name: "Total No. of Weeks", 
         type: "number", 
+        def: 0,
+        role: 'value'
+      });
+
+      adapter.createState('countdowns', CountName, 'repeatEvery', {
+        read: true, 
+        write: false, 
+        name: "Period when the Countdown should be repeated", 
+        type: "string", 
         def: 0,
         role: 'value'
       });
