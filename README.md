@@ -72,10 +72,10 @@ Parameters here are:
 
 ## Changelog
 
-## 1.0.8 (2020-03-22)
+## 1.0.8 (2020-03-31)
 * (jack-blackson) Repeat countdown in defined period (e.g. every year)
 
-## 1.0.7 (2020-03-20)
+## 1.0.7 (2020-03-30)
 * (jack-blackson) Added new date-type for settings: YYYY-MM-DD
 * (jack-blackson) Add countdown directly in adapter settings
 
