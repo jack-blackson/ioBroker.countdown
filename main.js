@@ -416,7 +416,7 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.info('Version 723')
+    adapter.log.info('Version 823')
 
 
     if (now.diff(newdate) >= 0){
@@ -429,6 +429,8 @@ function createCountdownData(CountName, CountDate){
                 if (repeatType != '') {
                     adapter.log.info('Repeat type: ' + repeatType + ' repeat number: ' + repeatNumber)
                     var newDateRepeat = newdate
+                    adapter.log.info('Before: ' + moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
+
                     switch (repeatType) {
                         case "Y": 
                                         newDateRepeat = new Date(newDateRepeat.getFullYear() + repeatNumber, newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes())
@@ -448,7 +450,7 @@ function createCountdownData(CountName, CountDate){
                         default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
                         ;
                     }
-                    adapter.log.info(moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
+                    adapter.log.info('After: ' + moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
 
 
 
