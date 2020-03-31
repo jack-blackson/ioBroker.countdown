@@ -377,6 +377,14 @@ function getVariableTranslation(){
 
 
 function createCountdownData(CountName, CountDate){
+    var repeatCycle = ''
+    // check if a "repeat cycle" was added
+    let SearchForCycle = CountDate.indexOf('+')
+    if (SearchForCycle != 0){
+        repeatCycle = CountDate.slice((SearchForCycle), CountDate.length)
+        CountDate = CountDate.slice(0,SearchForCycle)
+    }
+
 
     var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
 
@@ -509,7 +517,7 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: 'totalWeeks', ack: true});   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true});   
 
 
         var tableContent = adapter.config.tablefields;
@@ -565,8 +573,7 @@ function processMessage(obj){
                 repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
                 processingDate = processingDate.slice(0,SearchForCycle)
             }
-            adapter.log.error('Repeat cycle: ' + repeatCycle)
-            adapter.log.error('Date after slizing: ' + processingDate)
+
 
             switch (adapter.config.dateFormat) {
                 case "EuropeDot": 
