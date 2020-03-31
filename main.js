@@ -416,7 +416,7 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.info('Version 823')
+    adapter.log.info('Version 923')
 
 
     if (now.diff(newdate) >= 0){
