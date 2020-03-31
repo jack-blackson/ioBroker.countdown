@@ -420,8 +420,9 @@ function createCountdownData(CountName, CountDate){
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
             var repeatNumber = repeatCycle.match('/\d+/');
-            let repeatNumberLength = repeatNumber?.length
-            var repeatType = repeatCycle.slice(repeatNumberLength, repeatCycle.length);
+            if (repeatNumber != null){
+                var repeatType = repeatCycle.slice(repeatNumber.length, repeatCycle.length);
+            }
             adapter.log('Repeat number: ' + repeatNumber)
             adapter.log('Repeat type: ' + repeatType)
         }
