@@ -422,10 +422,9 @@ function createCountdownData(CountName, CountDate){
     if (now.diff(newdate) >= 0){
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
-            var repeatNumber = repeatCycle.match(/\d+/g).map(Number)
-
+            var repeatNumber = Number(repeatCycle.match(/\d+/g).map(Number))
             if (repeatNumber != null){
-                var repeatType = repeatCycle.slice(repeatNumber.length, repeatCycle.length);
+                var repeatType = repeatCycle.slice(repeatNumber.toString().length, repeatCycle.length);
                 if (repeatType != '') {
                     adapter.log.info('Repeat type: ' + repeatType + ' repeat number: ' + repeatNumber)
                     var newDateRepeat = newdate
@@ -455,6 +454,7 @@ function createCountdownData(CountName, CountDate){
                     moment(newDateRepeat).format('mm') + ':00' 
                     adapter.log.info('After: ' + moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
                     adapter.log.info('After 1: ' + newDateString)
+                    adapter.setState({device: 'setup' , state: storagename}, {val: newDateRepeat, ack: true});
 
 
                 }

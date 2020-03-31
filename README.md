@@ -30,6 +30,22 @@ There are two ways to set up countdowns:
 ## How to delete countdowns
 You  can delete a countdown with the sendto. Therefore, send just the name with sendto to the adapter, and the countdown will be deleted automatically.
 
+## Repeating countdown
+If you want a countdown to repeat in a defined period (e.g. you cant a countdown for your wedding day every year) you can also do this with this adapter. Therefore either fill the field "Repeat period" in the settings of the adapter, or add the period after the date when you create a countdown with the type "date". A sendTo would look like that for a countdown which should end on the 1st of April 2020 and repeat every year:
+
+sendTo("countdown.0", "send", {
+   "name": 'Wedding Day',
+   "date": '01.04.2020 00:01+1Y'
+});
+
+Parameters here are:
+* Y: Years
+* M: Months
+* D: Days
+* H: Hours
+* m: Minutes 
+
+
 ## Available outputs
 
 |Data type|Description|                                                                       
@@ -47,6 +63,8 @@ You  can delete a countdown with the sendto. Therefore, send just the name with 
 |totalDays|Total No. of days until the end date|
 |totalWeeks|Total No. of weeks until the end date|
 |reached|Boolean field defining if the end date was reached or not|
+|repeatEvery|Countdown is repeted by this period after reaching the enddate|
+
 
 ## Features to add
 * Possibility to add a script as a parameter and start it when countdown ends

@@ -135,4 +135,17 @@ systemDictionary = {
         "pl": "Ustawienia",
         "zh-cn": "设定值"
     }
+    ,       
+    'RepeatPeriod': {
+        "en": "e.g. 1Y for 1 year",
+        "de": "z.B. 1Y für 1 Jahr",
+        "ru": "например 1Y на 1 год",
+        "pt": "por exemplo. 1Y por 1 ano",
+        "nl": "b.v. 1Y voor 1 jaar",
+        "fr": "par exemple. 1Y pour 1 an",
+        "it": "per esempio. 1Y per 1 anno",
+        "es": "p.ej. 1Y por 1 año",
+        "pl": "na przykład 1Y na 1 rok",
+        "zh-cn": "例如一年 1Y"
+    }
 };
