@@ -416,19 +416,50 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.info('Version 523')
+    adapter.log.info('Version 623')
 
 
     if (now.diff(newdate) >= 0){
-        adapter.log.debug('Reached end for ' + CountName + ' is: ' +  repeatCycle)
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
             var repeatNumber = repeatCycle.match(/\d+/g).map(Number)
-            adapter.log.info('Repeat number: ' + repeatNumber)
 
             if (repeatNumber != null){
                 var repeatType = repeatCycle.slice(repeatNumber.length, repeatCycle.length);
-                adapter.log.info('Repeat type: ' + repeatType)
+                if (repeatType != '') {
+                    var newDateRepeat = newdate
+                    switch (repeatType) {
+                        case "Y": 
+                                        newDateRepeat = new Date(newDateRepeat.getFullYear() + repeatNumber, newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes())
+                                        break;
+                        case "M": 
+                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth() + repeatNumber, newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes())
+                                        break;
+                        case "D"  : 
+                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth(), newDateRepeat.getDate()+ repeatNumber, newDateRepeat.getHours(), newDateRepeat.getMinutes())
+                                        break;
+                        case "H"   : 
+                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours()+ repeatNumber, newDateRepeat.getMinutes())
+                                        break;
+                        case "m"   : 
+                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes()+ repeatNumber)
+                                        break;
+                        default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                        ;
+                    }
+                    adapter.log.info(newDateRepeat)
+
+
+
+
+
+                }
+                else{
+                    adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                }   
+            }
+            else{
+                adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
             }
         }
         else{
