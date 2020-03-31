@@ -384,6 +384,7 @@ function createCountdownData(CountName, CountDate){
         repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
         CountDate = CountDate.slice(0,SearchForCycle)
     }
+    adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
 
     var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
 
@@ -417,7 +418,7 @@ function createCountdownData(CountName, CountDate){
 
 
     if (now.diff(newdate) >= 0){
-        adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
+        adapter.log.debug('Reached end for ' + CountName + ' is: ' +  repeatCycle)
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
             var repeatNumber = repeatCycle.match('/\d+/');
