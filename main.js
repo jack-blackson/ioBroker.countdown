@@ -565,8 +565,8 @@ function processMessage(obj){
                 repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
                 processingDate = processingDate.slice(0,SearchForCycle)
             }
-            console.log('Repeat cycle: ' + repeatCycle)
-            console.log('Date after slizing: ' + processingDate)
+            adapter.log.error('Repeat cycle: ' + repeatCycle)
+            adapter.log.error('Date after slizing: ' + processingDate)
 
             switch (adapter.config.dateFormat) {
                 case "EuropeDot": 
