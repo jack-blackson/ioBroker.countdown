@@ -417,6 +417,7 @@ function createCountdownData(CountName, CountDate){
 
 
     if (now.diff(newdate) >= 0){
+        adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
             var repeatNumber = repeatCycle.match('/\d+/');
