@@ -3,6 +3,18 @@
       "name": "countdown",
       "version": "1.0.9",
       "news": {
+        "1.1.0": {
+          "en": "Bugfix readme link",
+          "de": "Bugfix Readme Link",
+          "ru": "Исправлена ссылка на readme",
+          "pt": "Link Leiame do Bugfix",
+          "nl": "Leesmij-link voor bugfix",
+          "fr": "Lien Readme du correctif",
+          "it": "Link readme bugfix",
+          "es": "Enlace Léame de corrección de errores",
+          "pl": "Link do pliku Readme poprawki",
+          "zh-cn": "错误修正自述链接"
+      },
         "1.0.9": {
           "en": "Bugfix log messages",
           "de": "Bugfix-Protokollmeldungen",
@@ -218,7 +230,7 @@
           "messagebox":               true,
           "enabled":                  true,
           "compact": true,
-          "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/master/README.md",
+          "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
           "loglevel":                 "info",     
           "keywords":                 ["countdown"],
           "icon":                     "countdown.png",
