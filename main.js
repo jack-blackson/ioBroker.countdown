@@ -416,14 +416,14 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.info('Version 423')
+    adapter.log.info('Version 523')
 
 
     if (now.diff(newdate) >= 0){
         adapter.log.debug('Reached end for ' + CountName + ' is: ' +  repeatCycle)
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
-            var repeatNumber = repeatCycle.match('/\d+/');
+            var repeatNumber = repeatCycle.match(/\d+/g).map(Number)
             adapter.log.info('Repeat number: ' + repeatNumber)
 
             if (repeatNumber != null){
