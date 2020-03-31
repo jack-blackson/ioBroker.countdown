@@ -416,7 +416,7 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.info('Version 923')
+    adapter.log.info('Version 123')
 
 
     if (now.diff(newdate) >= 0){
@@ -433,27 +433,28 @@ function createCountdownData(CountName, CountDate){
 
                     switch (repeatType) {
                         case "Y": 
-                                        newDateRepeat = new Date(newDateRepeat.getFullYear() + repeatNumber, newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes())
+                                        newDateRepeat = new Date(newdate.getFullYear() + repeatNumber, newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes())
                                         break;
                         case "M": 
-                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth() + repeatNumber, newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes())
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth() + repeatNumber, newdate.getDate(), newdate.getHours(), newdate.getMinutes())
                                         break;
                         case "D"  : 
-                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth(), newDateRepeat.getDate()+ repeatNumber, newDateRepeat.getHours(), newDateRepeat.getMinutes())
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate()+ repeatNumber, newdate.getHours(), newdate.getMinutes())
                                         break;
                         case "H"   : 
-                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours()+ repeatNumber, newDateRepeat.getMinutes())
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours()+ repeatNumber, newdate.getMinutes())
                                         break;
                         case "m"   : 
-                                        newDateRepeat = new Date(newDateRepeat.getFullYear(), newDateRepeat.getMonth(), newDateRepeat.getDate(), newDateRepeat.getHours(), newDateRepeat.getMinutes()+ repeatNumber)
+                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes()+ repeatNumber)
                                         break;
                         default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
                         ;
                     }
+                    let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
+                    moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
+                    moment(newDateRepeat).format('mm') + ':00' 
                     adapter.log.info('After: ' + moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
-
-
-
+                    adapter.log.info('After 1: ' + newDateString)
 
 
                 }
