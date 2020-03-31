@@ -416,7 +416,7 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.log.info('Version 223')
+    adapter.log.info('Version 323')
 
 
     if (now.diff(newdate) >= 0){
@@ -451,10 +451,10 @@ function createCountdownData(CountName, CountDate){
                     }
                     let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
                     moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
-                    moment(newDateRepeat).format('mm') + ':00' 
-                    adapter.log.info('After: ' + moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
-                    adapter.log.info('After 1: ' + newDateString)
-                    adapter.setState({device: 'setup' , state: storagename}, {val: newDateRepeat, ack: true});
+                    moment(newDateRepeat).format('mm') + ':00' + repeatCycle
+                    //adapter.log.info('After: ' + moment(newDateRepeat).local().format('DD.MM.YYYY HH:mm'))
+                    adapter.log.info('After: ' + newDateString)
+                    adapter.setState({device: 'setup' , state: storagename}, {val: newDateString, ack: true});
 
 
                 }
