@@ -4,16 +4,16 @@
       "version": "1.1.0",
       "news": {
         "1.1.0": {
-          "en": "Bugfix readme link",
-          "de": "Bugfix Readme Link",
-          "ru": "Исправлена ссылка на readme",
-          "pt": "Link Leiame do Bugfix",
-          "nl": "Leesmij-link voor bugfix",
-          "fr": "Lien Readme du correctif",
-          "it": "Link readme bugfix",
-          "es": "Enlace Léame de corrección de errores",
-          "pl": "Link do pliku Readme poprawki",
-          "zh-cn": "错误修正自述链接"
+          "en": "Bugfix readme link and repeatcycle",
+          "de": "Bugfix Readme Link und Wiederholungszyklus",
+          "ru": "Исправлена ошибка чтения ссылки и повторного цикла",
+          "pt": "Bugfix readme link e repeatcycle",
+          "nl": "Leesmij-link voor Bugfix en herhaalcyclus",
+          "fr": "Lien Readme de Bugfix et cycle de répétition",
+          "it": "Link readme e ripetizione di bugfix",
+          "es": "Enlace Léame de corrección de errores y ciclo de repetición",
+          "pl": "Link do pliku Readme z błędem i cykl powtórzeń",
+          "zh-cn": "错误修正自述链接和重复周期"
       },
         "1.0.9": {
           "en": "Bugfix log messages",
