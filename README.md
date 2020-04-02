@@ -74,6 +74,7 @@ Parameters here are:
 
 ## 1.1.0 () 
 * (jack-blackson) bugfix Read-Me link
+* (jack-blackson) bugfix repeatCycle
 
 ## 1.0.9 (2020-03-31)
 * (jack-blackson) Bugfix log messages

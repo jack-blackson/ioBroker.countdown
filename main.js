@@ -381,7 +381,7 @@ function createCountdownData(CountName, CountDate){
     var repeatCycle = ''
     // check if a "repeat cycle" was added
     let SearchForCycle = CountDate.indexOf('+')
-    if (SearchForCycle != 0){
+    if (SearchForCycle != -1){
         repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
         CountDate = CountDate.slice(0,SearchForCycle)
     }
