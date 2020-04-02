@@ -1032,7 +1032,7 @@ function createObjects(CountName){
         write: false, 
         name: "Period when the Countdown should be repeated", 
         type: "string", 
-        def: 0,
+        def: '',
         role: 'value'
       });
 
