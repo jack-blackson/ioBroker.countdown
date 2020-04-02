@@ -468,7 +468,7 @@ function createCountdownData(CountName, CountDate){
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: true, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: '', ack: true});
 
 
             if (adapter.config.autodelete){
