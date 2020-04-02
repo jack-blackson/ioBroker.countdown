@@ -608,7 +608,7 @@ function processMessage(obj){
             var processingDate = obj.message.date
             // check if a "repeat cycle" was added
             let SearchForCycle = obj.message.date.indexOf('+')
-            if (SearchForCycle != 0){
+            if (SearchForCycle != -1){
                 repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
                 processingDate = processingDate.slice(0,SearchForCycle)
             }
