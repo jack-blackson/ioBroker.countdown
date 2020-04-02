@@ -381,7 +381,7 @@ function createCountdownData(CountName, CountDate){
     var repeatCycle = ''
     // check if a "repeat cycle" was added
     let SearchForCycle = CountDate.indexOf('+')
-    if (SearchForCycle != 0){
+    if (SearchForCycle != -1){
         repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
         CountDate = CountDate.slice(0,SearchForCycle)
     }
@@ -468,7 +468,7 @@ function createCountdownData(CountName, CountDate){
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: true, ack: true});
+            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: '', ack: true});
 
 
             if (adapter.config.autodelete){
@@ -608,7 +608,7 @@ function processMessage(obj){
             var processingDate = obj.message.date
             // check if a "repeat cycle" was added
             let SearchForCycle = obj.message.date.indexOf('+')
-            if (SearchForCycle != 0){
+            if (SearchForCycle != -1){
                 repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
                 processingDate = processingDate.slice(0,SearchForCycle)
             }
@@ -1032,7 +1032,7 @@ function createObjects(CountName){
         write: false, 
         name: "Period when the Countdown should be repeated", 
         type: "string", 
-        def: 0,
+        def: '',
         role: 'value'
       });
 
