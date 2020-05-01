@@ -416,9 +416,7 @@ function createCountdownData(CountName, CountDate){
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
-    adapter.getState('countdowns.' + CountName + '.reached', function (err, state) {
-        console.log('Reached bei ' + CountName + ' ist ' + state.val)
-    });
+    
 
     if ((now.diff(newdate) >= 0)) {
         if (repeatCycle != ''){
@@ -464,7 +462,9 @@ function createCountdownData(CountName, CountDate){
         }
         else{
             // Countdown reached now -> disable countdown 
-            
+            adapter.getState('countdowns.' + CountName + '.reached', function (err, state) {
+                console.log('Reached bei ' + CountName + ' ist ' + state.val)
+            });
 
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
