@@ -13,6 +13,7 @@
             "it": "Piccole correzioni",
             "es": "Pequeñas correcciones",
             "pl": "Małe poprawki",
+            "zh-cn": "小修正"
       },
         "1.1.0": {
           "en": "Bugfix readme link and repeatcycle",
