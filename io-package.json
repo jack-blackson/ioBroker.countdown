@@ -1,8 +1,19 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "news": {
+        "1.1.1": {
+          "en": "Small fixes",
+            "de": "Kleine Korrekturen",
+            "ru": "Небольшие исправления",
+            "pt": "Pequenas correções",
+            "nl": "Kleine oplossingen",
+            "fr": "Petites corrections",
+            "it": "Piccole correzioni",
+            "es": "Pequeñas correcciones",
+            "pl": "Małe poprawki",
+      },
         "1.1.0": {
           "en": "Bugfix readme link and repeatcycle",
           "de": "Bugfix Readme Link und Wiederholungszyklus",
