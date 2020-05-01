@@ -463,7 +463,7 @@ function createCountdownData(CountName, CountDate){
         else{
             // Countdown reached now -> disable countdown 
             adapter.getState('countdowns.' + CountName + '.reached', function (err, state) {
-                console.log('Reached bei ' + CountName + ' ist ' + state.val)
+                adapter.log.info('Reached bei ' + CountName + ' ist ' + state.val)
             });
 
             adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
