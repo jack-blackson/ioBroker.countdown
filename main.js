@@ -913,7 +913,7 @@ function createObjects(CountName){
         type: 'channel',
         'native' : {}
     });
-    adapter.createState('countdowns', CountName, 'name', {
+    adapter.setObjectNotExists('countdowns', CountName, 'name', {
         type: 'state',
 		common: {
             read: true, 
@@ -926,7 +926,7 @@ function createObjects(CountName){
         native: {}
     });
       
-    adapter.createState('countdowns', CountName, 'reached', {
+    adapter.setObjectNotExists('countdowns', CountName, 'reached', {
         type: 'state',
 		common: {
             read: true, 
@@ -939,7 +939,7 @@ function createObjects(CountName){
 		native: {}
     });
 
-    adapter.createState('countdowns', CountName, 'years', {
+    adapter.setObjectNotExists('countdowns', CountName, 'years', {
         type: 'state',
 		common: {
             read: true, 
