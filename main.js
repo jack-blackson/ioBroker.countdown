@@ -911,10 +911,9 @@ function createObjects(CountName){
               name: CountName
         },
         type: 'channel',
-        'native' : {}
+        native : {}
     });
-    adapter.setObjectNotExists('countdowns', CountName, 'name', {
-        type: 'state',
+    adapter.setObjectNotExists('countdowns', CountName, 'name', { 
 		common: {
             read: true, 
             write: false, 
@@ -923,7 +922,8 @@ function createObjects(CountName){
             def: CountName,
             role: 'value'
 		},
-        'native': {}
+        type: 'state',
+        native: {}
     });
       
     adapter.setObjectNotExists('countdowns', CountName, 'reached', {
