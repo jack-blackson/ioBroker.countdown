@@ -913,6 +913,8 @@ function createObjects(CountName){
         type: 'channel',
         native : {}
     });
+
+    /*
     adapter.createState('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
@@ -920,6 +922,12 @@ function createObjects(CountName){
             type: 'string', 
             def: CountName,
             role: 'value'
+    });
+    */
+    adapter.createState('countdowns', CountName, 'name',{
+        type: 'state',
+        common: {name: "Name", type: 'string', role: 'value', read: true, write: false, def: CountName},
+        native: []
     });
       
     adapter.createState('countdowns', CountName, 'reached', {
