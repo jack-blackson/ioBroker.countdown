@@ -924,7 +924,7 @@ function createObjects(CountName){
             role: 'value'
     });
     */
-    adapter.createState('countdowns', CountName, 'name',{
+    adapter.setObjectNotExists('countdowns', CountName, 'name',{
         type: 'state',
         common: {name: "Name", type: 'string', role: 'value', read: true, write: false},
         native: []
