@@ -914,15 +914,15 @@ function createObjects(CountName){
         native : {}
     });
     adapter.setObjectNotExists('countdowns', CountName, 'name', { 
-		common: {
+		type: 'state',
+        common: {
             read: true, 
             write: false, 
             name: "Name", 
-            type: "string", 
+            type: 'string', 
             def: CountName,
             role: 'value'
 		},
-        type: 'state',
         native: {}
     });
       
