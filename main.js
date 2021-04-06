@@ -926,7 +926,7 @@ function createObjects(CountName){
     */
     adapter.createState('countdowns', CountName, 'name',{
         type: 'state',
-        common: {name: "Name", type: 'string', role: 'value', read: true, write: false, def: CountName},
+        common: {name: "Name", type: 'string', role: 'value', read: true, write: false},
         native: []
     });
       
