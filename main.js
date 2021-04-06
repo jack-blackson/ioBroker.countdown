@@ -923,7 +923,7 @@ function createObjects(CountName){
             def: CountName,
             role: 'value'
 		},
-        native: {}
+        'native': {}
     });
       
     adapter.setObjectNotExists('countdowns', CountName, 'reached', {
@@ -936,7 +936,7 @@ function createObjects(CountName){
             def: false,
             role: 'value'
 		},
-		native: {}
+		'native': {}
     });
 
     adapter.setObjectNotExists('countdowns', CountName, 'years', {
@@ -949,7 +949,7 @@ function createObjects(CountName){
             def: 0,
             role: 'value'
 		},
-		native: {}
+		'native': {}
     });
 
       adapter.createState('countdowns', CountName, 'months', {
