@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Countdown",
   "main": "main.js",
   "repository": {
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "moment":"2.24.0",
-    "@iobroker/adapter-core": "^2.2.1",
+    "@iobroker/adapter-core": "^2.4.0",
     "tableify": "1.1.0"
   },
   "scripts": {
@@ -30,9 +30,9 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2",
-    "mocha": "^7.0.1",
+    "mocha": "^7.2.0",
     "chai": "^4.2.0",
-    "@iobroker/testing": "^2.0.2"
+    "@iobroker/testing": "^2.2.0"
   },
 
   "readmeFilename": "README.md"

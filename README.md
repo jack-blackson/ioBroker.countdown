@@ -76,6 +76,10 @@ Parameters here are:
 
 ## Changelog
 
+## 1.2.0 (2021-04-06) 
+* (jack-blackson) Updated packages, added Sentry
+
+
 ## 1.1.0 (2020-04-02) 
 * (jack-blackson) bugfix Read-Me link
 * (jack-blackson) bugfix repeatCycle
