@@ -668,13 +668,16 @@ function processMessage(obj){
     
     
             adapter.createState('', 'setup', name, {
+                type: 'state',
+                common: {
                     read: true, 
                     write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
                     role: 'value'
-                
+                },
+                native: {}
                 });
             }
         else{
@@ -911,30 +914,42 @@ function createObjects(CountName){
         'native' : {}
     });
     adapter.createState('countdowns', CountName, 'name', {
-        read: true, 
-        write: false, 
-        name: "Name", 
-        type: "string", 
-        def: CountName,
-        role: 'value'
+        type: 'state',
+		common: {
+            read: true, 
+            write: false, 
+            name: "Name", 
+            type: "string", 
+            def: CountName,
+            role: 'value'
+		},
+        native: {}
     });
       
     adapter.createState('countdowns', CountName, 'reached', {
-        read: true, 
-        write: false, 
-        name: "Reached", 
-        type: "boolean", 
-        def: false,
-        role: 'value'
+        type: 'state',
+		common: {
+            read: true, 
+            write: false, 
+            name: "Reached", 
+            type: "boolean", 
+            def: false,
+            role: 'value'
+		},
+		native: {}
     });
 
     adapter.createState('countdowns', CountName, 'years', {
-        read: true, 
-        write: false, 
-        name: "Years", 
-        type: "number", 
-        def: 0,
-        role: 'value'
+        type: 'state',
+		common: {
+            read: true, 
+            write: false, 
+            name: "Years", 
+            type: "number", 
+            def: 0,
+            role: 'value'
+		},
+		native: {}
     });
 
       adapter.createState('countdowns', CountName, 'months', {
