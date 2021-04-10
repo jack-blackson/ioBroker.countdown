@@ -249,7 +249,12 @@
           "materialize":              true,
           "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
           "type":                     "misc-data",
-      "singletonHost":            false
+          "singletonHost":            false,
+          "plugins": {
+            "sentry": {
+                "dsn": "https://ab85ff2e667843a2bd205a1c52ee80f8@sentry.iobroker.net/125"
+            }
+    }
       },
        "native": {
           "interval": 120000,
