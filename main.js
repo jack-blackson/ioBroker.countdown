@@ -1050,7 +1050,7 @@ function createObjects(CountName){
       });
 
       adapter.getState('setup.' + CountName, function (err, state) {
-        createCountdownData(CountName, state.val)
+        //createCountdownData(CountName, state.val) TEMP!!!
         adapter.log.info('Created Countdown ' + CountName);
       });
 }
