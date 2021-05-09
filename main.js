@@ -79,6 +79,7 @@ function startAdapter(options) {
 function main() {
 
     if (AdapterStarted == false){
+        /*
         adapter.setObjectNotExists('setup', {
             common: {
                   name: 'Countdown Masterdata'
@@ -86,6 +87,7 @@ function main() {
             type: 'device',
             'native' : {}
         });
+        
         adapter.setObjectNotExists('countdowns', {
             common: {
                   name: 'Countdown Details'
@@ -111,7 +113,7 @@ function main() {
             def: '',
             role: 'value'
         });
-
+        */
         getVariableTranslation()
         AdapterStarted = true
     }
