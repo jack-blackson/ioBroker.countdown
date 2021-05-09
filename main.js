@@ -903,6 +903,7 @@ function createCountdownTable(){
 
 async function createObjects(CountName){
     const promises = [];
+    /*
     promises.push(adapter.setObjectNotExistsAsync('countdowns.' + CountName, {
         common: {
               name: CountName
@@ -911,7 +912,7 @@ async function createObjects(CountName){
         native : {}
     }));
 
-    
+    */
     promises.push(adapter.createStateAsync('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
