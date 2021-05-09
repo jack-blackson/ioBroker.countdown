@@ -138,7 +138,6 @@ jobs:
           export SENTRY_VERSION=iobroker-countdown@${{ steps.extract_release.outputs.VERSION }}
           sentry-cli releases new $SENTRY_VERSION
           sentry-cli releases finalize $SENTRY_VERSION
-        # Add the following line BEFORE finalize if repositories are connected in Sentry
           sentry-cli releases set-commits $SENTRY_VERSION --auto
 
         # Add the following line BEFORE finalize if sourcemap uploads are needed
