@@ -668,16 +668,12 @@ function processMessage(obj){
     
     
             adapter.createState('', 'setup', name, {
-                type: 'state',
-                common: {
                     read: true, 
                     write: true, 
                     name: name, 
                     type: "string", 
                     def: messageDateString,
-                    role: 'value'
-                },
-                native: {}
+                    role: 'value'  
                 });
             }
         else{
@@ -905,24 +901,26 @@ function createCountdownTable(){
 }
 
 
-function createObjects(CountName){
-    adapter.setObjectNotExists('countdowns.' + CountName, {
+async function createObjects(CountName){
+    const promises = [];
+    promises.push(adapter.setObjectNotExistsAsync('countdowns.' + CountName, {
         common: {
               name: CountName
         },
         type: 'channel',
         native : {}
-    });
+    }));
 
     
-    adapter.createState('countdowns', CountName, 'name', { 
+    promises.push(adapter.createStateAsync('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
             name: "Name", 
             type: 'string', 
             def: CountName,
             role: 'value'
-    });
+    }));
+    
     /*
     adapter.setObjectNotExists('countdowns', CountName, 'name',{
         type: 'state',
@@ -931,16 +929,16 @@ function createObjects(CountName){
     });
       
     */
-    adapter.createState('countdowns', CountName, 'reached', {
+    promises.push(adapter.createStateAsync('countdowns', CountName, 'reached', {
             read: true, 
             write: false, 
             name: "Reached", 
             type: "boolean", 
             def: false,
             role: 'value'
-    });
+    }));
 
-    adapter.createState('countdowns', CountName, 'years', {
+    promises.push(adapter.createStateAsync('countdowns', CountName, 'years', {
             read: true, 
             write: false, 
             name: "Years", 
@@ -948,111 +946,114 @@ function createObjects(CountName){
             def: 0,
             role: 'value'
 		
-    });
+    }));
 
-      adapter.createState('countdowns', CountName, 'months', {
+    promises.push(adapter.createStateAsync('countdowns', CountName, 'months', {
         read: true, 
         write: false, 
         name: "Months", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'days', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'days', {
         read: true, 
         write: false, 
         name: "Days", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'hours', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'hours', {
         read: true, 
         write: false, 
         name: "Hours", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'minutes', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'minutes', {
         read: true, 
         write: false, 
         name: "Minutes", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'inWordsLong', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'inWordsLong', {
         read: true, 
         write: false, 
         name: "Result in Words Long", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'inWordsShort', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'inWordsShort', {
         read: true, 
         write: false, 
         name: "Result in Words Short", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'endDate', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'endDate', {
         read: true, 
         write: false, 
         name: "Enddate", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'totalDays', {
+      promises.push(adapter.createStateAsyn('countdowns', CountName, 'totalDays', {
         read: true, 
         write: false, 
         name: "Total No. of Days", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'totalHours', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'totalHours', {
         read: true, 
         write: false, 
         name: "Total No. of Hours", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'totalWeeks', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'totalWeeks', {
         read: true, 
         write: false, 
         name: "Total No. of Weeks", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }));
 
-      adapter.createState('countdowns', CountName, 'repeatEvery', {
+      promises.push(adapter.createStateAsync('countdowns', CountName, 'repeatEvery', {
         read: true, 
         write: false, 
         name: "Period when the Countdown should be repeated", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }));
+
+      await Promise.all(promises);
+      //adapter.log.info('all states created')
 
       adapter.getState('setup.' + CountName, function (err, state) {
-        //createCountdownData(CountName, state.val) TEMP!!!
+       createCountdownData(CountName, state.val)
         adapter.log.info('Created Countdown ' + CountName);
-      });
+      //});
 }
 
 function countProperties(obj) {
