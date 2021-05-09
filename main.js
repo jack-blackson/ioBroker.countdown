@@ -914,7 +914,7 @@ function createObjects(CountName){
         native : {}
     });
 
-    /*
+    
     adapter.createState('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
@@ -923,13 +923,14 @@ function createObjects(CountName){
             def: CountName,
             role: 'value'
     });
-    */
+    /*
     adapter.setObjectNotExists('countdowns', CountName, 'name',{
         type: 'state',
         common: {name: "Name", type: 'string', role: 'value', read: true, write: false},
         native: []
     });
       
+    */
     adapter.createState('countdowns', CountName, 'reached', {
             read: true, 
             write: false, 
