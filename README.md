@@ -11,6 +11,9 @@
 
 [![NPM](https://nodei.co/npm/iobroker.countdown.png?downloads=true)](https://nodei.co/npm/iobroker.countdown.png?downloads=true/)
 
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+
+
 Countdown Adapter for ioBroker
 ------------------------------------------------------------------------------
 
@@ -76,7 +79,7 @@ Parameters here are:
 
 ## Changelog
 
-## 1.2.0 (2021-04-06) 
+## 1.2.0 (2021-05-09) 
 * (jack-blackson) Updated packages, added Sentry
 
 
@@ -141,7 +144,7 @@ Parameters here are:
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2019-2020 jack-blackson <blacksonj7@gmail.com>
+Copyright (c) 2019-2021 jack-blackson <blacksonj7@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
