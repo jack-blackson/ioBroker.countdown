@@ -1053,7 +1053,7 @@ async function createObjects(CountName){
       adapter.getState('setup.' + CountName, function (err, state) {
        createCountdownData(CountName, state.val)
         adapter.log.info('Created Countdown ' + CountName);
-      //});
+      });
 }
 
 function countProperties(obj) {
