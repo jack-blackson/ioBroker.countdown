@@ -18,7 +18,7 @@
     "url": "https://github.com/jack-blackson/ioBroker.countdown/issues"
   },
   "dependencies": {
-    "moment":"2.25.0",
+    "moment":"2.29.1",
     "@iobroker/adapter-core": "^2.2.1",
     "tableify": "1.1.0"
   },
