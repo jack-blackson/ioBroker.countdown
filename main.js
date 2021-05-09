@@ -412,7 +412,6 @@ function createCountdownData(CountName, CountDate){
     var minutes = duration.minutes() * -1;
 
     var storagename = CountName
-    adapter.log.info('vor Namechange')
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
@@ -1048,7 +1047,7 @@ async function createObjects(CountName){
         role: 'value'
       });
 
-      adapter.log.info('all states created')
+      //adapter.log.info('all states created')
 
       adapter.getState('setup.' + CountName, function (err, state) {
        createCountdownData(CountName, state.val)
