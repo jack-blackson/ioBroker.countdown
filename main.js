@@ -1012,7 +1012,7 @@ async function createObjects(CountName){
         role: 'value'
       });
 
-      await adapter.createStateAsyn('countdowns', CountName, 'totalDays', {
+      await adapter.createStateAsync('countdowns', CountName, 'totalDays', {
         read: true, 
         write: false, 
         name: "Total No. of Days", 
