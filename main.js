@@ -91,7 +91,7 @@ function main() {
 }
 
 function cleanresults(CountName){
-    adapter.log.debug('Start Loop Setup')
+    adapter.log.debug('Start Clean results')
 
     // clean results when a setup is deleted
     if(CountName == null){
@@ -880,23 +880,9 @@ function createCountdownTable(){
 
 
 async function createObjects(CountName){
+    adapter.log.debug('Start creating Objects')
     const promises = await Promise.all([
 
-
-
-
-
-    
-    /*
-    promises.push(adapter.setObjectNotExistsAsync('countdowns.' + CountName, {
-        common: {
-              name: CountName
-        },
-        type: 'channel',
-        native : {}
-    }));
-
-    */
     adapter.createStateAsync('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
@@ -906,14 +892,7 @@ async function createObjects(CountName){
             role: 'value'
     }),
     
-    /*
-    adapter.setObjectNotExists('countdowns', CountName, 'name',{
-        type: 'state',
-        common: {name: "Name", type: 'string', role: 'value', read: true, write: false},
-        native: []
-    });
-      
-    */
+
     adapter.createStateAsync('countdowns', CountName, 'reached', {
             read: true, 
             write: false, 
