@@ -478,7 +478,7 @@ function createCountdownData(CountName, CountDate){
             if (months > 1){
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
             }
-            else (months = 1) {
+            else if (months = 1) {
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonth;
             }
         }
@@ -490,7 +490,7 @@ function createCountdownData(CountName, CountDate){
             if (days > 1){
                 CountDowninWordsLong += ' ' + days+ ' ' + textDays;
             }
-            else (days = 1) {
+            else if (days = 1) {
                 CountDowninWordsLong += ' ' + days+ ' ' + textDay;
             }
         }
@@ -501,7 +501,7 @@ function createCountdownData(CountName, CountDate){
             if (hours > 1){
                 CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
             }
-            else (hours = 1){
+            else if (hours = 1){
                 CountDowninWordsLong += ' ' + hours+' ' + textHour;
             } 
         }
@@ -512,7 +512,7 @@ function createCountdownData(CountName, CountDate){
             if (minutes > 1){
                 CountDowninWordsLong += ' ' + minutes+ ' ' + textMinutes;
             }
-            else{
+            else {
                 CountDowninWordsLong += ' ' + minutes+' ' + textMinute;
             }     
         }
