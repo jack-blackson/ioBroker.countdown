@@ -871,7 +871,8 @@ function processMessage(obj){
         deleteCountdownSetup(name)
         deleteCountdownResults(name)
 
-    }
+        }
+    }   
 }
 
 async function createSetupEntry(day,month,year,hour,minute,name){
