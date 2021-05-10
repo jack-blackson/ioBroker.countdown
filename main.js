@@ -902,7 +902,7 @@ async function processMessage(obj){
 
 async function createSetupEntry(day,month,year,hour,minute,name){
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
-    const promises = await adapter.createState('', 'setup', name, {
+    const promises = await adapter.createStateAsync('', 'setup', name, {
         read: true, 
         write: true, 
         name: name, 
@@ -914,7 +914,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
 }
 
 async function createSetupEntryCompleteDate(messageDateString,name){
-    const promises = await adapter.createState('', 'setup', name, {
+    const promises = await adapter.createStateAsync('', 'setup', name, {
         read: true, 
         write: true, 
         name: name, 
