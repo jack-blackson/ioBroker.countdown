@@ -906,7 +906,7 @@ async function processMessage(obj){
 
 async function createSetupEntry(day,month,year,hour,minute,name){
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
-
+    /*
     const promises = await adapter.setObjectNotExistsAsync('setup.' + name, {
         type: 'state',
         common: {
@@ -919,13 +919,13 @@ async function createSetupEntry(day,month,year,hour,minute,name){
         },
         native: {}
     });
+    */
     adapter.log.debug('Setup Entry created')
 
-    /*
-    if (adapter.existsState('setup.' + name)){
+    
+    if (adapter.getObject('setup.' + name)){
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
         adapter.log.debug('Setup Entry updated')
-
     } 
     else {
         const promises = await adapter.createStateAsync('', 'setup', name, {
@@ -938,7 +938,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
           })
           adapter.log.debug('Setup Entry created')
     }
-    */
+    
 }
 
 async function createSetupEntryCompleteDate(messageDateString,name){
