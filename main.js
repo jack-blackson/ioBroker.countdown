@@ -362,7 +362,7 @@ function createCountdownData(CountName, CountDate){
         repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
         CountDate = CountDate.slice(0,SearchForCycle)
     }
-    adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
+    //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
 
     var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
 
