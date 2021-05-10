@@ -907,7 +907,7 @@ async function processMessage(obj){
 async function createSetupEntry(day,month,year,hour,minute,name){
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
 
-    adapter.setObjectNotExistsAsync('setup.' + name, {
+    const promises = await adapter.setObjectNotExistsAsync('setup.' + name, {
         type: 'state',
         common: {
             name: name,
