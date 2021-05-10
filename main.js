@@ -54,7 +54,7 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     adapter.on('message', obj => {
-        adapter.log.debug('received message!');
+        //adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
             adapter.log.debug('received send command!');
@@ -77,7 +77,6 @@ function startAdapter(options) {
 
 
 function main() {
-    adapter.log.debug('Start Main')
     if (AdapterStarted == false){
         
         getVariableTranslation()
@@ -98,6 +97,7 @@ function cleanresults(CountName){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
+                adapter.log.debug('checking countdown "' + channel.common.name)
                 adapter.getObject('setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
@@ -124,13 +124,13 @@ function deleteCountdownSetup(CountName){
 
 
 function loopsetup(){
-    adapter.log.debug('Start Loop Setup')
+    //adapter.log.debug('Start Loop Setup')
 
     tableArray = [];
 
     adapter.getStatesOf("setup", function(error, result) {
         for (const id1 of result) {
-            adapter.log.debug('Setup Entries found: ' + id1.common.name )
+            //adapter.log.debug('Setup Entries found: ' + id1.common.name )
 
             adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
@@ -140,7 +140,7 @@ function loopsetup(){
                         const CountName = id1.common.name
                         const done = await createObjects(CountName)
                         adapter.getState('setup.' + CountName, function (err, state) {
-                            adapter.log.debug('Object created')
+                            //adapter.log.debug('Object created')
 
                             createCountdownData(CountName, state.val)
                              adapter.log.info('Created Countdown ' + CountName);
@@ -569,7 +569,6 @@ function createCountdownData(CountName, CountDate){
         }
 
         tableArray.push(tableContentTemp);
-        adapter.log.debug('Created Countdown Data')
 
         createCountdownTable()
 
@@ -624,20 +623,8 @@ async function processMessage(obj){
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
                 messageDateString += repeatCycle
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                adapter.log.debug('Ready to create setup')
                 loopsetup();
 
-                /*
-                adapter.createState('', 'setup', name, {
-                    read: true, 
-                    write: true, 
-                    name: name, 
-                    type: "string", 
-                    def: messageDateString,
-                    role: 'value'
-                
-                });
-                */
             }
             else{
                 // invalid date
@@ -656,7 +643,6 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            adapter.log.debug('Ready to create setup')
             loopsetup();
             /*
             adapter.createState('', 'setup', name, {
@@ -684,7 +670,6 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            adapter.log.debug('Ready to create setup')
             loopsetup();
             /*
             adapter.createState('', 'setup', name, {
@@ -712,7 +697,6 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            adapter.log.debug('Ready to create setup')
             loopsetup();                            
             /*
             adapter.createState('', 'setup', name, {
@@ -743,7 +727,6 @@ async function processMessage(obj){
                                     moment(newDate).format('mm') + ':00' 
 
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            adapter.log.debug('Ready to create setup')
             loopsetup();
             /*
             adapter.createState('', 'setup', name, {
@@ -772,7 +755,6 @@ async function processMessage(obj){
                                     moment(newDate).format('mm') + ':00' 
 
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            adapter.log.debug('Ready to create setup')
             loopsetup();
 
             /*
@@ -878,7 +860,6 @@ async function processMessage(obj){
     
         if (erroroccured == false){
             const done = await createSetupEntry(day,month,year,hour,minute,name);
-            adapter.log.debug('Ready to create setup')
             loopsetup();
             /*
             var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
@@ -957,7 +938,7 @@ function createCountdownTable(){
 
 
 async function createObjects(CountName){
-    adapter.log.debug('Start creating Objects')
+    //adapter.log.debug('Start creating Objects')
     const promises = await Promise.all([
 
     adapter.createStateAsync('countdowns', CountName, 'name', { 
