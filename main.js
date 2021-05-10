@@ -77,7 +77,7 @@ function startAdapter(options) {
 
 
 function main() {
-
+    adapter.log.debug('Start Main')
     if (AdapterStarted == false){
         
         getVariableTranslation()
@@ -91,6 +91,8 @@ function main() {
 }
 
 function cleanresults(CountName){
+    adapter.log.debug('Start Loop Setup')
+
     // clean results when a setup is deleted
     if(CountName == null){
         // function started without parameter from normal loop
@@ -122,6 +124,8 @@ function deleteCountdownSetup(CountName){
 
 
 function loopsetup(){
+    adapter.log.debug('Start Loop Setup')
+
     tableArray = [];
 
     adapter.getStatesOf("setup", function(error, result) {
@@ -135,6 +139,8 @@ function loopsetup(){
                         const CountName = id1.common.name
                         const done = await createObjects(CountName)
                         adapter.getState('setup.' + CountName, function (err, state) {
+                            adapter.log.debug('Object created')
+
                             createCountdownData(CountName, state.val)
                              adapter.log.info('Created Countdown ' + CountName);
                            });
@@ -558,6 +564,8 @@ function createCountdownData(CountName, CountDate){
         }
 
         tableArray.push(tableContentTemp);
+        adapter.log.debug('Created Countdown Data')
+
         createCountdownTable()
 
     }
