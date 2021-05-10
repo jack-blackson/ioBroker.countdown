@@ -907,7 +907,21 @@ async function processMessage(obj){
 async function createSetupEntry(day,month,year,hour,minute,name){
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
 
-    if (existsState('setup.' + name)){
+    adapter.setObjectNotExistsAsync('setup.' + name, {
+        type: 'state',
+        common: {
+            name: name,
+            type: 'string',
+            def: datestring,
+            read: true,
+            write: false
+        },
+        native: {}
+    });
+    adapter.log.debug('Setup Entry created')
+
+    /*
+    if (adapter.existsState('setup.' + name)){
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
         adapter.log.debug('Setup Entry updated')
 
@@ -923,6 +937,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
           })
           adapter.log.debug('Setup Entry created')
     }
+    */
 }
 
 async function createSetupEntryCompleteDate(messageDateString,name){
