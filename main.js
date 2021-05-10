@@ -920,10 +920,16 @@ async function createSetupEntry(day,month,year,hour,minute,name){
         native: {}
     });
     */
-    adapter.log.debug('Setup Entry created')
+    //adapter.log.debug('Setup Entry created')
 
     
-    if (adapter.getObject('setup.' + name)){
+    //if (adapter.getObject('setup.' + name)){
+    //if (adapter.existsState('setup.' + name)){
+    const obj_new = await adapter.getObjectAsync('setup.' + name);
+        //adapter.log.warn("got object " + JSON.stringify(obj_new));
+
+
+    if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
         adapter.log.debug('Setup Entry updated')
     } 
