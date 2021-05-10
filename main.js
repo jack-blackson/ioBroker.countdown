@@ -618,6 +618,11 @@ async function processMessage(obj){
              
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
                 messageDateString += repeatCycle
+                const done = await createSetupEntryCompleteDate(messageDateString,name);
+                adapter.log.debug('Ready to create setup')
+                loopsetup();
+
+                /*
                 adapter.createState('', 'setup', name, {
                     read: true, 
                     write: true, 
@@ -627,6 +632,7 @@ async function processMessage(obj){
                     role: 'value'
                 
                 });
+                */
             }
             else{
                 // invalid date
@@ -644,7 +650,10 @@ async function processMessage(obj){
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-    
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            adapter.log.debug('Ready to create setup')
+            loopsetup();
+            /*
             adapter.createState('', 'setup', name, {
                     read: true, 
                     write: true, 
@@ -652,7 +661,8 @@ async function processMessage(obj){
                     type: "string", 
                     def: messageDateString,
                     role: 'value'  
-                });
+                });*/
+
             }
         else{
                 adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
@@ -668,7 +678,10 @@ async function processMessage(obj){
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-    
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            adapter.log.debug('Ready to create setup')
+            loopsetup();
+            /*
             adapter.createState('', 'setup', name, {
                     read: true, 
                     write: true, 
@@ -677,7 +690,7 @@ async function processMessage(obj){
                     def: messageDateString,
                     role: 'value'
                 
-            });
+            }); */
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
@@ -693,7 +706,10 @@ async function processMessage(obj){
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-    
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            adapter.log.debug('Ready to create setup')
+            loopsetup();                            
+            /*
             adapter.createState('', 'setup', name, {
                     read: true, 
                     write: true, 
@@ -702,7 +718,7 @@ async function processMessage(obj){
                     def: messageDateString,
                     role: 'value'
                 
-            });
+            });*/
     
         }
         
@@ -721,7 +737,10 @@ async function processMessage(obj){
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                     moment(newDate).format('mm') + ':00' 
 
-
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            adapter.log.debug('Ready to create setup')
+            loopsetup();
+            /*
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: true, 
@@ -730,7 +749,7 @@ async function processMessage(obj){
                 def: messageDateString,
                 role: 'value'
             
-            });
+            });*/
 
         }
         else{
@@ -747,7 +766,11 @@ async function processMessage(obj){
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                     moment(newDate).format('mm') + ':00' 
 
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            adapter.log.debug('Ready to create setup')
+            loopsetup();
 
+            /*
             adapter.createState('', 'setup', name, {
                 read: true, 
                 write: true, 
@@ -756,7 +779,7 @@ async function processMessage(obj){
                 def: messageDateString,
                 role: 'value'
             
-            });
+            });*/
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
@@ -887,6 +910,20 @@ async function createSetupEntry(day,month,year,hour,minute,name){
         role: 'value'
       })
     adapter.log.debug('Setup Entry created')
+}
+
+async function createSetupEntryCompleteDate(messageDateString,name){
+    const promises = await adapter.createState('', 'setup', name, {
+        read: true, 
+        write: true, 
+        name: name, 
+        type: "string", 
+        def: messageDateString,
+        role: 'value'
+    
+    });
+    adapter.log.debug('Setup Entry created')
+
 }
 
 function createCountdownTable(){
