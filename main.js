@@ -907,8 +907,10 @@ async function processMessage(obj){
 async function createSetupEntry(day,month,year,hour,minute,name){
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
 
-    if (adapter.existsState('setup.' + name)){
+    if (existsState('setup.' + name)){
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
+        adapter.log.debug('Setup Entry updated')
+
     } 
     else {
         const promises = await adapter.createStateAsync('', 'setup', name, {
