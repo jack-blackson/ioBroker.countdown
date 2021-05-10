@@ -849,6 +849,9 @@ function processMessage(obj){
         }
     
         if (erroroccured == false){
+            const done = await createSetupEntry(day,month,year,hour,minute,name)
+            loopsetup();
+            /*
             var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
             adapter.createState('', 'setup', name, {
                 read: true, 
@@ -861,6 +864,7 @@ function processMessage(obj){
                 loopsetup()
               });
         }
+        */
     }
     else if (countProperties(obj.message) == 1){
         adapter.log.info('Delete countdown: ' +name);
@@ -868,6 +872,18 @@ function processMessage(obj){
         deleteCountdownResults(name)
 
     }
+}
+
+async function createSetupEntry(day,month,year,hour,minute,name){
+    var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
+    const promises = await adapter.createState('', 'setup', name, {
+        read: true, 
+        write: true, 
+        name: name, 
+        type: "string", 
+        def: datestring,
+        role: 'value'
+      }
 }
 
 function createCountdownTable(){
