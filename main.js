@@ -906,29 +906,8 @@ async function processMessage(obj){
 
 async function createSetupEntry(day,month,year,hour,minute,name){
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
-    /*
-    const promises = await adapter.setObjectNotExistsAsync('setup.' + name, {
-        type: 'state',
-        common: {
-            name: name,
-            role: 'value',
-            type: 'string',
-            def: datestring,
-            read: true,
-            write: false
-        },
-        native: {}
-    });
-    */
-    //adapter.log.debug('Setup Entry created')
 
-    
-    //if (adapter.getObject('setup.' + name)){
-    //if (adapter.existsState('setup.' + name)){
     const obj_new = await adapter.getObjectAsync('setup.' + name);
-        //adapter.log.warn("got object " + JSON.stringify(obj_new));
-
-
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
         adapter.log.debug('Setup Entry updated')
@@ -948,6 +927,13 @@ async function createSetupEntry(day,month,year,hour,minute,name){
 }
 
 async function createSetupEntryCompleteDate(messageDateString,name){
+    const obj_new = await adapter.getObjectAsync('setup.' + name);
+    if (obj_new != null) {
+        const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: messageDateString, ack: true});
+        adapter.log.debug('Setup Entry updated')
+    } 
+    else {
+
     const promises = await adapter.createStateAsync('', 'setup', name, {
         read: true, 
         write: true, 
@@ -956,9 +942,9 @@ async function createSetupEntryCompleteDate(messageDateString,name){
         def: messageDateString,
         role: 'value'
     
-    });
-    adapter.log.debug('Setup Entry created')
-
+        });
+        adapter.log.debug('Setup Entry created')
+    }
 }
 
 function createCountdownTable(){
