@@ -462,47 +462,51 @@ function createCountdownData(CountName, CountDate){
 
         //years
         if (years != 0){
-            CountDowninWordsShort = years+ textYearsShort;
             if (years > 1){
                 CountDowninWordsLong = years+' ' +  textYears;
+                CountDowninWordsShort = years+ textYearsShort;
             }
             else if (years = 1){
                 CountDowninWordsLong = years+' ' +  textYear;
+                CountDowninWordsShort = years+ textYearsShort;
             }
         }
 
         //months
         if (months != 0 || years != 0){
-            CountDowninWordsShort += ' ' + months+textMonthsShort;
 
             if (months > 1){
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
+                CountDowninWordsShort += ' ' + months+textMonthsShort;
             }
             else if (months = 1) {
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonth;
+                CountDowninWordsShort += ' ' + months+textMonthsShort;
             }
         }
 
         //days
         if (days != 0 || months != 0 || years != 0){
-            CountDowninWordsShort += ' ' + days+textDaysShort;
 
             if (days > 1){
                 CountDowninWordsLong += ' ' + days+ ' ' + textDays;
+                CountDowninWordsShort += ' ' + days+textDaysShort;
             }
             else if (days = 1) {
                 CountDowninWordsLong += ' ' + days+ ' ' + textDay;
+                CountDowninWordsShort += ' ' + days+textDaysShort;
             }
         }
 
         //hours
         if (hours != 0 && years == 0 && months == 0){
-            CountDowninWordsShort += ' ' + hours+textHoursShort;
             if (hours > 1){
                 CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
+                CountDowninWordsShort += ' ' + hours+textHoursShort;
             }
             else if (hours = 1){
                 CountDowninWordsLong += ' ' + hours+' ' + textHour;
+                CountDowninWordsShort += ' ' + hours+textHoursShort;
             } 
         }
 
