@@ -129,8 +129,9 @@ function loopsetup(){
     tableArray = [];
 
     adapter.getStatesOf("setup", function(error, result) {
-        adapter.log.debug('Setup Entries found: ', result.length)
         for (const id1 of result) {
+            adapter.log.debug('Setup Entries found: ' + id1.common.name )
+
             adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
                 adapter.getObject('countdowns.' + id1.common.name + '.name', async function (err1, result1) {
