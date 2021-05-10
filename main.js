@@ -849,7 +849,8 @@ async function processMessage(obj){
         }
     
         if (erroroccured == false){
-            const done = await createSetupEntry(day,month,year,hour,minute,name)
+            const done = await createSetupEntry(day,month,year,hour,minute,name);
+            adapter.log.debug('Ready to create setup')
             loopsetup();
             /*
             var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
@@ -885,6 +886,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
         def: datestring,
         role: 'value'
       })
+    adapter.log.debug('Setup Entry created')
 }
 
 function createCountdownTable(){
