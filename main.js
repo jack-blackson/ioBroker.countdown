@@ -883,7 +883,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
         type: "string", 
         def: datestring,
         role: 'value'
-      }
+      })
 }
 
 function createCountdownTable(){
