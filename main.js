@@ -941,6 +941,14 @@ async function createObjects(CountName){
     //adapter.log.debug('Start creating Objects')
     const promises = await Promise.all([
 
+    adapter.setObjectNotExistsAsync('countdowns.' + CountName, {
+            common: {
+                  name: CountName
+            },
+            type: 'channel',
+            'native' : {}
+    }),
+
     adapter.createStateAsync('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
