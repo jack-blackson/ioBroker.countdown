@@ -911,6 +911,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
         type: 'state',
         common: {
             name: name,
+            role: 'value',
             type: 'string',
             def: datestring,
             read: true,
