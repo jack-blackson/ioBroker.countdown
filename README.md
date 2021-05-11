@@ -81,6 +81,8 @@ Parameters here are:
 
 ## 1.2.0 (2021-05-09) 
 * (jack-blackson) Updated packages, added Sentry
+* (jack-blackson) Fixes for JS-controller 3.3
+* (jack-blackson) Fix that countdowns are created immediatly
 
 
 ## 1.1.0 (2020-04-02) 
