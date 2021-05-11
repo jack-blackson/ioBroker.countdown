@@ -54,7 +54,7 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     adapter.on('message', obj => {
-        adapter.log.debug('received message!');
+        //adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
             adapter.log.debug('received send command!');
@@ -77,41 +77,8 @@ function startAdapter(options) {
 
 
 function main() {
-
     if (AdapterStarted == false){
-        adapter.setObjectNotExists('setup', {
-            common: {
-                  name: 'Countdown Masterdata'
-            },
-            type: 'device',
-            'native' : {}
-        });
-        adapter.setObjectNotExists('countdowns', {
-            common: {
-                  name: 'Countdown Details'
-            },
-            type: 'device',
-            'native' : {}
-        });
-
-        adapter.createState('', '', 'jsonContent', {
-            read: true, 
-            write: false, 
-            name: "JSON Content", 
-            type: "string", 
-            def: '',
-            role: 'value'
-        });
-
-        adapter.createState('', '', 'htmlContent', {
-            read: true, 
-            write: false, 
-            name: "HTML Content", 
-            type: "string", 
-            def: '',
-            role: 'value'
-        });
-
+        
         getVariableTranslation()
         AdapterStarted = true
     }
@@ -120,16 +87,17 @@ function main() {
 
     cleanresults()
 
-    //adapter.config.interval = 60000;
-    //adapter.subscribeStates('*')
 }
 
 function cleanresults(CountName){
+    adapter.log.debug('Start Clean results')
+
     // clean results when a setup is deleted
     if(CountName == null){
         // function started without parameter from normal loop
         adapter.getChannelsOf('countdowns', function (err, result) {
             for (const channel of result) {
+                adapter.log.debug('checking countdown "' + channel.common.name)
                 adapter.getObject('setup.' + channel.common.name, function (err, state) {
                     //check if setup is still existing
                     if(state === null && typeof state === "object") {
@@ -156,17 +124,27 @@ function deleteCountdownSetup(CountName){
 
 
 function loopsetup(){
+    //adapter.log.debug('Start Loop Setup')
+
     tableArray = [];
 
     adapter.getStatesOf("setup", function(error, result) {
-
         for (const id1 of result) {
+            //adapter.log.debug('Setup Entries found: ' + id1.common.name )
+
             adapter.getState('setup.' + id1.common.name, function (err, state) {
                 //prüfen ob Device schon vorhanden ist
-                adapter.getObject('countdowns.' + id1.common.name + '.name', function (err1, result1) {
+                adapter.getObject('countdowns.' + id1.common.name + '.name', async function (err1, result1) {
 
                     if(result1 === null && typeof result1 === "object") {
-                        createObjects(id1.common.name)
+                        const CountName = id1.common.name
+                        const done = await createObjects(CountName)
+                        adapter.getState('setup.' + CountName, function (err, state) {
+                            //adapter.log.debug('Object created')
+
+                            createCountdownData(CountName, state.val)
+                             adapter.log.info('Created Countdown ' + CountName);
+                           });
                     }
                     else{
                         createCountdownData(id1.common.name,state.val)
@@ -385,7 +363,7 @@ function createCountdownData(CountName, CountDate){
         repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
         CountDate = CountDate.slice(0,SearchForCycle)
     }
-    adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
+    //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
 
     var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
 
@@ -412,7 +390,6 @@ function createCountdownData(CountName, CountDate){
     var minutes = duration.minutes() * -1;
 
     var storagename = CountName
-
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
 
@@ -485,47 +462,51 @@ function createCountdownData(CountName, CountDate){
 
         //years
         if (years != 0){
-            CountDowninWordsShort = years+ textYearsShort;
             if (years > 1){
                 CountDowninWordsLong = years+' ' +  textYears;
+                CountDowninWordsShort = years+ textYearsShort;
             }
-            else{
+            else if (years = 1){
                 CountDowninWordsLong = years+' ' +  textYear;
+                CountDowninWordsShort = years+ textYearsShort;
             }
         }
 
         //months
         if (months != 0 || years != 0){
-            CountDowninWordsShort += ' ' + months+textMonthsShort;
 
             if (months > 1){
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
+                CountDowninWordsShort += ' ' + months+textMonthsShort;
             }
-            else{
+            else if (months = 1) {
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonth;
+                CountDowninWordsShort += ' ' + months+textMonthsShort;
             }
         }
 
         //days
         if (days != 0 || months != 0 || years != 0){
-            CountDowninWordsShort += ' ' + days+textDaysShort;
 
             if (days > 1){
                 CountDowninWordsLong += ' ' + days+ ' ' + textDays;
+                CountDowninWordsShort += ' ' + days+textDaysShort;
             }
-            else{
+            else if (days = 1) {
                 CountDowninWordsLong += ' ' + days+ ' ' + textDay;
+                CountDowninWordsShort += ' ' + days+textDaysShort;
             }
         }
 
         //hours
         if (hours != 0 && years == 0 && months == 0){
-            CountDowninWordsShort += ' ' + hours+textHoursShort;
             if (hours > 1){
                 CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
+                CountDowninWordsShort += ' ' + hours+textHoursShort;
             }
-            else{
+            else if (hours = 1){
                 CountDowninWordsLong += ' ' + hours+' ' + textHour;
+                CountDowninWordsShort += ' ' + hours+textHoursShort;
             } 
         }
 
@@ -535,7 +516,7 @@ function createCountdownData(CountName, CountDate){
             if (minutes > 1){
                 CountDowninWordsLong += ' ' + minutes+ ' ' + textMinutes;
             }
-            else{
+            else {
                 CountDowninWordsLong += ' ' + minutes+' ' + textMinute;
             }     
         }
@@ -588,12 +569,13 @@ function createCountdownData(CountName, CountDate){
         }
 
         tableArray.push(tableContentTemp);
+
         createCountdownTable()
 
     }
 }
 
-function processMessage(obj){
+async function processMessage(obj){
     var year = 0
     var month = '0'
     var day = '0'
@@ -640,15 +622,9 @@ function processMessage(obj){
              
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
                 messageDateString += repeatCycle
-                adapter.createState('', 'setup', name, {
-                    read: true, 
-                    write: true, 
-                    name: name, 
-                    type: "string", 
-                    def: messageDateString,
-                    role: 'value'
-                
-                });
+                const done = await createSetupEntryCompleteDate(messageDateString,name);
+                loopsetup();
+
             }
             else{
                 // invalid date
@@ -666,16 +642,9 @@ function processMessage(obj){
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-    
-            adapter.createState('', 'setup', name, {
-                    read: true, 
-                    write: true, 
-                    name: name, 
-                    type: "string", 
-                    def: messageDateString,
-                    role: 'value'
-                
-                });
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            loopsetup();
+        
             }
         else{
                 adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
@@ -691,16 +660,9 @@ function processMessage(obj){
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-    
-            adapter.createState('', 'setup', name, {
-                    read: true, 
-                    write: true, 
-                    name: name, 
-                    type: "string", 
-                    def: messageDateString,
-                    role: 'value'
-                
-            });
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            loopsetup();
+            
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
@@ -716,16 +678,8 @@ function processMessage(obj){
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-    
-            adapter.createState('', 'setup', name, {
-                    read: true, 
-                    write: true, 
-                    name: name, 
-                    type: "string", 
-                    def: messageDateString,
-                    role: 'value'
-                
-            });
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            loopsetup();                      
     
         }
         
@@ -744,17 +698,9 @@ function processMessage(obj){
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                     moment(newDate).format('mm') + ':00' 
 
-
-            adapter.createState('', 'setup', name, {
-                read: true, 
-                write: true, 
-                name: name, 
-                type: "string", 
-                def: messageDateString,
-                role: 'value'
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            loopsetup();
             
-            });
-
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
@@ -770,16 +716,9 @@ function processMessage(obj){
                                     moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                     moment(newDate).format('mm') + ':00' 
 
+            const done = await createSetupEntryCompleteDate(messageDateString,name);
+            loopsetup();
 
-            adapter.createState('', 'setup', name, {
-                read: true, 
-                write: true, 
-                name: name, 
-                type: "string", 
-                def: messageDateString,
-                role: 'value'
-            
-            });
         }
         else{
             adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
@@ -872,24 +811,59 @@ function processMessage(obj){
         }
     
         if (erroroccured == false){
-            var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
-            adapter.createState('', 'setup', name, {
-                read: true, 
-                write: true, 
-                name: name, 
-                type: "string", 
-                def: datestring,
-                role: 'value'
-              },function(){
-                loopsetup()
-              });
-        }
+            const done = await createSetupEntry(day,month,year,hour,minute,name);
+            loopsetup();
+            
     }
     else if (countProperties(obj.message) == 1){
         adapter.log.info('Delete countdown: ' +name);
         deleteCountdownSetup(name)
         deleteCountdownResults(name)
 
+        }
+    }   
+}
+
+async function createSetupEntry(day,month,year,hour,minute,name){
+    var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
+
+    const obj_new = await adapter.getObjectAsync('setup.' + name);
+    if (obj_new != null) {
+        const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
+        adapter.log.debug('Setup Entry updated')
+    } 
+    else {
+        const promises = await adapter.createStateAsync('', 'setup', name, {
+            read: true, 
+            write: true, 
+            name: name, 
+            type: "string", 
+            def: datestring,
+            role: 'value'
+          })
+          adapter.log.debug('Setup Entry created')
+    }
+    
+}
+
+async function createSetupEntryCompleteDate(messageDateString,name){
+    const obj_new = await adapter.getObjectAsync('setup.' + name);
+    if (obj_new != null) {
+        const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: messageDateString, ack: true});
+        adapter.log.debug('Setup Entry updated')
+    } 
+    else {
+
+    const promises = await adapter.createStateAsync('', 'setup', name, {
+        read: true, 
+        write: true, 
+        name: name, 
+        type: "string", 
+        def: messageDateString,
+        role: 'value'
+    
+        });
+        adapter.log.debug('Setup Entry created')
     }
 }
 
@@ -902,144 +876,150 @@ function createCountdownTable(){
 }
 
 
-function createObjects(CountName){
-    adapter.setObjectNotExists('countdowns.' + CountName, {
-        common: {
-              name: CountName
-        },
-        type: 'channel',
-        'native' : {}
-    });
-    adapter.createState('countdowns', CountName, 'name', {
-        read: true, 
-        write: false, 
-        name: "Name", 
-        type: "string", 
-        def: CountName,
-        role: 'value'
-    });
-      
-    adapter.createState('countdowns', CountName, 'reached', {
-        read: true, 
-        write: false, 
-        name: "Reached", 
-        type: "boolean", 
-        def: false,
-        role: 'value'
-    });
+async function createObjects(CountName){
+    //adapter.log.debug('Start creating Objects')
+    const promises = await Promise.all([
 
-    adapter.createState('countdowns', CountName, 'years', {
-        read: true, 
-        write: false, 
-        name: "Years", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-    });
+    adapter.setObjectNotExistsAsync('countdowns.' + CountName, {
+            common: {
+                  name: CountName
+            },
+            type: 'channel',
+            'native' : {}
+    }),
 
-      adapter.createState('countdowns', CountName, 'months', {
+    adapter.createStateAsync('countdowns', CountName, 'name', { 
+            read: true, 
+            write: true, 
+            name: "Name", 
+            type: 'string', 
+            def: CountName,
+            role: 'value'
+    }),
+    
+
+    adapter.createStateAsync('countdowns', CountName, 'reached', {
+            read: true, 
+            write: true, 
+            name: "Reached", 
+            type: "boolean", 
+            def: false,
+            role: 'value'
+    }),
+
+    adapter.createStateAsync('countdowns', CountName, 'years', {
+            read: true, 
+            write: true, 
+            name: "Years", 
+            type: "number", 
+            def: 0,
+            role: 'value'
+		
+    }),
+
+    adapter.createStateAsync('countdowns', CountName, 'months', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Months", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'days', {
+      adapter.createStateAsync('countdowns', CountName, 'days', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Days", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'hours', {
+      adapter.createStateAsync('countdowns', CountName, 'hours', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Hours", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'minutes', {
+      adapter.createStateAsync('countdowns', CountName, 'minutes', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Minutes", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'inWordsLong', {
+      adapter.createStateAsync('countdowns', CountName, 'inWordsLong', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Result in Words Long", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'inWordsShort', {
+     adapter.createStateAsync('countdowns', CountName, 'inWordsShort', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Result in Words Short", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'endDate', {
+      adapter.createStateAsync('countdowns', CountName, 'endDate', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Enddate", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'totalDays', {
+      adapter.createStateAsync('countdowns', CountName, 'totalDays', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Total No. of Days", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'totalHours', {
+      adapter.createStateAsync('countdowns', CountName, 'totalHours', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Total No. of Hours", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'totalWeeks', {
+      adapter.createStateAsync('countdowns', CountName, 'totalWeeks', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Total No. of Weeks", 
         type: "number", 
         def: 0,
         role: 'value'
-      });
+      }),
 
-      adapter.createState('countdowns', CountName, 'repeatEvery', {
+      adapter.createStateAsync('countdowns', CountName, 'repeatEvery', {
         read: true, 
-        write: false, 
+        write: true, 
         name: "Period when the Countdown should be repeated", 
         type: "string", 
         def: '',
         role: 'value'
-      });
+      })
 
-      adapter.getState('setup.' + CountName, function (err, state) {
-        createCountdownData(CountName, state.val)
-        adapter.log.info('Created Countdown ' + CountName);
-      });
+    ])
+      //adapter.log.info('all states created')
+
+      
 }
 
 function countProperties(obj) {

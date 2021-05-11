@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "news": {
+        "1.2.0": {
+          "en": "Updated packages, added Sentry",
+          "de": "Aktualisierte Pakete, Sentry hinzugefügt",
+          "ru": "Обновлены пакеты, добавлен Sentry",
+          "pt": "Pacotes atualizados, Sentry adicionado",
+          "nl": "Bijgewerkte pakketten, Sentry toegevoegd",
+          "fr": "Paquets mis à jour, Sentry ajouté",
+          "it": "Pacchetti aggiornati, aggiunta Sentry",
+          "es": "Paquetes actualizados, Sentry agregado",
+          "pl": "Zaktualizowane pakiety, dodano Sentry",
+          "zh-cn": "更新了软件包，添加了Sentry"
+      },
         "1.1.0": {
           "en": "Bugfix readme link and repeatcycle",
           "de": "Bugfix Readme Link und Wiederholungszyklus",
@@ -237,7 +249,14 @@
           "materialize":              true,
           "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
           "type":                     "misc-data",
-      "singletonHost":            false
+          "singletonHost":            false,
+          "connectionType": "local",
+          "dataSource": "push",
+          "plugins": {
+            "sentry": {
+                "dsn": "https://ab85ff2e667843a2bd205a1c52ee80f8@sentry.iobroker.net/125"
+            }
+    }
       },
        "native": {
           "interval": 120000,
@@ -251,5 +270,50 @@
           "endDate":true
       },
       "objects": [],
-      "instanceObjects": []
+      "instanceObjects": [
+        {
+          "_id": "setup",
+          "type": "device",
+          "common": {
+              "role": "setup",
+              "name": "Setup for Countdowns"
+          },
+          "native": {}
+      },
+      {
+        "_id": "countdowns",
+        "type": "device",
+        "common": {
+            "role": "countdowns",
+            "name": "Countdown Details"
+        },
+        "native": {}
+    },
+    {
+      "_id": "jsonContent",
+      "type": "state",
+      "common": {
+          "name": "JSON Content",
+          "type": "string",
+          "role": "value",
+          "read": true,
+          "write": false,
+          "def": ""
+      },
+      "native": {} 
+  },
+  {
+    "_id": "htmlContent",
+    "type": "state",
+    "common": {
+        "name": "HTML Content",
+        "type": "string",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": ""
+    },
+    "native": {} 
+  }
+      ]
   }
