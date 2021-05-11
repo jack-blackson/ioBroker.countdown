@@ -952,6 +952,7 @@ async function createObjects(CountName){
     adapter.createStateAsync('countdowns', CountName, 'name', { 
             read: true, 
             write: false, 
+            ack: true,
             name: "Name", 
             type: 'string', 
             def: CountName,
