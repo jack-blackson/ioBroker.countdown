@@ -64,7 +64,7 @@ function startAdapter(options) {
     });
     
     adapter.on(`unload`, callback => {
-        adapter.log.info(`Stopping countdown adapter!`);
+        //adapter.log.info(`Stopping countdown adapter!`);
         clearInterval(Interval);
         callback && callback();
     });
@@ -396,43 +396,51 @@ function createCountdownData(CountName, CountDate){
     if (now.diff(newdate) >= 0){
         if (repeatCycle != ''){
             // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
-            var repeatNumber = Number(repeatCycle.match(/\d+/g).map(Number))
-            if (repeatNumber != null){
-                var repeatType = repeatCycle.slice(repeatNumber.toString().length, repeatCycle.length);
-                if (repeatType != '') {
-                    var newDateRepeat = newdate
 
-                    switch (repeatType) {
-                        case "Y": 
-                                        newDateRepeat = new Date(newdate.getFullYear() + repeatNumber, newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes())
-                                        break;
-                        case "M": 
-                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth() + repeatNumber, newdate.getDate(), newdate.getHours(), newdate.getMinutes())
-                                        break;
-                        case "D"  : 
-                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate()+ repeatNumber, newdate.getHours(), newdate.getMinutes())
-                                        break;
-                        case "H"   : 
-                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours()+ repeatNumber, newdate.getMinutes())
-                                        break;
-                        case "m"   : 
-                                        newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes()+ repeatNumber)
-                                        break;
-                        default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
-                        ;
+            // check if repeat cycle contains a number
+
+            if (hasNumber(repeatCycle)){
+                var repeatNumber = Number(repeatCycle.match(/\d+/g).map(Number))
+                if (repeatNumber != null){
+                    var repeatType = repeatCycle.slice(repeatNumber.toString().length, repeatCycle.length);
+                    if (repeatType != '') {
+                        var newDateRepeat = newdate
+
+                        switch (repeatType) {
+                            case "Y": 
+                                            newDateRepeat = new Date(newdate.getFullYear() + repeatNumber, newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes())
+                                            break;
+                            case "M": 
+                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth() + repeatNumber, newdate.getDate(), newdate.getHours(), newdate.getMinutes())
+                                            break;
+                            case "D"  : 
+                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate()+ repeatNumber, newdate.getHours(), newdate.getMinutes())
+                                            break;
+                            case "H"   : 
+                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours()+ repeatNumber, newdate.getMinutes())
+                                            break;
+                            case "m"   : 
+                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes()+ repeatNumber)
+                                            break;
+                            default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                            ;
+                        }
+                        let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
+                        moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
+                        moment(newDateRepeat).format('mm') + ':00' + '+' + repeatCycle
+                        adapter.setState({device: 'setup' , state: storagename}, {val: newDateString, ack: true});
+
                     }
-                    let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
-                    moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
-                    moment(newDateRepeat).format('mm') + ':00' + '+' + repeatCycle
-                    adapter.setState({device: 'setup' , state: storagename}, {val: newDateString, ack: true});
-
+                    else{
+                        adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                    }   
                 }
                 else{
                     adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
-                }   
+                }
             }
             else{
-                adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+            adapter.log.error("Repeat cycle " + repeatCycle + " is invalid - Layout is e.g. 1M for 1 month.")
             }
         }
         else{
@@ -574,6 +582,12 @@ function createCountdownData(CountName, CountDate){
 
     }
 }
+
+function hasNumber(myString) {
+    // function to check if string contains a number
+    return /\d/.test(myString);
+  }
+  
 
 async function processMessage(obj){
     var year = 0
