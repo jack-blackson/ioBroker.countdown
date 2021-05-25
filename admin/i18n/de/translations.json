@@ -1,0 +1,14 @@
+{
+    "RepeatPeriod": "z.B. 1Y für 1 Jahr",
+    "addCountdown": "Countdown hinzufügen",
+    "autodelete": "Countdown löschen wenn Zeitpunkt erreicht wurde",
+    "dateFormat": "Datumsformat",
+    "endDate": "Enddatum",
+    "inWordsLong": "In Worten (lang)",
+    "inWordsShort": "In Worten (kurz)",
+    "settings": "Einstellungen",
+    "tablecontent": "Folgende Felder in Tabelle anzeigen:",
+    "totalNoOfDays": "Gesamtanzahl Tagen",
+    "totalNoOfHours": "Gesamtanzahl Stunden",
+    "totalNoOfWeeks": "Gesamtanzahl Wochen"
+}

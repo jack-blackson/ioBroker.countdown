@@ -1,0 +1,14 @@
+{
+    "RepeatPeriod": "b.v. 1Y voor 1 jaar",
+    "addCountdown": "Aftellen toevoegen",
+    "autodelete": "Wis Countdown als het einde is bereikt",
+    "dateFormat": "Datumnotatie",
+    "endDate": "Einddatum",
+    "inWordsLong": "In woorden (lang)",
+    "inWordsShort": "In woorden (kort)",
+    "settings": "Instellingen",
+    "tablecontent": "Toon deze velden in de tabel:",
+    "totalNoOfDays": "Totaal aantal dagen",
+    "totalNoOfHours": "Totaal aantal uren",
+    "totalNoOfWeeks": "Totaal aantal weken"
+}
