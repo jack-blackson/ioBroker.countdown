@@ -142,12 +142,24 @@ function loopsetup(){
                         adapter.getState('setup.' + CountName, function (err, state) {
                             //adapter.log.debug('Object created')
 
-                            createCountdownData(CountName, state.val)
-                             adapter.log.info('Created Countdown ' + CountName);
+                            if (state.val != null && state.val != ""){
+                                createCountdownData(id1.common.name,state.val)
+                                adapter.log.info('Created Countdown ' + CountName);
+                            }
+                            else{
+                                const CountName = id1.common.name
+                                adapter.log.error('Date in setup invalid for countdown ' + CountName)
+                            }
                            });
                     }
                     else{
-                        createCountdownData(id1.common.name,state.val)
+                        if (state.val != null && state.val != ""){
+                            createCountdownData(id1.common.name,state.val)
+                        }
+                        else{
+                            const CountName = id1.common.name
+                            adapter.log.error('Date in setup invalid for countdown ' + CountName)
+                        }
                     }
                 });
             });

@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "news": {
+        "1.2.2": {
+        "en": "Small bugfixes, added weblate for translations",
+        "de": "Kleiner Bugfix, Weblate für Übersetzungen hinzugefügt",
+        "ru": "Исправлена небольшая ошибка, добавлен веб-лист для переводов",
+        "pt": "Pequeno bug corrigido, adicionado weblate para traduções",
+        "nl": "Kleine bugfixed, weblate toegevoegd voor vertalingen",
+        "fr": "Petit bug corrigé, ajout de weblate pour les traductions",
+        "it": "Piccolo bug risolto, aggiunta weblate per le traduzioni",
+        "es": "Pequeños errores corregidos, agregado weblate para traducciones",
+        "pl": "Mały błąd, dodany weblate do tłumaczeń",
+        "zh-cn": "修正了一些小错误，添加了翻译网页版"
+    },
         "1.2.1": {
           "en": "Small bugfixes",
           "de": "Kleine Bugfixes",

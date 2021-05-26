@@ -1,0 +1,14 @@
+{
+    "RepeatPeriod": "na przykład 1Y na 1 rok",
+    "addCountdown": "Dodaj odliczanie",
+    "autodelete": "Usuń odliczanie po osiągnięciu końca",
+    "dateFormat": "Format daty",
+    "endDate": "Data zakonczenia",
+    "inWordsLong": "Słownie (długo)",
+    "inWordsShort": "Słowami (krótki)",
+    "settings": "Ustawienia",
+    "tablecontent": "Pokaż te pola w tabeli:",
+    "totalNoOfDays": "Całkowita liczba dni",
+    "totalNoOfHours": "Całkowita liczba godzin",
+    "totalNoOfWeeks": "Całkowita liczba tygodni"
+}
