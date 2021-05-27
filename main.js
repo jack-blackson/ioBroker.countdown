@@ -142,7 +142,7 @@ function loopsetup(){
                         adapter.getState('setup.' + CountName, function (err, state) {
                             //adapter.log.debug('Object created')
 
-                            if (state.val != null && state.val != ""){
+                            if (state && state.val){
                                 createCountdownData(id1.common.name,state.val)
                                 adapter.log.info('Created Countdown ' + CountName);
                             }
