@@ -153,7 +153,7 @@ function loopsetup(){
                            });
                     }
                     else{
-                        if (state.val != null && state.val != ""){
+                        if (state && state.val){
                             createCountdownData(id1.common.name,state.val)
                         }
                         else{
