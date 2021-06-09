@@ -148,7 +148,7 @@ function loopsetup(){
                             }
                             else{
                                 const CountName = id1.common.name
-                                adapter.log.error('Date in setup invalid for countdown ' + CountName)
+                                adapter.log.error('Date in setup is invalid for countdown ' + CountName)
                             }
                            });
                     }
@@ -158,7 +158,7 @@ function loopsetup(){
                         }
                         else{
                             const CountName = id1.common.name
-                            adapter.log.error('Date in setup invalid for countdown ' + CountName)
+                            adapter.log.error('Date in setup is invalid for countdown ' + CountName)
                         }
                     }
                 });
