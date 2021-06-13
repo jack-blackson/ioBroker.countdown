@@ -849,7 +849,7 @@ async function processMessage(obj){
         }
     }
     else{
-        adapter.log.info('Wrong parameters for: ' +name)
+        adapter.log.info('Wrong parameters for: ' +name + ' Parameter count: ' + countProperties(obj.message))
     }   
 }
 
