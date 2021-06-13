@@ -847,6 +847,9 @@ async function processMessage(obj){
         deleteCountdownResults(name)
 
         }
+    }
+    else{
+        adapter.log.info('Wrong parameters for: ' +name)
     }   
 }
 
