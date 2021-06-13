@@ -839,14 +839,13 @@ async function processMessage(obj){
         if (erroroccured == false){
             const done = await createSetupEntry(day,month,year,hour,minute,name);
             loopsetup();
+        }
             
     }
     else if (countProperties(obj.message) == 1){
         adapter.log.info('Delete countdown: ' +name);
         deleteCountdownSetup(name)
         deleteCountdownResults(name)
-
-        }
     }
     else{
         adapter.log.info('Wrong parameters for: ' +name + ' Parameter count: ' + countProperties(obj.message))
