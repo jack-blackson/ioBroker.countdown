@@ -4,16 +4,16 @@
       "version": "1.2.5",
       "news": {
         "1.2.5": {
-          "en": "Bugfix to delete adapter with sendto",
-          "de": "Bugfix zum Löschen des Adapters mit sendto",
-          "ru": "Исправление для удаления адаптера с помощью sendto",
-          "pt": "Correção de bug para excluir adaptador com sendto",
-          "nl": "Bugfix om adapter te verwijderen met sendto",
-          "fr": "Correction de bug pour supprimer l'adaptateur avec sendto",
-          "it": "Bugfix per eliminare l'adattatore con sendto",
-          "es": "Corrección de errores para eliminar el adaptador con sendto",
-          "pl": "Poprawka błędu usunięcia adaptera za pomocą sendto",
-          "zh-cn": "使用 sendto 删除适配器的错误修复"
+          "en": "Bugfix to delete countdown with sendto",
+          "de": "Bugfix zum Löschen des Countdowns mit sendto",
+          "ru": "Исправление для удаления обратного отсчета с помощью sendto",
+          "pt": "Correção de bug para deletar contagem regressiva com sendto",
+          "nl": "Bugfix om aftellen te verwijderen met sendto",
+          "fr": "Correction de bug pour supprimer le compte à rebours avec sendto",
+          "it": "Bugfix per eliminare il conto alla rovescia con sendto",
+          "es": "Corrección de errores para eliminar la cuenta regresiva con sendto",
+          "pl": "Naprawa błędu, aby usunąć odliczanie za pomocą sendto",
+          "zh-cn": "使用 sendto 删除倒计时的错误修正"
       },
         "1.2.4": {
           "en": "Small bugfixes",
