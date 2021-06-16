@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.2.4",
+      "version": "1.2.5",
       "news": {
+        "1.2.5": {
+          "en": "Bugfix to delete countdown with sendto",
+          "de": "Bugfix zum Löschen des Countdowns mit sendto",
+          "ru": "Исправление для удаления обратного отсчета с помощью sendto",
+          "pt": "Correção de bug para deletar contagem regressiva com sendto",
+          "nl": "Bugfix om aftellen te verwijderen met sendto",
+          "fr": "Correction de bug pour supprimer le compte à rebours avec sendto",
+          "it": "Bugfix per eliminare il conto alla rovescia con sendto",
+          "es": "Corrección de errores para eliminar la cuenta regresiva con sendto",
+          "pl": "Naprawa błędu, aby usunąć odliczanie za pomocą sendto",
+          "zh-cn": "使用 sendto 删除倒计时的错误修正"
+      },
         "1.2.4": {
           "en": "Small bugfixes",
           "de": "Kleine Bugfixes",
