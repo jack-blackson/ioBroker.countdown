@@ -1,13 +1,13 @@
 {
-    "RepeatPeriod": "por exemplo. 1Y por 1 ano",
+    "RepeatPeriod": "por exemplo 1Y para um ano",
     "addCountdown": "Adicionar contagem regressiva",
-    "autodelete": "Excluir contagem regressiva quando o fim é atingido",
+    "autodelete": "Excluir a contagem regressiva quando o fim for alcançado",
     "dateFormat": "Formato de data",
     "endDate": "Data final",
     "inWordsLong": "Em palavras (longa)",
     "inWordsShort": "Em palavras (curta)",
-    "settings": "Definições",
-    "tablecontent": "Mostrar estes campos na tabela:",
+    "settings": "Configurações",
+    "tablecontent": "Mostre os seguintes campos na tabela:",
     "totalNoOfDays": "Número total de dias",
     "totalNoOfHours": "Número total de horas",
     "totalNoOfWeeks": "Número total de semanas"
