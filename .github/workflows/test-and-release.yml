@@ -25,12 +25,12 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -44,8 +44,8 @@ jobs:
 #          CI: true
       # - name: Lint TypeScript code
       #   run: npm run lint
-#      - name: Test package files
-#        run: npm run test:package
+      - name: Test package files
+        run: npm run test:package
 
   # Runs adapter tests on all supported node versions and OSes
   adapter-tests:
@@ -56,29 +56,29 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Run local tests
-        run: npm test
-#      - name: Run unit tests
-#        run: npm run test:unit
-#      - name: Run integration tests # (linux/osx)
-#        if: startsWith(runner.OS, 'windows') == false
-#        run: DEBUG=testing:* npm run test:integration
-#      - name: Run integration tests # (windows)
-#        if: startsWith(runner.OS, 'windows')
-#        run: set DEBUG=testing:* & npm run test:integration
+#      - name: Run local tests
+#        run: npm test
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Run integration tests # (linux/osx)
+        if: startsWith(runner.OS, 'windows') == false
+        run: DEBUG=testing:* npm run test:integration
+      - name: Run integration tests # (windows)
+        if: startsWith(runner.OS, 'windows')
+        run: set DEBUG=testing:* & npm run test:integration
 
   # Deploys the final package to NPM
   deploy:
@@ -92,14 +92,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -126,7 +126,7 @@ jobs:
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           npm whoami
           npm publish
-
+      
       - name: Notify Sentry.io about the release
         run: |
           npm i -g @sentry/cli
