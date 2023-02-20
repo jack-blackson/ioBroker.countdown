@@ -33,7 +33,6 @@
     "test:integration": "mocha test/integration --exit"
   },
   "devDependencies": {
-    "@iobroker/testing": "^2.2.0",
     "@iobroker/adapter-dev": "^1.2.0",
     "axios": ">=0.21.1",
     "chai": "^4.2.0",
