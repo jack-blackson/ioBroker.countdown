@@ -21,7 +21,8 @@
     "url": "https://github.com/jack-blackson/ioBroker.countdown/issues"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.0",
+    "@iobroker/adapter-core": "^2.6.7",
+    "@iobroker/testing": "^4.0.0",
     "moment": "2.29.4",
     "tableify": "1.1.1"
   },
@@ -33,10 +34,11 @@
   },
   "devDependencies": {
     "@iobroker/testing": "^2.2.0",
+    "@iobroker/adapter-dev": "^1.2.0",
     "axios": ">=0.21.1",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
-    "mocha": "^7.2.0"
+    "mocha": "^10.1.0"
   },
   "readmeFilename": "README.md"
 }
