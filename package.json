@@ -5,7 +5,7 @@
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jack-blackson/ioBroker.countdown.git"
+    "url": "https://github.com/jack-blackson/ioBroker.countdown"
   },
   "author": {
     "name": "jack_blackson",
