@@ -1,8 +1,21 @@
 {
     "common": {
       "name": "countdown",
-      "version": "1.2.5",
+      "version": "1.3.0",
       "news": {
+        "1.3.0": {
+          "en": "Update dependencies, small fixes",
+          "de": "Aktualisieren von Abhängigkeiten, kleine Fixes",
+          "ru": "Обновить зависимости, небольшие исправления",
+          "pt": "Dependências de atualização, pequenas correções",
+          "nl": "Update afhankelijkheid, kleine reparaties",
+          "fr": "Mise à jour des dépendances, petites corrections",
+          "it": "Aggiornare le dipendenze, piccole correzioni",
+          "es": "Actualizar las dependencias, pequeñas correcciones",
+          "pl": "Zależności aktualne",
+          "uk": "Оновлення залежностей, невеликих фіксаторів",
+          "zh-cn": "最新依赖、小配件"
+      },
         "1.2.5": {
           "en": "Bugfix to delete countdown with sendto",
           "de": "Bugfix zum Löschen des Countdowns mit sendto",
@@ -218,6 +231,11 @@
           "messagebox":               true,
           "enabled":                  true,
           "compact": true,
+          "dependencies": [
+            {
+                "js-controller": ">=3.0.0"
+            }
+        ],
           "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
           "loglevel":                 "info",     
           "keywords":                 ["countdown"],
