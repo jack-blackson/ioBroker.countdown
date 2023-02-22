@@ -101,7 +101,6 @@
           "zh-cn": "错误修正自述链接和重复周期"
       }
       },
-      "title": "Countdown",
           "titleLang": {
             "en": "Countdown",
             "de": "Countdown",
@@ -112,6 +111,7 @@
             "it": "Conto alla rovescia",
             "es": "cuenta regresiva",
             "pl": "Odliczanie",
+            "uk": "Відправити",
             "zh-cn": "倒数"
           },
           "desc": {
@@ -124,6 +124,7 @@
             "it": "Conto alla rovescia",
             "es": "Adaptador de cuenta regresiva",
             "pl": "Adapter do odliczania",
+            "uk": "Відлік адаптера",
             "zh-cn": "倒计时适配器"
           },
           "authors": [

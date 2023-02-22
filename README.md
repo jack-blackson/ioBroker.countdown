@@ -80,8 +80,8 @@ Parameters here are:
 
 ## Changelog
 
-## 1.3.0 () 
-* (jack-blackson) Small bugfixes, updates for dependencies
+## 1.3.0 (2023-02-22) 
+* (jack-blackson) Updates for dependencies
 
 ## 1.2.5 (2021-06-16) 
 * (jack-blackson) Bugfix to delete countdown with sendto
