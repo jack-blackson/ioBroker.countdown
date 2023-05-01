@@ -394,12 +394,20 @@ function createCountdownData(CountName, CountDate){
     } 
 
     var now = moment(new Date()); //todays date
-    var duration = moment.duration(now.diff(newdate));        
+    var duration = moment.duration(now.diff(newdate));      
     var years = duration.years() * -1;
     var months = duration.months() * -1;
     var days = duration.days() * -1;
     var hours = duration.hours() * -1;
     var minutes = duration.minutes() * -1;
+
+    adapter.log.debug('Duration: ' + duration)  
+    adapter.log.debug('Duration years: ' + duration.years())  
+    adapter.log.debug('Duration months: ' + duration.months())  
+    adapter.log.debug('Duration days: ' + duration.days())  
+    adapter.log.debug(' years: ' + years)  
+    adapter.log.debug(' months: ' + months)  
+    adapter.log.debug(' days: ' + days)  
 
     var storagename = CountName
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
@@ -476,6 +484,7 @@ function createCountdownData(CountName, CountDate){
     }
     else{
         // Countdown not reached -> update values
+        adapter.log.debug('vor speichern: ' + months)  
 
         var CountDowninWordsShort = '';
         var CountDowninWordsLong = '';
@@ -486,7 +495,7 @@ function createCountdownData(CountName, CountDate){
                 CountDowninWordsLong = years+' ' +  textYears;
                 CountDowninWordsShort = years+ textYearsShort;
             }
-            else if (years = 1){
+            else if (years == 1){
                 CountDowninWordsLong = years+' ' +  textYear;
                 CountDowninWordsShort = years+ textYearsShort;
             }
@@ -499,7 +508,7 @@ function createCountdownData(CountName, CountDate){
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
                 CountDowninWordsShort += ' ' + months+textMonthsShort;
             }
-            else if (months = 1) {
+            else if (months == 1) {
                 CountDowninWordsLong += ' ' + months+ ' ' + textMonth;
                 CountDowninWordsShort += ' ' + months+textMonthsShort;
             }
@@ -512,7 +521,7 @@ function createCountdownData(CountName, CountDate){
                 CountDowninWordsLong += ' ' + days+ ' ' + textDays;
                 CountDowninWordsShort += ' ' + days+textDaysShort;
             }
-            else if (days = 1) {
+            else if (days == 1) {
                 CountDowninWordsLong += ' ' + days+ ' ' + textDay;
                 CountDowninWordsShort += ' ' + days+textDaysShort;
             }
@@ -524,7 +533,7 @@ function createCountdownData(CountName, CountDate){
                 CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
                 CountDowninWordsShort += ' ' + hours+textHoursShort;
             }
-            else if (hours = 1){
+            else if (hours == 1){
                 CountDowninWordsLong += ' ' + hours+' ' + textHour;
                 CountDowninWordsShort += ' ' + hours+textHoursShort;
             } 
@@ -541,11 +550,13 @@ function createCountdownData(CountName, CountDate){
             }     
         }
 
+        adapter.log.debug('vor speichern1: ' + months)  
+
         var totalDays = mydiff(Date(),newdate,"days");
         var totalHours = mydiff(Date(),newdate,"hours");
         var totalWeeks = mydiff(Date(),newdate,"weeks");
 
-                
+
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: days, ack: true});

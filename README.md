@@ -80,6 +80,9 @@ Parameters here are:
 
 ## Changelog
 
+## 1.3.1 (2023-05-ß1) 
+* (jack-blackson) Bugfix date calculation (thanks to Lueghi for the hint
+
 ## 1.3.0 (2023-02-22) 
 * (jack-blackson) Updates for dependencies
 
