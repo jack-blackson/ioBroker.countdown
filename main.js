@@ -31,6 +31,7 @@ var textHoursShort = '';
 var textMinute = '';
 var textMinutes = '';
 var textMinutesShort = '';
+var headerInWordsShort = '';
 let objects = null;
 
 let adapter;
@@ -190,6 +191,7 @@ function getVariableTranslation(){
                 textMinute = 'Minute';
                 textMinutes = 'Minuten';          
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Countdown';
                 break;
             case 'en':
                 textYear = 'Year';
@@ -207,6 +209,7 @@ function getVariableTranslation(){
                 textMinute = 'Minute';
                 textMinutes = 'Minutes';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Countdown';
                 break;
             case 'ru':
                 textYear = 'Год';
@@ -224,6 +227,7 @@ function getVariableTranslation(){
                 textMinute = 'минут';
                 textMinutes = 'минут';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Отсчет';
                 break;
             case 'pt':
                 textYear = 'ano';
@@ -241,6 +245,7 @@ function getVariableTranslation(){
                 textMinute = 'minuto';
                 textMinutes = 'minutos';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Contagem';
                 break;
             case 'nl':
                 textYear = 'jaar';
@@ -258,6 +263,7 @@ function getVariableTranslation(){
                 textMinute = 'minuut';
                 textMinutes = 'notulen';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Aftellen';
                 break;
             case 'fr':
                 textYear = 'année';
@@ -275,6 +281,7 @@ function getVariableTranslation(){
                 textMinute = 'minute';
                 textMinutes = 'minutes';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Compte à rebours';
                 break;
             case 'it':
                 textYear = 'anno';
@@ -292,6 +299,7 @@ function getVariableTranslation(){
                 textMinute = 'minuto';
                 textMinutes = 'minuti';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Conteggio';
                 break;
             case 'es':
                 textYear = 'año';
@@ -309,6 +317,7 @@ function getVariableTranslation(){
                 textMinute = 'minuto';
                 textMinutes = 'minutos';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Cuenta atrás';
                 break;
             case 'pl':
                 textYear = 'rok';
@@ -326,6 +335,7 @@ function getVariableTranslation(){
                 textMinute = 'minuta';
                 textMinutes = 'minuty';         
                 textMinutesShort = 'M';
+                headerInWordsShort = 'Countdown';
                 break;
             case 'zh-cn':
                 textYear = '年';
@@ -343,6 +353,7 @@ function getVariableTranslation(){
                 textMinute = '分钟';
                 textMinutes = '分钟';         
                 textMinutesShort = 'M';
+                headerInWordsShort = '倒数';
                 break;    
             default:
                     textYear = 'Year';
@@ -360,6 +371,7 @@ function getVariableTranslation(){
                     textMinute = 'Minute';
                     textMinutes = 'Minutes';         
                     textMinutesShort = 'M';
+                    headerInWordsShort = 'Countdown';
                     break;
           }
 
@@ -401,6 +413,7 @@ function createCountdownData(CountName, CountDate){
     var hours = duration.hours() * -1;
     var minutes = duration.minutes() * -1;
 
+    /*
     adapter.log.debug('Duration: ' + duration)  
     adapter.log.debug('Duration years: ' + duration.years())  
     adapter.log.debug('Duration months: ' + duration.months())  
@@ -408,6 +421,7 @@ function createCountdownData(CountName, CountDate){
     adapter.log.debug(' years: ' + years)  
     adapter.log.debug(' months: ' + months)  
     adapter.log.debug(' days: ' + days)  
+    */
 
     var storagename = CountName
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
@@ -484,7 +498,7 @@ function createCountdownData(CountName, CountDate){
     }
     else{
         // Countdown not reached -> update values
-        adapter.log.debug('vor speichern: ' + months)  
+        //adapter.log.debug('vor speichern: ' + months)  
 
         var CountDowninWordsShort = '';
         var CountDowninWordsLong = '';
@@ -550,7 +564,7 @@ function createCountdownData(CountName, CountDate){
             }     
         }
 
-        adapter.log.debug('vor speichern1: ' + months)  
+        //adapter.log.debug('vor speichern1: ' + months)  
 
         var totalDays = mydiff(Date(),newdate,"days");
         var totalHours = mydiff(Date(),newdate,"hours");
@@ -569,37 +583,39 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true});   
+        adapter.log.debug('Updated countdown ' + CountName)
 
+        var tableObject = {}
+        var test = "swe"
 
-        var tableContent = adapter.config.tablefields;
-        var tableContentTemp = []
-        tableContentTemp.push(CountName)
+        tableObject[test] = CountName
+        
 
         if (adapter.config.inWordsShort){
-            tableContentTemp.push(CountDowninWordsShort)
+            tableObject[headerInWordsShort] = CountDowninWordsShort
         }
 
         if (adapter.config.inWordsLong){
-            tableContentTemp.push(CountDowninWordsLong)
+            tableObject.InWordsLong = CountDowninWordsLong
         }
 
         if (adapter.config.totalNoOfDays){
-            tableContentTemp.push(totalDays)
+            tableObject.TotalDays = totalDays
         }
 
         if (adapter.config.totalNoOfHours){
-            tableContentTemp.push(totalHours)
+            tableObject.TotalHours = totalHours
         }
 
         if (adapter.config.totalNoOfWeeks){
-            tableContentTemp.push(totalWeeks)
+            tableObject.TotalWeeks = totalWeeks
         }
 
         if (adapter.config.endDate){
-            tableContentTemp.push(newdatelocal)
+            tableObject.EndDate = newdatelocal
         }
 
-        tableArray.push(tableContentTemp);
+        tableArray.push(tableObject);
 
         createCountdownTable()
 
