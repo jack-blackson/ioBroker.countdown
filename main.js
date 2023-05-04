@@ -9,29 +9,17 @@
  */
 
 'use strict';
+const translateJS = require('./translate.js');                                                      // translate
+const a = new translateJS();
+
 const utils = require('@iobroker/adapter-core');
 const moment = require('moment');
 const tableify = require(`tableify`);
 var AdapterStarted;
 var Interval
+var translateObject = {}
+var tableArray
 
-var tableArray = [];
-var textYear = '';
-var textYears = '';
-var textYearsShort = '';
-var textMonth = '';
-var textMonths = '';
-var textMonthsShort = '';
-var textDay = '';
-var textDays = '';
-var textDaysShort = '';
-var textHour = '';
-var textHours = '';
-var textHoursShort = '';
-var textMinute = '';
-var textMinutes = '';
-var textMinutesShort = '';
-var headerInWordsShort = '';
 let objects = null;
 
 let adapter;
@@ -173,207 +161,8 @@ function getVariableTranslation(){
     var language = ''
     adapter.getForeignObject('system.config', (err, systemConfig) => {
         language = systemConfig.common.language
-
-        switch (language) {
-            case 'de':
-                textYear = 'Jahr';
-                textYears = 'Jahre';
-                textYearsShort = 'J';
-                textMonth = 'Monat';
-                textMonths = 'Monate';
-                textMonthsShort = 'M';
-                textDay = 'Tag';
-                textDays = 'Tage';
-                textDaysShort = 'T';
-                textHour = 'Stunde';
-                textHours = 'Stunden';
-                textHoursShort = 'S';
-                textMinute = 'Minute';
-                textMinutes = 'Minuten';          
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Countdown';
-                break;
-            case 'en':
-                textYear = 'Year';
-                textYears = 'Years';
-                textYearsShort = 'Y';
-                textMonth = 'Month';
-                textMonths = 'Months';
-                textMonthsShort = 'M'
-                textDay = 'Day';
-                textDays = 'Days';
-                textDaysShort = 'D';
-                textHour = 'Hour';
-                textHours = 'Hours';
-                textHoursShort = 'H';
-                textMinute = 'Minute';
-                textMinutes = 'Minutes';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Countdown';
-                break;
-            case 'ru':
-                textYear = 'Год';
-                textYears = 'лет';
-                textYearsShort = 'Y';
-                textMonth = 'месяц';
-                textMonths = 'месяцы';
-                textMonthsShort = 'M'
-                textDay = 'день';
-                textDays = 'дней';
-                textDaysShort = 'D';
-                textHour = 'час';
-                textHours = 'часов';
-                textHoursShort = 'H';
-                textMinute = 'минут';
-                textMinutes = 'минут';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Отсчет';
-                break;
-            case 'pt':
-                textYear = 'ano';
-                textYears = 'anos';
-                textYearsShort = 'A';
-                textMonth = 'mês';
-                textMonths = 'meses';
-                textMonthsShort = 'M'
-                textDay = 'dia';
-                textDays = 'dias';
-                textDaysShort = 'D';
-                textHour = 'hora';
-                textHours = 'horas';
-                textHoursShort = 'H';
-                textMinute = 'minuto';
-                textMinutes = 'minutos';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Contagem';
-                break;
-            case 'nl':
-                textYear = 'jaar';
-                textYears = 'jaar';
-                textYearsShort = 'J';
-                textMonth = 'maand';
-                textMonths = 'maanden';
-                textMonthsShort = 'M'
-                textDay = 'dag';
-                textDays = 'dagen';
-                textDaysShort = 'D';
-                textHour = 'uur';
-                textHours = 'uur';
-                textHoursShort = 'H';
-                textMinute = 'minuut';
-                textMinutes = 'notulen';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Aftellen';
-                break;
-            case 'fr':
-                textYear = 'année';
-                textYears = 'années';
-                textYearsShort = 'A';
-                textMonth = 'mois';
-                textMonths = 'mois';
-                textMonthsShort = 'M'
-                textDay = 'journée';
-                textDays = 'journées';
-                textDaysShort = 'J';
-                textHour = 'heure';
-                textHours = 'heures';
-                textHoursShort = 'H';
-                textMinute = 'minute';
-                textMinutes = 'minutes';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Compte à rebours';
-                break;
-            case 'it':
-                textYear = 'anno';
-                textYears = 'anni';
-                textYearsShort = 'A';
-                textMonth = 'mese';
-                textMonths = 'mesi';
-                textMonthsShort = 'M'
-                textDay = 'giorno';
-                textDays = 'giorni';
-                textDaysShort = 'G';
-                textHour = 'ora';
-                textHours = 'ore';
-                textHoursShort = 'O';
-                textMinute = 'minuto';
-                textMinutes = 'minuti';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Conteggio';
-                break;
-            case 'es':
-                textYear = 'año';
-                textYears = 'años';
-                textYearsShort = 'A';
-                textMonth = 'mes';
-                textMonths = 'meses';
-                textMonthsShort = 'M'
-                textDay = 'día';
-                textDays = 'dias';
-                textDaysShort = 'D';
-                textHour = 'hora';
-                textHours = 'horas';
-                textHoursShort = 'H';
-                textMinute = 'minuto';
-                textMinutes = 'minutos';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Cuenta atrás';
-                break;
-            case 'pl':
-                textYear = 'rok';
-                textYears = 'lat';
-                textYearsShort = 'R';
-                textMonth = 'miesiąc';
-                textMonths = 'miesięcy';
-                textMonthsShort = 'M'
-                textDay = 'dzień';
-                textDays = 'dni';
-                textDaysShort = 'D';
-                textHour = 'godzina';
-                textHours = 'godziny';
-                textHoursShort = 'G';
-                textMinute = 'minuta';
-                textMinutes = 'minuty';         
-                textMinutesShort = 'M';
-                headerInWordsShort = 'Countdown';
-                break;
-            case 'zh-cn':
-                textYear = '年';
-                textYears = '年份';
-                textYearsShort = 'Y';
-                textMonth = '月';
-                textMonths = '个月';
-                textMonthsShort = 'M'
-                textDay = '天';
-                textDays = '天';
-                textDaysShort = 'D';
-                textHour = '小时';
-                textHours = '小时';
-                textHoursShort = 'H';
-                textMinute = '分钟';
-                textMinutes = '分钟';         
-                textMinutesShort = 'M';
-                headerInWordsShort = '倒数';
-                break;    
-            default:
-                    textYear = 'Year';
-                    textYears = 'Years';
-                    textYearsShort = 'Y';
-                    textMonth = 'Month';
-                    textMonths = 'Months';
-                    textMonthsShort = 'M'
-                    textDay = 'Day';
-                    textDays = 'Days';
-                    textDaysShort = 'D';
-                    textHour = 'Hour';
-                    textHours = 'Hours';
-                    textHoursShort = 'H';
-                    textMinute = 'Minute';
-                    textMinutes = 'Minutes';         
-                    textMinutesShort = 'M';
-                    headerInWordsShort = 'Countdown';
-                    break;
-          }
+        translateObject = a.transLate(language)
+        adapter.log.debug(' Test: ' + translateObject.textYearsShort )
 
     });
 }
@@ -506,12 +295,12 @@ function createCountdownData(CountName, CountDate){
         //years
         if (years != 0){
             if (years > 1){
-                CountDowninWordsLong = years+' ' +  textYears;
-                CountDowninWordsShort = years+ textYearsShort;
+                CountDowninWordsLong = years+' ' +  translateObject.textYear;
+                CountDowninWordsShort = years+ translateObject.textYearsShort;
             }
             else if (years == 1){
-                CountDowninWordsLong = years+' ' +  textYear;
-                CountDowninWordsShort = years+ textYearsShort;
+                CountDowninWordsLong = years+' ' +  translateObject.textYear;
+                CountDowninWordsShort = years+ translateObject.textYearsShort;
             }
         }
 
@@ -519,12 +308,12 @@ function createCountdownData(CountName, CountDate){
         if (months != 0 || years != 0){
 
             if (months > 1){
-                CountDowninWordsLong += ' ' + months+ ' ' + textMonths;
-                CountDowninWordsShort += ' ' + months+textMonthsShort;
+                CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonths;
+                CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
             }
             else if (months == 1) {
-                CountDowninWordsLong += ' ' + months+ ' ' + textMonth;
-                CountDowninWordsShort += ' ' + months+textMonthsShort;
+                CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonth;
+                CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
             }
         }
 
@@ -532,35 +321,35 @@ function createCountdownData(CountName, CountDate){
         if (days != 0 || months != 0 || years != 0){
 
             if (days > 1){
-                CountDowninWordsLong += ' ' + days+ ' ' + textDays;
-                CountDowninWordsShort += ' ' + days+textDaysShort;
+                CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDays;
+                CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
             }
             else if (days == 1) {
-                CountDowninWordsLong += ' ' + days+ ' ' + textDay;
-                CountDowninWordsShort += ' ' + days+textDaysShort;
+                CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDay;
+                CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
             }
         }
 
         //hours
         if (hours != 0 && years == 0 && months == 0){
             if (hours > 1){
-                CountDowninWordsLong += ' ' + hours+ ' ' + textHours;
-                CountDowninWordsShort += ' ' + hours+textHoursShort;
+                CountDowninWordsLong += ' ' + hours+ ' ' + translateObject.textHours;
+                CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
             }
             else if (hours == 1){
-                CountDowninWordsLong += ' ' + hours+' ' + textHour;
-                CountDowninWordsShort += ' ' + hours+textHoursShort;
+                CountDowninWordsLong += ' ' + hours+' ' + translateObject.textHour;
+                CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
             } 
         }
 
         //minutes
         if (years == 0 && months == 0){
-            CountDowninWordsShort += ' ' + minutes+textMinutesShort;
+            CountDowninWordsShort += ' ' + minutes+translateObject.textMinutesShort;
             if (minutes > 1){
-                CountDowninWordsLong += ' ' + minutes+ ' ' + textMinutes;
+                CountDowninWordsLong += ' ' + minutes+ ' ' + translateObject.textMinutes;
             }
             else {
-                CountDowninWordsLong += ' ' + minutes+' ' + textMinute;
+                CountDowninWordsLong += ' ' + minutes+' ' + translateObject.textMinute;
             }     
         }
 
@@ -585,34 +374,35 @@ function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true});   
         adapter.log.debug('Updated countdown ' + CountName)
 
-        var tableObject = {}
-        var test = "swe"
+        
 
-        tableObject[test] = CountName
+        var tableObject = {}
+
+        tableObject[translateObject.headerName] = CountName
         
 
         if (adapter.config.inWordsShort){
-            tableObject[headerInWordsShort] = CountDowninWordsShort
+            tableObject[translateObject.headerCountdown] = CountDowninWordsShort
         }
 
         if (adapter.config.inWordsLong){
-            tableObject.InWordsLong = CountDowninWordsLong
+            tableObject[translateObject.headerCountdown + ' '] = CountDowninWordsLong
         }
 
         if (adapter.config.totalNoOfDays){
-            tableObject.TotalDays = totalDays
+            tableObject[translateObject.textDays] = totalDays
         }
 
         if (adapter.config.totalNoOfHours){
-            tableObject.TotalHours = totalHours
+            tableObject[translateObject.textHours] = totalHours
         }
 
         if (adapter.config.totalNoOfWeeks){
-            tableObject.TotalWeeks = totalWeeks
+            tableObject[translateObject.textWeeks] = totalWeeks
         }
 
         if (adapter.config.endDate){
-            tableObject.EndDate = newdatelocal
+            tableObject[translateObject.headerEndDate] = newdatelocal
         }
 
         tableArray.push(tableObject);
