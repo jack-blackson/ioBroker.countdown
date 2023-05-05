@@ -19,6 +19,8 @@ var AdapterStarted;
 var Interval
 var translateObject = {}
 var tableArray
+var storagename = ''
+
 
 let objects = null;
 
@@ -53,7 +55,7 @@ function startAdapter(options) {
     });
     
     adapter.on(`unload`, callback => {
-        //adapter.log.info(`Stopping countdown adapter!`);
+        adapter.log.debug(`5. Stopping countdown adapter!`);
         clearInterval(Interval);
         callback && callback();
     });
@@ -66,341 +68,418 @@ function startAdapter(options) {
 
 
 function main() {
+    
+
+    processAlarms()
+
+}
+
+async function processAlarms(){
     if (AdapterStarted == false){
         
-        getVariableTranslation()
+        let done2 = await getVariableTranslation()
         AdapterStarted = true
     }
 
-    loopsetup()
+    adapter.log.debug('1 Loop setup')
 
-    cleanresults()
-    adapter.log.debug('Done')
+    let loop = await loopsetup()
+    adapter.log.debug('1.9 after loop setup')
+
+    adapter.log.debug('2 Clean Results')
+    let cleaned = await cleanresults()
+
+    adapter.log.debug('3 Update HTML and JSON table')
+    let updated = await updateCountdownTable()
+    adapter.log.debug('3.2 Updated HTML and JSON table')
+
+
+    adapter.log.debug('4. Done')
+    //adapter.terminate ? adapter.terminate('5. Stopping adapter') : process.exit(0);
+
 
 }
 
-function cleanresults(CountName){
-    adapter.log.debug('Start Clean results')
+async function cleanresults(CountName){
+    adapter.log.debug('2.1 Starting cleaning countdowns in setup')
+    return new Promise(function(resolve){
 
-    // clean results when a setup is deleted
-    if(CountName == null){
-        // function started without parameter from normal loop
-        adapter.getChannelsOf('countdowns', function (err, result) {
-            for (const channel of result) {
-                adapter.log.debug('checking countdown "' + channel.common.name)
-                adapter.getObject('setup.' + channel.common.name, function (err, state) {
-                    //check if setup is still existing
-                    if(state === null && typeof state === "object") {
-                        //if not - delete results
-                        deleteCountdownResults(channel.common.name)
-                    }
-                });   
-            }
-          });
-    }
-    else{
-        // function started with parameter Name - not necessary yet
 
-    }
+
+
+        // clean results when a setup is deleted
+        if(CountName == null){
+            // function started without parameter from normal loop
+            adapter.getChannelsOf('countdowns', function (err, result) {
+                for (const channel of result) {
+                    //adapter.log.debug('2.2 checking countdown "' + channel.common.name)
+                    adapter.getObject('setup.' + channel.common.name, async function (err, state) {
+                        //check if setup is still existing
+                        if(state === null && typeof state === "object") {
+                            //if not - delete results
+                            let done = await deleteCountdownResults(channel.common.name)
+                        }
+                    });   
+                }
+            });
+            adapter.log.debug('2.2 Cleaned results')
+            resolve('done')
+
+        }
+        else{
+            // function started with parameter Name - not necessary yet
+            resolve('done')
+
+
+        }
+    })
+
 }
 
-function deleteCountdownResults(CountName){
-    adapter.deleteChannel('countdowns',CountName);
+async function deleteCountdownResults(CountName){
+    const promises = await Promise.all([
+        adapter.deleteChannel('countdowns',CountName)
+    ])
+    adapter.log.debug('Deleted details for countdown ' + CountName)
 }
 
 function deleteCountdownSetup(CountName){
     adapter.deleteState('setup','',CountName);
+    adapter.log.debug('Deleted setup for countdown ' + CountName)
+
 }
 
 
-function loopsetup(){
-    //adapter.log.debug('Start Loop Setup')
+async function loopsetup(){
+    adapter.log.debug('1.1 Start Loop Setup')
 
     tableArray = [];
 
-    adapter.getStatesOf("setup", function(error, result) {
-        for (const id1 of result) {
-            //adapter.log.debug('Setup Entries found: ' + id1.common.name )
+    return new Promise(function(resolve){
+        adapter.getStatesOf("setup", async function(error, result) {
+            for (const id1 of result) {
+                //adapter.log.debug('Setup Entries found: ' + id1.common.name )
+                let states = await getStates(id1.common.name)
 
-            adapter.getState('setup.' + id1.common.name, function (err, state) {
-                //prüfen ob Device schon vorhanden ist
-                adapter.getObject('countdowns.' + id1.common.name + '.name', async function (err1, result1) {
+                
+            }
+            resolve('done')
+        });
+    })
+}
 
-                    if(result1 === null && typeof result1 === "object") {
-                        const CountName = id1.common.name
-                        const done = await createObjects(CountName)
-                        adapter.getState('setup.' + CountName, function (err, state) {
-                            //adapter.log.debug('Object created')
+async function getStates(name){
+    return new Promise(function(resolve){
 
-                            if (state && state.val){
-                                createCountdownData(id1.common.name,state.val)
-                                adapter.log.info('Created Countdown ' + CountName);
-                            }
-                            else{
-                                const CountName = id1.common.name
-                                adapter.log.error('Date in setup is invalid for countdown ' + CountName)
-                            }
-                           });
+        adapter.getState('setup.' + name, async function (err, state) {
+            //prüfen ob Device schon vorhanden ist
+            let check = await checkifAlarmExists(name, state)
+            resolve('done')
+        });
+        
+
+    })
+}
+
+async function checkifAlarmExists(name, state){
+    return new Promise(function(resolve){
+
+        adapter.getObject('countdowns.' + name + '.name', async function (err1, result1) {
+    
+            if(result1 === null && typeof result1 === "object") {
+    
+                const CountName = name
+                const done = await createObjects(CountName)
+                adapter.getState('setup.' + CountName, async function (err, state) {    
+                    if (state && state.val){
+                        let done = await createCountdownData(name,state.val)
+                        adapter.log.info(' 1.6 Created Countdown ' + CountName);
                     }
                     else{
-                        if (state && state.val){
-                            createCountdownData(id1.common.name,state.val)
-                        }
-                        else{
-                            const CountName = id1.common.name
-                            adapter.log.error('Date in setup is invalid for countdown ' + CountName)
-                        }
+                        const CountName = name
+                        adapter.log.error('Date in setup is invalid for countdown ' + CountName)
                     }
-                });
-            });
+                   });
 
-        }
-    });
+            }
+            else{
+    
+                if (state && state.val){
+                    let done1 = await createCountdownData(name,state.val)
+                    adapter.log.info(' 1.6 Created Countdown ' + name);
+    
+                }
+                else{
+                    const CountName = name
+                    adapter.log.error('Date in setup is invalid for countdown ' + CountName)
+                }
+            }
+            resolve('done')
+
+        });
+    })
+    
+    
 }
 
 function getVariableTranslation(){
     var language = ''
-    adapter.getForeignObject('system.config', (err, systemConfig) => {
-        language = systemConfig.common.language
-        translateObject = a.transLate(language)
-        //adapter.log.debug(' Test: ' + translateObject.textYearsShort )
+    return new Promise(function(resolve){
 
-    });
+        adapter.getForeignObject('system.config', (err, systemConfig) => {
+            language = systemConfig.common.language
+            translateObject = a.transLate(language)
+            adapter.log.debug('0.1 Received translations')
+            resolve('done')
+
+        });
+    })
 }
 
 
-function createCountdownData(CountName, CountDate){
-    var repeatCycle = ''
-    // check if a "repeat cycle" was added
-    let SearchForCycle = CountDate.indexOf('+')
-    if (SearchForCycle != -1){
-        repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
-        CountDate = CountDate.slice(0,SearchForCycle)
-    }
-    //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
+async function createCountdownData(CountName, CountDate){
+    return new Promise(async function(resolve){
 
-    var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
-
-    switch (adapter.config.dateFormat) {
-        case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
-                        break;
-        case "EuropeMinus": var newdatelocal = moment(newdate).local().format('DD-MM-YYYY HH:mm');
+        var repeatCycle = ''
+        // check if a "repeat cycle" was added
+        let SearchForCycle = CountDate.indexOf('+')
+        if (SearchForCycle != -1){
+            repeatCycle = CountDate.slice((SearchForCycle+1), CountDate.length)
+            CountDate = CountDate.slice(0,SearchForCycle)
+        }
+        //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
+    
+        var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
+    
+        switch (adapter.config.dateFormat) {
+            case "EuropeDot": var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
                             break;
-        case "USDot"  : var newdatelocal = moment(newdate).local().format('MM.DD.YYYY HH:MM');
-                        break;
-        case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH:MM');
-                        break;
-        case "YearFirst"   : var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
-                        break;
-        default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
-    } 
-
-    var now = moment(new Date()); //todays date
-    var duration = moment.duration(now.diff(newdate));      
-    var years = duration.years() * -1;
-    var months = duration.months() * -1;
-    var days = duration.days() * -1;
-    var hours = duration.hours() * -1;
-    var minutes = duration.minutes() * -1;
-
-    var storagename = CountName
-    adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
-    adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
-
-    if (now.diff(newdate) >= 0){
-        if (repeatCycle != ''){
-            // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
-
-            // check if repeat cycle contains a number
-
-            if (hasNumber(repeatCycle)){
-                var repeatNumber = Number(repeatCycle.match(/\d+/g).map(Number))
-                if (repeatNumber != null){
-                    var repeatType = repeatCycle.slice(repeatNumber.toString().length, repeatCycle.length);
-                    if (repeatType != '') {
-                        var newDateRepeat = newdate
-
-                        switch (repeatType) {
-                            case "Y": 
-                                            newDateRepeat = new Date(newdate.getFullYear() + repeatNumber, newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes())
-                                            break;
-                            case "M": 
-                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth() + repeatNumber, newdate.getDate(), newdate.getHours(), newdate.getMinutes())
-                                            break;
-                            case "D"  : 
-                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate()+ repeatNumber, newdate.getHours(), newdate.getMinutes())
-                                            break;
-                            case "H"   : 
-                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours()+ repeatNumber, newdate.getMinutes())
-                                            break;
-                            case "m"   : 
-                                            newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes()+ repeatNumber)
-                                            break;
-                            default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
-                            ;
+            case "EuropeMinus": var newdatelocal = moment(newdate).local().format('DD-MM-YYYY HH:mm');
+                                break;
+            case "USDot"  : var newdatelocal = moment(newdate).local().format('MM.DD.YYYY HH:MM');
+                            break;
+            case "USMinuts"   : var newdatelocal = moment(newdate).local().format('MM-DD-YYYY HH:MM');
+                            break;
+            case "YearFirst"   : var newdatelocal = moment(newdate).local().format('YYYY-MM-DD HH:mm');
+                            break;
+            default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
+        } 
+    
+        var now = moment(new Date()); //todays date
+        var duration = moment.duration(now.diff(newdate));      
+        var years = duration.years() * -1;
+        var months = duration.months() * -1;
+        var days = duration.days() * -1;
+        var hours = duration.hours() * -1;
+        var minutes = duration.minutes() * -1;
+    
+        storagename = CountName
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
+    
+        if (now.diff(newdate) >= 0){
+            if (repeatCycle != ''){
+                // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
+    
+                // check if repeat cycle contains a number
+    
+                if (hasNumber(repeatCycle)){
+                    var repeatNumber = Number(repeatCycle.match(/\d+/g).map(Number))
+                    if (repeatNumber != null){
+                        var repeatType = repeatCycle.slice(repeatNumber.toString().length, repeatCycle.length);
+                        if (repeatType != '') {
+                            var newDateRepeat = newdate
+    
+                            switch (repeatType) {
+                                case "Y": 
+                                                newDateRepeat = new Date(newdate.getFullYear() + repeatNumber, newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes())
+                                                break;
+                                case "M": 
+                                                newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth() + repeatNumber, newdate.getDate(), newdate.getHours(), newdate.getMinutes())
+                                                break;
+                                case "D"  : 
+                                                newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate()+ repeatNumber, newdate.getHours(), newdate.getMinutes())
+                                                break;
+                                case "H"   : 
+                                                newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours()+ repeatNumber, newdate.getMinutes())
+                                                break;
+                                case "m"   : 
+                                                newDateRepeat = new Date(newdate.getFullYear(), newdate.getMonth(), newdate.getDate(), newdate.getHours(), newdate.getMinutes()+ repeatNumber)
+                                                break;
+                                default: adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                                ;
+                            }
+                            let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
+                            moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
+                            moment(newDateRepeat).format('mm') + ':00' + '+' + repeatCycle
+                            adapter.setState({device: 'setup' , state: storagename}, {val: newDateString, ack: true});
+    
                         }
-                        let newDateString = moment(newDateRepeat).format('DD') + '.' + moment(newDateRepeat).format('MM') + '.' + 
-                        moment(newDateRepeat).format('YYYY') + ' ' + moment(newDateRepeat).format('HH') + ':' + 
-                        moment(newDateRepeat).format('mm') + ':00' + '+' + repeatCycle
-                        adapter.setState({device: 'setup' , state: storagename}, {val: newDateString, ack: true});
-
+                        else{
+                            adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                        }   
                     }
                     else{
                         adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
-                    }   
+                    }
                 }
                 else{
-                    adapter.log.error('Repeat Cycle ' + repeatCycle + ' is invalid!')
+                adapter.log.error("Repeat cycle " + repeatCycle + " is invalid - Layout is e.g. 1M for 1 month.")
                 }
             }
             else{
-            adapter.log.error("Repeat cycle " + repeatCycle + " is invalid - Layout is e.g. 1M for 1 month.")
+                // Countdown reached now -> disable countdown 
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: '', ack: true});
+    
+    
+                if (adapter.config.autodelete){
+                    let deleted = await deleteCountdownSetup(CountName)
+                    let deleted1 = await deleteCountdownResults(CountName)
+                }
             }
         }
         else{
-            // Countdown reached now -> disable countdown 
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: 0, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: 0, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: 0, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: 0, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: 0, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: '', ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
-            adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: '', ack: true});
-
-
-            if (adapter.config.autodelete){
-                deleteCountdownSetup(CountName)
-                deleteCountdownResults(CountName)
+            // Countdown not reached -> update values
+            //adapter.log.debug('vor speichern: ' + months)  
+    
+            var CountDowninWordsShort = '';
+            var CountDowninWordsLong = '';
+    
+            //years
+            if (years != 0){
+                if (years > 1){
+                    CountDowninWordsLong = years+' ' +  translateObject.textYear;
+                    CountDowninWordsShort = years+ translateObject.textYearsShort;
+                }
+                else if (years == 1){
+                    CountDowninWordsLong = years+' ' +  translateObject.textYear;
+                    CountDowninWordsShort = years+ translateObject.textYearsShort;
+                }
             }
-        }
-    }
-    else{
-        // Countdown not reached -> update values
-        //adapter.log.debug('vor speichern: ' + months)  
-
-        var CountDowninWordsShort = '';
-        var CountDowninWordsLong = '';
-
-        //years
-        if (years != 0){
-            if (years > 1){
-                CountDowninWordsLong = years+' ' +  translateObject.textYear;
-                CountDowninWordsShort = years+ translateObject.textYearsShort;
+    
+            //months
+            if (months != 0 || years != 0){
+    
+                if (months > 1){
+                    CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonths;
+                    CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
+                }
+                else if (months == 1) {
+                    CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonth;
+                    CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
+                }
             }
-            else if (years == 1){
-                CountDowninWordsLong = years+' ' +  translateObject.textYear;
-                CountDowninWordsShort = years+ translateObject.textYearsShort;
+    
+            //days
+            if (days != 0 || months != 0 || years != 0){
+    
+                if (days > 1){
+                    CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDays;
+                    CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
+                }
+                else if (days == 1) {
+                    CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDay;
+                    CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
+                }
             }
-        }
-
-        //months
-        if (months != 0 || years != 0){
-
-            if (months > 1){
-                CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonths;
-                CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
+    
+            //hours
+            if (hours != 0 && years == 0 && months == 0){
+                if (hours > 1){
+                    CountDowninWordsLong += ' ' + hours+ ' ' + translateObject.textHours;
+                    CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
+                }
+                else if (hours == 1){
+                    CountDowninWordsLong += ' ' + hours+' ' + translateObject.textHour;
+                    CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
+                } 
             }
-            else if (months == 1) {
-                CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonth;
-                CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
+    
+            //minutes
+            if (years == 0 && months == 0){
+                CountDowninWordsShort += ' ' + minutes+translateObject.textMinutesShort;
+                if (minutes > 1){
+                    CountDowninWordsLong += ' ' + minutes+ ' ' + translateObject.textMinutes;
+                }
+                else {
+                    CountDowninWordsLong += ' ' + minutes+' ' + translateObject.textMinute;
+                }     
             }
-        }
-
-        //days
-        if (days != 0 || months != 0 || years != 0){
-
-            if (days > 1){
-                CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDays;
-                CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
+    
+            //adapter.log.debug('vor speichern1: ' + months)  
+    
+            var totalDays = mydiff(Date(),newdate,"days");
+            var totalHours = mydiff(Date(),newdate,"hours");
+            var totalWeeks = mydiff(Date(),newdate,"weeks");
+    
+    
+            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,repeatCycle)
+    
+            adapter.log.debug('1.4 Updated objects for ' + CountName)
+    
+            
+    
+            var tableObject = {}
+    
+            tableObject[translateObject.headerName] = CountName
+            
+    
+            if (adapter.config.inWordsShort){
+                tableObject[translateObject.headerCountdown] = CountDowninWordsShort
             }
-            else if (days == 1) {
-                CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDay;
-                CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
+    
+            if (adapter.config.inWordsLong){
+                tableObject[translateObject.headerCountdown + ' '] = CountDowninWordsLong
             }
-        }
-
-        //hours
-        if (hours != 0 && years == 0 && months == 0){
-            if (hours > 1){
-                CountDowninWordsLong += ' ' + hours+ ' ' + translateObject.textHours;
-                CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
+    
+            if (adapter.config.totalNoOfDays){
+                tableObject[translateObject.textDays] = totalDays
             }
-            else if (hours == 1){
-                CountDowninWordsLong += ' ' + hours+' ' + translateObject.textHour;
-                CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
-            } 
-        }
-
-        //minutes
-        if (years == 0 && months == 0){
-            CountDowninWordsShort += ' ' + minutes+translateObject.textMinutesShort;
-            if (minutes > 1){
-                CountDowninWordsLong += ' ' + minutes+ ' ' + translateObject.textMinutes;
+    
+            if (adapter.config.totalNoOfHours){
+                tableObject[translateObject.textHours] = totalHours
             }
-            else {
-                CountDowninWordsLong += ' ' + minutes+' ' + translateObject.textMinute;
-            }     
+    
+            if (adapter.config.totalNoOfWeeks){
+                tableObject[translateObject.textWeeks] = totalWeeks
+            }
+    
+            if (adapter.config.endDate){
+                tableObject[translateObject.headerEndDate] = newdatelocal
+            }
+    
+            tableArray.push(tableObject);
+            adapter.log.debug('1.5 Added data for alarm ' + CountName + ' to array')
+            resolve('done')
+    
         }
+    })
 
-        //adapter.log.debug('vor speichern1: ' + months)  
+}
 
-        var totalDays = mydiff(Date(),newdate,"days");
-        var totalHours = mydiff(Date(),newdate,"hours");
-        var totalWeeks = mydiff(Date(),newdate,"weeks");
-
-
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: days, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: hours, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: minutes, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true});
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true});   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true});   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true});   
-        adapter.log.debug('Updated countdown ' + CountName)
-
-        
-
-        var tableObject = {}
-
-        tableObject[translateObject.headerName] = CountName
-        
-
-        if (adapter.config.inWordsShort){
-            tableObject[translateObject.headerCountdown] = CountDowninWordsShort
-        }
-
-        if (adapter.config.inWordsLong){
-            tableObject[translateObject.headerCountdown + ' '] = CountDowninWordsLong
-        }
-
-        if (adapter.config.totalNoOfDays){
-            tableObject[translateObject.textDays] = totalDays
-        }
-
-        if (adapter.config.totalNoOfHours){
-            tableObject[translateObject.textHours] = totalHours
-        }
-
-        if (adapter.config.totalNoOfWeeks){
-            tableObject[translateObject.textWeeks] = totalWeeks
-        }
-
-        if (adapter.config.endDate){
-            tableObject[translateObject.headerEndDate] = newdatelocal
-        }
-
-        tableArray.push(tableObject);
-        adapter.log.debug('Added data for alarm ' + CountName + ' to array')
-        createCountdownTable()
-
-    }
+async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,repeatCycle){
+    const promises = await Promise.all([
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'days'}, {val: days, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'hours'}, {val: hours, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'minutes'}, {val: minutes, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsShort'}, {val: CountDowninWordsShort, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: CountDowninWordsLong, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true}),   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}),  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true})  
+    ])
 }
 
 function hasNumber(myString) {
@@ -420,6 +499,7 @@ async function processMessage(obj){
 
     if (typeof obj.message.date != 'undefined'){
         var repeatCycle = ''
+        adapter.log.debug('object message: ' + obj.message.date)
         if (obj.message.date != ''){ 
             var processingDate = obj.message.date
             // check if a "repeat cycle" was added
@@ -429,24 +509,27 @@ async function processMessage(obj){
                 processingDate = processingDate.slice(0,SearchForCycle)
             }
 
+            //adapter.log.debug('processingDate: ' + processingDate)
+            //adapter.log.debug('setup: ' + adapter.config.dateFormat)
 
+            var messageDate = new Date
             switch (adapter.config.dateFormat) {
                 case "EuropeDot": 
-                                var messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
+                                messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
                                 break;
                 case "EuropeMinus": 
-                                 var messageDate = moment(processingDate, 'DD-MM-YYYY HH:mm').toDate();
+                                 messageDate = moment(processingDate, 'DD-MM-YYYY HH:mm').toDate();
                                 break;
                 case "USDot"  : 
-                                var messageDate = moment(processingDate, 'MM.DD.YYYY HH:MM').toDate();
+                                messageDate = moment(processingDate, 'MM.DD.YYYY HH:MM').toDate();
                                 break;
                 case "USMinuts"   : 
-                                var messageDate = moment(processingDate, 'MM-DD-YYYY HH:MM').toDate();
+                                messageDate = moment(processingDate, 'MM-DD-YYYY HH:MM').toDate();
                                 break;
                 case "YearFirst"   : 
-                                var messageDate = moment(processingDate, 'YYYY-MM-DD HH:mm').toDate();
+                                messageDate = moment(processingDate, 'YYYY-MM-DD HH:mm').toDate();
                                 break;
-                default: var messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
+                default: messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
                 ;
             }
 
@@ -454,14 +537,22 @@ async function processMessage(obj){
                                     moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
                                     moment(messageDate).format('mm') + ':00'
              
+            //adapter.log.debug(' messageDateString: ' + messageDateString)
+            //adapter.log.debug(' messageDate: ' + messageDate)
+
+            //adapter.log.debug('CHECK IF VALID)')
             if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
+                //adapter.log.debug('VALID)')
+
                 messageDateString += repeatCycle
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                loopsetup();
+                const done1 = await loopsetup();
 
             }
             else{
                 // invalid date
+                //adapter.log.debug('INVALID date: '+  moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true))
+
                 adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
             }
         }
@@ -477,7 +568,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            loopsetup();
+            const loop = await loopsetup();
         
             }
         else{
@@ -495,7 +586,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            loopsetup();
+            const loop = await loopsetup();
             
         }
         else{
@@ -513,7 +604,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            loopsetup();                      
+            const loop = await loopsetup();                      
     
         }
         
@@ -533,7 +624,7 @@ async function processMessage(obj){
                                     moment(newDate).format('mm') + ':00' 
 
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            loopsetup();
+            const loop = await loopsetup();
             
         }
         else{
@@ -551,7 +642,7 @@ async function processMessage(obj){
                                     moment(newDate).format('mm') + ':00' 
 
             const done = await createSetupEntryCompleteDate(messageDateString,name);
-            loopsetup();
+            const loop = await loopsetup();
 
         }
         else{
@@ -646,7 +737,7 @@ async function processMessage(obj){
     
         if (erroroccured == false){
             const done = await createSetupEntry(day,month,year,hour,minute,name);
-            loopsetup();
+            const loop = await loopsetup();
         }
             
     }
@@ -703,12 +794,13 @@ async function createSetupEntryCompleteDate(messageDateString,name){
     }
 }
 
-function createCountdownTable(){
+async function updateCountdownTable(){
 
-    adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true});
-
-    adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true});
-    adapter.log.debug('Updated HTML and JSON table')
+    const promises = await Promise.all([
+        adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true}),
+        adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true})
+    ])
+    adapter.log.debug('3.1 Found ' + tableArray.length + ' alarms for JSON and HTMl')
 
 }
 
