@@ -75,6 +75,7 @@ function main() {
     loopsetup()
 
     cleanresults()
+    adapter.log.debug('Done')
 
 }
 
@@ -162,7 +163,7 @@ function getVariableTranslation(){
     adapter.getForeignObject('system.config', (err, systemConfig) => {
         language = systemConfig.common.language
         translateObject = a.transLate(language)
-        adapter.log.debug(' Test: ' + translateObject.textYearsShort )
+        //adapter.log.debug(' Test: ' + translateObject.textYearsShort )
 
     });
 }
@@ -201,16 +202,6 @@ function createCountdownData(CountName, CountDate){
     var days = duration.days() * -1;
     var hours = duration.hours() * -1;
     var minutes = duration.minutes() * -1;
-
-    /*
-    adapter.log.debug('Duration: ' + duration)  
-    adapter.log.debug('Duration years: ' + duration.years())  
-    adapter.log.debug('Duration months: ' + duration.months())  
-    adapter.log.debug('Duration days: ' + duration.days())  
-    adapter.log.debug(' years: ' + years)  
-    adapter.log.debug(' months: ' + months)  
-    adapter.log.debug(' days: ' + days)  
-    */
 
     var storagename = CountName
     adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
@@ -406,7 +397,7 @@ function createCountdownData(CountName, CountDate){
         }
 
         tableArray.push(tableObject);
-
+        adapter.log.debug('Added data for alarm ' + CountName + ' to array')
         createCountdownTable()
 
     }
@@ -717,6 +708,7 @@ function createCountdownTable(){
     adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true});
 
     adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true});
+    adapter.log.debug('Updated HTML and JSON table')
 
 }
 
