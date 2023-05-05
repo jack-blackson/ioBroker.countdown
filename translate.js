@@ -54,7 +54,7 @@ module.exports = class A {
                 textWeeks = 'Wochen'
                 headerCountdown = 'Countdown';
                 headerName = 'Name';
-                headerEndDate = 'Enddate';
+                headerEndDate = 'Enddatum';
                 break;
             case 'en':
                 textYear = 'Year';
@@ -75,7 +75,7 @@ module.exports = class A {
                 textWeeks = 'Weeks'
                 headerCountdown = 'Countdown';
                 headerName = 'Name';
-                headerEndDate = 'Enddatum';
+                headerEndDate = 'Enddate';
                 break;
             case 'ru':
                 textYear = 'Год';
