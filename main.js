@@ -44,6 +44,8 @@ function startAdapter(options) {
 
     adapter = new utils.Adapter(options);
 
+    //adapter.log.debug('Starting Adapter')
+
     adapter.on('message', obj => {
         //adapter.log.debug('received message!');
     
@@ -55,7 +57,7 @@ function startAdapter(options) {
     });
     
     adapter.on(`unload`, callback => {
-        adapter.log.debug(`5. Stopping countdown adapter!`);
+        //adapter.log.debug(`5. Stopping countdown adapter!`);
         clearInterval(Interval);
         callback && callback();
     });
@@ -159,7 +161,7 @@ async function loopsetup(){
         adapter.getStatesOf("setup", async function(error, result) {
             for (const id1 of result) {
                 //adapter.log.debug('Setup Entries found: ' + id1.common.name )
-                let states = await getStates(id1.common.name)
+                let states = await getStatesOfObj(id1.common.name)
 
                 
             }
@@ -168,7 +170,7 @@ async function loopsetup(){
     })
 }
 
-async function getStates(name){
+async function getStatesOfObj(name){
     return new Promise(function(resolve){
 
         adapter.getState('setup.' + name, async function (err, state) {
