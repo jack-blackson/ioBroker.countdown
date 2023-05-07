@@ -57,9 +57,10 @@ function startAdapter(options) {
     });
     
     adapter.on(`unload`, callback => {
-        //adapter.log.debug(`5. Stopping countdown adapter!`);
-        clearInterval(Interval);
-        callback && callback();
+        adapter.log.debug(`5. Stopping countdown adapter!`);
+        //clearInterval(Interval);
+        //callback && callback();
+        callback();
     });
 
 
@@ -71,7 +72,7 @@ function startAdapter(options) {
 
 function main() {
     
-
+    adapter.log.debug('0 Main')
     processAlarms()
 
 }
@@ -195,7 +196,7 @@ async function checkifAlarmExists(name, state){
                 adapter.getState('setup.' + CountName, async function (err, state) {    
                     if (state && state.val){
                         let done = await createCountdownData(name,state.val)
-                        adapter.log.info(' 1.6 Created Countdown ' + CountName);
+                        adapter.log.debug(' 1.6 Created Countdown ' + CountName);
                     }
                     else{
                         const CountName = name
@@ -208,7 +209,7 @@ async function checkifAlarmExists(name, state){
     
                 if (state && state.val){
                     let done1 = await createCountdownData(name,state.val)
-                    adapter.log.info(' 1.6 Created Countdown ' + name);
+                    adapter.log.debug(' 1.6 Created Countdown ' + name);
     
                 }
                 else{
