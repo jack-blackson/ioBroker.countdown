@@ -46,21 +46,23 @@ function startAdapter(options) {
 
     //adapter.log.debug('Starting Adapter')
 
-    adapter.on('message', obj => {
+    adapter.on('message', async obj => {
         //adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
             adapter.log.debug('received send command!');
-            processMessage(obj);
+            //let done = await addObject(obj)
+            let processed = await processMessage(obj);
+            let loopsetup = await processAlarms()
         }
         
     });
     
     adapter.on(`unload`, callback => {
         adapter.log.debug(`5. Stopping countdown adapter!`);
-        //clearInterval(Interval);
-        //callback && callback();
-        callback();
+        clearInterval(Interval);
+        callback && callback();
+        //callback();
     });
 
 
@@ -76,6 +78,8 @@ function main() {
     processAlarms()
 
 }
+
+
 
 async function processAlarms(){
     if (AdapterStarted == false){
@@ -492,266 +496,273 @@ function hasNumber(myString) {
   
 
 async function processMessage(obj){
-    var year = 0
-    var month = '0'
-    var day = '0'
-    var hour = '01'
-    var minute = '01'
-    var name = obj.message.name
-    var erroroccured = false
-
-    if (typeof obj.message.date != 'undefined'){
-        var repeatCycle = ''
-        adapter.log.debug('object message: ' + obj.message.date)
-        if (obj.message.date != ''){ 
-            var processingDate = obj.message.date
-            // check if a "repeat cycle" was added
-            let SearchForCycle = obj.message.date.indexOf('+')
-            if (SearchForCycle != -1){
-                repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
-                processingDate = processingDate.slice(0,SearchForCycle)
+    return new Promise(async function(resolve){
+        var year = 0
+        var month = '0'
+        var day = '0'
+        var hour = '01'
+        var minute = '01'
+        var name = obj.message.name
+        var erroroccured = false
+    
+        if (typeof obj.message.date != 'undefined'){
+            var repeatCycle = ''
+            adapter.log.debug('object message: ' + obj.message.date)
+            if (obj.message.date != ''){ 
+                var processingDate = obj.message.date
+                // check if a "repeat cycle" was added
+                let SearchForCycle = obj.message.date.indexOf('+')
+                if (SearchForCycle != -1){
+                    repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
+                    processingDate = processingDate.slice(0,SearchForCycle)
+                }
+    
+                //adapter.log.debug('processingDate: ' + processingDate)
+                //adapter.log.debug('setup: ' + adapter.config.dateFormat)
+    
+                var messageDate = new Date
+                switch (adapter.config.dateFormat) {
+                    case "EuropeDot": 
+                                    messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
+                                    break;
+                    case "EuropeMinus": 
+                                     messageDate = moment(processingDate, 'DD-MM-YYYY HH:mm').toDate();
+                                    break;
+                    case "USDot"  : 
+                                    messageDate = moment(processingDate, 'MM.DD.YYYY HH:MM').toDate();
+                                    break;
+                    case "USMinuts"   : 
+                                    messageDate = moment(processingDate, 'MM-DD-YYYY HH:MM').toDate();
+                                    break;
+                    case "YearFirst"   : 
+                                    messageDate = moment(processingDate, 'YYYY-MM-DD HH:mm').toDate();
+                                    break;
+                    default: messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
+                    ;
+                }
+    
+                var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
+                                        moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
+                                        moment(messageDate).format('mm') + ':00'
+                 
+                //adapter.log.debug(' messageDateString: ' + messageDateString)
+                //adapter.log.debug(' messageDate: ' + messageDate)
+    
+                //adapter.log.debug('CHECK IF VALID)')
+                if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
+                    //adapter.log.debug('VALID)')
+    
+                    messageDateString += repeatCycle
+                    const done = await createSetupEntryCompleteDate(messageDateString,name);
+                    const done1 = await loopsetup();
+    
+                }
+                else{
+                    // invalid date
+                    //adapter.log.debug('INVALID date: '+  moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true))
+    
+                    adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
+                }
             }
-
-            //adapter.log.debug('processingDate: ' + processingDate)
-            //adapter.log.debug('setup: ' + adapter.config.dateFormat)
-
-            var messageDate = new Date
-            switch (adapter.config.dateFormat) {
-                case "EuropeDot": 
-                                messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
-                                break;
-                case "EuropeMinus": 
-                                 messageDate = moment(processingDate, 'DD-MM-YYYY HH:mm').toDate();
-                                break;
-                case "USDot"  : 
-                                messageDate = moment(processingDate, 'MM.DD.YYYY HH:MM').toDate();
-                                break;
-                case "USMinuts"   : 
-                                messageDate = moment(processingDate, 'MM-DD-YYYY HH:MM').toDate();
-                                break;
-                case "YearFirst"   : 
-                                messageDate = moment(processingDate, 'YYYY-MM-DD HH:mm').toDate();
-                                break;
-                default: messageDate = moment(processingDate, 'DD.MM.YYYY HH:mm').toDate();
-                ;
-            }
-
-            var messageDateString = moment(messageDate).format('DD') + '.' + moment(messageDate).format('MM') + '.' + 
-                                    moment(messageDate).format('YYYY') + ' ' + moment(messageDate).format('HH') + ':' + 
-                                    moment(messageDate).format('mm') + ':00'
-             
-            //adapter.log.debug(' messageDateString: ' + messageDateString)
-            //adapter.log.debug(' messageDate: ' + messageDate)
-
-            //adapter.log.debug('CHECK IF VALID)')
-            if (moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true).isValid()) {
-                //adapter.log.debug('VALID)')
-
-                messageDateString += repeatCycle
+        }    
+        
+        else if (typeof obj.message.addminutes != 'undefined'){
+            if (obj.message.addminutes != '' && obj.message.addminutes != '0' && parseInt(obj.message.addminutes)){             
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.addminutes)
+                var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()+ toAdd)
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                            moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                            moment(newDate).format('mm') + ':00' 
+        
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const done1 = await loopsetup();
-
+                const loop = await loopsetup();
+            
+                }
+            else{
+                    adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
+            }
+        }
+        else if (typeof obj.message.addhours != 'undefined'){
+            if (obj.message.addhours != '' && obj.message.addhours != '0' && parseInt(obj.message.addhours)){            
+                 
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.addhours)
+                var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()+ toAdd, now.getMinutes())
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                            moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                            moment(newDate).format('mm') + ':00' 
+        
+                const done = await createSetupEntryCompleteDate(messageDateString,name);
+                const loop = await loopsetup();
+                
             }
             else{
-                // invalid date
-                //adapter.log.debug('INVALID date: '+  moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true))
-
-                adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
+                adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
             }
         }
-    }    
+        else if (typeof obj.message.adddays != 'undefined'){
+            if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.adddays)
+                var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
+        
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                                            moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
+                                            moment(newDate).format('mm') + ':00' 
+        
+                const done = await createSetupEntryCompleteDate(messageDateString,name);
+                const loop = await loopsetup();                      
+        
+            }
+            
+            else{
+                adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
+            }
+        }
+        else if (typeof obj.message.addmonths != 'undefined'){
+            if (obj.message.addmonths != ''&& obj.message.addmonths != '0' && parseInt(obj.message.addmonths)){            
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.addmonths)
     
-    else if (typeof obj.message.addminutes != 'undefined'){
-        if (obj.message.addminutes != '' && obj.message.addminutes != '0' && parseInt(obj.message.addminutes)){             
-            var now = new Date(); //todays date
-            var toAdd = Number(obj.message.addminutes)
-            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()+ toAdd)
-            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                var newDate = new Date(now.getFullYear(), now.getMonth() + toAdd, now.getDate(), now.getHours(), now.getMinutes())
+    
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-            const done = await createSetupEntryCompleteDate(messageDateString,name);
-            const loop = await loopsetup();
-        
+                const done = await createSetupEntryCompleteDate(messageDateString,name);
+                const loop = await loopsetup();
+                
             }
-        else{
-                adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
+            else{
+                adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
+            }
         }
-    }
-    else if (typeof obj.message.addhours != 'undefined'){
-        if (obj.message.addhours != '' && obj.message.addhours != '0' && parseInt(obj.message.addhours)){            
+        else if (typeof obj.message.addyears != 'undefined'){
+            if (obj.message.addyears != '' && obj.message.addyears != '0' && parseInt(obj.message.addyears)){            
              
-            var now = new Date(); //todays date
-            var toAdd = Number(obj.message.addhours)
-            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()+ toAdd, now.getMinutes())
-            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
+                var now = new Date(); //todays date
+                var toAdd = Number(obj.message.addyears)
+                var newDate = new Date(now.getFullYear() + toAdd, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes())
+                var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
                                         moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
                                         moment(newDate).format('mm') + ':00' 
     
-            const done = await createSetupEntryCompleteDate(messageDateString,name);
-            const loop = await loopsetup();
-            
-        }
-        else{
-            adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
-        }
-    }
-    else if (typeof obj.message.adddays != 'undefined'){
-        if (obj.message.adddays != '' && obj.message.adddays != '0' && parseInt(obj.message.adddays)){            
-            var now = new Date(); //todays date
-            var toAdd = Number(obj.message.adddays)
-            var newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + toAdd, now.getHours(), now.getMinutes())
+                const done = await createSetupEntryCompleteDate(messageDateString,name);
+                const loop = await loopsetup();
     
-            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
-                                        moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
-                                        moment(newDate).format('mm') + ':00' 
-    
-            const done = await createSetupEntryCompleteDate(messageDateString,name);
-            const loop = await loopsetup();                      
-    
+            }
+            else{
+                adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
+            }
         }
+        else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
+        {
+            if (obj.message.year != ''){
+                var messageyear = obj.message.year
+                if(messageyear === '' + parseInt(messageyear)){
+                    // is int
+                    year = messageyear;
+                }
+                else
+                {
+                    adapter.log.error('Could not create alarm as year value is no int!');
+                    erroroccured = true;
+                }
+            }
+            if (obj.message.month != ''){
+                var messagemonth = obj.message.month.replace(/^0+/, '')
+    
+                if(messagemonth === '' + parseInt(messagemonth)){
+                    // is int
+                    if (messagemonth <=9) {
+                        month = '0' + messagemonth;
+                    }
+                    else{
+                        month = messagemonth;
+                    }
+                }
+                else
+                {
+                    adapter.log.error('Could not create alarm as month value is no int! Value: ' + messagemonth);
+                    erroroccured = true;
         
-        else{
-            adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
-        }
-    }
-    else if (typeof obj.message.addmonths != 'undefined'){
-        if (obj.message.addmonths != ''&& obj.message.addmonths != '0' && parseInt(obj.message.addmonths)){            
-            var now = new Date(); //todays date
-            var toAdd = Number(obj.message.addmonths)
-
-            var newDate = new Date(now.getFullYear(), now.getMonth() + toAdd, now.getDate(), now.getHours(), now.getMinutes())
-
-            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
-                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
-                                    moment(newDate).format('mm') + ':00' 
-
-            const done = await createSetupEntryCompleteDate(messageDateString,name);
-            const loop = await loopsetup();
-            
-        }
-        else{
-            adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
-        }
-    }
-    else if (typeof obj.message.addyears != 'undefined'){
-        if (obj.message.addyears != '' && obj.message.addyears != '0' && parseInt(obj.message.addyears)){            
-         
-            var now = new Date(); //todays date
-            var toAdd = Number(obj.message.addyears)
-            var newDate = new Date(now.getFullYear() + toAdd, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes())
-            var messageDateString = moment(newDate).format('DD') + '.' + moment(newDate).format('MM') + '.' + 
-                                    moment(newDate).format('YYYY') + ' ' + moment(newDate).format('HH') + ':' + 
-                                    moment(newDate).format('mm') + ':00' 
-
-            const done = await createSetupEntryCompleteDate(messageDateString,name);
-            const loop = await loopsetup();
-
-        }
-        else{
-            adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
-        }
-    }
-    else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
-    {
-        if (obj.message.year != ''){
-            var messageyear = obj.message.year
-            if(messageyear === '' + parseInt(messageyear)){
-                // is int
-                year = messageyear;
-            }
-            else
-            {
-                adapter.log.error('Could not create alarm as year value is no int!');
-                erroroccured = true;
-            }
-        }
-        if (obj.message.month != ''){
-            var messagemonth = obj.message.month.replace(/^0+/, '')
-
-            if(messagemonth === '' + parseInt(messagemonth)){
-                // is int
-                if (messagemonth <=9) {
-                    month = '0' + messagemonth;
-                }
-                else{
-                    month = messagemonth;
                 }
             }
-            else
-            {
-                adapter.log.error('Could not create alarm as month value is no int! Value: ' + messagemonth);
-                erroroccured = true;
+            if (obj.message.day != ''){
+                var messageday = obj.message.day.replace(/^0+/, '')
+                if(messageday === '' + parseInt(messageday)){
+                    // is 
+                    if (messageday <=9) {
+                        day = '0' + messageday;
+                    }
+                    else{
+                        day = messageday;
+                    }
+                }
+                else
+                {
+                    adapter.log.error('Could not create alarm as day value is no int!');
+                    erroroccured = true;
+        
+                }
+            }
+            if (obj.message.hour != ''){
+                var messagehour = obj.message.hour.replace(/^0+/, '')
     
-            }
-        }
-        if (obj.message.day != ''){
-            var messageday = obj.message.day.replace(/^0+/, '')
-            if(messageday === '' + parseInt(messageday)){
-                // is 
-                if (messageday <=9) {
-                    day = '0' + messageday;
+                if(messagehour === '' + parseInt(messagehour)){
+                    // is int
+                    if (messagehour <=9) {
+                        hour = '0' + messagehour;
+                    }
+                    else{
+                        hour = messagehour;
+                    }
                 }
-                else{
-                    day = messageday;
+                else
+                {
+                    hour = '00';
                 }
             }
-            else
-            {
-                adapter.log.error('Could not create alarm as day value is no int!');
-                erroroccured = true;
+            if (obj.message.minute != ''){
+                var messageminute = obj.message.minute.replace(/^0+/, '')
     
+                if(messageminute === '' + parseInt(messageminute)){
+                    // is int
+                    if (messageminute <=9) {
+                        minute = '0' + messageminute;
+                    }
+                    else{
+                        minute = messageminute;
+                    }
+                }
+                else
+                {
+                    minute = '00'
+                }
             }
+        
+            if (erroroccured == false){
+                const done = await createSetupEntry(day,month,year,hour,minute,name);
+                const loop = await loopsetup();
+            }
+                
         }
-        if (obj.message.hour != ''){
-            var messagehour = obj.message.hour.replace(/^0+/, '')
+        else if (countProperties(obj.message) == 1){
+            adapter.log.info('Delete countdown: ' +name);
+            deleteCountdownSetup(name);
+            deleteCountdownResults(name);
+        }
+        else{
+            adapter.log.error('Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
+        }   
+        resolve('done')
 
-            if(messagehour === '' + parseInt(messagehour)){
-                // is int
-                if (messagehour <=9) {
-                    hour = '0' + messagehour;
-                }
-                else{
-                    hour = messagehour;
-                }
-            }
-            else
-            {
-                hour = '00';
-            }
-        }
-        if (obj.message.minute != ''){
-            var messageminute = obj.message.minute.replace(/^0+/, '')
 
-            if(messageminute === '' + parseInt(messageminute)){
-                // is int
-                if (messageminute <=9) {
-                    minute = '0' + messageminute;
-                }
-                else{
-                    minute = messageminute;
-                }
-            }
-            else
-            {
-                minute = '00'
-            }
-        }
+    })
+
     
-        if (erroroccured == false){
-            const done = await createSetupEntry(day,month,year,hour,minute,name);
-            const loop = await loopsetup();
-        }
-            
-    }
-    else if (countProperties(obj.message) == 1){
-        adapter.log.info('Delete countdown: ' +name);
-        deleteCountdownSetup(name);
-        deleteCountdownResults(name);
-    }
-    else{
-        adapter.log.error('Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
-    }   
 }
 
 async function createSetupEntry(day,month,year,hour,minute,name){
