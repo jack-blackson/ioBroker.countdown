@@ -53,7 +53,7 @@ function startAdapter(options) {
             adapter.log.debug('received send command!');
             //let done = await addObject(obj)
             let processed = await processMessage(obj);
-            let loopsetup = await processAlarms()
+            let updated = await updateCountdownTable()
         }
         
     });

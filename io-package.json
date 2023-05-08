@@ -1,8 +1,20 @@
 {
     "common": {
       "name": "countdown",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "news": {
+        "2.0.1": {
+          "en": "Small bugfixes",
+          "de": "Kleine Bugfixes",
+          "ru": "Небольшие исправления",
+          "pt": "Pequenas correções de bugs",
+          "nl": "Kleine bugfixes",
+          "fr": "Petites corrections de bugs",
+          "it": "Piccoli bug risolti",
+          "es": "Pequeñas correcciones de errores",
+          "pl": "Małe poprawki",
+          "zh-cn": "小错误修正"
+      },
         "2.0.0": {
           "en": "Reworked adapter",
           "de": "Reworked Adapter",
