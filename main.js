@@ -51,9 +51,8 @@ function startAdapter(options) {
     
         if (obj && obj.command === 'send') {
             adapter.log.debug('received send command!');
-            //let done = await addObject(obj)
             let processed = await processMessage(obj);
-            let updated = await updateCountdownTable()
+            let setup = await loopsetup()
         }
         
     });
@@ -75,13 +74,13 @@ function startAdapter(options) {
 function main() {
     
     adapter.log.debug('0 Main')
-    processAlarms()
+    processCountdowns()
 
 }
 
 
 
-async function processAlarms(){
+async function processCountdowns(){
     if (AdapterStarted == false){
         
         let done2 = await getVariableTranslation()
@@ -180,7 +179,7 @@ async function getStatesOfObj(name){
 
         adapter.getState('setup.' + name, async function (err, state) {
             //prüfen ob Device schon vorhanden ist
-            let check = await checkifAlarmExists(name, state)
+            let check = await checkifCountdownExists(name, state)
             resolve('done')
         });
         
@@ -188,7 +187,7 @@ async function getStatesOfObj(name){
     })
 }
 
-async function checkifAlarmExists(name, state){
+async function checkifCountdownExists(name, state){
     return new Promise(function(resolve){
 
         adapter.getObject('countdowns.' + name + '.name', async function (err1, result1) {
@@ -464,7 +463,7 @@ async function createCountdownData(CountName, CountDate){
             }
     
             tableArray.push(tableObject);
-            adapter.log.debug('1.5 Added data for alarm ' + CountName + ' to array')
+            adapter.log.debug('1.5 Added data for countdown ' + CountName + ' to array')
             resolve('done')
     
         }
@@ -554,7 +553,7 @@ async function processMessage(obj){
     
                     messageDateString += repeatCycle
                     const done = await createSetupEntryCompleteDate(messageDateString,name);
-                    const done1 = await loopsetup();
+                    //const done1 = await loopsetup();
     
                 }
                 else{
@@ -576,7 +575,7 @@ async function processMessage(obj){
                                             moment(newDate).format('mm') + ':00' 
         
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
             
                 }
             else{
@@ -594,7 +593,7 @@ async function processMessage(obj){
                                             moment(newDate).format('mm') + ':00' 
         
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
                 
             }
             else{
@@ -612,7 +611,7 @@ async function processMessage(obj){
                                             moment(newDate).format('mm') + ':00' 
         
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();                      
+                //const loop = await loopsetup();                      
         
             }
             
@@ -632,7 +631,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
                 
             }
             else{
@@ -650,7 +649,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
     
             }
             else{
@@ -667,7 +666,7 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create alarm as year value is no int!');
+                    adapter.log.error('Could not create countdown as year value is no int!');
                     erroroccured = true;
                 }
             }
@@ -685,7 +684,7 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create alarm as month value is no int! Value: ' + messagemonth);
+                    adapter.log.error('Could not create countdown as month value is no int! Value: ' + messagemonth);
                     erroroccured = true;
         
                 }
@@ -703,7 +702,7 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create alarm as day value is no int!');
+                    adapter.log.error('Could not create countdown as day value is no int!');
                     erroroccured = true;
         
                 }
@@ -745,7 +744,7 @@ async function processMessage(obj){
         
             if (erroroccured == false){
                 const done = await createSetupEntry(day,month,year,hour,minute,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
             }
                 
         }
@@ -814,7 +813,7 @@ async function updateCountdownTable(){
         adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true}),
         adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true})
     ])
-    adapter.log.debug('3.1 Found ' + tableArray.length + ' alarms for JSON and HTMl')
+    adapter.log.debug('3.1 Found ' + tableArray.length + ' countdowns for JSON and HTML')
 
 }
 
