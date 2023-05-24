@@ -66,7 +66,7 @@ Parameters here are:
 |months|Months until countdown end (not total!)|
 |years|Years until countdown end (not total!)|
 |name|Countdown name|
-|endDate|End date of count down - formated as in the setup defined|
+|endDate|End date of countdown - formated as in the setup defined|
 |inWordsShort|Combined value of minutes, hours,... - e.g. 1Y 5M 4D|
 |inWordsLong|Combined value of minutes, hours,... - e.g. 1 Year 5 Months 4 Days|
 |totalHours|Total no. of hours until the end date|
