@@ -69,9 +69,12 @@ Parameters here are:
 |endDate|End date of count down - formated as in the setup defined|
 |inWordsShort|Combined value of minutes, hours,... - e.g. 1Y 5M 4D|
 |inWordsLong|Combined value of minutes, hours,... - e.g. 1 Year 5 Months 4 Days|
-|totalHours|Total No. of hours until the end date|
-|totalDays|Total No. of days until the end date|
-|totalWeeks|Total No. of weeks until the end date|
+|totalHours|Total no. of hours until the end date|
+|totalDays|Total no. of days until the end date|
+|totalWeeks|Total no. of weeks until the end date|
+|totalMonths|Total no. of months until the end date|
+|totalYears|Total no. of years until the end date|
+
 |reached|Boolean field defining if the end date was reached or not|
 |repeatEvery|Countdown is repeted by this period after reaching the enddate|
 
