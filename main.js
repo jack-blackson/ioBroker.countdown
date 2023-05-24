@@ -164,7 +164,7 @@ async function loopsetup(){
     return new Promise(function(resolve){
         adapter.getStatesOf("setup", async function(error, result) {
             for (const id1 of result) {
-                //adapter.log.debug('Setup Entries found: ' + id1.common.name )
+                adapter.log.debug('1.2 Setup Entries found: ' + id1.common.name )
                 let states = await getStatesOfObj(id1.common.name)
 
                 
@@ -189,7 +189,7 @@ async function getStatesOfObj(name){
 
 async function checkifCountdownExists(name, state){
     return new Promise(function(resolve){
-
+        adapter.log.debug('1.3 check if countdown exists')
         adapter.getObject('countdowns.' + name + '.name', async function (err1, result1) {
     
             if(result1 === null && typeof result1 === "object") {
@@ -244,6 +244,7 @@ function getVariableTranslation(){
 
 
 async function createCountdownData(CountName, CountDate){
+    adapter.log.debug('1.4 Creating countdown data for countdown ' + CountName)
     return new Promise(async function(resolve){
 
         var repeatCycle = ''
@@ -351,10 +352,11 @@ async function createCountdownData(CountName, CountDate){
                     let deleted1 = await deleteCountdownResults(CountName)
                 }
             }
+            resolve('done')
+
         }
         else{
             // Countdown not reached -> update values
-            //adapter.log.debug('vor speichern: ' + months)  
     
             var CountDowninWordsShort = '';
             var CountDowninWordsLong = '';
@@ -431,7 +433,7 @@ async function createCountdownData(CountName, CountDate){
     
             let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle)
     
-            adapter.log.debug('1.4 Updated objects for ' + CountName)
+            adapter.log.debug('1.5 Updated objects for ' + CountName)
     
             
     
@@ -465,7 +467,7 @@ async function createCountdownData(CountName, CountDate){
             }
     
             tableArray.push(tableObject);
-            adapter.log.debug('1.5 Added data for countdown ' + CountName + ' to array')
+            adapter.log.debug('1.5.1 Added data for countdown ' + CountName + ' to array')
             resolve('done')
     
         }
@@ -929,7 +931,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalDays', {
         read: true, 
         write: true, 
-        name: "Total No. of Days", 
+        name: "Total no. of days", 
         type: "number", 
         def: 0,
         role: 'value'
@@ -938,7 +940,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalHours', {
         read: true, 
         write: true, 
-        name: "Total No. of Hours", 
+        name: "Total no. of hours", 
         type: "number", 
         def: 0,
         role: 'value'
@@ -947,7 +949,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalWeeks', {
         read: true, 
         write: true, 
-        name: "Total No. of Weeks", 
+        name: "Total no. of weeks", 
         type: "number", 
         def: 0,
         role: 'value'
@@ -955,7 +957,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalMonths', {
         read: true, 
         write: true, 
-        name: "Total No. of Months", 
+        name: "Total no. of months", 
         type: "number", 
         def: 0,
         role: 'value'
@@ -963,7 +965,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalYears', {
         read: true, 
         write: true, 
-        name: "Total No. of Years", 
+        name: "Total no. of years", 
         type: "number", 
         def: 0,
         role: 'value'
