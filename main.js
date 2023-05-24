@@ -84,8 +84,13 @@ async function processCountdowns(){
     if (AdapterStarted == false){
         
         let done2 = await getVariableTranslation()
+        adapter.log.debug('0.2 delete countdowns for a clean start')
+        let cleanedAtAtart = await deleteAllCountdowns()
         AdapterStarted = true
     }
+
+    
+
 
     adapter.log.debug('1 Loop setup')
 
@@ -105,6 +110,18 @@ async function processCountdowns(){
 
 
 }
+
+async function deleteAllCountdowns(){
+    const promises = await Promise.all([
+
+        adapter.deleteDeviceAsync('countdowns')
+        //adapter.deleteChannelAsync('tomorrow'),
+        //adapter.deleteStateAsync('weatherMapCountry')
+
+    ])
+
+}
+
 
 async function cleanresults(CountName){
     adapter.log.debug('2.1 Starting cleaning countdowns in setup')
@@ -189,7 +206,7 @@ async function getStatesOfObj(name){
 
 async function checkifCountdownExists(name, state){
     return new Promise(function(resolve){
-        adapter.log.debug('1.3 check if countdown exists')
+        adapter.log.debug('1.3 check if countdown ' + name + ' exists')
         adapter.getObject('countdowns.' + name + '.name', async function (err1, result1) {
     
             if(result1 === null && typeof result1 === "object") {
@@ -244,7 +261,7 @@ function getVariableTranslation(){
 
 
 async function createCountdownData(CountName, CountDate){
-    adapter.log.debug('1.4 Creating countdown data for countdown ' + CountName)
+    adapter.log.debug('1.4 Updating countdown objects for countdown ' + CountName)
     return new Promise(async function(resolve){
 
         var repeatCycle = ''
@@ -285,6 +302,8 @@ async function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
     
         if (now.diff(newdate) >= 0){
+            adapter.log.debug('1.4.1 Countdown in the past - ' + CountName)
+
             if (repeatCycle != ''){
                 // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
     
@@ -345,7 +364,13 @@ async function createCountdownData(CountName, CountDate){
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: '', ack: true});
-    
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: 0, ack: true});
+
+
     
                 if (adapter.config.autodelete){
                     let deleted = await deleteCountdownSetup(CountName)
@@ -357,7 +382,9 @@ async function createCountdownData(CountName, CountDate){
         }
         else{
             // Countdown not reached -> update values
-    
+            adapter.log.debug('1.4.1 Countdown in the future - ' + CountName)
+
+
             var CountDowninWordsShort = '';
             var CountDowninWordsLong = '';
     
