@@ -51,9 +51,8 @@ function startAdapter(options) {
     
         if (obj && obj.command === 'send') {
             adapter.log.debug('received send command!');
-            //let done = await addObject(obj)
             let processed = await processMessage(obj);
-            let loopsetup = await processAlarms()
+            let setup = await loopsetup()
         }
         
     });
@@ -75,18 +74,23 @@ function startAdapter(options) {
 function main() {
     
     adapter.log.debug('0 Main')
-    processAlarms()
+    processCountdowns()
 
 }
 
 
 
-async function processAlarms(){
+async function processCountdowns(){
     if (AdapterStarted == false){
         
         let done2 = await getVariableTranslation()
+        adapter.log.debug('0.2 delete countdowns for a clean start')
+        let cleanedAtAtart = await deleteAllCountdowns()
         AdapterStarted = true
     }
+
+    
+
 
     adapter.log.debug('1 Loop setup')
 
@@ -106,6 +110,18 @@ async function processAlarms(){
 
 
 }
+
+async function deleteAllCountdowns(){
+    const promises = await Promise.all([
+
+        adapter.deleteDeviceAsync('countdowns')
+        //adapter.deleteChannelAsync('tomorrow'),
+        //adapter.deleteStateAsync('weatherMapCountry')
+
+    ])
+
+}
+
 
 async function cleanresults(CountName){
     adapter.log.debug('2.1 Starting cleaning countdowns in setup')
@@ -165,7 +181,7 @@ async function loopsetup(){
     return new Promise(function(resolve){
         adapter.getStatesOf("setup", async function(error, result) {
             for (const id1 of result) {
-                //adapter.log.debug('Setup Entries found: ' + id1.common.name )
+                adapter.log.debug('1.2 Setup Entries found: ' + id1.common.name )
                 let states = await getStatesOfObj(id1.common.name)
 
                 
@@ -180,7 +196,7 @@ async function getStatesOfObj(name){
 
         adapter.getState('setup.' + name, async function (err, state) {
             //prüfen ob Device schon vorhanden ist
-            let check = await checkifAlarmExists(name, state)
+            let check = await checkifCountdownExists(name, state)
             resolve('done')
         });
         
@@ -188,9 +204,9 @@ async function getStatesOfObj(name){
     })
 }
 
-async function checkifAlarmExists(name, state){
+async function checkifCountdownExists(name, state){
     return new Promise(function(resolve){
-
+        adapter.log.debug('1.3 check if countdown ' + name + ' exists')
         adapter.getObject('countdowns.' + name + '.name', async function (err1, result1) {
     
             if(result1 === null && typeof result1 === "object") {
@@ -245,6 +261,7 @@ function getVariableTranslation(){
 
 
 async function createCountdownData(CountName, CountDate){
+    adapter.log.debug('1.4 Updating countdown objects for countdown ' + CountName)
     return new Promise(async function(resolve){
 
         var repeatCycle = ''
@@ -285,6 +302,8 @@ async function createCountdownData(CountName, CountDate){
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
     
         if (now.diff(newdate) >= 0){
+            adapter.log.debug('1.4.1 Countdown in the past - ' + CountName)
+
             if (repeatCycle != ''){
                 // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
     
@@ -345,18 +364,27 @@ async function createCountdownData(CountName, CountDate){
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'inWordsLong'}, {val: '', ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: true, ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: '', ack: true});
-    
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: 0, ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: 0, ack: true});
+
+
     
                 if (adapter.config.autodelete){
                     let deleted = await deleteCountdownSetup(CountName)
                     let deleted1 = await deleteCountdownResults(CountName)
                 }
             }
+            resolve('done')
+
         }
         else{
             // Countdown not reached -> update values
-            //adapter.log.debug('vor speichern: ' + months)  
-    
+            adapter.log.debug('1.4.1 Countdown in the future - ' + CountName)
+
+
             var CountDowninWordsShort = '';
             var CountDowninWordsLong = '';
     
@@ -426,11 +454,13 @@ async function createCountdownData(CountName, CountDate){
             var totalDays = mydiff(Date(),newdate,"days");
             var totalHours = mydiff(Date(),newdate,"hours");
             var totalWeeks = mydiff(Date(),newdate,"weeks");
+            var totalMonths = mydiff(Date(),newdate,"months");
+            var totalYears = mydiff(Date(),newdate,"years");
     
     
-            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,repeatCycle)
+            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle)
     
-            adapter.log.debug('1.4 Updated objects for ' + CountName)
+            adapter.log.debug('1.5 Updated objects for ' + CountName)
     
             
     
@@ -464,7 +494,7 @@ async function createCountdownData(CountName, CountDate){
             }
     
             tableArray.push(tableObject);
-            adapter.log.debug('1.5 Added data for alarm ' + CountName + ' to array')
+            adapter.log.debug('1.5.1 Added data for countdown ' + CountName + ' to array')
             resolve('done')
     
         }
@@ -472,7 +502,7 @@ async function createCountdownData(CountName, CountDate){
 
 }
 
-async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,repeatCycle){
+async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle){
     const promises = await Promise.all([
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true}),
@@ -484,7 +514,9 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true}),   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}),  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}), 
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: totalMonths, ack: true}),   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: totalYears, ack: true}),   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true})  
     ])
 }
@@ -554,7 +586,7 @@ async function processMessage(obj){
     
                     messageDateString += repeatCycle
                     const done = await createSetupEntryCompleteDate(messageDateString,name);
-                    const done1 = await loopsetup();
+                    //const done1 = await loopsetup();
     
                 }
                 else{
@@ -576,7 +608,7 @@ async function processMessage(obj){
                                             moment(newDate).format('mm') + ':00' 
         
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
             
                 }
             else{
@@ -594,7 +626,7 @@ async function processMessage(obj){
                                             moment(newDate).format('mm') + ':00' 
         
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
                 
             }
             else{
@@ -612,7 +644,7 @@ async function processMessage(obj){
                                             moment(newDate).format('mm') + ':00' 
         
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();                      
+                //const loop = await loopsetup();                      
         
             }
             
@@ -632,7 +664,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
                 
             }
             else{
@@ -650,7 +682,7 @@ async function processMessage(obj){
                                         moment(newDate).format('mm') + ':00' 
     
                 const done = await createSetupEntryCompleteDate(messageDateString,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
     
             }
             else{
@@ -667,7 +699,7 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create alarm as year value is no int!');
+                    adapter.log.error('Could not create countdown as year value is no int!');
                     erroroccured = true;
                 }
             }
@@ -685,7 +717,7 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create alarm as month value is no int! Value: ' + messagemonth);
+                    adapter.log.error('Could not create countdown as month value is no int! Value: ' + messagemonth);
                     erroroccured = true;
         
                 }
@@ -703,7 +735,7 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create alarm as day value is no int!');
+                    adapter.log.error('Could not create countdown as day value is no int!');
                     erroroccured = true;
         
                 }
@@ -745,7 +777,7 @@ async function processMessage(obj){
         
             if (erroroccured == false){
                 const done = await createSetupEntry(day,month,year,hour,minute,name);
-                const loop = await loopsetup();
+                //const loop = await loopsetup();
             }
                 
         }
@@ -814,7 +846,7 @@ async function updateCountdownTable(){
         adapter.setState({ state: 'htmlContent'}, {val: tableify(tableArray), ack: true}),
         adapter.setState({ state: 'jsonContent'}, {val: JSON.stringify(tableArray), ack: true})
     ])
-    adapter.log.debug('3.1 Found ' + tableArray.length + ' alarms for JSON and HTMl')
+    adapter.log.debug('3.1 Found ' + tableArray.length + ' countdowns for JSON and HTML')
 
 }
 
@@ -926,7 +958,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalDays', {
         read: true, 
         write: true, 
-        name: "Total No. of Days", 
+        name: "Total no. of days", 
         type: "number", 
         def: 0,
         role: 'value'
@@ -935,7 +967,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalHours', {
         read: true, 
         write: true, 
-        name: "Total No. of Hours", 
+        name: "Total no. of hours", 
         type: "number", 
         def: 0,
         role: 'value'
@@ -944,7 +976,23 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalWeeks', {
         read: true, 
         write: true, 
-        name: "Total No. of Weeks", 
+        name: "Total no. of weeks", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      }),
+      adapter.createStateAsync('countdowns', CountName, 'totalMonths', {
+        read: true, 
+        write: true, 
+        name: "Total no. of months", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      }),
+      adapter.createStateAsync('countdowns', CountName, 'totalYears', {
+        read: true, 
+        write: true, 
+        name: "Total no. of years", 
         type: "number", 
         def: 0,
         role: 'value'
