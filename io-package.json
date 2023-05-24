@@ -4,16 +4,17 @@
       "version": "2.0.1",
       "news": {
         "2.0.1": {
-          "en": "Small bugfixes",
-          "de": "Kleine Bugfixes",
-          "ru": "Небольшие исправления",
-          "pt": "Pequenas correções de bugs",
-          "nl": "Kleine bugfixes",
-          "fr": "Petites corrections de bugs",
-          "it": "Piccoli bug risolti",
-          "es": "Pequeñas correcciones de errores",
-          "pl": "Małe poprawki",
-          "zh-cn": "小错误修正"
+          "en": "Added objects for total number of months and years",
+          "de": "Objekte für die Gesamtzahl der Monate und Jahre hinzugefügt",
+          "ru": "Добавлены объекты на общее количество месяцев и лет",
+          "pt": "Objetos adicionados para o número total de meses e anos",
+          "nl": "Voeg objecten toe voor totale aantal maanden en jaren",
+          "fr": "Ajout d'objets pour le nombre total de mois et d'années",
+          "it": "Oggetti aggiunti per numero totale di mesi e anni",
+          "es": "Objetos añadidos para el número total de meses y años",
+          "pl": "Zamknięte przedmioty przez cały rok i rok",
+          "uk": "Додано об'єкти на загальну кількість місяців і років",
+          "zh-cn": "增加数月和年数的物体"
       },
         "2.0.0": {
           "en": "Reworked adapter",

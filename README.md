@@ -82,6 +82,9 @@ Parameters here are:
 
 ## Changelog
 
+## 2.0.1 (2023-05-24) 
+* (jack-blackson) Added objects for total number of months and years
+
 ## 2.0.0 (2023-05-07) 
 * (jack-blackson) Reworked adapter due to wrong process layout
 * (jack-blackson) Added headers for HTML and JSON

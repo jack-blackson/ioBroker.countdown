@@ -425,9 +425,11 @@ async function createCountdownData(CountName, CountDate){
             var totalDays = mydiff(Date(),newdate,"days");
             var totalHours = mydiff(Date(),newdate,"hours");
             var totalWeeks = mydiff(Date(),newdate,"weeks");
+            var totalMonths = mydiff(Date(),newdate,"months");
+            var totalYears = mydiff(Date(),newdate,"years");
     
     
-            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,repeatCycle)
+            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle)
     
             adapter.log.debug('1.4 Updated objects for ' + CountName)
     
@@ -471,7 +473,7 @@ async function createCountdownData(CountName, CountDate){
 
 }
 
-async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,repeatCycle){
+async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle){
     const promises = await Promise.all([
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true}),
@@ -483,7 +485,9 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'reached'}, {val: false, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalDays'}, {val: totalDays, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalHours'}, {val: totalHours, ack: true}),   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}),  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}), 
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: totalMonths, ack: true}),   
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: totalYears, ack: true}),   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true})  
     ])
 }
@@ -944,6 +948,22 @@ async function createObjects(CountName){
         read: true, 
         write: true, 
         name: "Total No. of Weeks", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      }),
+      adapter.createStateAsync('countdowns', CountName, 'totalMonths', {
+        read: true, 
+        write: true, 
+        name: "Total No. of Months", 
+        type: "number", 
+        def: 0,
+        role: 'value'
+      }),
+      adapter.createStateAsync('countdowns', CountName, 'totalYears', {
+        read: true, 
+        write: true, 
+        name: "Total No. of Years", 
         type: "number", 
         def: 0,
         role: 'value'
