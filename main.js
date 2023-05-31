@@ -695,10 +695,11 @@ async function processMessage(obj){
         else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
         {
             if (obj.message.year != ''){
-                var messageyear = obj.message.year
-                if(messageyear === '' + parseInt(messageyear)){
+                var messageyeartring = obj.message.year
+                var messageyearInt = 0
+                if(messageyearInt = parseInt(messageyeartring)){
                     // is int
-                    year = messageyear;
+                    year = messageyeartring;
                 }
                 else
                 {
@@ -712,37 +713,40 @@ async function processMessage(obj){
             }
 
             if (obj.message.month != ''){
-                var messagemonth = obj.message.month.replace(/[^0-9]+/g, '')
-    
-                if(messagemonth === '' + parseInt(messagemonth)){
+                var messagemonthString = ''
+                var messageMonthInt = 0
+                messagemonthString = obj.message.month.replace(/[^0-9]+/g, '')
+                if(messageMonthInt = parseInt(messagemonthString)){
                     // is int
-                    if (messagemonth <=9) {
-                        month = '0' + messagemonth;
+                    if (messageMonthInt <=9) {
+                        month = '0' + messageMonthInt;
                     }
                     else{
-                        month = messagemonth;
+                        month = messageMonthInt.toString();
                     }
-                    if ((messagemonth == 0) || (messagemonth > 12) ){
-                        adapter.log.error('M 1.4: Could not create countdown as month value is not valid: ' + messagemonth);
+                    if ((messageMonthInt == 0) || (messageMonthInt > 12) ){
+                        adapter.log.error('M 1.4: Could not create countdown as month value is not valid: ' + messageMonthInt);
                         erroroccured = true;
                     }
                 }
                 else
                 {
-                    adapter.log.error('M 1.4: Could not create countdown as month value is no int! Value: ' + messagemonth);
+                    adapter.log.error('M 1.4: Could not create countdown as month value is no int! Value: ' + messageMonthInt);
                     erroroccured = true;
         
                 }
             }
             if (obj.message.day != ''){
-                var messageday = obj.message.day.replace(/^0+/, '')
-                if(messageday === '' + parseInt(messageday)){
+                var messagDayString = ''
+                var messageDayInt = 0
+                messagDayString = obj.message.day.replace(/^0+/, '')
+                if(messageDayInt = parseInt(messagDayString)){
                     // is 
-                    if (messageday <=9) {
-                        day = '0' + messageday;
+                    if (messageDayInt <=9) {
+                        day = '0' + messageDayInt;
                     }
                     else{
-                        day = messageday;
+                        day = messageDayInt.toString();
                     }
                 }
                 else
@@ -751,50 +755,54 @@ async function processMessage(obj){
                     erroroccured = true;
         
                 }
-                if ((messageday == 0) || (messageday > 31) ){
-                    adapter.log.error('M 1.4: Could not create countdown as day value is not valid: ' + messageday);
+                if ((messageDayInt == 0) || (messageDayInt > 31) ){
+                    adapter.log.error('M 1.4: Could not create countdown as day value is not valid: ' + messageDayInt);
                     erroroccured = true;
                 }
             }
             if (obj.message.hour != ''){
-                var messagehour = obj.message.hour.replace(/^0+/, '')
+                var messagHourString = ''
+                var messageHourInt = 0
+                messagHourString = obj.message.hour.replace(/^0+/, '')
     
-                if(messagehour === '' + parseInt(messagehour)){
+                if(messageHourInt = parseInt(messagHourString)){
                     // is int
-                    if (messagehour <=9) {
-                        hour = '0' + messagehour;
+                    if (messageHourInt <=9) {
+                        hour = '0' + messageHourInt;
                     }
                     else{
-                        hour = messagehour;
+                        hour = messageHourInt.toString();
                     }
                 }
                 else
                 {
                     hour = '00';
                 }
-                if (messagehour > 24 ){
-                    adapter.log.error('M 1.4: Could not create countdown as hour value is not valid: ' + messagehour);
+                if (messageHourInt > 24 ){
+                    adapter.log.error('M 1.4: Could not create countdown as hour value is not valid: ' + messageHourInt);
                     erroroccured = true;
                 }
             }
             if (obj.message.minute != ''){
-                var messageminute = obj.message.minute.replace(/^0+/, '')
+                var messagMinuteString = ''
+                var messageMinuteInt = 0
+                messagMinuteString = obj.message.minute.replace(/^0+/, '')
     
-                if(messageminute === '' + parseInt(messageminute)){
+                if(messageMinuteInt = parseInt(messagMinuteString)){
                     // is int
-                    if (messageminute <=9) {
-                        minute = '0' + messageminute;
+                    if (messageMinuteInt <=9) {
+                        minute = '0' + messageMinuteInt;
                     }
                     else{
-                        minute = messageminute;
+                        minute = messageMinuteInt.toString();
                     }
                 }
                 else
                 {
                     minute = '00'
                 }
-                if (messageminute > 60 ){
-                    adapter.log.error('M 1.4: Could not create countdown as minute value is not valid: ' + messageminute);
+                if (messageMinuteInt > 60 ){
+                    adapter.log.error('M 1.4: Could not create countdown as minute value is not valid: ' + messageMinuteInt);
                     erroroccured = true;
                 }
             }
@@ -831,9 +839,9 @@ async function processMessage(obj){
 }
 
 async function createSetupEntry(day,month,year,hour,minute,name){
-    adapter.log.debug('M 1.6: ')
 
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
+    adapter.log.debug('M 1.6: Creating setup entry for date ' + datestring)
 
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
