@@ -50,9 +50,11 @@ function startAdapter(options) {
         //adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
-            adapter.log.debug('received send command!');
+            adapter.log.debug('M 0.1 received send command!');
             let processed = await processMessage(obj);
             let setup = await loopsetup()
+            adapter.log.debug('M 3: All Done');
+
         }
         
     });
@@ -528,6 +530,7 @@ function hasNumber(myString) {
   
 
 async function processMessage(obj){
+    adapter.log.debug('M 1: Start processing Message')
     return new Promise(async function(resolve){
         var year = 0
         var month = '0'
@@ -539,7 +542,7 @@ async function processMessage(obj){
     
         if (typeof obj.message.date != 'undefined'){
             var repeatCycle = ''
-            adapter.log.debug('object message: ' + obj.message.date)
+            adapter.log.debug('M 1.1: object message: ' + obj.message.date)
             if (obj.message.date != ''){ 
                 var processingDate = obj.message.date
                 // check if a "repeat cycle" was added
@@ -593,7 +596,7 @@ async function processMessage(obj){
                     // invalid date
                     //adapter.log.debug('INVALID date: '+  moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true))
     
-                    adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
+                    adapter.log.error('M 1.2: Date for countdown ' + name + ' is invalid: ' + obj.message.date)
                 }
             }
         }    
@@ -612,7 +615,7 @@ async function processMessage(obj){
             
                 }
             else{
-                    adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
+                    adapter.log.error('M 1.3: '+ name + ': Adding ' + obj.message.addminutes + ' is invalid')
             }
         }
         else if (typeof obj.message.addhours != 'undefined'){
@@ -630,7 +633,7 @@ async function processMessage(obj){
                 
             }
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.addhours + ' is invalid')
             }
         }
         else if (typeof obj.message.adddays != 'undefined'){
@@ -649,7 +652,7 @@ async function processMessage(obj){
             }
             
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.adddays + ' is invalid')
             }
         }
         else if (typeof obj.message.addmonths != 'undefined'){
@@ -668,7 +671,7 @@ async function processMessage(obj){
                 
             }
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.addmonths + ' is invalid')
             }
         }
         else if (typeof obj.message.addyears != 'undefined'){
@@ -686,7 +689,7 @@ async function processMessage(obj){
     
             }
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.addyears + ' is invalid')
             }
         }
         else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
@@ -699,12 +702,17 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create countdown as year value is no int!');
+                    adapter.log.error('M 1.4: Could not create countdown as year value is no int!');
+                    erroroccured = true;
+                }
+                if ((year == 0) || (year > 2100) ){
+                    adapter.log.error('M 1.4: Could not create countdown as year value is not valid: ' + year);
                     erroroccured = true;
                 }
             }
+
             if (obj.message.month != ''){
-                var messagemonth = obj.message.month.replace(/^0+/, '')
+                var messagemonth = obj.message.month.replace(/[^0-9]+/g, '')
     
                 if(messagemonth === '' + parseInt(messagemonth)){
                     // is int
@@ -714,10 +722,14 @@ async function processMessage(obj){
                     else{
                         month = messagemonth;
                     }
+                    if ((messagemonth == 0) || (messagemonth > 12) ){
+                        adapter.log.error('M 1.4: Could not create countdown as month value is not valid: ' + messagemonth);
+                        erroroccured = true;
+                    }
                 }
                 else
                 {
-                    adapter.log.error('Could not create countdown as month value is no int! Value: ' + messagemonth);
+                    adapter.log.error('M 1.4: Could not create countdown as month value is no int! Value: ' + messagemonth);
                     erroroccured = true;
         
                 }
@@ -735,9 +747,13 @@ async function processMessage(obj){
                 }
                 else
                 {
-                    adapter.log.error('Could not create countdown as day value is no int!');
+                    adapter.log.error('M 1.4: Could not create countdown as day value is no int!');
                     erroroccured = true;
         
+                }
+                if ((messageday == 0) || (messageday > 31) ){
+                    adapter.log.error('M 1.4: Could not create countdown as day value is not valid: ' + messageday);
+                    erroroccured = true;
                 }
             }
             if (obj.message.hour != ''){
@@ -756,6 +772,10 @@ async function processMessage(obj){
                 {
                     hour = '00';
                 }
+                if (messagehour > 24 ){
+                    adapter.log.error('M 1.4: Could not create countdown as hour value is not valid: ' + messagehour);
+                    erroroccured = true;
+                }
             }
             if (obj.message.minute != ''){
                 var messageminute = obj.message.minute.replace(/^0+/, '')
@@ -773,22 +793,35 @@ async function processMessage(obj){
                 {
                     minute = '00'
                 }
+                if (messageminute > 60 ){
+                    adapter.log.error('M 1.4: Could not create countdown as minute value is not valid: ' + messageminute);
+                    erroroccured = true;
+                }
             }
+            //adapter.log.debug('Error occured: ' + erroroccured)
         
             if (erroroccured == false){
-                const done = await createSetupEntry(day,month,year,hour,minute,name);
+                adapter.log.debug('M 1.5: Creating Setup Entry')
+                //adapter.log.debug('Values: day: ' + day + ' month: ' + month + ' year: ' + year + ' hour: ' + hour + ' minute: ' + minute)
+                if ((day == '0')|| (year == 0)|| (month == '0')){
+                    adapter.log.error('M 1.5.1: Date component invalid. Day: ' + day + ', Month: ' + month + ', Year: ' + year)
+                }
+                else{
+                    const done = await createSetupEntry(day,month,year,hour,minute,name);
+                }
                 //const loop = await loopsetup();
             }
                 
         }
         else if (countProperties(obj.message) == 1){
-            adapter.log.info('Delete countdown: ' +name);
+            adapter.log.info('M 2. Delete countdown: ' +name);
             deleteCountdownSetup(name);
             deleteCountdownResults(name);
         }
         else{
-            adapter.log.error('Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
+            adapter.log.error('M 1.1:  Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
         }   
+        adapter.log.debug('M 1.9: Finished processing Message')
         resolve('done')
 
 
@@ -798,12 +831,14 @@ async function processMessage(obj){
 }
 
 async function createSetupEntry(day,month,year,hour,minute,name){
+    adapter.log.debug('M 1.6: ')
+
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
 
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
-        adapter.log.debug('Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated')
     } 
     else {
         const promises = await adapter.createStateAsync('', 'setup', name, {
@@ -814,7 +849,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
             def: datestring,
             role: 'value'
           })
-          adapter.log.debug('Setup Entry created')
+          adapter.log.debug('M 1.7: Setup Entry created')
     }
     
 }
@@ -823,7 +858,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: messageDateString, ack: true});
-        adapter.log.debug('Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated')
     } 
     else {
 
@@ -836,7 +871,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
         role: 'value'
     
         });
-        adapter.log.debug('Setup Entry created')
+        adapter.log.debug('M 1.7: Setup Entry created')
     }
 }
 
