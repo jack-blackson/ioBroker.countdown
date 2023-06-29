@@ -292,12 +292,17 @@ async function createCountdownData(CountName, CountDate){
         } 
     
         var now = moment(new Date()); //todays date
-        var duration = moment.duration(now.diff(newdate));      
-        var years = duration.years() * -1;
-        var months = duration.months() * -1;
-        var days = duration.days() * -1;
-        var hours = duration.hours() * -1;
-        var minutes = duration.minutes() * -1;
+        //var duration = moment.duration(now.diff(newdate));      
+        var years = now.diff(newdate, 'years', false) * -1;
+        var restDate = moment(newdate).subtract(years, 'year')
+        var months = now.diff(restDate, 'months', false) * -1;
+        restDate = moment(restDate).subtract(months, 'month')
+
+        var days = now.diff(restDate, 'days', false) * -1;
+        restDate = moment(restDate).subtract(days, 'days')
+        var hours = now.diff(restDate, 'hours', false) * -1;
+        restDate = moment(restDate).subtract(hours, 'hours')
+        var minutes = now.diff(restDate, 'minutes', false) * -1;
     
         storagename = CountName
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
@@ -1071,15 +1076,14 @@ function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
     date1 = new Date(date1);
     date2 = new Date(date2);
+    // for Month calculation
+    var date1Moment = moment(new Date(date1))
+    var date2Moment = moment(new Date(date2))
     var timediff = date2 - date1;
     if (isNaN(timediff)) return NaN;
     switch (interval) {
         case "years": return date2.getFullYear() - date1.getFullYear();
-        case "months": return (
-            ( date2.getFullYear() * 12 + date2.getMonth() )
-            -
-            ( date1.getFullYear() * 12 + date1.getMonth() )
-        );
+        case "months": return date2Moment.diff(date1Moment, 'months', false);
         case "weeks"  : return Math.floor(timediff / week);
         case "days"   : return Math.floor(timediff / day); 
         case "hours"  : return Math.floor(timediff / hour); 
