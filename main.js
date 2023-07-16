@@ -50,9 +50,11 @@ function startAdapter(options) {
         //adapter.log.debug('received message!');
     
         if (obj && obj.command === 'send') {
-            adapter.log.debug('received send command!');
+            adapter.log.debug('M 0.1 received send command!');
             let processed = await processMessage(obj);
             let setup = await loopsetup()
+            adapter.log.debug('M 3: All Done');
+
         }
         
     });
@@ -290,12 +292,17 @@ async function createCountdownData(CountName, CountDate){
         } 
     
         var now = moment(new Date()); //todays date
-        var duration = moment.duration(now.diff(newdate));      
-        var years = duration.years() * -1;
-        var months = duration.months() * -1;
-        var days = duration.days() * -1;
-        var hours = duration.hours() * -1;
-        var minutes = duration.minutes() * -1;
+        //var duration = moment.duration(now.diff(newdate));      
+        var years = now.diff(newdate, 'years', false) * -1;
+        var restDate = moment(newdate).subtract(years, 'year')
+        var months = now.diff(restDate, 'months', false) * -1;
+        restDate = moment(restDate).subtract(months, 'month')
+
+        var days = now.diff(restDate, 'days', false) * -1;
+        restDate = moment(restDate).subtract(days, 'days')
+        var hours = now.diff(restDate, 'hours', false) * -1;
+        restDate = moment(restDate).subtract(hours, 'hours')
+        var minutes = now.diff(restDate, 'minutes', false) * -1;
     
         storagename = CountName
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
@@ -528,6 +535,7 @@ function hasNumber(myString) {
   
 
 async function processMessage(obj){
+    adapter.log.debug('M 1: Start processing Message')
     return new Promise(async function(resolve){
         var year = 0
         var month = '0'
@@ -539,7 +547,7 @@ async function processMessage(obj){
     
         if (typeof obj.message.date != 'undefined'){
             var repeatCycle = ''
-            adapter.log.debug('object message: ' + obj.message.date)
+            adapter.log.debug('M 1.1: object message: ' + obj.message.date)
             if (obj.message.date != ''){ 
                 var processingDate = obj.message.date
                 // check if a "repeat cycle" was added
@@ -593,7 +601,7 @@ async function processMessage(obj){
                     // invalid date
                     //adapter.log.debug('INVALID date: '+  moment(messageDateString, 'DD.MM.YYYY HH:mm:ss',true))
     
-                    adapter.log.error('Date for countdown ' + name + ' is invalid: ' + obj.message.date)
+                    adapter.log.error('M 1.2: Date for countdown ' + name + ' is invalid: ' + obj.message.date)
                 }
             }
         }    
@@ -612,7 +620,7 @@ async function processMessage(obj){
             
                 }
             else{
-                    adapter.log.error(name + ': Adding ' + obj.message.addminutes + ' is invalid')
+                    adapter.log.error('M 1.3: '+ name + ': Adding ' + obj.message.addminutes + ' is invalid')
             }
         }
         else if (typeof obj.message.addhours != 'undefined'){
@@ -630,7 +638,7 @@ async function processMessage(obj){
                 
             }
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.addhours + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.addhours + ' is invalid')
             }
         }
         else if (typeof obj.message.adddays != 'undefined'){
@@ -649,7 +657,7 @@ async function processMessage(obj){
             }
             
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.adddays + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.adddays + ' is invalid')
             }
         }
         else if (typeof obj.message.addmonths != 'undefined'){
@@ -668,7 +676,7 @@ async function processMessage(obj){
                 
             }
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.addmonths + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.addmonths + ' is invalid')
             }
         }
         else if (typeof obj.message.addyears != 'undefined'){
@@ -686,109 +694,147 @@ async function processMessage(obj){
     
             }
             else{
-                adapter.log.error(name + ': Adding ' + obj.message.addyears + ' is invalid')
+                adapter.log.error('M 1.3: ' + name + ': Adding ' + obj.message.addyears + ' is invalid')
             }
         }
         else if (countProperties(obj.message) >= 2 && typeof obj.message.year != 'undefined')
         {
             if (obj.message.year != ''){
-                var messageyear = obj.message.year
-                if(messageyear === '' + parseInt(messageyear)){
+                var messageyeartring = obj.message.year
+                var messageyearInt = 0
+                if(messageyearInt = parseInt(messageyeartring)){
                     // is int
-                    year = messageyear;
+                    year = messageyeartring;
                 }
                 else
                 {
-                    adapter.log.error('Could not create countdown as year value is no int!');
+                    adapter.log.error('M 1.4: Could not create countdown as year value is no int!');
+                    erroroccured = true;
+                }
+                if ((year == 0) || (year > 2100) ){
+                    adapter.log.error('M 1.4: Could not create countdown as year value is not valid: ' + year);
                     erroroccured = true;
                 }
             }
+
             if (obj.message.month != ''){
-                var messagemonth = obj.message.month.replace(/^0+/, '')
-    
-                if(messagemonth === '' + parseInt(messagemonth)){
+                var messagemonthString = ''
+                var messageMonthInt = 0
+                messagemonthString = obj.message.month.replace(/[^0-9]+/g, '')
+                if(messageMonthInt = parseInt(messagemonthString)){
                     // is int
-                    if (messagemonth <=9) {
-                        month = '0' + messagemonth;
+                    if (messageMonthInt <=9) {
+                        month = '0' + messageMonthInt;
                     }
                     else{
-                        month = messagemonth;
+                        month = messageMonthInt.toString();
+                    }
+                    if ((messageMonthInt == 0) || (messageMonthInt > 12) ){
+                        adapter.log.error('M 1.4: Could not create countdown as month value is not valid: ' + messageMonthInt);
+                        erroroccured = true;
                     }
                 }
                 else
                 {
-                    adapter.log.error('Could not create countdown as month value is no int! Value: ' + messagemonth);
+                    adapter.log.error('M 1.4: Could not create countdown as month value is no int! Value: ' + messageMonthInt);
                     erroroccured = true;
         
                 }
             }
             if (obj.message.day != ''){
-                var messageday = obj.message.day.replace(/^0+/, '')
-                if(messageday === '' + parseInt(messageday)){
+                var messagDayString = ''
+                var messageDayInt = 0
+                messagDayString = obj.message.day.replace(/^0+/, '')
+                if(messageDayInt = parseInt(messagDayString)){
                     // is 
-                    if (messageday <=9) {
-                        day = '0' + messageday;
+                    if (messageDayInt <=9) {
+                        day = '0' + messageDayInt;
                     }
                     else{
-                        day = messageday;
+                        day = messageDayInt.toString();
                     }
                 }
                 else
                 {
-                    adapter.log.error('Could not create countdown as day value is no int!');
+                    adapter.log.error('M 1.4: Could not create countdown as day value is no int!');
                     erroroccured = true;
         
                 }
+                if ((messageDayInt == 0) || (messageDayInt > 31) ){
+                    adapter.log.error('M 1.4: Could not create countdown as day value is not valid: ' + messageDayInt);
+                    erroroccured = true;
+                }
             }
             if (obj.message.hour != ''){
-                var messagehour = obj.message.hour.replace(/^0+/, '')
+                var messagHourString = ''
+                var messageHourInt = 0
+                messagHourString = obj.message.hour.replace(/^0+/, '')
     
-                if(messagehour === '' + parseInt(messagehour)){
+                if(messageHourInt = parseInt(messagHourString)){
                     // is int
-                    if (messagehour <=9) {
-                        hour = '0' + messagehour;
+                    if (messageHourInt <=9) {
+                        hour = '0' + messageHourInt;
                     }
                     else{
-                        hour = messagehour;
+                        hour = messageHourInt.toString();
                     }
                 }
                 else
                 {
                     hour = '00';
                 }
+                if (messageHourInt > 24 ){
+                    adapter.log.error('M 1.4: Could not create countdown as hour value is not valid: ' + messageHourInt);
+                    erroroccured = true;
+                }
             }
             if (obj.message.minute != ''){
-                var messageminute = obj.message.minute.replace(/^0+/, '')
+                var messagMinuteString = ''
+                var messageMinuteInt = 0
+                messagMinuteString = obj.message.minute.replace(/^0+/, '')
     
-                if(messageminute === '' + parseInt(messageminute)){
+                if(messageMinuteInt = parseInt(messagMinuteString)){
                     // is int
-                    if (messageminute <=9) {
-                        minute = '0' + messageminute;
+                    if (messageMinuteInt <=9) {
+                        minute = '0' + messageMinuteInt;
                     }
                     else{
-                        minute = messageminute;
+                        minute = messageMinuteInt.toString();
                     }
                 }
                 else
                 {
                     minute = '00'
                 }
+                if (messageMinuteInt > 60 ){
+                    adapter.log.error('M 1.4: Could not create countdown as minute value is not valid: ' + messageMinuteInt);
+                    erroroccured = true;
+                }
             }
+            //adapter.log.debug('Error occured: ' + erroroccured)
         
             if (erroroccured == false){
-                const done = await createSetupEntry(day,month,year,hour,minute,name);
+                adapter.log.debug('M 1.5: Creating Setup Entry')
+                //adapter.log.debug('Values: day: ' + day + ' month: ' + month + ' year: ' + year + ' hour: ' + hour + ' minute: ' + minute)
+                if ((day == '0')|| (year == 0)|| (month == '0')){
+                    adapter.log.error('M 1.5.1: Date component invalid. Day: ' + day + ', Month: ' + month + ', Year: ' + year)
+                }
+                else{
+                    const done = await createSetupEntry(day,month,year,hour,minute,name);
+                }
                 //const loop = await loopsetup();
             }
                 
         }
         else if (countProperties(obj.message) == 1){
-            adapter.log.info('Delete countdown: ' +name);
+            adapter.log.info('M 2. Delete countdown: ' +name);
             deleteCountdownSetup(name);
             deleteCountdownResults(name);
         }
         else{
-            adapter.log.error('Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
+            adapter.log.error('M 1.1:  Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
         }   
+        adapter.log.debug('M 1.9: Finished processing Message')
         resolve('done')
 
 
@@ -798,12 +844,14 @@ async function processMessage(obj){
 }
 
 async function createSetupEntry(day,month,year,hour,minute,name){
+
     var datestring = day + "." + month + "." + year + " " + hour + ":" + minute + ":00";
+    adapter.log.debug('M 1.6: Creating setup entry for date ' + datestring)
 
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
-        adapter.log.debug('Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated')
     } 
     else {
         const promises = await adapter.createStateAsync('', 'setup', name, {
@@ -814,7 +862,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
             def: datestring,
             role: 'value'
           })
-          adapter.log.debug('Setup Entry created')
+          adapter.log.debug('M 1.7: Setup Entry created')
     }
     
 }
@@ -823,7 +871,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: messageDateString, ack: true});
-        adapter.log.debug('Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated')
     } 
     else {
 
@@ -836,7 +884,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
         role: 'value'
     
         });
-        adapter.log.debug('Setup Entry created')
+        adapter.log.debug('M 1.7: Setup Entry created')
     }
 }
 
@@ -1028,15 +1076,14 @@ function mydiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
     date1 = new Date(date1);
     date2 = new Date(date2);
+    // for Month calculation
+    var date1Moment = moment(new Date(date1))
+    var date2Moment = moment(new Date(date2))
     var timediff = date2 - date1;
     if (isNaN(timediff)) return NaN;
     switch (interval) {
         case "years": return date2.getFullYear() - date1.getFullYear();
-        case "months": return (
-            ( date2.getFullYear() * 12 + date2.getMonth() )
-            -
-            ( date1.getFullYear() * 12 + date1.getMonth() )
-        );
+        case "months": return date2Moment.diff(date1Moment, 'months', false);
         case "weeks"  : return Math.floor(timediff / week);
         case "days"   : return Math.floor(timediff / day); 
         case "hours"  : return Math.floor(timediff / hour); 
