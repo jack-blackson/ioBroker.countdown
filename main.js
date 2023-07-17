@@ -325,17 +325,18 @@ async function createCountdownData(CountName, CountDate){
         }
         else{
             //Count Up
-            var upDate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate()
-            years = upDate.diff(now, 'years', false) * -1;
-            restDate = moment(now).subtract(years, 'year')
-            months = upDate.diff(now, 'months', false) * -1;
-            restDate = moment(now).subtract(months, 'month')
+            var tempNow = moment(now, 'DD.MM.YYYY HH:mm:ss').toDate();
+            var upDate = moment(newdate)
+            years = upDate.diff(tempNow, 'years', false) * -1;
+            restDate = moment(tempNow).subtract(years, 'year')
+            months = upDate.diff(restDate, 'months', false) * -1;
+            restDate = moment(restDate).subtract(months, 'month')
     
-            days = upDate.diff(now, 'days', false) * -1;
-            restDate = moment(now).subtract(days, 'days')
-            hours = upDate.diff(now, 'hours', false) * -1;
-            restDate = moment(now).subtract(hours, 'hours')
-            minutes = upDate.diff(now, 'minutes', false) * -1;
+            days = upDate.diff(restDate, 'days', false) * -1;
+            restDate = moment(restDate).subtract(days, 'days')
+            hours = upDate.diff(restDate, 'hours', false) * -1;
+            restDate = moment(restDate).subtract(hours, 'hours')
+            minutes = upDate.diff(restDate, 'minutes', false) * -1;
         }
     
 
@@ -434,7 +435,7 @@ async function createCountdownData(CountName, CountDate){
             //years
             if (years != 0){
                 if (years > 1){
-                    CountDowninWordsLong = years+' ' +  translateObject.textYear;
+                    CountDowninWordsLong = years+' ' +  translateObject.textYears;
                     CountDowninWordsShort = years+ translateObject.textYearsShort;
                 }
                 else if (years == 1){
