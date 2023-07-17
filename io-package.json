@@ -1,171 +1,179 @@
 {
     "common": {
-      "name": "countdown",
-      "version": "2.1.0",
-      "news": {
-        "2.1.0": {
-          "en": "Ability to use the countdown \"backwards\" - e.g. for calculating age of a baby",
-          "de": "Fähigkeit, den Countdown rückwärts zu verwenden - z.B. zur Berechnung des Alters eines Babys",
-          "ru": "Возможность использования обратного отсчета - например для расчета возраста ребенка",
-          "pt": "Capacidade de usar a contagem regressiva para trás - por exemplo, para calcular a idade de um bebê",
-          "nl": "Abiliteit om de aftelsom te gebruiken. E.G. voor het berekenen van leeftijd van een baby",
-          "fr": "Possibilité d'utiliser le compte à rebours - p.ex. pour calculer l'âge d'un bébé",
-          "it": "Capacità di utilizzare il conto alla rovescia all'indietro - ad esempio per calcolare l'età di un bambino",
-          "es": "Capacidad para utilizar la cuenta atrás - por ejemplo para calcular la edad de un bebé",
-          "pl": "Możliwość używania odliczania do tyłu – np. do obliczania wieku dziecka",
-          "uk": "Можливість використовувати відлік назад - наприклад для розрахунку віку дитини",
-          "zh-cn": "A. 使用分娩后的可能性-例如计算婴儿年龄"
-      },
-        "2.0.2": {
-          "en": "Small bugfixes",
-          "de": "Kleine Bugfixes",
-          "ru": "Небольшие исправления",
-          "pt": "Pequenas correções de bugs",
-          "nl": "Kleine bugfixes",
-          "fr": "Petites corrections de bugs",
-          "it": "Piccoli bug risolti",
-          "es": "Pequeñas correcciones de errores",
-          "pl": "Małe poprawki",
-          "zh-cn": "小错误修正"
-      },
-        "2.0.1": {
-          "en": "Added objects for total number of months and years",
-          "de": "Objekte für die Gesamtzahl der Monate und Jahre hinzugefügt",
-          "ru": "Добавлены объекты на общее количество месяцев и лет",
-          "pt": "Objetos adicionados para o número total de meses e anos",
-          "nl": "Voeg objecten toe voor totale aantal maanden en jaren",
-          "fr": "Ajout d'objets pour le nombre total de mois et d'années",
-          "it": "Oggetti aggiunti per numero totale di mesi e anni",
-          "es": "Objetos añadidos para el número total de meses y años",
-          "pl": "Zamknięte przedmioty przez cały rok i rok",
-          "uk": "Додано об'єкти на загальну кількість місяців і років",
-          "zh-cn": "增加数月和年数的物体"
-      },
-        "2.0.0": {
-          "en": "Reworked adapter",
-          "de": "Reworked Adapter",
-          "ru": "Переработанный адаптер",
-          "pt": "Adaptador retrabalhado",
-          "nl": "Rework adapter",
-          "fr": "Adaptateur retravaillé",
-          "it": "Adattatore di lavoro",
-          "es": "Adaptador reforzado",
-          "pl": "Rework adapter",
-          "uk": "Перероблений адаптер",
-          "zh-cn": "重新调整适应者"
-      },
-        "1.3.1": {
-          "en": "Bugfix date calculation",
-          "de": "Fehlerberechnung",
-          "ru": "Расчет даты Bugfix",
-          "pt": "Cálculo da data do Bugfix",
-          "nl": "Bugfix datum berekening",
-          "fr": "Calcul de la date de bugfix",
-          "it": "Calcolo della data di bugfix",
-          "es": "Cálculo de la fecha de Bugfix",
-          "pl": "Obliczenia",
-          "uk": "Розрахунок дати Буфікса",
-          "zh-cn": "固定日期计算"
-      },
-        "1.3.0": {
-          "en": "Update dependencies, small fixes",
-          "de": "Aktualisieren von Abhängigkeiten, kleine Fixes",
-          "ru": "Обновить зависимости, небольшие исправления",
-          "pt": "Dependências de atualização, pequenas correções",
-          "nl": "Update afhankelijkheid, kleine reparaties",
-          "fr": "Mise à jour des dépendances, petites corrections",
-          "it": "Aggiornare le dipendenze, piccole correzioni",
-          "es": "Actualizar las dependencias, pequeñas correcciones",
-          "pl": "Zależności aktualne",
-          "uk": "Оновлення залежностей, невеликих фіксаторів",
-          "zh-cn": "最新依赖、小配件"
-      },
-        "1.2.5": {
-          "en": "Bugfix to delete countdown with sendto",
-          "de": "Bugfix zum Löschen des Countdowns mit sendto",
-          "ru": "Исправление для удаления обратного отсчета с помощью sendto",
-          "pt": "Correção de bug para deletar contagem regressiva com sendto",
-          "nl": "Bugfix om aftellen te verwijderen met sendto",
-          "fr": "Correction de bug pour supprimer le compte à rebours avec sendto",
-          "it": "Bugfix per eliminare il conto alla rovescia con sendto",
-          "es": "Corrección de errores para eliminar la cuenta regresiva con sendto",
-          "pl": "Naprawa błędu, aby usunąć odliczanie za pomocą sendto",
-          "zh-cn": "使用 sendto 删除倒计时的错误修正"
-      },
-        "1.2.4": {
-          "en": "Small bugfixes",
-          "de": "Kleine Bugfixes",
-          "ru": "Небольшие исправления",
-          "pt": "Pequenas correções de bugs",
-          "nl": "Kleine bugfixes",
-          "fr": "Petites corrections de bugs",
-          "it": "Piccoli bug risolti",
-          "es": "Pequeñas correcciones de errores",
-          "pl": "Małe poprawki",
-          "zh-cn": "小错误修正"
-      },
-        "1.2.3": {
-          "en": "Small bugfixes",
-          "de": "Kleine Bugfixes",
-          "ru": "Небольшие исправления",
-          "pt": "Pequenas correções de bugs",
-          "nl": "Kleine bugfixes",
-          "fr": "Petites corrections de bugs",
-          "it": "Piccoli bug risolti",
-          "es": "Pequeñas correcciones de errores",
-          "pl": "Małe poprawki",
-          "zh-cn": "小错误修正"
-      },
-        "1.2.2": {
-        "en": "Small bugfixes, added weblate for translations",
-        "de": "Kleiner Bugfix, Weblate für Übersetzungen hinzugefügt",
-        "ru": "Исправлена небольшая ошибка, добавлен веб-лист для переводов",
-        "pt": "Pequeno bug corrigido, adicionado weblate para traduções",
-        "nl": "Kleine bugfixed, weblate toegevoegd voor vertalingen",
-        "fr": "Petit bug corrigé, ajout de weblate pour les traductions",
-        "it": "Piccolo bug risolto, aggiunta weblate per le traduzioni",
-        "es": "Pequeños errores corregidos, agregado weblate para traducciones",
-        "pl": "Mały błąd, dodany weblate do tłumaczeń",
-        "zh-cn": "修正了一些小错误，添加了翻译网页版"
-    },
-        "1.2.1": {
-          "en": "Small bugfixes",
-          "de": "Kleine Bugfixes",
-          "ru": "Небольшие исправления",
-          "pt": "Pequenas correções de bugs",
-          "nl": "Kleine bugfixes",
-          "fr": "Petites corrections de bugs",
-          "it": "Piccoli bug risolti",
-          "es": "Pequeñas correcciones de errores",
-          "pl": "Małe poprawki",
-          "zh-cn": "小错误修正"
-      },
-        "1.2.0": {
-          "en": "Updated packages, added Sentry",
-          "de": "Aktualisierte Pakete, Sentry hinzugefügt",
-          "ru": "Обновлены пакеты, добавлен Sentry",
-          "pt": "Pacotes atualizados, Sentry adicionado",
-          "nl": "Bijgewerkte pakketten, Sentry toegevoegd",
-          "fr": "Paquets mis à jour, Sentry ajouté",
-          "it": "Pacchetti aggiornati, aggiunta Sentry",
-          "es": "Paquetes actualizados, Sentry agregado",
-          "pl": "Zaktualizowane pakiety, dodano Sentry",
-          "zh-cn": "更新了软件包，添加了Sentry"
-      },
-        "1.1.0": {
-          "en": "Bugfix readme link and repeatcycle",
-          "de": "Bugfix Readme Link und Wiederholungszyklus",
-          "ru": "Исправлена ошибка чтения ссылки и повторного цикла",
-          "pt": "Bugfix readme link e repeatcycle",
-          "nl": "Leesmij-link voor Bugfix en herhaalcyclus",
-          "fr": "Lien Readme de Bugfix et cycle de répétition",
-          "it": "Link readme e ripetizione di bugfix",
-          "es": "Enlace Léame de corrección de errores y ciclo de repetición",
-          "pl": "Link do pliku Readme z błędem i cykl powtórzeń",
-          "zh-cn": "错误修正自述链接和重复周期"
-      }
-      },
-          "titleLang": {
+        "name": "countdown",
+        "version": "2.1.0",
+        "news": {
+            "2.1.0": {
+                "en": "Ability to use the countdown \"backwards\" - e.g. for calculating age of a baby",
+                "de": "Fähigkeit, den Countdown rückwärts zu verwenden - z.B. zur Berechnung des Alters eines Babys",
+                "ru": "Возможность использования обратного отсчета - например для расчета возраста ребенка",
+                "pt": "Capacidade de usar a contagem regressiva para trás - por exemplo, para calcular a idade de um bebê",
+                "nl": "Abiliteit om de aftelsom te gebruiken. E.G. voor het berekenen van leeftijd van een baby",
+                "fr": "Possibilité d'utiliser le compte à rebours - p.ex. pour calculer l'âge d'un bébé",
+                "it": "Capacità di utilizzare il conto alla rovescia all'indietro - ad esempio per calcolare l'età di un bambino",
+                "es": "Capacidad para utilizar la cuenta atrás - por ejemplo para calcular la edad de un bebé",
+                "pl": "Możliwość używania odliczania do tyłu – np. do obliczania wieku dziecka",
+                "uk": "Можливість використовувати відлік назад - наприклад для розрахунку віку дитини",
+                "zh-cn": "A. 使用分娩后的可能性-例如计算婴儿年龄"
+            },
+            "2.0.2": {
+                "en": "Small bugfixes",
+                "de": "Kleine Bugfixes",
+                "ru": "Небольшие исправления",
+                "pt": "Pequenas correções de bugs",
+                "nl": "Kleine bugfixes",
+                "fr": "Petites corrections de bugs",
+                "it": "Piccoli bug risolti",
+                "es": "Pequeñas correcciones de errores",
+                "pl": "Małe poprawki",
+                "zh-cn": "小错误修正",
+                "uk": "Невеликі виправлення помилок"
+            },
+            "2.0.1": {
+                "en": "Added objects for total number of months and years",
+                "de": "Objekte für die Gesamtzahl der Monate und Jahre hinzugefügt",
+                "ru": "Добавлены объекты на общее количество месяцев и лет",
+                "pt": "Objetos adicionados para o número total de meses e anos",
+                "nl": "Voeg objecten toe voor totale aantal maanden en jaren",
+                "fr": "Ajout d'objets pour le nombre total de mois et d'années",
+                "it": "Oggetti aggiunti per numero totale di mesi e anni",
+                "es": "Objetos añadidos para el número total de meses y años",
+                "pl": "Zamknięte przedmioty przez cały rok i rok",
+                "uk": "Додано об'єкти на загальну кількість місяців і років",
+                "zh-cn": "增加数月和年数的物体"
+            },
+            "2.0.0": {
+                "en": "Reworked adapter",
+                "de": "Reworked Adapter",
+                "ru": "Переработанный адаптер",
+                "pt": "Adaptador retrabalhado",
+                "nl": "Rework adapter",
+                "fr": "Adaptateur retravaillé",
+                "it": "Adattatore di lavoro",
+                "es": "Adaptador reforzado",
+                "pl": "Rework adapter",
+                "uk": "Перероблений адаптер",
+                "zh-cn": "重新调整适应者"
+            },
+            "1.3.1": {
+                "en": "Bugfix date calculation",
+                "de": "Fehlerberechnung",
+                "ru": "Расчет даты Bugfix",
+                "pt": "Cálculo da data do Bugfix",
+                "nl": "Bugfix datum berekening",
+                "fr": "Calcul de la date de bugfix",
+                "it": "Calcolo della data di bugfix",
+                "es": "Cálculo de la fecha de Bugfix",
+                "pl": "Obliczenia",
+                "uk": "Розрахунок дати Буфікса",
+                "zh-cn": "固定日期计算"
+            },
+            "1.3.0": {
+                "en": "Update dependencies, small fixes",
+                "de": "Aktualisieren von Abhängigkeiten, kleine Fixes",
+                "ru": "Обновить зависимости, небольшие исправления",
+                "pt": "Dependências de atualização, pequenas correções",
+                "nl": "Update afhankelijkheid, kleine reparaties",
+                "fr": "Mise à jour des dépendances, petites corrections",
+                "it": "Aggiornare le dipendenze, piccole correzioni",
+                "es": "Actualizar las dependencias, pequeñas correcciones",
+                "pl": "Zależności aktualne",
+                "uk": "Оновлення залежностей, невеликих фіксаторів",
+                "zh-cn": "最新依赖、小配件"
+            },
+            "1.2.5": {
+                "en": "Bugfix to delete countdown with sendto",
+                "de": "Bugfix zum Löschen des Countdowns mit sendto",
+                "ru": "Исправление для удаления обратного отсчета с помощью sendto",
+                "pt": "Correção de bug para deletar contagem regressiva com sendto",
+                "nl": "Bugfix om aftellen te verwijderen met sendto",
+                "fr": "Correction de bug pour supprimer le compte à rebours avec sendto",
+                "it": "Bugfix per eliminare il conto alla rovescia con sendto",
+                "es": "Corrección de errores para eliminar la cuenta regresiva con sendto",
+                "pl": "Naprawa błędu, aby usunąć odliczanie za pomocą sendto",
+                "zh-cn": "使用 sendto 删除倒计时的错误修正",
+                "uk": "Виправлено помилку видалення зворотного відліку за допомогою sendto"
+            },
+            "1.2.4": {
+                "en": "Small bugfixes",
+                "de": "Kleine Bugfixes",
+                "ru": "Небольшие исправления",
+                "pt": "Pequenas correções de bugs",
+                "nl": "Kleine bugfixes",
+                "fr": "Petites corrections de bugs",
+                "it": "Piccoli bug risolti",
+                "es": "Pequeñas correcciones de errores",
+                "pl": "Małe poprawki",
+                "zh-cn": "小错误修正",
+                "uk": "Невеликі виправлення помилок"
+            },
+            "1.2.3": {
+                "en": "Small bugfixes",
+                "de": "Kleine Bugfixes",
+                "ru": "Небольшие исправления",
+                "pt": "Pequenas correções de bugs",
+                "nl": "Kleine bugfixes",
+                "fr": "Petites corrections de bugs",
+                "it": "Piccoli bug risolti",
+                "es": "Pequeñas correcciones de errores",
+                "pl": "Małe poprawki",
+                "zh-cn": "小错误修正",
+                "uk": "Невеликі виправлення помилок"
+            },
+            "1.2.2": {
+                "en": "Small bugfixes, added weblate for translations",
+                "de": "Kleiner Bugfix, Weblate für Übersetzungen hinzugefügt",
+                "ru": "Исправлена небольшая ошибка, добавлен веб-лист для переводов",
+                "pt": "Pequeno bug corrigido, adicionado weblate para traduções",
+                "nl": "Kleine bugfixed, weblate toegevoegd voor vertalingen",
+                "fr": "Petit bug corrigé, ajout de weblate pour les traductions",
+                "it": "Piccolo bug risolto, aggiunta weblate per le traduzioni",
+                "es": "Pequeños errores corregidos, agregado weblate para traducciones",
+                "pl": "Mały błąd, dodany weblate do tłumaczeń",
+                "zh-cn": "修正了一些小错误，添加了翻译网页版",
+                "uk": "Невеликі виправлення помилок, додано веб-сайт для перекладу"
+            },
+            "1.2.1": {
+                "en": "Small bugfixes",
+                "de": "Kleine Bugfixes",
+                "ru": "Небольшие исправления",
+                "pt": "Pequenas correções de bugs",
+                "nl": "Kleine bugfixes",
+                "fr": "Petites corrections de bugs",
+                "it": "Piccoli bug risolti",
+                "es": "Pequeñas correcciones de errores",
+                "pl": "Małe poprawki",
+                "zh-cn": "小错误修正",
+                "uk": "Невеликі виправлення помилок"
+            },
+            "1.2.0": {
+                "en": "Updated packages, added Sentry",
+                "de": "Aktualisierte Pakete, Sentry hinzugefügt",
+                "ru": "Обновлены пакеты, добавлен Sentry",
+                "pt": "Pacotes atualizados, Sentry adicionado",
+                "nl": "Bijgewerkte pakketten, Sentry toegevoegd",
+                "fr": "Paquets mis à jour, Sentry ajouté",
+                "it": "Pacchetti aggiornati, aggiunta Sentry",
+                "es": "Paquetes actualizados, Sentry agregado",
+                "pl": "Zaktualizowane pakiety, dodano Sentry",
+                "zh-cn": "更新了软件包，添加了Sentry",
+                "uk": "Оновлені пакети, додано Sentry"
+            },
+            "1.1.0": {
+                "en": "Bugfix readme link and repeatcycle",
+                "de": "Bugfix Readme Link und Wiederholungszyklus",
+                "ru": "Исправлена ошибка чтения ссылки и повторного цикла",
+                "pt": "Bugfix readme link e repeatcycle",
+                "nl": "Leesmij-link voor Bugfix en herhaalcyclus",
+                "fr": "Lien Readme de Bugfix et cycle de répétition",
+                "it": "Link readme e ripetizione di bugfix",
+                "es": "Enlace Léame de corrección de errores y ciclo de repetición",
+                "pl": "Link do pliku Readme z błędem i cykl powtórzeń",
+                "zh-cn": "错误修正自述链接和重复周期",
+                "uk": "Виправлення помилок, посилання readme і повторний цикл"
+            }
+        },
+        "titleLang": {
             "en": "Countdown",
             "de": "Countdown",
             "ru": "обратный отсчет",
@@ -177,8 +185,8 @@
             "pl": "Odliczanie",
             "uk": "Відправити",
             "zh-cn": "倒数"
-          },
-          "desc": {
+        },
+        "desc": {
             "en": "Countdown Adapter",
             "de": "Countdown Adapter",
             "ru": "Адаптер обратного отсчета",
@@ -190,93 +198,95 @@
             "pl": "Adapter do odliczania",
             "uk": "Відлік адаптера",
             "zh-cn": "倒计时适配器"
-          },
-          "authors": [
-              "Jack <blacksonj7@gmail.com>"
-          ],
-          "license":                  "MIT",
-          "platform":                 "Javascript/Node.js",
-          "mode":                     "daemon",
-          "messagebox":               true,
-          "enabled":                  true,
-          "compact": true,
-          "dependencies": [
+        },
+        "authors": [
+            "Jack <blacksonj7@gmail.com>"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "messagebox": true,
+        "enabled": true,
+        "compact": true,
+        "dependencies": [
             {
                 "js-controller": ">=3.0.0"
             }
         ],
-          "readme":                   "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
-          "loglevel":                 "info",     
-          "keywords":                 ["countdown"],
-          "icon":                     "countdown.png",
-          "materialize":              true,
-          "extIcon":                  "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
-          "type":                     "misc-data",
-          "singletonHost":            false,
-          "connectionType": "local",
-          "dataSource": "push",
-          "plugins": {
+        "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
+        "loglevel": "info",
+        "keywords": [
+            "countdown"
+        ],
+        "icon": "countdown.png",
+        "materialize": true,
+        "extIcon": "https://raw.githubusercontent.com/jack-blackson/ioBroker.countdown/master/admin/countdown.png",
+        "type": "misc-data",
+        "singletonHost": false,
+        "connectionType": "local",
+        "dataSource": "push",
+        "plugins": {
             "sentry": {
                 "dsn": "https://ab85ff2e667843a2bd205a1c52ee80f8@sentry.iobroker.net/125"
             }
-    }
-      },
-       "native": {
-          "interval": 120000,
-          "autodelete": false,
-          "dateformat": "DD.MM.YYYY HH:MM",
-          "inWordsShort": false,
-          "inWordsLong": true,
-          "totalNoOfDays":false,
-          "totalNoOfHours":false,
-          "totalNoOfWeeks":false,
-          "endDate":true
-      },
-      "objects": [],
-      "instanceObjects": [
+        }
+    },
+    "native": {
+        "interval": 120000,
+        "autodelete": false,
+        "dateformat": "DD.MM.YYYY HH:MM",
+        "inWordsShort": false,
+        "inWordsLong": true,
+        "totalNoOfDays": false,
+        "totalNoOfHours": false,
+        "totalNoOfWeeks": false,
+        "endDate": true
+    },
+    "objects": [],
+    "instanceObjects": [
         {
-          "_id": "setup",
-          "type": "device",
-          "common": {
-              "role": "setup",
-              "name": "Setup for Countdowns"
-          },
-          "native": {}
-      },
-      {
-        "_id": "countdowns",
-        "type": "device",
-        "common": {
-            "role": "countdowns",
-            "name": "Countdown Details"
+            "_id": "setup",
+            "type": "device",
+            "common": {
+                "role": "setup",
+                "name": "Setup for Countdowns"
+            },
+            "native": {}
         },
-        "native": {}
-    },
-    {
-      "_id": "jsonContent",
-      "type": "state",
-      "common": {
-          "name": "JSON Content",
-          "type": "string",
-          "role": "value",
-          "read": true,
-          "write": false,
-          "def": ""
-      },
-      "native": {} 
-  },
-  {
-    "_id": "htmlContent",
-    "type": "state",
-    "common": {
-        "name": "HTML Content",
-        "type": "string",
-        "role": "value",
-        "read": true,
-        "write": false,
-        "def": ""
-    },
-    "native": {} 
-  }
-      ]
-  }
+        {
+            "_id": "countdowns",
+            "type": "device",
+            "common": {
+                "role": "countdowns",
+                "name": "Countdown Details"
+            },
+            "native": {}
+        },
+        {
+            "_id": "jsonContent",
+            "type": "state",
+            "common": {
+                "name": "JSON Content",
+                "type": "string",
+                "role": "value",
+                "read": true,
+                "write": false,
+                "def": ""
+            },
+            "native": {}
+        },
+        {
+            "_id": "htmlContent",
+            "type": "state",
+            "common": {
+                "name": "HTML Content",
+                "type": "string",
+                "role": "value",
+                "read": true,
+                "write": false,
+                "def": ""
+            },
+            "native": {}
+        }
+    ]
+}

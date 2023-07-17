@@ -2,6 +2,7 @@
     "RepeatPeriod": "e.g. 1Y for 1 year",
     "addCountdown": "Add countdown",
     "autodelete": "Delete countdown when end is reached",
+    "countUp": "Count Up",
     "dateFormat": "Date format",
     "endDate": "End date",
     "inWordsLong": "In words (long)",

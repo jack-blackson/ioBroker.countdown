@@ -65,6 +65,7 @@
                 let CountdownDate = $('#CountDate').val();
                 let CountdownTime = $('#CountTime').val();
                 let RepeatPeriod = $('#RepeatPeriod').val();
+                let CountUp = $('#CountUp').val();
 
                 
                 if (CountdownName == ''){
@@ -81,6 +82,9 @@
                     CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00'
                     if (RepeatPeriod != ''){
                         CountDateTime += '+' + RepeatPeriod
+                    }
+                    if (CountUp){
+                        CountDateTime += '#'
                     }
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": CountdownName,
@@ -197,6 +201,10 @@
                     <input class="value" id="RepeatPeriod" type="text" />
                     <label class="translate" for="RepeatPeriod">RepeatPeriod</label>
                 </div>
+                <div class="col s12 m4 l2 input-field">
+                    <input type="checkbox" id="CountUp" class="value" />
+                    <label for="countUp" class="translate">countUp</label>
+                </div> 
                 <div class="col s5 m3 l2">
                     <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
                 </div>

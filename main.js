@@ -622,7 +622,7 @@ async function processMessage(obj){
                     processingDate = processingDate.slice(0,SearchForCycle)
                 }
     
-                adapter.log.debug('TEMP processingDate: ' + processingDate)
+                //adapter.log.debug('TEMP processingDate: ' + processingDate)
                 //adapter.log.debug('setup: ' + adapter.config.dateFormat)
     
                 var messageDate = new Date
