@@ -426,7 +426,7 @@ async function createCountdownData(CountName, CountDate){
         }
         else{
             // Countdown not reached -> update values
-            adapter.log.debug('1.4.1 Countdown in the future - ' + CountName)
+            adapter.log.debug('1.4.3 Countdown in the future - ' + CountName)
 
 
             var CountDowninWordsShort = '';
@@ -614,8 +614,15 @@ async function processMessage(obj){
                     repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
                     processingDate = processingDate.slice(0,SearchForCycle)
                 }
+
+                SearchForCycle = obj.message.date.indexOf('#')
+                let countUp = false
+                if (SearchForCycle != -1){
+                    countUp = true
+                    processingDate = processingDate.slice(0,SearchForCycle)
+                }
     
-                //adapter.log.debug('processingDate: ' + processingDate)
+                adapter.log.debug('TEMP processingDate: ' + processingDate)
                 //adapter.log.debug('setup: ' + adapter.config.dateFormat)
     
                 var messageDate = new Date
@@ -651,6 +658,9 @@ async function processMessage(obj){
                     //adapter.log.debug('VALID)')
     
                     messageDateString += repeatCycle
+                    if (countUp){
+                        messageDateString += '#'
+                    }
                     const done = await createSetupEntryCompleteDate(messageDateString,name);
                     //const done1 = await loopsetup();
     

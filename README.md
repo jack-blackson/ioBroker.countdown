@@ -48,6 +48,14 @@ sendTo("countdown.0", "send", {
    "date": '01.04.2020 00:01+1Y'
 });
 
+## Count Up
+Newly added is the feature to "count up" - so to count the days from a date in the past. This can be done with either adding a "#" to a date string, e.g. 
+
+sendTo("countdown.0", "send", {
+   "name": 'Birthdate',
+   "date": '01.04.2020 00:01#
+});
+
 Parameters here are:
 * Y: Years
 * M: Months
