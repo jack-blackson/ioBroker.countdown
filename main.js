@@ -275,7 +275,7 @@ async function createCountdownData(CountName, CountDate){
         }
         //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
     
-        var countUp = true
+        var countUp = false
         // check if a "countup" was added
         SearchForCycle = CountDate.indexOf('#')
         if (SearchForCycle != -1){
