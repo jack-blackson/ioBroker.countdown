@@ -275,6 +275,17 @@ async function createCountdownData(CountName, CountDate){
         }
         //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
     
+        var countUp = true
+        // check if a "countup" was added
+        SearchForCycle = CountDate.indexOf('#')
+        if (SearchForCycle != -1){
+            countUp = true
+            //CountDate = CountDate.slice(0,SearchForCycle)
+            adapter.log.debug('1.4.1: CountUp active for ' + CountName )
+        }
+
+
+
         var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
     
         switch (adapter.config.dateFormat) {
@@ -290,26 +301,51 @@ async function createCountdownData(CountName, CountDate){
                             break;
             default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
         } 
-    
-        var now = moment(new Date()); //todays date
-        //var duration = moment.duration(now.diff(newdate));      
-        var years = now.diff(newdate, 'years', false) * -1;
-        var restDate = moment(newdate).subtract(years, 'year')
-        var months = now.diff(restDate, 'months', false) * -1;
-        restDate = moment(restDate).subtract(months, 'month')
 
-        var days = now.diff(restDate, 'days', false) * -1;
-        restDate = moment(restDate).subtract(days, 'days')
-        var hours = now.diff(restDate, 'hours', false) * -1;
-        restDate = moment(restDate).subtract(hours, 'hours')
-        var minutes = now.diff(restDate, 'minutes', false) * -1;
+        var now = moment(new Date()); //todays date
+        var years
+        var restDate
+        var months
+        var days
+        var hours
+        var minutes
+
+        if (!countUp){
+            // normal countdown
+            years = now.diff(newdate, 'years', false) * -1;
+            restDate = moment(newdate).subtract(years, 'year')
+            months = now.diff(restDate, 'months', false) * -1;
+            restDate = moment(restDate).subtract(months, 'month')
+    
+            days = now.diff(restDate, 'days', false) * -1;
+            restDate = moment(restDate).subtract(days, 'days')
+            hours = now.diff(restDate, 'hours', false) * -1;
+            restDate = moment(restDate).subtract(hours, 'hours')
+            minutes = now.diff(restDate, 'minutes', false) * -1;
+        }
+        else{
+            //Count Up
+            var upDate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate()
+            years = upDate.diff(now, 'years', false) * -1;
+            restDate = moment(now).subtract(years, 'year')
+            months = upDate.diff(now, 'months', false) * -1;
+            restDate = moment(now).subtract(months, 'month')
+    
+            days = upDate.diff(now, 'days', false) * -1;
+            restDate = moment(now).subtract(days, 'days')
+            hours = upDate.diff(now, 'hours', false) * -1;
+            restDate = moment(now).subtract(hours, 'hours')
+            minutes = upDate.diff(now, 'minutes', false) * -1;
+        }
+    
+
     
         storagename = CountName
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
     
-        if (now.diff(newdate) >= 0){
-            adapter.log.debug('1.4.1 Countdown in the past - ' + CountName)
+        if ((now.diff(newdate) >= 0) && !countUp){
+            adapter.log.debug('1.4.2 Countdown in the past - ' + CountName)
 
             if (repeatCycle != ''){
                 // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
@@ -457,15 +493,34 @@ async function createCountdownData(CountName, CountDate){
             }
     
             //adapter.log.debug('vor speichern1: ' + months)  
+
+            var totalDays
+            var totalHours
+            var totalWeeks
+            var totalMonths
+            var totalYears
+            
+
+            if (!countUp){
+                // Normal Countdown
+                totalDays = mydiff(Date(),newdate,"days");
+                totalHours = mydiff(Date(),newdate,"hours");
+                totalWeeks = mydiff(Date(),newdate,"weeks");
+                totalMonths = mydiff(Date(),newdate,"months");
+                totalYears = mydiff(Date(),newdate,"years");
+            }
+            else{
+                // CountUp
+                totalDays = mydiff(newdate,Date(),"days");
+                totalHours = mydiff(newdate,Date(),"hours");
+                totalWeeks = mydiff(newdate,Date(),"weeks");
+                totalMonths = mydiff(newdate,Date(),"months");
+                totalYears = mydiff(newdate,Date(),"years");
+            }
+
     
-            var totalDays = mydiff(Date(),newdate,"days");
-            var totalHours = mydiff(Date(),newdate,"hours");
-            var totalWeeks = mydiff(Date(),newdate,"weeks");
-            var totalMonths = mydiff(Date(),newdate,"months");
-            var totalYears = mydiff(Date(),newdate,"years");
     
-    
-            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle)
+            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle,countUp)
     
             adapter.log.debug('1.5 Updated objects for ' + CountName)
     
@@ -509,7 +564,7 @@ async function createCountdownData(CountName, CountDate){
 
 }
 
-async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle){
+async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle,countUp){
     const promises = await Promise.all([
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true}),
@@ -524,7 +579,9 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}), 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: totalMonths, ack: true}),   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: totalYears, ack: true}),   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true})  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true}),  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'countUp'}, {val: countUp, ack: true})  
+
     ])
 }
 
@@ -929,6 +986,15 @@ async function createObjects(CountName){
             def: false,
             role: 'value'
     }),
+
+    adapter.createStateAsync('countdowns', CountName, 'countUp', {
+        read: true, 
+        write: true, 
+        name: "CountUp", 
+        type: "boolean", 
+        def: false,
+        role: 'value'
+}),
 
     adapter.createStateAsync('countdowns', CountName, 'years', {
             read: true, 

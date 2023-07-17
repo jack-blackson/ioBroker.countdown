@@ -85,6 +85,9 @@ Parameters here are:
 
 ## Changelog
 
+### 2.1.0 (2023-07-XX) 
+* (jack-blackson) Ability to use the countdown "backwards" - e.g. for calculating age of a baby
+
 ### 2.0.2 (2023-07-16) 
 * (jack-blackson) Bugfix month calculation
 

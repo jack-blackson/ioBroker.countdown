@@ -1,8 +1,21 @@
 {
     "common": {
       "name": "countdown",
-      "version": "2.0.2",
+      "version": "2.1.0",
       "news": {
+        "2.1.0": {
+          "en": "Ability to use the countdown \"backwards\" - e.g. for calculating age of a baby",
+          "de": "Fähigkeit, den Countdown rückwärts zu verwenden - z.B. zur Berechnung des Alters eines Babys",
+          "ru": "Возможность использования обратного отсчета - например для расчета возраста ребенка",
+          "pt": "Capacidade de usar a contagem regressiva para trás - por exemplo, para calcular a idade de um bebê",
+          "nl": "Abiliteit om de aftelsom te gebruiken. E.G. voor het berekenen van leeftijd van een baby",
+          "fr": "Possibilité d'utiliser le compte à rebours - p.ex. pour calculer l'âge d'un bébé",
+          "it": "Capacità di utilizzare il conto alla rovescia all'indietro - ad esempio per calcolare l'età di un bambino",
+          "es": "Capacidad para utilizar la cuenta atrás - por ejemplo para calcular la edad de un bebé",
+          "pl": "Możliwość używania odliczania do tyłu – np. do obliczania wieku dziecka",
+          "uk": "Можливість використовувати відлік назад - наприклад для розрахунку віку дитини",
+          "zh-cn": "A. 使用分娩后的可能性-例如计算婴儿年龄"
+      },
         "2.0.2": {
           "en": "Small bugfixes",
           "de": "Kleine Bugfixes",
