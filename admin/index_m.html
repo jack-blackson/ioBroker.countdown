@@ -87,6 +87,8 @@
                         CountDateTime += '#'
                     }
                     console.log('CountUp:  ' + CountUp)
+                    console.log('CountUp Orig:  ' + $('#RepeatPeriod').val())
+
 
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": CountdownName,
