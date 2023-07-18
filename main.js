@@ -471,7 +471,7 @@ async function createCountdownData(CountName, CountDate){
             }
     
             //hours
-            if (hours != 0 && years == 0 && months == 0){
+            if (hours != 0 && years == 0 && months == 0 && days == 0){
                 if (hours > 1){
                     CountDowninWordsLong += ' ' + hours+ ' ' + translateObject.textHours;
                     CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
