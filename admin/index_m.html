@@ -86,6 +86,8 @@
                     if (CountUp){
                         CountDateTime += '#'
                     }
+                    console.log('CountUp:  ' + CountUp)
+
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": CountdownName,
                     "date": CountDateTime
@@ -93,6 +95,7 @@
                     showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))                    
                 }
                 console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
+
             });
         }
 </script>
