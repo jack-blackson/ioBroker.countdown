@@ -65,7 +65,7 @@
                 let CountdownDate = $('#CountDate').val();
                 let CountdownTime = $('#CountTime').val();
                 let RepeatPeriod = $('#RepeatPeriod').val();
-                let CountUp = $('#CountUp').val();
+                let CountUp = $('#CountUp').is(':checked');
 
                 
                 if (CountdownName == ''){
@@ -86,9 +86,6 @@
                     if (CountUp){
                         CountDateTime += '#'
                     }
-                    console.log('CountUp:  ' + CountUp)
-                    console.log('CountUp Orig:  ' + $('#CountUp').val())
-
 
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": CountdownName,
