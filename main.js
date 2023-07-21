@@ -52,7 +52,7 @@ function startAdapter(options) {
         if (obj && obj.command === 'send') {
             adapter.log.debug('M 0.1 received send command!');
             let processed = await processMessage(obj);
-            let setup = await loopsetup()
+            //let setup = await loopsetup()
             adapter.log.debug('M 3: All Done');
 
         }
