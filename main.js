@@ -220,10 +220,14 @@ async function checkifCountdownExists(name, state){
                     if (state && state.val){
                         let done = await createCountdownData(name,state.val)
                         adapter.log.debug(' 1.6-1 Created Countdown ' + CountName);
+                        resolve('done')
+
                     }
                     else{
                         const CountName = name
                         adapter.log.error('Date in setup is invalid for countdown ' + CountName)
+                        resolve('done')
+
                     }
                    });
 
@@ -233,14 +237,17 @@ async function checkifCountdownExists(name, state){
                 if (state && state.val){
                     let done1 = await createCountdownData(name,state.val)
                     adapter.log.debug(' 1.6-2 Updated Countdown ' + name);
+                    resolve('done')
+
     
                 }
                 else{
                     const CountName = name
                     adapter.log.error('Date in setup is invalid for countdown ' + CountName)
+                    resolve('done')
+
                 }
             }
-            resolve('done')
 
         });
     })
