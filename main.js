@@ -52,7 +52,7 @@ function startAdapter(options) {
         if (obj && obj.command === 'send') {
             adapter.log.debug('M 0.1 received send command!');
             let processed = await processMessage(obj);
-            let setup = await loopsetup()
+            let setup = await processCountdowns()
             adapter.log.debug('M 3: All Done');
 
         }
@@ -190,6 +190,7 @@ async function loopsetup(){
             }
             resolve('done')
         });
+
     })
 }
 
@@ -218,11 +219,15 @@ async function checkifCountdownExists(name, state){
                 adapter.getState('setup.' + CountName, async function (err, state) {    
                     if (state && state.val){
                         let done = await createCountdownData(name,state.val)
-                        adapter.log.debug(' 1.6 Created Countdown ' + CountName);
+                        adapter.log.debug(' 1.6-1 Created Countdown ' + CountName);
+                        resolve('done')
+
                     }
                     else{
                         const CountName = name
                         adapter.log.error('Date in setup is invalid for countdown ' + CountName)
+                        resolve('done')
+
                     }
                    });
 
@@ -231,15 +236,18 @@ async function checkifCountdownExists(name, state){
     
                 if (state && state.val){
                     let done1 = await createCountdownData(name,state.val)
-                    adapter.log.debug(' 1.6 Created Countdown ' + name);
+                    adapter.log.debug(' 1.6-2 Updated Countdown ' + name);
+                    resolve('done')
+
     
                 }
                 else{
                     const CountName = name
                     adapter.log.error('Date in setup is invalid for countdown ' + CountName)
+                    resolve('done')
+
                 }
             }
-            resolve('done')
 
         });
     })
@@ -275,6 +283,17 @@ async function createCountdownData(CountName, CountDate){
         }
         //adapter.log.debug('Repeat Cycle for ' + CountName + ' is: ' +  repeatCycle)
     
+        var countUp = false
+        // check if a "countup" was added
+        SearchForCycle = CountDate.indexOf('#')
+        if (SearchForCycle != -1){
+            countUp = true
+            //CountDate = CountDate.slice(0,SearchForCycle)
+            adapter.log.debug('1.4.1: CountUp active for ' + CountName )
+        }
+
+
+
         var newdate = moment(CountDate, 'DD.MM.YYYY HH:mm:ss').toDate();
     
         switch (adapter.config.dateFormat) {
@@ -290,26 +309,52 @@ async function createCountdownData(CountName, CountDate){
                             break;
             default: var newdatelocal = moment(newdate).local().format('DD.MM.YYYY HH:mm');
         } 
-    
-        var now = moment(new Date()); //todays date
-        //var duration = moment.duration(now.diff(newdate));      
-        var years = now.diff(newdate, 'years', false) * -1;
-        var restDate = moment(newdate).subtract(years, 'year')
-        var months = now.diff(restDate, 'months', false) * -1;
-        restDate = moment(restDate).subtract(months, 'month')
 
-        var days = now.diff(restDate, 'days', false) * -1;
-        restDate = moment(restDate).subtract(days, 'days')
-        var hours = now.diff(restDate, 'hours', false) * -1;
-        restDate = moment(restDate).subtract(hours, 'hours')
-        var minutes = now.diff(restDate, 'minutes', false) * -1;
+        var now = moment(new Date()); //todays date
+        var years
+        var restDate
+        var months
+        var days
+        var hours
+        var minutes
+
+        if (!countUp){
+            // normal countdown
+            years = now.diff(newdate, 'years', false) * -1;
+            restDate = moment(newdate).subtract(years, 'year')
+            months = now.diff(restDate, 'months', false) * -1;
+            restDate = moment(restDate).subtract(months, 'month')
+    
+            days = now.diff(restDate, 'days', false) * -1;
+            restDate = moment(restDate).subtract(days, 'days')
+            hours = now.diff(restDate, 'hours', false) * -1;
+            restDate = moment(restDate).subtract(hours, 'hours')
+            minutes = now.diff(restDate, 'minutes', false) * -1;
+        }
+        else{
+            //Count Up
+            var tempNow = moment(now, 'DD.MM.YYYY HH:mm:ss').toDate();
+            var upDate = moment(newdate)
+            years = upDate.diff(tempNow, 'years', false) * -1;
+            restDate = moment(tempNow).subtract(years, 'year')
+            months = upDate.diff(restDate, 'months', false) * -1;
+            restDate = moment(restDate).subtract(months, 'month')
+    
+            days = upDate.diff(restDate, 'days', false) * -1;
+            restDate = moment(restDate).subtract(days, 'days')
+            hours = upDate.diff(restDate, 'hours', false) * -1;
+            restDate = moment(restDate).subtract(hours, 'hours')
+            minutes = upDate.diff(restDate, 'minutes', false) * -1;
+        }
+    
+
     
         storagename = CountName
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'name'}, {val: CountName, ack: true});
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'endDate'}, {val: newdatelocal, ack: true});
     
-        if (now.diff(newdate) >= 0){
-            adapter.log.debug('1.4.1 Countdown in the past - ' + CountName)
+        if ((now.diff(newdate) >= 0) && !countUp){
+            adapter.log.debug('1.4.2 Countdown in the past - ' + CountName)
 
             if (repeatCycle != ''){
                 // calculate new end date and write it into setup - countdown will then be updated in the next update cycle
@@ -389,7 +434,7 @@ async function createCountdownData(CountName, CountDate){
         }
         else{
             // Countdown not reached -> update values
-            adapter.log.debug('1.4.1 Countdown in the future - ' + CountName)
+            adapter.log.debug('1.4.3 Countdown in the future - ' + CountName)
 
 
             var CountDowninWordsShort = '';
@@ -398,7 +443,7 @@ async function createCountdownData(CountName, CountDate){
             //years
             if (years != 0){
                 if (years > 1){
-                    CountDowninWordsLong = years+' ' +  translateObject.textYear;
+                    CountDowninWordsLong = years+' ' +  translateObject.textYears;
                     CountDowninWordsShort = years+ translateObject.textYearsShort;
                 }
                 else if (years == 1){
@@ -434,7 +479,7 @@ async function createCountdownData(CountName, CountDate){
             }
     
             //hours
-            if (hours != 0 && years == 0 && months == 0){
+            if (hours != 0 && years == 0 && months == 0 && days == 0){
                 if (hours > 1){
                     CountDowninWordsLong += ' ' + hours+ ' ' + translateObject.textHours;
                     CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
@@ -446,7 +491,7 @@ async function createCountdownData(CountName, CountDate){
             }
     
             //minutes
-            if (years == 0 && months == 0){
+            if (minutes != 0 && years == 0 && months == 0 && days == 0){
                 CountDowninWordsShort += ' ' + minutes+translateObject.textMinutesShort;
                 if (minutes > 1){
                     CountDowninWordsLong += ' ' + minutes+ ' ' + translateObject.textMinutes;
@@ -457,15 +502,34 @@ async function createCountdownData(CountName, CountDate){
             }
     
             //adapter.log.debug('vor speichern1: ' + months)  
+
+            var totalDays
+            var totalHours
+            var totalWeeks
+            var totalMonths
+            var totalYears
+            
+
+            if (!countUp){
+                // Normal Countdown
+                totalDays = mydiff(Date(),newdate,"days");
+                totalHours = mydiff(Date(),newdate,"hours");
+                totalWeeks = mydiff(Date(),newdate,"weeks");
+                totalMonths = mydiff(Date(),newdate,"months");
+                totalYears = mydiff(Date(),newdate,"years");
+            }
+            else{
+                // CountUp
+                totalDays = mydiff(newdate,Date(),"days");
+                totalHours = mydiff(newdate,Date(),"hours");
+                totalWeeks = mydiff(newdate,Date(),"weeks");
+                totalMonths = mydiff(newdate,Date(),"months");
+                totalYears = mydiff(newdate,Date(),"years");
+            }
+
     
-            var totalDays = mydiff(Date(),newdate,"days");
-            var totalHours = mydiff(Date(),newdate,"hours");
-            var totalWeeks = mydiff(Date(),newdate,"weeks");
-            var totalMonths = mydiff(Date(),newdate,"months");
-            var totalYears = mydiff(Date(),newdate,"years");
     
-    
-            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle)
+            let done = await updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears,repeatCycle,countUp)
     
             adapter.log.debug('1.5 Updated objects for ' + CountName)
     
@@ -509,7 +573,7 @@ async function createCountdownData(CountName, CountDate){
 
 }
 
-async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle){
+async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle,countUp){
     const promises = await Promise.all([
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true}),
@@ -524,7 +588,9 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}), 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: totalMonths, ack: true}),   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: totalYears, ack: true}),   
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true})  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true}),  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'countUp'}, {val: countUp, ack: true})  
+
     ])
 }
 
@@ -556,8 +622,15 @@ async function processMessage(obj){
                     repeatCycle = obj.message.date.slice((SearchForCycle), obj.message.date.length)
                     processingDate = processingDate.slice(0,SearchForCycle)
                 }
+
+                SearchForCycle = obj.message.date.indexOf('#')
+                let countUp = false
+                if (SearchForCycle != -1){
+                    countUp = true
+                    processingDate = processingDate.slice(0,SearchForCycle)
+                }
     
-                //adapter.log.debug('processingDate: ' + processingDate)
+                //adapter.log.debug('TEMP processingDate: ' + processingDate)
                 //adapter.log.debug('setup: ' + adapter.config.dateFormat)
     
                 var messageDate = new Date
@@ -593,6 +666,9 @@ async function processMessage(obj){
                     //adapter.log.debug('VALID)')
     
                     messageDateString += repeatCycle
+                    if (countUp){
+                        messageDateString += '#'
+                    }
                     const done = await createSetupEntryCompleteDate(messageDateString,name);
                     //const done1 = await loopsetup();
     
@@ -851,7 +927,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: datestring, ack: true});
-        adapter.log.debug('M 1.7: Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated for countdown: ' + name)
     } 
     else {
         const promises = await adapter.createStateAsync('', 'setup', name, {
@@ -862,7 +938,7 @@ async function createSetupEntry(day,month,year,hour,minute,name){
             def: datestring,
             role: 'value'
           })
-          adapter.log.debug('M 1.7: Setup Entry created')
+          adapter.log.debug('M 1.7: Setup Entry created  for countdown: ' + name)
     }
     
 }
@@ -871,7 +947,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: messageDateString, ack: true});
-        adapter.log.debug('M 1.7: Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated for countdown: ' + name)
     } 
     else {
 
@@ -884,7 +960,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
         role: 'value'
     
         });
-        adapter.log.debug('M 1.7: Setup Entry created')
+        adapter.log.debug('M 1.7: Setup Entry created   for countdown: ' + name)
     }
 }
 
@@ -929,6 +1005,15 @@ async function createObjects(CountName){
             def: false,
             role: 'value'
     }),
+
+    adapter.createStateAsync('countdowns', CountName, 'countUp', {
+        read: true, 
+        write: true, 
+        name: "CountUp", 
+        type: "boolean", 
+        def: false,
+        role: 'value'
+}),
 
     adapter.createStateAsync('countdowns', CountName, 'years', {
             read: true, 

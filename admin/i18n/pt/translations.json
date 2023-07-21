@@ -2,6 +2,7 @@
     "RepeatPeriod": "por exemplo 1Y para um ano",
     "addCountdown": "Adicionar contagem regressiva",
     "autodelete": "Excluir a contagem regressiva quando o fim for alcançado",
+    "countUp": "Contagem crescente",
     "dateFormat": "Formato de data",
     "endDate": "Data final",
     "inWordsLong": "Em palavras (longa)",

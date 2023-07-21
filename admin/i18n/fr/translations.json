@@ -2,6 +2,7 @@
     "RepeatPeriod": "par exemple. 1Y pour 1 an",
     "addCountdown": "Ajouter un compte à rebours",
     "autodelete": "Supprimer le compte à rebours lorsque la fin est atteinte",
+    "countUp": "Compter jusqu'à",
     "dateFormat": "Format de date",
     "endDate": "Date de fin",
     "inWordsLong": "En mots (long)",
