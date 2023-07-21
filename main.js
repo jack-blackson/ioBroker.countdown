@@ -188,8 +188,9 @@ async function loopsetup(){
 
                 
             }
-            resolve('done')
         });
+        resolve('done')
+
     })
 }
 
@@ -231,7 +232,7 @@ async function checkifCountdownExists(name, state){
     
                 if (state && state.val){
                     let done1 = await createCountdownData(name,state.val)
-                    adapter.log.debug(' 1.6-2 Created Countdown ' + name);
+                    adapter.log.debug(' 1.6-2 Updated Countdown ' + name);
     
                 }
                 else{
