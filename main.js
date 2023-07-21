@@ -188,8 +188,8 @@ async function loopsetup(){
 
                 
             }
+            resolve('done')
         });
-        resolve('done')
 
     })
 }
