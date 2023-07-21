@@ -939,7 +939,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
     const obj_new = await adapter.getObjectAsync('setup.' + name);
     if (obj_new != null) {
         const promises = await adapter.setStateAsync({device: 'setup', state: name}, {val: messageDateString, ack: true});
-        adapter.log.debug('M 1.7: Setup Entry updated')
+        adapter.log.debug('M 1.7: Setup Entry updated for countdown: ' + name)
     } 
     else {
 
@@ -952,7 +952,7 @@ async function createSetupEntryCompleteDate(messageDateString,name){
         role: 'value'
     
         });
-        adapter.log.debug('M 1.7: Setup Entry created')
+        adapter.log.debug('M 1.7: Setup Entry created   for countdown: ' + name)
     }
 }
 
