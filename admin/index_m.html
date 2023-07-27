@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../../lib/js/materialize.js"></script>
 <script type="text/javascript" src="../../js/adapter-settings.js"></script>
 <script type="text/javascript" src="words.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
 
 
 <style>
@@ -24,6 +25,7 @@
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
     var setup = [];
+    var countdownData = [];
 
     // the function loadSettings has to exist ...
     function save(callback) {
@@ -59,6 +61,10 @@
             });
             onChange(false);
 
+            if (M) M.updateTextFields();
+
+            loadSetup()
+            //const done1 = await loadSetup();
 
             $('#addCountdown').on('click', function () {
                 let CountdownName = $('#CountName').val();
@@ -97,6 +103,49 @@
 
             });
         }
+        function loadSetup() {
+
+                console.log('Start loadSetup')
+
+                socket.emit('getObjectView', 'system', 'state', { startkey: 'countdown.' + instance + '.setup', endkey: 'countdown.' + instance + '.setup' + '.\u9999', include_docs: true }, function (err, _setup) {
+
+                    //console.log('Return of  all setups : ' + JSON.stringify(_setup));
+                    for (const i in _setup.rows) {
+                        getState(_setup.rows[i].id , (err, state) => {
+                            var countName =  _setup.rows[i].id.replace('countdown.' + instance + '.setup.','');
+                            var countdownDate = state.val
+                            var countdownTime = countdownDate.slice(11, 11 + 5)
+                            var dateMomentObject = moment(countdownDate, "DD.MM.YYYY");
+                            var localDate = moment(dateMomentObject).local().format('YYYY-MM-DD')
+
+                            var countUp = false
+                            var SearchForCycle = countdownDate.indexOf('#')
+                            if (SearchForCycle != -1){
+                                countUp = true
+                                countdownDate =  countdownDate.replace('#','');
+                            }
+                            var repeatCycle = ""
+                            SearchForCycle = countdownDate.indexOf('+')
+                            if (SearchForCycle != -1){
+                                repeatCycle = countdownDate.slice((SearchForCycle+1), countdownDate.length)
+                                countdownDate = countdownDate.slice(0,SearchForCycle)
+                            }
+
+                            countdownData.push(
+                                {
+                                    countdownName: countName,
+                                    countdownDate: localDate,
+                                    countdownTime: countdownTime,
+                                    countdownCountUp: countUp,
+                                    countdownRepeatCycle: repeatCycle
+                                }
+                            );
+                            values2table('countdownData', countdownData);
+                        });
+                    }
+                });
+
+    }
 </script>
 <style>
     .m .select-wrapper+label {
@@ -111,6 +160,7 @@
             <ul class="tabs">
                 <li class="tab col s2"><a href="#tab-settings"      class="translate active">settings</a></li>
                 <li class="tab col s2"><a href="#tab-addcountdown" class="translate">addCountdown</a></li>
+                <li class="tab col s2"><a href="#tab-newHome" class="translate">newHome</a></li>
             </ul>
         </div>
 
@@ -209,6 +259,51 @@
                 </div> 
                 <div class="col s5 m3 l2">
                     <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
+                </div>
+            </div>
+
+        </div> 
+        <div id="tab-newHome"      class="col s12 page">
+            <div class="row">
+                <div class="input-field col s3">
+                    <img src="countdown.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                
+
+
+
+
+
+
+
+            </div>
+            <div class="col s10" id="countdownData">
+                <div class="row s10 left">
+                    <a class="waves-effect waves-light btn table-button-add translate">add countdown</a>
+                </div>
+                <div class="table-values-div">
+                    <table class="table-values">
+                        <thead>
+                            <tr>
+                                <th data-name="countdownName" class="translate city" data-style="text-align: left">Countdown name
+                                </th>
+                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">Date
+                                </th>
+                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">Time
+                                </th>
+                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">RepeatCycle
+                                </th>
+                                </th>
+                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">CountUp
+                                </th>
+
+                                
+                                <th data-buttons="delete" class="translate delete">delete</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
 

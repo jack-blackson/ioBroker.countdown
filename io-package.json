@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "countdown",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "news": {
+            "2.2.0": {
+                "en": "Added ability to maintain, adjust and delete countdowns in adapter settings",
+                "de": "Zusätzliche Fähigkeit, Countdowns in Adaptereinstellungen zu pflegen, anzupassen und zu löschen",
+                "ru": "Добавлена возможность поддерживать, регулировать и удалять отсчеты в настройках адаптера",
+                "pt": "Adicionado capacidade de manter, ajustar e excluir contagem regressiva em configurações do adaptador",
+                "nl": "Vermogen toegevoegd om te handhaven en aftellen in adapter settings",
+                "fr": "Capacité supplémentaire de maintenir, régler et supprimer les compteurs dans les réglages d'adaptateur",
+                "it": "Aggiunta la capacità di mantenere, regolare ed eliminare i conto alla rovescia nelle impostazioni dell'adattatore",
+                "es": "Posibilidad agregada de mantener, ajustar y eliminar recuentos en la configuración del adaptador",
+                "pl": "Zdolność do utrzymania, dostosowywania i usuwania liczb w ustawieniach adapterów",
+                "uk": "Додано можливість підтримки, налаштування та видалення відліків у налаштуваннях адаптера",
+                "zh-cn": "增加在适应环境中保持、调整和删除计值的能力"
+            },
             "2.1.0": {
                 "en": "Ability to use the countdown \"backwards\" - e.g. for calculating age of a baby",
                 "de": "Fähigkeit, den Countdown rückwärts zu verwenden - z.B. zur Berechnung des Alters eines Babys",
