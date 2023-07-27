@@ -216,9 +216,8 @@
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s2"><a href="#tab-settings"      class="translate active">settings</a></li>
                 <li class="tab col s2"><a href="#tab-addcountdown" class="translate">addCountdown</a></li>
-                <li class="tab col s2"><a href="#tab-newHome" class="translate">newHome</a></li>
+                <li class="tab col s2"><a href="#tab-settings"      class="translate active">settings</a></li>
             </ul>
         </div>
 
@@ -296,53 +295,21 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col s12 m4 l2 input-field">
-                    <input class="value" id="CountName" type="text" />
-                    <label class="translate" for="name">Name</label>
-                </div>
-
-                <div class="col s12 m3 l2 input-field">
-                    <input class="value" id="CountDate" size="5" type="date" />
-                </div>
-                <div class="col s12 m3 l2 input-field">
-                    <input class="value" id="CountTime" size="5" type="time" />
-                </div>
-                <div class="col s12 m4 l2 input-field">
-                    <input class="value" id="RepeatPeriod" type="text" />
-                    <label class="translate" for="RepeatPeriod">RepeatPeriod</label>
-                </div>
-                <div class="col s12 m4 l2 input-field">
-                    <input type="checkbox" id="CountUp" class="value" />
-                    <label for="countUp" class="translate">countUp</label>
-                </div> 
-                <div class="col s5 m3 l2">
-                    <a id="addCountdown" class=" btn-small"><span class="translate">addCountdown</span></a>
-                </div>
-            </div>
-
-        </div> 
-        <div id="tab-newHome"      class="col s12 page">
-            <div class="row">
-                <div class="input-field col s3">
-                    <img src="countdown.png" class="logo">
-                </div>
-            </div>
-            <div class="row">
             </div>
             <div class="col s10" id="countdownData">
                 <div class="row s10 left">
-                    <a class="waves-effect waves-light btn table-button-add translate">add countdown</a>
+                    <a class="waves-effect waves-light btn table-button-add translate">addCountdown</a>
                 </div>
                 <div class="table-values-div">
                     <table class="table-values">
                         <thead>
                             <tr>
-                                <th data-name="countdownName" class="translate city" data-style="text-align: left">Countdown name</th>
-                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">Date</th>
-                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">Time</th>
-                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">RepeatCycle</th>
-                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">CountUp</th>
-                                <th data-buttons="delete" class="translate delete">delete</th>
+                                <th data-name="countdownName" class="translate city" data-style="text-align: left">name</th>
+                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">date</th>
+                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">time</th>
+                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">repeatColoumn</th>
+                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">countUp</th>
+                                <th data-buttons="delete" class="translate">delete</th>
                             </tr>
                         </thead>
                     </table>
