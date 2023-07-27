@@ -26,6 +26,16 @@
 <script type="text/javascript">
     var setup = [];
     var countdownData = [];
+    let _onChange;
+
+    // TEMP!!!
+    /*
+    const myFunction = () => {
+        console.log('COntent of Data Array: '+ JSON.stringify(countdownData));
+    };
+
+    setInterval(myFunction, 10000); // Repeat myFunction every 2 seconds
+    */
 
     // the function loadSettings has to exist ...
     function save(callback) {
@@ -43,6 +53,8 @@
         }
     
         function load(settings, onChange) {
+            _onChange = onChange;
+
             if (!settings) return;
             $('.value').each(function () {
                 var key = $(this).attr('id');
@@ -59,13 +71,13 @@
                     });
                 }
             });
-            onChange(false);
+            loadSetup()
+            console.log('Value of countdownData: ' + JSON.stringify(countdownData))
 
+            onChange(false);
             if (M) M.updateTextFields();
 
-            loadSetup()
-            //const done1 = await loadSetup();
-
+            /*
             $('#addCountdown').on('click', function () {
                 let CountdownName = $('#CountName').val();
                 let CountdownDate = $('#CountDate').val();
@@ -102,14 +114,16 @@
                 console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
 
             });
+            */
         }
         function loadSetup() {
-
-                console.log('Start loadSetup')
+            console.log('LoadSetup1')
 
                 socket.emit('getObjectView', 'system', 'state', { startkey: 'countdown.' + instance + '.setup', endkey: 'countdown.' + instance + '.setup' + '.\u9999', include_docs: true }, function (err, _setup) {
 
                     //console.log('Return of  all setups : ' + JSON.stringify(_setup));
+                    console.log('LoadSetup2')
+
                     for (const i in _setup.rows) {
                         getState(_setup.rows[i].id , (err, state) => {
                             var countName =  _setup.rows[i].id.replace('countdown.' + instance + '.setup.','');
@@ -140,7 +154,8 @@
                                     countdownRepeatCycle: repeatCycle
                                 }
                             );
-                            values2table('countdownData', countdownData);
+                            values2table('countdownData', countdownData,_onChange);
+
                         });
                     }
                 });
@@ -270,14 +285,6 @@
                 </div>
             </div>
             <div class="row">
-                
-
-
-
-
-
-
-
             </div>
             <div class="col s10" id="countdownData">
                 <div class="row s10 left">
@@ -287,19 +294,11 @@
                     <table class="table-values">
                         <thead>
                             <tr>
-                                <th data-name="countdownName" class="translate city" data-style="text-align: left">Countdown name
-                                </th>
-                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">Date
-                                </th>
-                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">Time
-                                </th>
-                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">RepeatCycle
-                                </th>
-                                </th>
-                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">CountUp
-                                </th>
-
-                                
+                                <th data-name="countdownName" class="translate city" data-style="text-align: left">Countdown name</th>
+                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">Date</th>
+                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">Time</th>
+                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">RepeatCycle</th>
+                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">CountUp</th>
                                 <th data-buttons="delete" class="translate delete">delete</th>
                             </tr>
                         </thead>
