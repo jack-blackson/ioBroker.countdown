@@ -71,6 +71,32 @@
                     })
                 }
             }
+            // update setup entries
+            for (var i = 0; i < countdownData.length; i++) {
+
+                console.log('orig Date: ' + countdownData[i].countdownDate)
+
+                var dateMomentObject = moment(countdownData[i].countdownDate, "YYYY-MM-DD");
+                console.log('New Date: ' + dateMomentObject)
+
+                var dateString = moment(dateMomentObject).local().format('DD.MM.YYYY')
+                dateString += ' ' + countdownData[i].countdownTime + ':00'
+
+                if (countdownData[i].countdownRepeatCycle != ''){
+                    dateString += '+' + countdownData[i].countdownRepeatCycle
+                    }
+                if (countdownData[i].countdownCountUp){
+                    dateString += '#'
+                }
+                console.log('DateString: ' + dateString)
+
+                
+                sendTo(adapter + '.' + instance, 'send', {
+                    "name": countdownData[i].countdownName,
+                    "date": dateString
+                    })
+                
+            }
             
         }
     
