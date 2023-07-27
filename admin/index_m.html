@@ -26,6 +26,7 @@
 <script type="text/javascript">
     var setup = [];
     var countdownData = [];
+    var originalNames = []
     let _onChange;
 
     // TEMP!!!
@@ -49,7 +50,28 @@
                     obj[$this.attr('id')] = $this.val();
                 }
             });
+            updateSetup()
             callback(obj);
+        }
+
+        function updateSetup(){
+            // check if countdown is still needed - otherwise delete it
+            for (var i = 0; i < originalNames.length; i++) {
+                var found = false
+                countdownData.map(function (countdownData) {
+                    if (countdownData.countdownName == originalNames[i]){
+                        found = true
+                    }
+
+                })
+                console.log('Found ' + originalNames[i] + " :" + found)
+                if (!found){
+                    sendTo(adapter + '.' + instance, 'send', {
+                    "name": originalNames[i],
+                    })
+                }
+            }
+            
         }
     
         function load(settings, onChange) {
@@ -72,7 +94,6 @@
                 }
             });
             loadSetup()
-            console.log('Value of countdownData: ' + JSON.stringify(countdownData))
 
             onChange(false);
             if (M) M.updateTextFields();
@@ -117,12 +138,8 @@
             */
         }
         function loadSetup() {
-            console.log('LoadSetup1')
 
                 socket.emit('getObjectView', 'system', 'state', { startkey: 'countdown.' + instance + '.setup', endkey: 'countdown.' + instance + '.setup' + '.\u9999', include_docs: true }, function (err, _setup) {
-
-                    //console.log('Return of  all setups : ' + JSON.stringify(_setup));
-                    console.log('LoadSetup2')
 
                     for (const i in _setup.rows) {
                         getState(_setup.rows[i].id , (err, state) => {
@@ -144,7 +161,7 @@
                                 repeatCycle = countdownDate.slice((SearchForCycle+1), countdownDate.length)
                                 countdownDate = countdownDate.slice(0,SearchForCycle)
                             }
-
+                            originalNames.push(countName)
                             countdownData.push(
                                 {
                                     countdownName: countName,
