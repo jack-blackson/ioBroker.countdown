@@ -64,7 +64,6 @@
                     }
 
                 })
-                console.log('Found ' + originalNames[i] + " :" + found)
                 if (!found){
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": originalNames[i],
@@ -74,30 +73,47 @@
             // update setup entries
             for (var i = 0; i < countdownData.length; i++) {
 
-                console.log('orig Date: ' + countdownData[i].countdownDate)
+                if (checkError(countdownData[i].countdownName,countdownData[i].countdownDate,countdownData[i].countdownTime)){
 
-                var dateMomentObject = moment(countdownData[i].countdownDate, "YYYY-MM-DD");
-                console.log('New Date: ' + dateMomentObject)
+                    var dateMomentObject = moment(countdownData[i].countdownDate, "YYYY-MM-DD");
 
-                var dateString = moment(dateMomentObject).local().format('DD.MM.YYYY')
-                dateString += ' ' + countdownData[i].countdownTime + ':00'
+                    var dateString = moment(dateMomentObject).local().format('DD.MM.YYYY')
+                    dateString += ' ' + countdownData[i].countdownTime + ':00'
 
-                if (countdownData[i].countdownRepeatCycle != ''){
-                    dateString += '+' + countdownData[i].countdownRepeatCycle
+                    if (countdownData[i].countdownRepeatCycle != ''){
+                        dateString += '+' + countdownData[i].countdownRepeatCycle
+                        }
+                    if (countdownData[i].countdownCountUp){
+                        dateString += '#'
                     }
-                if (countdownData[i].countdownCountUp){
-                    dateString += '#'
-                }
-                console.log('DateString: ' + dateString)
 
-                
-                sendTo(adapter + '.' + instance, 'send', {
-                    "name": countdownData[i].countdownName,
-                    "date": dateString
+                    
+                    sendTo(adapter + '.' + instance, 'send', {
+                        "name": countdownData[i].countdownName,
+                        "date": dateString
                     })
+                
+                }
+
                 
             }
             
+        }
+
+        function checkError(countname,date,time){
+            var noerrorFound = true
+            if (name = ""){
+                showToast(_('Please fill in a name for the countdown!'));
+                noerrorFound = false
+            }
+            if (!moment(date, 'YYYY-MM-DD',true).isValid()) {
+                showToast(_('Please fill in a valid date for the countdown '+ countname ));
+                noerrorFound = false
+            }
+
+
+            console.log('No error found for ' + countname + ': ' + noerrorFound)
+            return noerrorFound
         }
     
         function load(settings, onChange) {
@@ -124,44 +140,6 @@
             onChange(false);
             if (M) M.updateTextFields();
 
-            /*
-            $('#addCountdown').on('click', function () {
-                let CountdownName = $('#CountName').val();
-                let CountdownDate = $('#CountDate').val();
-                let CountdownTime = $('#CountTime').val();
-                let RepeatPeriod = $('#RepeatPeriod').val();
-                let CountUp = $('#CountUp').is(':checked');
-
-                
-                if (CountdownName == ''){
-                    showToast(_('Please fill in a name for the countdown!'));
-                }
-                else if ((CountdownTime == '')|| (CountdownDate =='')) {
-                    showToast(_('Please fill in date and time for the countdown!'))
-                }
-                else {
-                    let CountYear =  CountdownDate.slice(0, 0 + 4)
-                    let CountMonth=  CountdownDate.slice(5, 5 + 2)
-                    let CountDay =  CountdownDate.slice(8, 8 + 2)
-                    var CountDateTime = ''
-                    CountDateTime =  CountDay + '.' + CountMonth + '.' + CountYear +  ' ' + CountdownTime + ':00'
-                    if (RepeatPeriod != ''){
-                        CountDateTime += '+' + RepeatPeriod
-                    }
-                    if (CountUp){
-                        CountDateTime += '#'
-                    }
-
-                    sendTo(adapter + '.' + instance, 'send', {
-                    "name": CountdownName,
-                    "date": CountDateTime
-                    })
-                    showToast(_('Countdown ' + CountdownName + ' with date ' + CountDateTime + ' added.'))                    
-                }
-                console.log('Countdown ' + CountdownName + ' ' + CountdownDate)
-
-            });
-            */
         }
         function loadSetup() {
 
@@ -221,8 +199,37 @@
             </ul>
         </div>
 
-        
+        <div id="tab-addcountdown"      class="col s12 page">
+            <div class="row">
+                <div class="input-field col s3">
+                    <img src="countdown.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+            </div>
+            <div class="col s10" id="countdownData">
+                <div class="row">
+                    <div class="col s2 m1 l1 left">
+                        <a id="responseOIDDialog" class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                    </div>
+                </div>
+                <div class="table-values-div">
+                    <table class="table-values">
+                        <thead>
+                            <tr>
+                                <th data-name="countdownName" class="translate city" data-style="text-align: left">name</th>
+                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">date</th>
+                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">time</th>
+                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">repeatColoumn</th>
+                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">countUp</th>
+                                <th data-buttons="delete" class="translate">delete</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
 
+        </div> 
 
         <div id="tab-settings"      class="col s12 page">
             <div class="row">
@@ -288,35 +295,7 @@
                 </div> 
             </div>
         </div>
-        <div id="tab-addcountdown"      class="col s12 page">
-            <div class="row">
-                <div class="input-field col s3">
-                    <img src="countdown.png" class="logo">
-                </div>
-            </div>
-            <div class="row">
-            </div>
-            <div class="col s10" id="countdownData">
-                <div class="row s10 left">
-                    <a class="waves-effect waves-light btn table-button-add translate">addCountdown</a>
-                </div>
-                <div class="table-values-div">
-                    <table class="table-values">
-                        <thead>
-                            <tr>
-                                <th data-name="countdownName" class="translate city" data-style="text-align: left">name</th>
-                                <th data-name="countdownDate" class="translate lati" data-type="date" data-style="text-align: left">date</th>
-                                <th data-name="countdownTime" class="translate lati" data-type="time" data-style="text-align: left">time</th>
-                                <th data-name="countdownRepeatCycle" class="translate lati"  data-style="text-align: left">repeatColoumn</th>
-                                <th data-name="countdownCountUp" data-type="checkbox" class="translate lati"  data-style="text-align: left">countUp</th>
-                                <th data-buttons="delete" class="translate">delete</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-
-        </div> 
+       
     </div>
 </div>
 </body>
