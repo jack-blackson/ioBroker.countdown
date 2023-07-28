@@ -29,16 +29,6 @@
     var originalNames = []
     let _onChange;
 
-    // TEMP!!!
-    /*
-    const myFunction = () => {
-        console.log('COntent of Data Array: '+ JSON.stringify(countdownData));
-    };
-
-    setInterval(myFunction, 10000); // Repeat myFunction every 2 seconds
-    */
-
-    // the function loadSettings has to exist ...
     function save(callback) {
             var obj = {};
             $('.value').each(function () {
@@ -50,8 +40,19 @@
                     obj[$this.attr('id')] = $this.val();
                 }
             });
-            updateSetup()
-            callback(obj);
+            
+            if (!checkEntries()){
+                console.log('No errors found')
+                updateSetup()
+                callback(obj);
+
+            }
+            else{
+                //wait till errors are fixed
+                console.log('Errors found')
+            }
+            
+
         }
 
         function updateSetup(){
@@ -65,6 +66,7 @@
 
                 })
                 if (!found){
+                    console.log('Deleting ' + originalNames[i])
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": originalNames[i],
                     })
@@ -73,47 +75,45 @@
             // update setup entries
             for (var i = 0; i < countdownData.length; i++) {
 
-                if (checkError(countdownData[i].countdownName,countdownData[i].countdownDate,countdownData[i].countdownTime)){
-
                     var dateMomentObject = moment(countdownData[i].countdownDate, "YYYY-MM-DD");
-
+                    var countName = countdownData[i].countdownName
                     var dateString = moment(dateMomentObject).local().format('DD.MM.YYYY')
                     dateString += ' ' + countdownData[i].countdownTime + ':00'
-
                     if (countdownData[i].countdownRepeatCycle != ''){
                         dateString += '+' + countdownData[i].countdownRepeatCycle
                         }
                     if (countdownData[i].countdownCountUp){
                         dateString += '#'
                     }
-
-                    
+                    console.log('Updating: ' + countName)
                     sendTo(adapter + '.' + instance, 'send', {
-                        "name": countdownData[i].countdownName,
+                        "name": countName,
                         "date": dateString
                     })
-                
-                }
-
-                
             }
-            
+            console.log('Countdown data updated')
+
         }
 
-        function checkError(countname,date,time){
-            var noerrorFound = true
-            if (name = ""){
-                showToast(_('Please fill in a name for the countdown!'));
-                noerrorFound = false
-            }
-            if (!moment(date, 'YYYY-MM-DD',true).isValid()) {
-                showToast(_('Please fill in a valid date for the countdown '+ countname ));
-                noerrorFound = false
-            }
+        function checkEntries(){
+            var errorFound = false
 
+            for (var i = 0; i < countdownData.length; i++) {
 
-            console.log('No error found for ' + countname + ': ' + noerrorFound)
-            return noerrorFound
+                if (countdownData[i].countdownName == ""){
+                    showToast(_('Please fill in a name for the countdown!'));
+                    errorFound = true
+                }
+                if (!moment(countdownData[i].countdownDate, 'YYYY-MM-DD',true).isValid()) {
+                   showToast(_('Please fill in a valid date for the countdown '+ countdownData[i].countdownName ));
+                   errorFound = true
+                }   
+                if (countdownData[i].countdownTime == ""){
+                    showToast(_('Please fill in a valid time for the countdown!'));
+                    errorFound = true
+                }
+            }   
+            return errorFound
         }
     
         function load(settings, onChange) {
@@ -141,6 +141,8 @@
             if (M) M.updateTextFields();
 
         }
+
+    
         function loadSetup() {
 
                 socket.emit('getObjectView', 'system', 'state', { startkey: 'countdown.' + instance + '.setup', endkey: 'countdown.' + instance + '.setup' + '.\u9999', include_docs: true }, function (err, _setup) {

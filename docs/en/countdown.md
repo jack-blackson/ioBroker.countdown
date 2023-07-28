@@ -6,7 +6,7 @@ The adapter provides you automatically a json table and as a HTML table. For the
 It is possible to either display the short text or the long text.
 ![Logo](admin/countdown_json.png)
 
-## How to create countdowns
+## How to add countdowns
 There are several ways to set up countdowns:
 
 * You can create a countdown in the adapter settings, in the tab "Create Countdown".
@@ -15,6 +15,9 @@ There are several ways to set up countdowns:
 ![Logo](admin/countdown_blocky.png)
 * You can add days, months and years with sendto to todays date. Therefore, please send the component "name" and either "addminutes", "addhours", "adddays", "addmonths" or "addyears" as int value.
 ![Logo](admin/countdown_blocky_add.png)
+
+## How to adjust countdowns
+You  can update a countdown either in the adapter settings, or with the sendto. Therefore, just use the same name, and send it with the new date. This will update the countdown.
 
 ## How to delete countdowns
 You  can delete a countdown with the sendto. Therefore, send just the name with sendto to the adapter, and the countdown will be deleted automatically.
@@ -42,9 +45,7 @@ sendTo("countdown.0", "send", {
    "date": '01.04.2020 00:01#
 });
 
-
 ## Available outputs
-
 |Data type|Description|                                                                       
 |:---:|:---:|
 |minutes|Minutes until countdown end (not total!)|
@@ -64,8 +65,3 @@ sendTo("countdown.0", "send", {
 
 |reached|Boolean field defining if the end date was reached or not|
 |repeatEvery|Countdown is repeted by this period after reaching the enddate|
-
-
-## Features to add
-* Possibility to add a script as a parameter and start it when countdown ends
-* Possibility to use plus and minus in addminutes and the other add functions

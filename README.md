@@ -23,9 +23,11 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 ## How to use it
 
 [English description](docs/en/countdown.md)
-
 [Deutsche Anleitung](docs/de/countdown.md)
 
+## Features to add
+* Possibility to add a script as a parameter and start it when countdown ends
+* Possibility to use plus and minus in addminutes and the other add functions
 
 ## Changelog
 
