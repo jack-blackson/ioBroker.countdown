@@ -153,10 +153,12 @@ async function cleanresults(CountName){
                             let done = await deleteCountdownResults(channel.common.name)
                         }
                     });   
+
                 }
+                adapter.log.debug('2.2 Cleaned results')
+                resolve('done')
             });
-            adapter.log.debug('2.2 Cleaned results')
-            resolve('done')
+
 
         }
         else{
@@ -205,7 +207,7 @@ async function getStatesOfObj(name){
 
         adapter.getState('setup.' + name, async function (err, state) {
             //prüfen ob Device schon vorhanden ist
-            let check = await checkifCountdownExists(name, state)
+            let check = await checkifCountdownExists(name, state.val)
             resolve('done')
         });
         
@@ -215,23 +217,23 @@ async function getStatesOfObj(name){
 
 async function checkifCountdownExists(name, state){
     return new Promise(function(resolve){
-        adapter.log.debug('1.3 check if countdown ' + name + ' exists')
+        adapter.log.debug('1.3 check if countdown objects' + name + ' exists')
         adapter.getObject('countdowns.' + name + '.name', async function (err1, result1) {
     
             if(result1 === null && typeof result1 === "object") {
     
                 const CountName = name
                 const done = await createObjects(CountName)
-                adapter.getState('setup.' + CountName, async function (err, state) {    
-                    if (state && state.val){
-                        let done = await createCountdownData(name,state.val)
-                        adapter.log.debug(' 1.6-1 Created Countdown ' + CountName);
+                adapter.getState('setup.' + CountName, async function (err, state1) {    
+                    if (state1 && state1.val){
+                        let done = await createCountdownData(name,state1.val)
+                        adapter.log.debug(' 1.6-2 Created Countdown ' + CountName);
                         resolve('done')
 
                     }
                     else{
                         const CountName = name
-                        adapter.log.error('1.6-2 Date in setup is invalid for countdown ' + CountName)
+                        adapter.log.error('1.6-3 Date in setup is invalid for countdown ' + CountName)
                         resolve('done')
 
                     }
@@ -239,26 +241,9 @@ async function checkifCountdownExists(name, state){
 
             }
             else{
-                if (state.val && state){
-                    adapter.log.debug(' TEMP Updated Countdown state' + state);
-                    adapter.log.debug(' TEMP Updated Countdown state' + state.val);
-
-
-                    let done1 = await createCountdownData(name,state.val)
-                    adapter.log.debug(' 1.6-3 Updated Countdown ' + name);
+                let done1 = await createCountdownData(name,state)
+                    adapter.log.debug(' 1.6.6 Updated Countdown ' + name);
                     resolve('done')
-
-    
-                }
-                else{
-                    const CountName = name
-                    adapter.log.debug(' TEMP Updated Countdown state' + state);
-                    adapter.log.debug(' TEMP Updated Countdown state' + state.val);
-
-                    adapter.log.error('1.6-4 Date in setup is invalid for countdown ' + CountName)
-                    resolve('done')
-
-                }
             }
 
         });
@@ -283,7 +268,7 @@ function getVariableTranslation(){
 
 
 async function createCountdownData(CountName, CountDate){
-    adapter.log.debug('1.4 Updating countdown objects for countdown ' + CountName)
+    adapter.log.debug('1.4 Updating countdown objects for countdown ' + CountName + '   with value ' + JSON.stringify(CountDate))
     return new Promise(async function(resolve){
 
         var repeatCycle = ''

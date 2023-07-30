@@ -141,6 +141,10 @@
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "messagebox": true,
+        "adminUI": {
+            "config": "materialize",
+            "tab": "materialize"
+          },
         "enabled": true,
         "compact": true,
         "dependencies": [

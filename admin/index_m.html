@@ -177,6 +177,7 @@
         }
     
         function loadSetup() {
+                values2table('countdownData', countdownData,_onChange);
 
                 socket.emit('getObjectView', 'system', 'state', { startkey: 'countdown.' + instance + '.setup', endkey: 'countdown.' + instance + '.setup' + '.\u9999', include_docs: true }, function (err, _setup) {
 
