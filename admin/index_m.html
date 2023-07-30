@@ -26,7 +26,8 @@
 <script type="text/javascript">
     var setup = [];
     var countdownData = [];
-    var originalNames = []
+    var originalValues = []
+
     let _onChange;
 
     function save(callback) {
@@ -57,18 +58,22 @@
 
         function updateSetup(){
             // check if countdown is still needed - otherwise delete it
-            for (var i = 0; i < originalNames.length; i++) {
+            var newOriginalValues = []
+            console.log('Orig Values: ' + JSON.stringify(originalValues))
+
+            for (var i = 0; i < originalValues.length; i++) {
                 var found = false
+
                 countdownData.map(function (countdownData) {
-                    if (countdownData.countdownName == originalNames[i]){
+                    if (countdownData.countdownName == originalValues[i].countName){
                         found = true
                     }
 
                 })
                 if (!found){
-                    console.log('Deleting ' + originalNames[i])
+                    console.log('Deleting ' + originalValues[i].countName)
                     sendTo(adapter + '.' + instance, 'send', {
-                    "name": originalNames[i],
+                    "name": originalValues[i].countName,
                     })
                 }
             }
@@ -85,14 +90,43 @@
                     if (countdownData[i].countdownCountUp){
                         dateString += '#'
                     }
-                    console.log('Updating: ' + countName)
-                    sendTo(adapter + '.' + instance, 'send', {
-                        "name": countName,
-                        "date": dateString
+
+                    // check if setup entry exists
+                    var setupExists = false
+                    var valueChanged = false
+                    originalValues.map(function (originalValues) {
+                        if (countName == originalValues.countName){
+                            setupExists = true
+                            if (originalValues.countValue != dateString){
+                                valueChanged = true
+                            } 
+                        }
+
                     })
+                    newOriginalValues.push(
+                                {
+                                    countName: countName,
+                                    countValue: dateString
+                                }
+                    )
+
+                    if (!setupExists){
+                        console.log('Creating setup for: ' + countName)
+                        sendTo(adapter + '.' + instance, 'send', {
+                            "name": countName,
+                            "date": dateString
+                        })
+                    }
+                    if (valueChanged){
+                        console.log('Updating setup for: ' + countName)
+                        sendTo(adapter + '.' + instance, 'send', {
+                            "name": countName,
+                            "date": dateString
+                        })
+                    }
             }
             console.log('Countdown data updated')
-
+            originalValues = newOriginalValues
         }
 
         function checkEntries(){
@@ -141,7 +175,6 @@
             if (M) M.updateTextFields();
 
         }
-
     
         function loadSetup() {
 
@@ -167,7 +200,12 @@
                                 repeatCycle = countdownDate.slice((SearchForCycle+1), countdownDate.length)
                                 countdownDate = countdownDate.slice(0,SearchForCycle)
                             }
-                            originalNames.push(countName)
+                            originalValues.push(
+                                {
+                                    countName: countName,
+                                    countValue: state.val,
+                                }
+                            )
                             countdownData.push(
                                 {
                                     countdownName: countName,
