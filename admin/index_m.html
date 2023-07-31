@@ -72,9 +72,11 @@
                 })
                 if (!found){
                     console.log('Deleting ' + originalValues[i].countName)
+                    
                     sendTo(adapter + '.' + instance, 'send', {
                     "name": originalValues[i].countName,
                     })
+                    
                 }
             }
             // update setup entries

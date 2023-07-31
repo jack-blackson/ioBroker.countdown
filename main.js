@@ -47,7 +47,7 @@ function startAdapter(options) {
     //adapter.log.debug('Starting Adapter')
 
     adapter.on('message', async obj => {
-        adapter.log.debug('M 0: received message!');
+        adapter.log.debug('M 0: received message: ' + JSON.stringify(obj));
     
         if (obj && obj.command === 'send') {
             adapter.log.debug('M 0.1 received send command!');
@@ -132,40 +132,43 @@ async function deleteAllCountdowns(){
 
 }
 
+async function deleteObsoleteCountdown(countName){
+    return new Promise(function(resolve){
+        let done =  adapter.getObjectAsync('setup.' + countName, async function (err, state) {
+            //check if setup is still existing
+
+            if(state === null && typeof state === "object") {
+                //if not - delete results
+                let done1 = await deleteCountdownResults(countName)
+                resolve('done')
+            }
+            else{
+                resolve('done')
+
+            }
+        });  
+
+
+    })
+}
 
 async function cleanresults(CountName){
     adapter.log.debug('2.1 Starting cleaning countdowns in setup')
     return new Promise(function(resolve){
-
-
-
-
         // clean results when a setup is deleted
         if(CountName == null){
             // function started without parameter from normal loop
-            adapter.getChannelsOf('countdowns', function (err, result) {
+            adapter.getChannelsOf('countdowns', async function (err, result) {
                 for (const channel of result) {
-                    //adapter.log.debug('2.2 checking countdown "' + channel.common.name)
-                    adapter.getObject('setup.' + channel.common.name, async function (err, state) {
-                        //check if setup is still existing
-                        if(state === null && typeof state === "object") {
-                            //if not - delete results
-                            let done = await deleteCountdownResults(channel.common.name)
-                        }
-                    });   
-
+                    let wait = await deleteObsoleteCountdown(channel.common.name)
                 }
-                adapter.log.debug('2.2 Cleaned results')
+                adapter.log.debug('2.4 Cleaned results')
                 resolve('done')
             });
-
-
         }
         else{
             // function started with parameter Name - not necessary yet
             resolve('done')
-
-
         }
     })
 
@@ -173,14 +176,18 @@ async function cleanresults(CountName){
 
 async function deleteCountdownResults(CountName){
     const promises = await Promise.all([
-        adapter.deleteChannel('countdowns',CountName)
+        adapter.deleteChannelAsync('countdowns',CountName)
     ])
     adapter.log.debug('Deleted details for countdown ' + CountName)
+    return CountName
 }
 
-function deleteCountdownSetup(CountName){
-    adapter.deleteState('setup','',CountName);
+async function deleteCountdownSetup(CountName){
+    const promises = await Promise.all([
+        adapter.deleteStateAsync('setup','',CountName)
+    ])
     adapter.log.debug('Deleted setup for countdown ' + CountName)
+    return CountName
 
 }
 
@@ -859,9 +866,11 @@ async function processMessage(obj){
                 
         }
         else if (countProperties(obj.message) == 1){
-            adapter.log.info('M 2. Delete countdown: ' +name);
-            deleteCountdownSetup(name);
-            deleteCountdownResults(name);
+            adapter.log.info('M 1.6. Delete countdown: ' +name);
+            let del1 = await deleteCountdownSetup(name);
+            let del2 = await deleteCountdownResults(name);
+            adapter.log.info('M 1.6.1 Deleted countdown: ' +name);
+
         }
         else{
             adapter.log.error('M 1.1:  Wrong parameters for: ' +name + ', Parameter count: ' + countProperties(obj.message))
