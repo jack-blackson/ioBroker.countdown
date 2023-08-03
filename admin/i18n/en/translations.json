@@ -17,5 +17,6 @@
     "time": "Time",
     "totalNoOfDays": "Total number of days",
     "totalNoOfHours": "Total number of hours",
-    "totalNoOfWeeks": "Total number of weeks"
+    "totalNoOfWeeks": "Total number of weeks",
+    "countdowns": "Countdowns"
 }

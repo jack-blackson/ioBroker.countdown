@@ -981,7 +981,7 @@ async function loadValuesforTable(){
             
                 if (adapter.config.endDate){
                     let endDate = await adapter.getStateAsync('countdowns.' + id1.common.name + '.endDate')
-                        tempTable[translateObject.headerEndDate + ' '] = endDate.val
+                        tempTable[translateObject.headerDate + ' '] = endDate.val
                 }
                 countdownData.push(tempTable);
     

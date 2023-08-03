@@ -30,6 +30,7 @@ var textWeeks = '';
 var headerCountdown = '';
 var headerName = '';
 var headerEndDate = '';
+var headerDate = '';
 
 
 module.exports = class A {
@@ -55,6 +56,7 @@ module.exports = class A {
                 headerCountdown = 'Countdown';
                 headerName = 'Name';
                 headerEndDate = 'Enddatum';
+                headerDate = 'Datum';
                 break;
             case 'en':
                 textYear = 'Year';
@@ -76,6 +78,7 @@ module.exports = class A {
                 headerCountdown = 'Countdown';
                 headerName = 'Name';
                 headerEndDate = 'Enddate';
+                headerDate = 'Date';
                 break;
             case 'ru':
                 textYear = 'Год';
@@ -97,6 +100,7 @@ module.exports = class A {
                 headerCountdown = 'Отсчет';
                 headerName = 'Имя';
                 headerEndDate = 'конец';
+                headerDate = 'Дата';
                 break;
             case 'pt':
                 textYear = 'ano';
@@ -118,6 +122,7 @@ module.exports = class A {
                 headerCountdown = 'Contagem';
                 headerName = 'Nome';
                 headerEndDate = 'Data de término';
+                headerDate = 'Data';
                 break;
             case 'nl':
                 textYear = 'jaar';
@@ -139,6 +144,7 @@ module.exports = class A {
                 headerCountdown = 'Aftellen';
                 headerName = 'Naam';
                 headerEndDate = 'Vertaling';
+                headerDate = 'Datum';
                 break;
             case 'fr':
                 textYear = 'année';
@@ -160,6 +166,7 @@ module.exports = class A {
                 headerCountdown = 'Compte à rebours';
                 headerName = 'Nom';
                 headerEndDate = 'Enddate';
+                headerDate = 'Date';
                 break;
             case 'it':
                 textYear = 'anno';
@@ -181,6 +188,7 @@ module.exports = class A {
                 headerCountdown = 'Conteggio';
                 headerName = 'Nome';
                 headerEndDate = 'Termine';
+                headerDate = 'Data';
                 break;
             case 'es':
                 textYear = 'año';
@@ -202,6 +210,7 @@ module.exports = class A {
                 headerCountdown = 'Cuenta atrás';
                 headerName = 'Nombre';
                 headerEndDate = 'Fecha final';
+                headerDate = 'Fecha';
                 break;
             case 'pl':
                 textYear = 'rok';
@@ -223,6 +232,7 @@ module.exports = class A {
                 headerCountdown = 'Countdown';
                 headerName = 'Nazwa';
                 headerEndDate = 'Data końcowa';
+                headerDate = 'Data';
                 break;
             case 'zh-cn':
                 textYear = '年';
@@ -244,6 +254,7 @@ module.exports = class A {
                 headerCountdown = '倒数';
                 headerName = '姓名';
                 headerEndDate = '日期';
+                headerDate = '日期';
                 break;    
             default:
                 textYear = 'Year';
@@ -265,6 +276,7 @@ module.exports = class A {
                 headerCountdown = 'Countdown';
                 headerName = 'Name';
                 headerEndDate = 'Enddate';
+                headerDate = 'Date';
                 break;
           }
 
@@ -293,6 +305,8 @@ module.exports = class A {
         translateObject.headerName = headerName
         translateObject.textWeeks = textWeeks
         translateObject.headerEndDate = headerEndDate
+        translateObject.headerDate = headerDate
+
 
         return translateObject
     }
