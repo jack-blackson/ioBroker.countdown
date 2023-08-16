@@ -3,13 +3,20 @@
     "addCountdown": "Add countdown",
     "autodelete": "Delete countdown when end is reached",
     "countUp": "Count Up",
+    "date": "Date",
     "dateFormat": "Date format",
+    "delete": "Delete",
     "endDate": "End date",
     "inWordsLong": "In words (long)",
     "inWordsShort": "In words (short)",
+    "name": "Name",
+    "overview": "Überblick",
+    "repeatColoumn": "Repeat, e.g. 1Y for 1 year",
     "settings": "Settings",
     "tablecontent": "Show these fields in table:",
+    "time": "Time",
     "totalNoOfDays": "Total number of days",
     "totalNoOfHours": "Total number of hours",
-    "totalNoOfWeeks": "Total number of weeks"
+    "totalNoOfWeeks": "Total number of weeks",
+    "countdowns": "Countdowns"
 }
