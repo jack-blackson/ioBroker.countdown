@@ -425,7 +425,7 @@ async function createCountdownData(CountName, CountDate){
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: 0, ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: 0, ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: 0, ack: true});
-                adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalJson'}, {val: '', ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'json'}, {val: '', ack: true});
 
 
     
@@ -544,12 +544,25 @@ async function createCountdownData(CountName, CountDate){
 }
 
 async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle,countUp){
-    let totalJson = {
-        'days': totalDays,
-        'hours': totalHours,
-        'weeks': totalWeeks,
-        'months': totalMonths,
-        'years': totalYears
+    let fullJson = {
+        'years': years,
+        'months': months,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'inWords': {
+            'short': CountDowninWordsShort,
+            'long': CountDowninWordsLong
+        },
+        'total': {
+            'days': totalDays,
+            'hours': totalHours,
+            'weeks': totalWeeks,
+            'months': totalMonths,
+            'years': totalYears
+        },
+        'repeatCycle': repeatCycle,
+        'countUp': countUp
     }
     
     const promises = await Promise.all([
@@ -566,9 +579,9 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalWeeks'}, {val: totalWeeks, ack: true}), 
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: totalMonths, ack: true}),   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: totalYears, ack: true}),
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalJson'}, {val: totalJson, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true}),  
-        adapter.setState({device: 'countdowns' , channel: storagename, state: 'countUp'}, {val: countUp, ack: true})  
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'countUp'}, {val: countUp, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'json'}, {val: fullJson, ack: true})
     ])
 }
 
@@ -1169,7 +1182,7 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
-      adapter.createStateAsync('countdowns', CountName, 'totalJson', {
+      adapter.createStateAsync('countdowns', CountName, 'json', {
         read: true, 
         write: true, 
         name: "Total as json", 
