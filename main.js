@@ -459,50 +459,65 @@ async function createCountdownData(CountName, CountDate){
     
             //months
             if (months != 0 || years != 0){
-    
+                if (CountDowninWordsLong != ''){
+                    CountDowninWordsLong += ' '
+                    CountDowninWordsShort += ' '
+                }
+
                 if (months > 1){
-                    CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonths;
-                    CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
+                    CountDowninWordsLong += months+ ' ' + translateObject.textMonths;
+                    CountDowninWordsShort += months+translateObject.textMonthsShort;
                 }
                 else if (months == 1) {
-                    CountDowninWordsLong += ' ' + months+ ' ' + translateObject.textMonth;
-                    CountDowninWordsShort += ' ' + months+translateObject.textMonthsShort;
+                    CountDowninWordsLong += months+ ' ' + translateObject.textMonth;
+                    CountDowninWordsShort += months+translateObject.textMonthsShort;
                 }
             }
     
             //days
             if (days != 0 || months != 0 || years != 0){
-    
+                if (CountDowninWordsLong != ''){
+                    CountDowninWordsLong += ' '
+                    CountDowninWordsShort += ' '
+                }
                 if (days > 1){
-                    CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDays;
-                    CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
+                    CountDowninWordsLong += days+ ' ' + translateObject.textDays;
+                    CountDowninWordsShort += days+translateObject.textDaysShort;
                 }
                 else if (days == 1) {
-                    CountDowninWordsLong += ' ' + days+ ' ' + translateObject.textDay;
-                    CountDowninWordsShort += ' ' + days+translateObject.textDaysShort;
+                    CountDowninWordsLong += days+ ' ' + translateObject.textDay;
+                    CountDowninWordsShort += days+translateObject.textDaysShort;
                 }
             }
     
             //hours
             if (hours != 0 && years == 0 && months == 0 && days == 0){
+                if (CountDowninWordsLong != ''){
+                    CountDowninWordsLong += ' '
+                    CountDowninWordsShort += ' '
+                }
                 if (hours > 1){
-                    CountDowninWordsLong += ' ' + hours+ ' ' + translateObject.textHours;
-                    CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
+                    CountDowninWordsLong += hours+ ' ' + translateObject.textHours;
+                    CountDowninWordsShort += hours+translateObject.textHoursShort;
                 }
                 else if (hours == 1){
-                    CountDowninWordsLong += ' ' + hours+' ' + translateObject.textHour;
-                    CountDowninWordsShort += ' ' + hours+translateObject.textHoursShort;
+                    CountDowninWordsLong += hours+' ' + translateObject.textHour;
+                    CountDowninWordsShort += hours+translateObject.textHoursShort;
                 } 
             }
     
             //minutes
             if (minutes != 0 && years == 0 && months == 0 && days == 0){
-                CountDowninWordsShort += ' ' + minutes+translateObject.textMinutesShort;
+                if (CountDowninWordsLong != ''){
+                    CountDowninWordsLong += ' '
+                    CountDowninWordsShort += ' '
+                }
+                CountDowninWordsShort += minutes+translateObject.textMinutesShort;
                 if (minutes > 1){
-                    CountDowninWordsLong += ' ' + minutes+ ' ' + translateObject.textMinutes;
+                    CountDowninWordsLong += minutes+ ' ' + translateObject.textMinutes;
                 }
                 else {
-                    CountDowninWordsLong += ' ' + minutes+' ' + translateObject.textMinute;
+                    CountDowninWordsLong += minutes+' ' + translateObject.textMinute;
                 }     
             }
     
@@ -522,7 +537,9 @@ async function createCountdownData(CountName, CountDate){
                 totalWeeks = mydiff(Date(),newdate,"weeks");
                 totalMonths = mydiff(Date(),newdate,"months");
                 totalYears = mydiff(Date(),newdate,"years");
+                adapter.log.debug('TOTAL YEARS: ' + totalYears)                
             }
+        
             else{
                 // CountUp
                 totalDays = mydiff(newdate,Date(),"days");
@@ -544,14 +561,20 @@ async function createCountdownData(CountName, CountDate){
 }
 
 async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle,countUp){
-    let totalJson = {
-        'days': totalDays,
-        'hours': totalHours,
-        'weeks': totalWeeks,
-        'months': totalMonths,
-        'years': totalYears
-    }
-    
+    var totalJsonData = [];
+    var tempTable = {}
+
+    tempTable[translateObject.textYears] = totalYears    
+    tempTable[translateObject.textMonths] = totalMonths    
+    tempTable[translateObject.textWeeks] = totalWeeks    
+    tempTable[translateObject.textDays] = totalDays    
+    tempTable[translateObject.textHours] = totalHours    
+
+    totalJsonData.push(tempTable)
+
+    var totalJson = JSON.stringify(totalJsonData)
+    adapter.log.debug('TOTAL YEARS1: ' + totalYears)                
+
     const promises = await Promise.all([
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'years'}, {val: years, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'months'}, {val: months, ack: true}),
@@ -1172,7 +1195,7 @@ async function createObjects(CountName){
       adapter.createStateAsync('countdowns', CountName, 'totalJson', {
         read: true, 
         write: true, 
-        name: "Total as json", 
+        name: "Totals as JSON", 
         type: "string", 
         def: 0,
         role: 'json'
@@ -1213,8 +1236,9 @@ function mydiff(date1,date2,interval) {
     var date2Moment = moment(new Date(date2))
     var timediff = date2 - date1;
     if (isNaN(timediff)) return NaN;
+
     switch (interval) {
-        case "years": return date2.getFullYear() - date1.getFullYear();
+        case "years": return date2Moment.diff(date1Moment, 'years', false);
         case "months": return date2Moment.diff(date1Moment, 'months', false);
         case "weeks"  : return Math.floor(timediff / week);
         case "days"   : return Math.floor(timediff / day); 

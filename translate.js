@@ -297,6 +297,9 @@ module.exports = class A {
         translateObject.textHours = textHours
         translateObject.textHoursShort = textHoursShort
 
+        translateObject.textWeeks = textWeeks
+
+
         translateObject.textMinute = textMinute
         translateObject.textMinutes = textMinutes
         translateObject.textMinutesShort = textMinutesShort
