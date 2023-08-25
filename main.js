@@ -1197,7 +1197,7 @@ async function createObjects(CountName){
         write: true, 
         name: "Totals as JSON", 
         type: "string", 
-        def: 0,
+        def: '',
         role: 'json'
       }),
 
