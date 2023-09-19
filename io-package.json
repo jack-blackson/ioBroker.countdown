@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "countdown",
-        "version": "2.2.0",
+        "version": "2.2.1",
         "news": {
+            "2.2.1": {
+                "en": "Additional check to avoid not allowed signs in countdown name",
+                "de": "Zusätzliche Überprüfung nicht erlaubt Zeichen im Countdown-Namen zu vermeiden",
+                "ru": "Дополнительная проверка, чтобы избежать не разрешенных знаков в названии отсчета",
+                "pt": "Verificação adicional para evitar sinais não permitidos em nome de contagem regressiva",
+                "nl": "Additionele cheque vermijden niet toegestaan in aftelende naam",
+                "fr": "Contrôle supplémentaire pour éviter les signes interdits dans le nom de compte à rebours",
+                "it": "Controllo aggiuntivo per evitare segni non consentiti nel nome conto alla rovescia",
+                "es": "Verificación adicional para evitar signos no permitidos en nombre de cuenta atrás",
+                "pl": "Dodatkowy krok w celu uniknięcia zakazu posiadania znaków",
+                "uk": "Додатковий контроль, щоб уникнути не дозволених знаків у назві",
+                "zh-cn": "避免以计值名义不准迹象的更多检查"
+            },
             "2.2.0": {
                 "en": "Added ability to maintain, adjust and delete countdowns in adapter settings",
                 "de": "Zusätzliche Fähigkeit, Countdowns in Adaptereinstellungen zu pflegen, anzupassen und zu löschen",

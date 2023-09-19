@@ -1,6 +1,6 @@
 {
   "name": "iobroker.countdown",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Countdown",
   "main": "main.js",
   "repository": {

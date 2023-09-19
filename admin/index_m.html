@@ -140,6 +140,11 @@
                     showToast(_('Please fill in a name for the countdown!'));
                     errorFound = true
                 }
+                let checkString = '.'
+                if (countdownData[i].countdownName.includes(checkString)){
+                    showToast(_('The sign "." is not allowed in the countdown name. Please remove it.'));
+                    errorFound = true
+                }
                 if (!moment(countdownData[i].countdownDate, 'YYYY-MM-DD',true).isValid()) {
                    showToast(_('Please fill in a valid date for the countdown '+ countdownData[i].countdownName ));
                    errorFound = true
