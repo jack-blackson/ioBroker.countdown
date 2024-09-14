@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "countdown",
-        "version": "2.2.0",
+        "version": "2.2.1",
         "news": {
+            "2.2.1": {
+                "en": "Additional check to avoid not allowed signs in countdown name",
+                "de": "Zusätzliche Überprüfung nicht erlaubt Zeichen im Countdown-Namen zu vermeiden",
+                "ru": "Дополнительная проверка, чтобы избежать не разрешенных знаков в названии отсчета",
+                "pt": "Verificação adicional para evitar sinais não permitidos em nome de contagem regressiva",
+                "nl": "Additionele cheque vermijden niet toegestaan in aftelende naam",
+                "fr": "Contrôle supplémentaire pour éviter les signes interdits dans le nom de compte à rebours",
+                "it": "Controllo aggiuntivo per evitare segni non consentiti nel nome conto alla rovescia",
+                "es": "Verificación adicional para evitar signos no permitidos en nombre de cuenta atrás",
+                "pl": "Dodatkowy krok w celu uniknięcia zakazu posiadania znaków",
+                "uk": "Додатковий контроль, щоб уникнути не дозволених знаків у назві",
+                "zh-cn": "避免以计值名义不准迹象的更多检查"
+            },
             "2.2.0": {
                 "en": "Added ability to maintain, adjust and delete countdowns in adapter settings",
                 "de": "Zusätzliche Fähigkeit, Countdowns in Adaptereinstellungen zu pflegen, anzupassen und zu löschen",
@@ -29,19 +42,6 @@
                 "uk": "Можливість використовувати відлік назад - наприклад для розрахунку віку дитини",
                 "zh-cn": "A. 使用分娩后的可能性-例如计算婴儿年龄"
             },
-            "2.0.2": {
-                "en": "Small bugfixes",
-                "de": "Kleine Bugfixes",
-                "ru": "Небольшие исправления",
-                "pt": "Pequenas correções de bugs",
-                "nl": "Kleine bugfixes",
-                "fr": "Petites corrections de bugs",
-                "it": "Piccoli bug risolti",
-                "es": "Pequeñas correcciones de errores",
-                "pl": "Małe poprawki",
-                "zh-cn": "小错误修正",
-                "uk": "Невеликі виправлення помилок"
-            },
             "2.0.1": {
                 "en": "Added objects for total number of months and years",
                 "de": "Objekte für die Gesamtzahl der Monate und Jahre hinzugefügt",
@@ -67,45 +67,6 @@
                 "pl": "Rework adapter",
                 "uk": "Перероблений адаптер",
                 "zh-cn": "重新调整适应者"
-            },
-            "1.3.1": {
-                "en": "Bugfix date calculation",
-                "de": "Fehlerberechnung",
-                "ru": "Расчет даты Bugfix",
-                "pt": "Cálculo da data do Bugfix",
-                "nl": "Bugfix datum berekening",
-                "fr": "Calcul de la date de bugfix",
-                "it": "Calcolo della data di bugfix",
-                "es": "Cálculo de la fecha de Bugfix",
-                "pl": "Obliczenia",
-                "uk": "Розрахунок дати Буфікса",
-                "zh-cn": "固定日期计算"
-            },
-            "1.3.0": {
-                "en": "Update dependencies, small fixes",
-                "de": "Aktualisieren von Abhängigkeiten, kleine Fixes",
-                "ru": "Обновить зависимости, небольшие исправления",
-                "pt": "Dependências de atualização, pequenas correções",
-                "nl": "Update afhankelijkheid, kleine reparaties",
-                "fr": "Mise à jour des dépendances, petites corrections",
-                "it": "Aggiornare le dipendenze, piccole correzioni",
-                "es": "Actualizar las dependencias, pequeñas correcciones",
-                "pl": "Zależności aktualne",
-                "uk": "Оновлення залежностей, невеликих фіксаторів",
-                "zh-cn": "最新依赖、小配件"
-            },
-            "1.2.5": {
-                "en": "Bugfix to delete countdown with sendto",
-                "de": "Bugfix zum Löschen des Countdowns mit sendto",
-                "ru": "Исправление для удаления обратного отсчета с помощью sendto",
-                "pt": "Correção de bug para deletar contagem regressiva com sendto",
-                "nl": "Bugfix om aftellen te verwijderen met sendto",
-                "fr": "Correction de bug pour supprimer le compte à rebours avec sendto",
-                "it": "Bugfix per eliminare il conto alla rovescia con sendto",
-                "es": "Corrección de errores para eliminar la cuenta regresiva con sendto",
-                "pl": "Naprawa błędu, aby usunąć odliczanie za pomocą sendto",
-                "zh-cn": "使用 sendto 删除倒计时的错误修正",
-                "uk": "Виправлено помилку видалення зворотного відліку за допомогою sendto"
             }
         },
         "titleLang": {
@@ -137,7 +98,10 @@
         "authors": [
             "Jack <blacksonj7@gmail.com>"
         ],
-        "license": "MIT",
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+          },
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "messagebox": true,
@@ -149,7 +113,7 @@
         "compact": true,
         "dependencies": [
             {
-                "js-controller": ">=3.0.0"
+                "js-controller": ">=5.0.19"
             }
         ],
         "readme": "https://github.com/jack-blackson/ioBroker.countdown/blob/master/README.md",
@@ -164,6 +128,7 @@
         "singletonHost": false,
         "connectionType": "local",
         "dataSource": "push",
+        "tier": 2,
         "plugins": {
             "sentry": {
                 "dsn": "https://ab85ff2e667843a2bd205a1c52ee80f8@sentry.iobroker.net/125"
