@@ -13,6 +13,8 @@ const translateJS = require('./translate.js');                                  
 const a = new translateJS();
 
 const utils = require('@iobroker/adapter-core');
+const stateAttr = require('./lib/stateAttr.js'); // State attribute definitions
+
 const moment = require('moment');
 const tableify = require(`tableify`);
 var AdapterStarted;
@@ -20,6 +22,9 @@ var Interval
 var translateObject = {}
 var storagename = ''
 var countdownData
+
+const warnMessages = {};
+
 
 
 let objects = null;
@@ -124,7 +129,8 @@ async function processCountdowns(){
 async function deleteAllCountdowns(){
     const promises = await Promise.all([
 
-        adapter.deleteDeviceAsync('countdowns')
+        //adapter.deleteDeviceAsync('countdowns')
+        adapter.delObject('countdowns')
         //adapter.deleteChannelAsync('tomorrow'),
         //adapter.deleteStateAsync('weatherMapCountry')
 
@@ -1049,6 +1055,9 @@ async function createObjects(CountName){
             'native' : {}
     }),
 
+    await localCreateState('countdowns' + '.' + CountName  + '.name', 'Name', CountName),
+
+    /*
     adapter.createStateAsync('countdowns', CountName, 'name', { 
             read: true, 
             write: true, 
@@ -1056,9 +1065,14 @@ async function createObjects(CountName){
             type: 'string', 
             def: CountName,
             role: 'value'
-    }),
-    
+    }),*/
 
+
+
+   
+    await localCreateState('countdowns' + '.' + CountName  + '.reached', 'Reached', false),
+
+    /*
     adapter.createStateAsync('countdowns', CountName, 'reached', {
             read: true, 
             write: true, 
@@ -1067,7 +1081,11 @@ async function createObjects(CountName){
             def: false,
             role: 'value'
     }),
+    */
 
+    await localCreateState('countdowns' + '.' + CountName  + '.countUp', 'CountUp', false),
+
+    /*
     adapter.createStateAsync('countdowns', CountName, 'countUp', {
         read: true, 
         write: true, 
@@ -1075,8 +1093,13 @@ async function createObjects(CountName){
         type: "boolean", 
         def: false,
         role: 'value'
-}),
+    }),
+    */
 
+
+    await localCreateState('countdowns' + '.' + CountName  + '.years', 'Years', 0),
+
+    /*
     adapter.createStateAsync('countdowns', CountName, 'years', {
             read: true, 
             write: true, 
@@ -1086,7 +1109,11 @@ async function createObjects(CountName){
             role: 'value'
 		
     }),
+    */
 
+    await localCreateState('countdowns' + '.' + CountName  + '.months', 'Months', 0),
+
+    /*
     adapter.createStateAsync('countdowns', CountName, 'months', {
         read: true, 
         write: true, 
@@ -1095,7 +1122,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.days', 'Days', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'days', {
         read: true, 
         write: true, 
@@ -1104,7 +1135,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.hours', 'Hours', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'hours', {
         read: true, 
         write: true, 
@@ -1113,7 +1148,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.minutes', 'Minutes', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'minutes', {
         read: true, 
         write: true, 
@@ -1122,7 +1161,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.inWordsLong', 'Result in Words Long', ''),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'inWordsLong', {
         read: true, 
         write: true, 
@@ -1131,7 +1174,11 @@ async function createObjects(CountName){
         def: '',
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.inWordsShort', 'Result in Words Short', ''),
+
+      /*
      adapter.createStateAsync('countdowns', CountName, 'inWordsShort', {
         read: true, 
         write: true, 
@@ -1140,7 +1187,11 @@ async function createObjects(CountName){
         def: '',
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.endDate', 'Enddate', ''),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'endDate', {
         read: true, 
         write: true, 
@@ -1149,7 +1200,11 @@ async function createObjects(CountName){
         def: '',
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.totalDays', 'Total no. of days', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'totalDays', {
         read: true, 
         write: true, 
@@ -1158,7 +1213,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.totalHours', 'Total no. of hours', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'totalHours', {
         read: true, 
         write: true, 
@@ -1167,7 +1226,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.totalWeeks', 'Total no. of weeks', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'totalWeeks', {
         read: true, 
         write: true, 
@@ -1176,6 +1239,12 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+*/
+
+
+    await localCreateState('countdowns' + '.' + CountName  + '.totalMonths', 'Total no. of months', 0),
+
+    /*
       adapter.createStateAsync('countdowns', CountName, 'totalMonths', {
         read: true, 
         write: true, 
@@ -1184,6 +1253,12 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+
+    */
+
+      await localCreateState('countdowns' + '.' + CountName  + '.totalYears', 'Total no. of years', 0),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'totalYears', {
         read: true, 
         write: true, 
@@ -1192,6 +1267,11 @@ async function createObjects(CountName){
         def: 0,
         role: 'value'
       }),
+      */
+
+      await localCreateState('countdowns' + '.' + CountName  + '.totalJson', 'Totals as JSON', ''),
+
+      /*
       adapter.createStateAsync('countdowns', CountName, 'totalJson', {
         read: true, 
         write: true, 
@@ -1200,7 +1280,12 @@ async function createObjects(CountName){
         def: '',
         role: 'json'
       }),
+      */
 
+      await localCreateState('countdowns' + '.' + CountName  + '.repeatEvery', 'Period when the Countdown should be repeated', ''),
+
+      /*
+    
       adapter.createStateAsync('countdowns', CountName, 'repeatEvery', {
         read: true, 
         write: true, 
@@ -1209,6 +1294,7 @@ async function createObjects(CountName){
         def: '',
         role: 'value'
       })
+        */
 
     ])
       //adapter.log.info('all states created')
@@ -1225,6 +1311,71 @@ function countProperties(obj) {
     }
 
     return count;
+}
+
+async function localCreateState(state, name, value) {
+    //adapter.log.debug(`Create_state called for : ${state} with value : ${value}`);
+
+    try {
+        // Try to get details from state lib, if not use defaults. throw warning if states is not known in attribute list
+        if (stateAttr[name] === undefined) {
+            const warnMessage = `State attribute definition missing for ${name}`;
+            if (warnMessages[name] !== warnMessage) {
+                warnMessages[name] = warnMessage;
+                adapter.log.warn(`State attribute definition missing for ${name}`);
+            }
+        }
+        const writable = stateAttr[name] !== undefined ? stateAttr[name].write || false : false;
+        const state_name = stateAttr[name] !== undefined ? stateAttr[name].name || name : name;
+        const role = stateAttr[name] !== undefined ? stateAttr[name].role || 'state' : 'state';
+        const type = stateAttr[name] !== undefined ? stateAttr[name].type || 'mixed' : 'mixed';
+        const unit = stateAttr[name] !== undefined ? stateAttr[name].unit || '' : '';
+        //adapter.log.debug(`Write value : ${writable}`);
+
+        await adapter.setObjectNotExistsAsync(state, {
+            type: 'state',
+            common: {
+                name: state_name,
+                role: role,
+                type: type,
+                unit: unit,
+                read: true,
+                write: writable
+            },
+            native: {},
+        });
+
+        // Ensure name changes are propagated
+        await adapter.extendObjectAsync(state, {
+            type: 'state',
+            common: {
+                name: state_name,
+                type: type, // Also update types t solve log error's and  attribute changes
+            },
+        });
+
+        // Only set value if input != null
+        if (value !== null) {
+            await adapter.setState(state, {val: value, ack: true});
+        }
+
+        // Subscribe on state changes if writable
+        // writable && this.subscribeStates(state);
+    } catch (error) {
+        errorHandling('localCreateState', error);
+    }
+}
+
+function errorHandling(codePart, error, suppressFrontendLog) {
+    if (!suppressFrontendLog) {
+        adapter.log.error(`[${codePart}] error: ${error.message}, stack: ${error.stack}`);
+    }
+    if (adapter.supportsFeature && adapter.supportsFeature('PLUGINS')) {
+        const sentryInstance = adapter.getPluginInstance('sentry');
+        if (sentryInstance) {
+            sentryInstance.getSentryObject().captureException(error);
+        }
+    }
 }
 
 function mydiff(date1,date2,interval) {

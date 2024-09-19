@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "countdown",
-        "version": "2.2.1",
+        "version": "2.3.0",
         "news": {
+            "2.3.0": {
+                "en": "Compatibility for js-controller 7\n",
+                "de": "Kompatibilität für js-controller 7\n",
+                "ru": "Совместимость js-контроллера 7\n",
+                "pt": "Compatibilidade para js-controller 7\n",
+                "nl": "Compatibiliteit voor js-controller 7\n",
+                "fr": "Compatibilité pour js-controller 7\n",
+                "it": "Compatibilità per js-controller 7\n",
+                "es": "Compatibilidad para js-controller 7\n",
+                "pl": "Zgodność dla kontrolera js- 7\n",
+                "uk": "Сумісність для js-controller 7 хв\n",
+                "zh-cn": "Js 控制器的兼容性 页:1\n"
+            },
             "2.2.1": {
                 "en": "Additional check to avoid not allowed signs in countdown name",
                 "de": "Zusätzliche Überprüfung nicht erlaubt Zeichen im Countdown-Namen zu vermeiden",
