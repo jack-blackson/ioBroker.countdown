@@ -33,6 +33,8 @@ The goal of the adapter is to provide you a possibility to run countdowns for fu
 
 ### 2.3.0 (2024-09-20) 
 * (jack-blackson) Compatibility for js-controller 7
+* (jack-blackson/bagsik) Added new object fullJSON with all objects included - thanks to bagsik who had the idea and created the code!
+
 
 ### 2.2.1 (2024-09-14) 
 * (jack-blackson) Additional check to avoid not allowed signs in countdown name

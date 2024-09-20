@@ -103,12 +103,8 @@ async function processCountdowns(){
         let cleanedAtAtart = await deleteAllCountdowns()
         AdapterStarted = true
     }
-
-    
-
-
     adapter.log.debug('1 Loop setup')
-
+    
     let loop = await loopsetup()
     adapter.log.debug('1.9 after loop setup')
 
@@ -119,7 +115,7 @@ async function processCountdowns(){
     let updated = await updateCountdownTable()
     adapter.log.debug('3.2 Updated HTML and JSON table')
 
-
+    
     adapter.log.debug('4. Done')
     //adapter.terminate ? adapter.terminate('5. Stopping adapter') : process.exit(0);
 
@@ -130,9 +126,7 @@ async function deleteAllCountdowns(){
     const promises = await Promise.all([
 
         //adapter.deleteDeviceAsync('countdowns')
-        adapter.delObject('countdowns')
-        //adapter.deleteChannelAsync('tomorrow'),
-        //adapter.deleteStateAsync('weatherMapCountry')
+        adapter.delObjectAsync('countdowns', { recursive: true })
 
     ])
 
@@ -432,6 +426,7 @@ async function createCountdownData(CountName, CountDate){
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: 0, ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: 0, ack: true});
                 adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalJson'}, {val: '', ack: true});
+                adapter.setState({device: 'countdowns' , channel: storagename, state: 'fullJson'}, {val: '', ack: true});
 
 
     
@@ -568,6 +563,8 @@ async function createCountdownData(CountName, CountDate){
 
 async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle,countUp){
     var totalJsonData = [];
+    var fullJsonData = [];
+
     var tempTable = {}
 
     tempTable[translateObject.textYears] = totalYears    
@@ -577,8 +574,32 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
     tempTable[translateObject.textHours] = totalHours    
 
     totalJsonData.push(tempTable)
-
     var totalJson = JSON.stringify(totalJsonData)
+
+
+    tempTable = {}
+    tempTable[translateObject.textYears] = totalYears    
+    fullJsonData.push(tempTable)
+    var fullJson = {'years': years,
+        'months': months,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'inWords': {
+            'short': CountDowninWordsShort,
+            'long': CountDowninWordsLong
+        },
+        'total': {
+            'days': totalDays,
+            'hours': totalHours,
+            'weeks': totalWeeks,
+            'months': totalMonths,
+            'years': totalYears
+        },
+        'repeatCycle': repeatCycle,
+        'countUp': countUp
+    }
+
     adapter.log.debug('TOTAL YEARS1: ' + totalYears)                
 
     const promises = await Promise.all([
@@ -596,6 +617,7 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalMonths'}, {val: totalMonths, ack: true}),   
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalYears'}, {val: totalYears, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'totalJson'}, {val: totalJson, ack: true}),
+        adapter.setState({device: 'countdowns' , channel: storagename, state: 'fullJson'}, {val: fullJson, ack: true}),
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'repeatEvery'}, {val: repeatCycle, ack: true}),  
         adapter.setState({device: 'countdowns' , channel: storagename, state: 'countUp'}, {val: countUp, ack: true})  
     ])
@@ -1055,249 +1077,28 @@ async function createObjects(CountName){
             'native' : {}
     }),
 
-    await localCreateState('countdowns' + '.' + CountName  + '.name', 'Name', CountName),
-
-    /*
-    adapter.createStateAsync('countdowns', CountName, 'name', { 
-            read: true, 
-            write: true, 
-            name: "Name", 
-            type: 'string', 
-            def: CountName,
-            role: 'value'
-    }),*/
-
-
-
-   
-    await localCreateState('countdowns' + '.' + CountName  + '.reached', 'Reached', false),
-
-    /*
-    adapter.createStateAsync('countdowns', CountName, 'reached', {
-            read: true, 
-            write: true, 
-            name: "Reached", 
-            type: "boolean", 
-            def: false,
-            role: 'value'
-    }),
-    */
-
-    await localCreateState('countdowns' + '.' + CountName  + '.countUp', 'CountUp', false),
-
-    /*
-    adapter.createStateAsync('countdowns', CountName, 'countUp', {
-        read: true, 
-        write: true, 
-        name: "CountUp", 
-        type: "boolean", 
-        def: false,
-        role: 'value'
-    }),
-    */
-
-
-    await localCreateState('countdowns' + '.' + CountName  + '.years', 'Years', 0),
-
-    /*
-    adapter.createStateAsync('countdowns', CountName, 'years', {
-            read: true, 
-            write: true, 
-            name: "Years", 
-            type: "number", 
-            def: 0,
-            role: 'value'
-		
-    }),
-    */
-
-    await localCreateState('countdowns' + '.' + CountName  + '.months', 'Months', 0),
-
-    /*
-    adapter.createStateAsync('countdowns', CountName, 'months', {
-        read: true, 
-        write: true, 
-        name: "Months", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.days', 'Days', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'days', {
-        read: true, 
-        write: true, 
-        name: "Days", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.hours', 'Hours', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'hours', {
-        read: true, 
-        write: true, 
-        name: "Hours", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.minutes', 'Minutes', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'minutes', {
-        read: true, 
-        write: true, 
-        name: "Minutes", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.inWordsLong', 'Result in Words Long', ''),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'inWordsLong', {
-        read: true, 
-        write: true, 
-        name: "Result in Words Long", 
-        type: "string", 
-        def: '',
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.inWordsShort', 'Result in Words Short', ''),
-
-      /*
-     adapter.createStateAsync('countdowns', CountName, 'inWordsShort', {
-        read: true, 
-        write: true, 
-        name: "Result in Words Short", 
-        type: "string", 
-        def: '',
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.endDate', 'Enddate', ''),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'endDate', {
-        read: true, 
-        write: true, 
-        name: "Enddate", 
-        type: "string", 
-        def: '',
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.totalDays', 'Total no. of days', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'totalDays', {
-        read: true, 
-        write: true, 
-        name: "Total no. of days", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.totalHours', 'Total no. of hours', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'totalHours', {
-        read: true, 
-        write: true, 
-        name: "Total no. of hours", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.totalWeeks', 'Total no. of weeks', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'totalWeeks', {
-        read: true, 
-        write: true, 
-        name: "Total no. of weeks", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-*/
-
-
-    await localCreateState('countdowns' + '.' + CountName  + '.totalMonths', 'Total no. of months', 0),
-
-    /*
-      adapter.createStateAsync('countdowns', CountName, 'totalMonths', {
-        read: true, 
-        write: true, 
-        name: "Total no. of months", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-
-    */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.totalYears', 'Total no. of years', 0),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'totalYears', {
-        read: true, 
-        write: true, 
-        name: "Total no. of years", 
-        type: "number", 
-        def: 0,
-        role: 'value'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.totalJson', 'Totals as JSON', ''),
-
-      /*
-      adapter.createStateAsync('countdowns', CountName, 'totalJson', {
-        read: true, 
-        write: true, 
-        name: "Totals as JSON", 
-        type: "string", 
-        def: '',
-        role: 'json'
-      }),
-      */
-
-      await localCreateState('countdowns' + '.' + CountName  + '.repeatEvery', 'Period when the Countdown should be repeated', ''),
-
-      /*
-    
-      adapter.createStateAsync('countdowns', CountName, 'repeatEvery', {
-        read: true, 
-        write: true, 
-        name: "Period when the Countdown should be repeated", 
-        type: "string", 
-        def: '',
-        role: 'value'
-      })
-        */
+        await localCreateState('countdowns' + '.' + CountName  + '.name', 'name', CountName),
+        await localCreateState('countdowns' + '.' + CountName  + '.reached', 'reached', false),
+        await localCreateState('countdowns' + '.' + CountName  + '.countUp', 'countUp', false),
+        await localCreateState('countdowns' + '.' + CountName  + '.years', 'years', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.months', 'months', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.days', 'days', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.hours', 'hours', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.minutes', 'minutes', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.inWordsLong', 'inWordsLong', ''),
+        await localCreateState('countdowns' + '.' + CountName  + '.inWordsShort', 'inWordsShort', ''),
+        await localCreateState('countdowns' + '.' + CountName  + '.endDate', 'endDate', ''),
+        await localCreateState('countdowns' + '.' + CountName  + '.totalDays', 'totalDays', 0),     
+        await localCreateState('countdowns' + '.' + CountName  + '.totalHours', 'totalHours', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.totalWeeks', 'totalWeeks', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.totalMonths', 'totalMonths', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.totalYears', 'totalYears', 0),
+        await localCreateState('countdowns' + '.' + CountName  + '.totalJson', 'totalJson', ''),
+        await localCreateState('countdowns' + '.' + CountName  + '.fullJson', 'fullJson', ''),
+        await localCreateState('countdowns' + '.' + CountName  + '.repeatEvery', 'repeatEvery', ''),
 
     ])
-      //adapter.log.info('all states created')
+      adapter.log.info('1.3.4: All states created')
 
       
 }
