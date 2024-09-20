@@ -65,3 +65,6 @@ sendTo("countdown.0", "send", {
 
 |reached|Boolean field defining if the end date was reached or not|
 |repeatEvery|Countdown is repeted by this period after reaching the enddate|
+
+|totalsJson|JSON with the total objects for hours, days, weeks, months and years|
+|fullJson|JSON with all objects|
