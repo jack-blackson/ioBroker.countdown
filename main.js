@@ -1096,7 +1096,7 @@ async function createObjects(CountName){
         await localCreateState('countdowns' + '.' + CountName  + '.repeatEvery', 'repeatEvery', ''),
 
     ])
-      adapter.log.info('1.3.4: All states created')
+      adapter.log.debug('1.3.4: All states created')
 
       
 }
