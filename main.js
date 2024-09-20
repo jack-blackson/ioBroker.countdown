@@ -563,7 +563,6 @@ async function createCountdownData(CountName, CountDate){
 
 async function updateObjects(years,months,days,hours,minutes,CountDowninWordsShort,CountDowninWordsLong,totalDays,totalHours,totalWeeks,totalMonths, totalYears, repeatCycle,countUp){
     var totalJsonData = [];
-    var fullJsonData = [];
 
     var tempTable = {}
 
@@ -577,10 +576,8 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
     var totalJson = JSON.stringify(totalJsonData)
 
 
-    tempTable = {}
-    tempTable[translateObject.textYears] = totalYears    
-    fullJsonData.push(tempTable)
-    var fullJson = {'years': years,
+   
+    var fullJsonData = {'years': years,
         'months': months,
         'days': days,
         'hours': hours,
@@ -599,6 +596,7 @@ async function updateObjects(years,months,days,hours,minutes,CountDowninWordsSho
         'repeatCycle': repeatCycle,
         'countUp': countUp
     }
+    var fullJson = JSON.stringify(fullJsonData)
 
     adapter.log.debug('TOTAL YEARS1: ' + totalYears)                
 
